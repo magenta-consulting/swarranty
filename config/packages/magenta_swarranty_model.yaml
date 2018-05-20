@@ -1,0 +1,15 @@
+doctrine:
+    dbal:
+        types:
+            magenta_json: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Types\JsonType
+security:
+    encoders:
+        Magenta\Bundle\SWarrantyModelBundle\Entity\User\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+    providers:
+        magenta_user:
+            id: magenta_user.user_provider.username
