@@ -36,7 +36,7 @@ class MagentaSWarrantyModelExtension extends ConfigurableExtension {
 	protected function loadInternal(array $mergedConfig, ContainerBuilder $container) {
 		$loader = new YamlFileLoader($container, new \Symfony\Component\Config\FileLocator(__DIR__ . '/../Resources/config'));
 		
-		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers[ 'orm' ]['registry'], false));
+		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
 		
 		$loader->load('user.yaml');
 		
@@ -44,20 +44,4 @@ class MagentaSWarrantyModelExtension extends ConfigurableExtension {
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));
 		
 	}
-
-//	public function load(array $configs, ContainerBuilder $container) {
-//		$processor = new Processor();
-//		$configuration = new Configuration();
-//		$config = $processor->processConfiguration($configuration, $configs);
-//
-//		$loader = new YamlFileLoader($container, new \Symfony\Component\Config\FileLocator(__DIR__ . '/../Resources/config'));
-//
-//		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
-//
-//		$definition = $container->getDefinition('magenta_user.object_manager');
-//		$definition->setFactory(array(new Reference('magenta_user.doctrine_registry'), 'getManager'));
-//
-//		$loader->load('user.yaml');
-//
-//	}
 }

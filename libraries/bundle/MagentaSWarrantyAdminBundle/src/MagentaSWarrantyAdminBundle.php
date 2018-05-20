@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyModelBundle;
+namespace Magenta\Bundle\SWarrantyAdminBundle;
 
 use Doctrine\Common\Persistence\Mapping\Driver\DefaultFileLocator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\JsonLoginFactory;
@@ -37,7 +37,7 @@ use Doctrine\ODM\PHPCR\Version as PHPCRVersion;
  *
  * @author Binh
  */
-class MagentaSWarrantyModelBundle extends Bundle {
+class MagentaSWarrantyAdminBundle extends Bundle {
 	public function build(ContainerBuilder $container) {
 		parent::build($container);
 	}

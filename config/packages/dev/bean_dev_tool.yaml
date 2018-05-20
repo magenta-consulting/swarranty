@@ -4,3 +4,4 @@ bean_dev_tool:
     components: ~
     bundles:
         - MagentaSWarrantyModelBundle
+        - MagentaSWarrantyAdminBundle

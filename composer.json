@@ -30,7 +30,8 @@
         "symfony/validator": "^4.0",
         "symfony/web-link": "^4.0",
         "symfony/webpack-encore-pack": "*",
-        "symfony/yaml": "^4.0"
+        "symfony/yaml": "^4.0",
+        "sonata-project/doctrine-orm-admin-bundle": "^3.6"
     },
     "require-dev": {
         "beancomponent/devtool-bundle": "^0.1.0",
@@ -57,12 +58,15 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
+            "Magenta\\Bundle\\SWarrantyAdminBundle\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\src/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "App\\Tests\\": "tests/",
+            "Magenta\\Bundle\\SWarrantyAdminBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\tests/spec/",
+            "Magenta\\Bundle\\SWarrantyAdminBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\tests/units/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\tests/spec/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\tests/units/"
         }

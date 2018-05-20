@@ -1,0 +1,40 @@
+{
+  "name": "magenta-consulting/swarranty-model-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the SWarranty Model.",
+  "keywords": [
+    "Symfony SWarrantyAdmin Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "magenta-consulting/swarranty-model-bundle": "^0.1",
+    "sonata-project/doctrine-orm-admin-bundle":  "^3.6",
+    "sonata-project/admin-bundle": "^3.35"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\SWarrantyAdminBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\SWarrantyAdminBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\SWarrantyAdminBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}
