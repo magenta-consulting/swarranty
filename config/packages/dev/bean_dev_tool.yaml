@@ -5,3 +5,4 @@ bean_dev_tool:
     bundles:
         - MagentaSWarrantyModelBundle
         - MagentaSWarrantyAdminBundle
+        - MagentaSWarrantyApiBundle

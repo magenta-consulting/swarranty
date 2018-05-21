@@ -59,6 +59,7 @@
         "psr-4": {
             "App\\": "src/",
             "Magenta\\Bundle\\SWarrantyAdminBundle\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\src/",
+            "Magenta\\Bundle\\SWarrantyApiBundle\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\src/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/"
         }
     },
@@ -67,6 +68,8 @@
             "App\\Tests\\": "tests/",
             "Magenta\\Bundle\\SWarrantyAdminBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\tests/spec/",
             "Magenta\\Bundle\\SWarrantyAdminBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\tests/units/",
+            "Magenta\\Bundle\\SWarrantyApiBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\tests/spec/",
+            "Magenta\\Bundle\\SWarrantyApiBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\tests/units/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\tests/spec/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\tests/units/"
         }

@@ -23,6 +23,7 @@ return [
     Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
     Bean\Bundle\DevToolBundle\BeanDevToolBundle::class => ['dev' => true, 'test' => true],
     Magenta\Bundle\SWarrantyModelBundle\MagentaSWarrantyModelBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\SWarrantyApiBundle\MagentaSWarrantyApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyAdminBundle\MagentaSWarrantyAdminBundle::class => ['all' => true, 'test' => true],
     Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
 ];
