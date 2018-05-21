@@ -1,4 +1,4 @@
-fos_user:
+magenta_user:
     resource: "@MagentaSWarrantyAdminBundle/Resources/config/routing/all.xml"
     prefix: /admin
 

@@ -24,7 +24,7 @@
                         <div class="alert alert-danger">{{ error.message|trans({}, 'MagentaSWarrantyAdminBundle') }}</div>
                     {% endif %}
                 {% endblock %}
-                <p class="login-box-msg">{{ 'title_user_authentication'|trans({}, 'MagentaSWarrantyAdminBundle') }}</p>
+                <p class="login-box-msg">{{ 'security.login.title_user_authentication'|trans({}, 'MagentaSWarrantyAdminBundle') }}</p>
                 <form action="{{ path("magenta_user_security_check") }}" method="post" role="form">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 

@@ -313,7 +313,6 @@ class UserAdmin extends BaseAdmin {
 	 */
 	protected $userManager;
 	
-	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -339,7 +338,6 @@ class UserAdmin extends BaseAdmin {
 			return ! in_array($v, [ 'password', 'salt' ]);
 		});
 	}
-	
 	
 	/**
 	 * {@inheritdoc}
