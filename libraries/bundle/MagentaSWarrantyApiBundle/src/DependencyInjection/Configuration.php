@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyAdminBundle\DependencyInjection;
+namespace Magenta\Bundle\SWarrantyApiBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface {
 	public function getConfigTreeBuilder() {
 		$treeBuilder = new TreeBuilder();
-		$rootNode    = $treeBuilder->root('magenta_swarranty_admin');
+		$rootNode    = $treeBuilder->root('magenta_swarranty_api');
 		
 		$rootNode
 			->children()

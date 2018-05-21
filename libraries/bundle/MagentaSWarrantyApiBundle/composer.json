@@ -1,9 +1,9 @@
 {
-  "name": "magenta-consulting/swarranty-admin-bundle",
+  "name": "magenta-consulting/swarranty-api-bundle",
   "type": "symfony-bundle",
   "description": "Provides a Bundle Integration for the SWarranty Model.",
   "keywords": [
-    "Symfony SWarrantyAdmin Bundle"
+    "Symfony SWarrantyApi Bundle"
   ],
   "license": "MIT",
   "authors": [
@@ -23,13 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Magenta\\Bundle\\SWarrantyAdminBundle\\": "src/"
+      "Magenta\\Bundle\\SWarrantyApiBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Magenta\\Bundle\\SWarrantyAdminBundle\\spec\\": "tests/spec/",
-      "Magenta\\Bundle\\SWarrantyAdminBundle\\Tests\\": "tests/units/"
+      "Magenta\\Bundle\\SWarrantyApiBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\SWarrantyApiBundle\\Tests\\": "tests/units/"
     }
   },
   "extra": {
