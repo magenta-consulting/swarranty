@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="system__system")
  */
 class System {
+	
 	/**
 	 * @var string
 	 * @ORM\Id
