@@ -5,20 +5,16 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="system__module")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * ORM\DiscriminatorMap({"person" = "Person", "employee" = "Employee"})
  */
-class SystemModule {
-	
-	public const MODULE_SYSTEM_CONFIG = 'SYSTEM_CONFIG';
-	
-	public static function getModuleList(): array {
-		return [
-			self::MODULE_SYSTEM_CONFIG => self::MODULE_SYSTEM_CONFIG
-		];
-	}
+abstract class SystemModule implements ACModuleInterface {
 	
 	/**
 	 * @var int|null
@@ -54,26 +50,6 @@ class SystemModule {
 	}
 	
 	/**
-	 * @var string
-	 * @ORM\Column(type="string")
-	 */
-	protected $name;
-	
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
-	
-	/**
 	 * @return System
 	 */
 	public function getSystem(): System {
@@ -86,4 +62,20 @@ class SystemModule {
 	public function setSystem(System $system): void {
 		$this->system = $system;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAcEntries(): Collection {
+		return $this->acEntries;
+	}
+	
+	/**
+	 * @param Collection $acEntries
+	 */
+	public function setAcEntries(Collection $acEntries): void {
+		$this->acEntries = $acEntries;
+	}
+	
+	
 }

@@ -54,8 +54,8 @@ class ACLAdmin extends BaseAdmin {
 		$container = $this->getConfigurationPool()->getContainer();
 		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
 //        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'DELETE', 'LIST' ])) {
-			return $isAdmin;
+		if(in_array($name, [ 'CREATE' ])) {
+			return false;
 		}
 		if($name === 'EDIT') {
 			if($isAdmin) {
@@ -99,11 +99,18 @@ class ACLAdmin extends BaseAdmin {
 	}
 	
 	public function getTemplate($name) {
+		$_name = strtoupper($name);
+		if($_name === 'LIST') {
+			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/Page/list.html.twig';
+		} elseif($_name === 'INNER_LIST_ROW') {
+			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/Page/list_inner_row.html.twig';
+		}
+		
 		return parent::getTemplate($name);
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
-		$this->configureParentShowFields($showMapper);
+	
 	}
 	
 	/**
@@ -113,7 +120,7 @@ class ACLAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'edit'   => array(),
+//					'edit'   => array(),
 					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
@@ -124,9 +131,9 @@ class ACLAdmin extends BaseAdmin {
 				)
 			]
 		);
+		
 		$listMapper
-			->addIdentifier('name')
-		;
+			->add('name', null, [ 'editable' => true ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
@@ -166,13 +173,11 @@ class ACLAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('name')
-//			->add('locked')
-			;
+			->add('name')//			->add('locked')
+		;
 //			->add('groups')
 //		;
 	}
-	
 	
 	
 }

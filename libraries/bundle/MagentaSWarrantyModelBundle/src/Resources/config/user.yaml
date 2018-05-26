@@ -6,6 +6,13 @@ services:
         class: Magenta\Bundle\SWarrantyModelBundle\Security\EmailUserProvider
         arguments: ['@magenta_user.user_manager']
 
+    magenta_config.command.init_db:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Module\InitiateModuleCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+            - {name: "console.command", command: "magenta:module:init"}
+
     magenta_user.command.create_user:
         class: Magenta\Bundle\SWarrantyModelBundle\Command\User\CreateUserCommand
         public: false

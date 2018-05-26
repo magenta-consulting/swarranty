@@ -1,7 +1,9 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\User;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -37,6 +39,7 @@ class UserAdmin extends BaseAdmin {
 	public function getNewInstance() {
 		/** @var User $object */
 		$object = parent::getNewInstance();
+		
 		return $object;
 	}
 	
@@ -107,8 +110,8 @@ class UserAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
-					'edit'        => array(),
-					'delete'      => array(),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -235,45 +238,11 @@ class UserAdmin extends BaseAdmin {
 				->end()
 				->with('Profile');
 			
-			if( ! empty($this->getConfigurationPool()->getContainer()->get(UserService::class)->getUser()->getThanhVien())) {
-				$formMapper
-					->add('thanhVien.lastname', null, [
-						'required'           => false,
-						'label'              => 'list.label_lastname',
-						'translation_domain' => 'BinhLeAdmin'
-					])
-					->add('thanhVien.middlename', null, [
-						'required'           => false,
-						'label'              => 'list.label_middlename',
-						'translation_domain' => $this->getTranslationDomain()
-					])
-					->add('thanhVien.firstname', null, [
-						'required'           => false,
-						'label'              => 'list.label_firstname',
-						'translation_domain' => 'BinhLeAdmin'
-					]);
-				$formMapper->add('thanhVien.soDienThoai', null, array(
-					'label'              => 'list.label_so_dien_thoai',
-					'translation_domain' => 'BinhLeAdmin'
-				))
-				           ->add('thanhVien.soDienThoaiSecours', null, array(
-					           'label'              => 'list.label_so_dien_thoai_secours',
-					           'translation_domain' => 'BinhLeAdmin'
-				           ))
-				           ->add('thanhVien.diaChiThuongTru', null, array(
-					           'label'              => 'list.label_dia_chi_thuong_tru',
-					           'translation_domain' => 'BinhLeAdmin'
-				           ))
-				           ->add('thanhVien.diaChiTamTru', null, array(
-					           'label'              => 'list.label_dia_chi_tam_tru',
-					           'translation_domain' => 'BinhLeAdmin'
-				           ));
-			} else {
-				$formMapper
-					->add('lastname', null, [ 'required' => false ])
-					->add('middlename', null, [ 'required' => false ])
-					->add('firstname', null, [ 'required' => false ]);
-			}
+			$formMapper
+				->add('lastname', null, [ 'required' => false ])
+				->add('middlename', null, [ 'required' => false ])
+				->add('firstname', null, [ 'required' => false ]);
+			
 			
 			$formMapper->end();
 		}
@@ -399,5 +368,5 @@ class UserAdmin extends BaseAdmin {
 		
 		return $this->userManager;
 	}
-	
+
 }

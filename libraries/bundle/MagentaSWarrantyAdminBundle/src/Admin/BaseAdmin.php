@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
@@ -10,8 +11,7 @@ class BaseAdmin extends AbstractAdmin {
 	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
-	/** @var ThanhVien $thanhVien */
-	protected $thanhVien = null;
+
 	private $isAdmin;
 	
 	protected function isAdmin() {
@@ -22,9 +22,7 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->isAdmin;
 	}
 	
-	protected $ivoryCkeditor = array();
-	
-	protected $translationDomain = 'BinhLeAdmin'; // default is 'messages'
+	protected $translationDomain = 'MagentaSWarrantyAdmin'; // default is 'messages'
 	
 	protected $action = '';
 	protected $actionParams = [];
@@ -221,17 +219,10 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->clearResults($query);
 	}
 	
-	/**
-	 * @return array
-	 */
-	public function getIvoryCkeditor() {
-		return $this->ivoryCkeditor;
-	}
-	
-	/**
-	 * @param array $ivoryCkeditor
-	 */
-	public function setIvoryCkeditor($ivoryCkeditor) {
-		$this->ivoryCkeditor = $ivoryCkeditor;
+	public function getSystemModules() {
+		$registry = $this->getConfigurationPool()->getContainer()->get('doctrine');
+		$modules  = $registry->getRepository(SystemModule::class)->findAll();
+		
+		return $modules;
 	}
 }
