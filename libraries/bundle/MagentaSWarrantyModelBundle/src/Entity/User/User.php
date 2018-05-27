@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 
 /**
  * @ORM\Entity()
@@ -18,79 +19,23 @@ class User extends AbstractUser {
 	protected $id;
 	
 	/**
-	 * @param string $firstName
+	 * @var Person|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person", cascade={"persist", "merge"}, inversedBy="user")
+	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	public function setFirstName(string $firstName): void {
-		$this->name      = $firstName . ' ' . $this->lastName;
-		$this->firstName = $firstName;
+	protected $person;
+	
+	/**
+	 * @return Person|null
+	 */
+	public function getPerson(): ?Person {
+		return $this->person;
 	}
 	
 	/**
-	 * @param string $lastName
+	 * @param Person|null $person
 	 */
-	public function setLastName(string $lastName): void {
-		$this->name     = $this->firstName . ' ' . $lastName;
-		$this->lastName = $lastName;
+	public function setPerson(?Person $person): void {
+		$this->person = $person;
 	}
-	
-	/**
-	 * @var \DateTime|null
-	 * @ORM\Column(type="datetime", nullable=true)
-	 */
-	protected $dob;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string",nullable=true)
-	 */
-	protected $name;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string",nullable=true)
-	 */
-	protected $firstName;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string",nullable=true)
-	 */
-	protected $lastName;
-	
-	/**
-	 * @return null|string
-	 */
-	public function getName(): ?string {
-		return $this->name;
-	}
-	
-	/**
-	 * @return null|string
-	 */
-	public function getFirstName(): ?string {
-		return $this->firstName;
-	}
-	
-	/**
-	 * @return null|string
-	 */
-	public function getLastName(): ?string {
-		return $this->lastName;
-	}
-	
-	/**
-	 * @return \DateTime|null
-	 */
-	public function getDob(): ?\DateTime {
-		return $this->dob;
-	}
-	
-	/**
-	 * @param \DateTime|null $dob
-	 */
-	public function setDob(?\DateTime $dob): void {
-		$this->dob = $dob;
-	}
-	
-	
 }

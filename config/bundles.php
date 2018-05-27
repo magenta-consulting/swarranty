@@ -26,4 +26,7 @@ return [
     Magenta\Bundle\SWarrantyApiBundle\MagentaSWarrantyApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyAdminBundle\MagentaSWarrantyAdminBundle::class => ['all' => true, 'test' => true],
     Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
+    Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
+    Sonata\MediaBundle\SonataMediaBundle::class => ['all' => true],
 ];

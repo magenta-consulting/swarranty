@@ -13,6 +13,11 @@
     }
   ],
   "require": {
+    "sonata-project/media-bundle": "^3.13",
+    "aws/aws-sdk-php": "^3.56",
+    "beancomponent/organization": "^0.1",
+    "beancomponent/person": "^0.1",
+
     "php": "^7.0",
     "symfony/security-bundle": "^4.0",
     "symfony/validator": "^4.0",
