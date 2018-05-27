@@ -96,6 +96,7 @@ class UserAdmin extends BaseAdmin {
 	}
 	
 	public function getTemplate($name) {
+		$_name = strtoupper($name);
 		return parent::getTemplate($name);
 	}
 	
@@ -152,16 +153,15 @@ class UserAdmin extends BaseAdmin {
 			->add('plainPassword', TextType::class, [
 				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 			])
-			->add('dob', DatePickerType::class, [
-				'years'       => range(1900, $now->format('Y')),
-				'dp_min_date' => '1-1-1900',
-				'dp_max_date' => $now->format('c'),
-				'format'      => 'dd/MM/yyyy',
-				
-				'required' => false,
-			])
-			->add('firstName', null, [ 'required' => false ])
-			->add('lastName', null, [ 'required' => false ])
+//			->add('dob', DatePickerType::class, [
+//				'years'       => range(1900, $now->format('Y')),
+//				'dp_min_date' => '1-1-1900',
+//				'dp_max_date' => $now->format('c'),
+//				'format'      => 'dd/MM/yyyy',
+//
+//				'required' => false,
+//			])
+
 //			->add('biography', TextType::class, [ 'required' => false ])
 //			->add('gender', 'Sonata\UserBundle\Form\Type\UserGenderListType', [
 //				'required'           => true,
@@ -368,5 +368,5 @@ class UserAdmin extends BaseAdmin {
 		
 		return $this->userManager;
 	}
-
+	
 }

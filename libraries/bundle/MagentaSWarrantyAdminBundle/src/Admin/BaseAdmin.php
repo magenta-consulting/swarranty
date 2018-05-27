@@ -11,8 +11,33 @@ class BaseAdmin extends AbstractAdmin {
 	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
-
+	
 	private $isAdmin;
+	
+	protected function getTemplateType($name) {
+		$_name = strtoupper($name);
+		if($_name === 'EDIT') {
+			if(empty($subject = $this->getSubject()) || empty($subject->getId())) {
+				return 'CREATE';
+			} else {
+				return 'EDIT';
+			}
+		}
+		
+		return $_name;
+	}
+	
+	/**
+	 * deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
+	 *
+	 * @param string $name
+	 *
+	 * @return null|string
+	 */
+	public function getTemplate($name)
+	{
+		return $this->getTemplateRegistry()->getTemplate($name);
+	}
 	
 	protected function isAdmin() {
 		if($this->isAdmin === null) {
@@ -27,15 +52,11 @@ class BaseAdmin extends AbstractAdmin {
 	protected $action = '';
 	protected $actionParams = [];
 	
-	public function getTemplate($name)
-	{
-		return $this->getTemplateRegistry()->getTemplate($name);
-	}
-	
 	/**
 	 * @var integer
 	 */
 	protected $namHoc;
+	
 	/**
 	 * @return int
 	 */
@@ -126,6 +147,7 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->getUserThanhVien()->getChiDoan();
 		
 	}
+	
 	public function getRequest() {
 		if( ! $this->request) {
 //            throw new \RuntimeException('The Request object has not been set');
@@ -133,11 +155,13 @@ class BaseAdmin extends AbstractAdmin {
 		}
 		
 		return $this->request;
-	}/**
- * @param ProxyQuery $query
- *
- * @return ProxyQuery
- */
+	}
+	
+	/**
+	 * @param ProxyQuery $query
+	 *
+	 * @return ProxyQuery
+	 */
 	protected function clearResults(ProxyQuery $query) {
 		/** @var Expr $expr */
 		$expr = $query->getQueryBuilder()->expr();
