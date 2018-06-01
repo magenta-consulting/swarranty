@@ -21,8 +21,7 @@ class ACEntry {
 			self::PERMISSION_CREATE,
 			self::PERMISSION_READ,
 			self::PERMISSION_UPDATE,
-			self::PERMISSION_DELETE,
-			self::PERMISSION_LIST
+			self::PERMISSION_DELETE
 		];
 	}
 	

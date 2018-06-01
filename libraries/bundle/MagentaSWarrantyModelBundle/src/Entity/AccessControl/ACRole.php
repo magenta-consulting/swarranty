@@ -1,9 +1,11 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 
 /**
  * @ORM\Entity()
@@ -35,6 +37,14 @@ class ACRole {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry", mappedBy="role", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $entries;
+	
+	
+	/**
+	 * @var Organisation
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="roles", cascade={"persist","merge"})
+	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $organisation;
 	
 	/**
 	 * @var string
@@ -70,4 +80,17 @@ class ACRole {
 		$this->name = $name;
 	}
 	
+	/**
+	 * @return Organisation
+	 */
+	public function getOrganisation(): Organisation {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param Organisation $organisation
+	 */
+	public function setOrganisation(Organisation $organisation): void {
+		$this->organisation = $organisation;
+	}
 }

@@ -11,6 +11,7 @@ class BaseAdmin extends AbstractAdmin {
 	const AUTO_CONFIG = true;
 	const ENTITY = null;
 	const CONTROLLER = null;
+	const CHILDREN = null;
 	
 	private $isAdmin;
 	
@@ -34,8 +35,7 @@ class BaseAdmin extends AbstractAdmin {
 	 *
 	 * @return null|string
 	 */
-	public function getTemplate($name)
-	{
+	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
 	}
 	
@@ -51,26 +51,6 @@ class BaseAdmin extends AbstractAdmin {
 	
 	protected $action = '';
 	protected $actionParams = [];
-	
-	/**
-	 * @var integer
-	 */
-	protected $namHoc;
-	
-	/**
-	 * @return int
-	 */
-	public function getNamHoc() {
-		return $this->namHoc;
-	}
-	
-	/**
-	 * @param int $namHoc
-	 */
-	public function setNamHoc($namHoc) {
-		$this->namHoc = $namHoc;
-	}
-	
 	
 	public function getAction() {
 		if(empty($this->action)) {
@@ -116,17 +96,6 @@ class BaseAdmin extends AbstractAdmin {
 			return $object->getTitle();
 		} elseif(method_exists($object, 'getName')) {
 			return $object->getName();
-		}
-		
-		if($object instanceof PhanBo) {
-			return $object->getThanhVien()->getName();
-		}
-		
-		if($object instanceof DoiNhomGiaoLy) {
-			$str = 'Đội của ';
-			$str .= $object->getTenCacTruongPhuTrach();
-			
-			return $str;
 		}
 		
 		return parent::toString($object);

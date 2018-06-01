@@ -23,7 +23,8 @@ sonata_admin:
                 icon: '<i class="fa fa-users"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\User\UserAdmin
-                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
+#                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin
 #                    - Sonata\MediaBundle\Admin\MediaAdmin
 #                    - sonata.media.admin.media
 #                    - sonata.user.admin.group

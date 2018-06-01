@@ -20,6 +20,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\ProductModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\SystemConfigModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\UserModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\WarrantyModule;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserManipulator;
@@ -86,8 +87,9 @@ EOT
 	 * {@inheritdoc}
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$repo   = $this->registry->getRepository(SystemModule::class);
-		$system = $this->registry->getRepository(System::class)->find('magenta.swarranty');
+		$repo          = $this->registry->getRepository(SystemModule::class);
+		$system        = $this->registry->getRepository(System::class)->find('magenta.swarranty');
+		$organisations = $this->registry->getRepository(Organisation::class)->findBy([ 'enabled' => true ]);
 		
 		$modules = $repo->findAll();
 		
@@ -137,9 +139,12 @@ EOT
 		$this->entityManager->persist($ct);
 //		$this->entityManager->persist($systemC);
 		
-		$role = new ACRole();
-		$role->setName('Technician');
-		$this->entityManager->persist($role);
-		$this->entityManager->flush();
+		foreach($organisations as $org) {
+			$role = new ACRole();
+			$role->setOrganisation($org);
+			$role->setName('Technician');
+			$this->entityManager->persist($role);
+			$this->entityManager->flush();
+		}
 	}
 }
