@@ -82,6 +82,9 @@ layout:
     register: Register
     logged_in_as: 'Logged in as %username%'
 
+form_group:
+    service_zone: Service Zone
+
 form:
     group_name: 'Group name'
     username: Username
@@ -91,3 +94,11 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+    label_name: Name
+    label_enabled: Enabled
+    label_action: Action
+
+breadcrumb:
+    link_organisation_list: Org List
+    link_service_zone_list: Service Zone List
+    link_service_zone_create: New Zone

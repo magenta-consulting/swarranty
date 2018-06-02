@@ -1,11 +1,11 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation;
+namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -26,12 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrganisationAdmin extends BaseAdmin {
-	
-	const CHILDREN = [
-		ACLAdmin::class => 'organisation',
-		ServiceZoneAdmin::class => 'organisation',
-	];
+class ServiceZoneAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -80,9 +75,9 @@ class OrganisationAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof Organisation
+		return $object instanceof ServiceZone
 			? $object->getName()
-			: 'Organisation'; // shown in the breadcrumb on the create view
+			: 'Service Zone'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -119,7 +114,6 @@ class OrganisationAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'children'    => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Organisation/Organisation/Action/list__action__children.html.twig' ),
 //					'edit'   => array(),
 					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
@@ -133,13 +127,18 @@ class OrganisationAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label'=>'form.label_name' ]);
+			->add('name', null, [ 'editable' => true, 'label'=>'form.label_name' ])
+			->add('enabled', null, [ 'editable' => true, 'label'=>'form.label_enabled' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
-		$formMapper->add('name');
+		$formMapper
+			->with('form_group.service_zone', [ 'class' => 'col-md-6' ]);
+		$formMapper->add('name')
+		           ->add('enabled')
+		           ->end();
 	}
 	
 	/**

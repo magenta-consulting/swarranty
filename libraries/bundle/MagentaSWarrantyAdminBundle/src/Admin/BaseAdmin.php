@@ -101,22 +101,6 @@ class BaseAdmin extends AbstractAdmin {
 		return parent::toString($object);
 	}
 	
-	protected function getUserThanhVien() {
-		if(empty($this->thanhVien)) {
-			$container       = $this->getConfigurationPool()->getContainer();
-			$user            = $container->get(UserService::class)->getUser();
-			$this->thanhVien = $user->getThanhVien();
-		}
-		
-		return $this->thanhVien;
-	}
-	
-	protected function getUserChiDoan() {
-		
-		return $this->getUserThanhVien()->getChiDoan();
-		
-	}
-	
 	public function getRequest() {
 		if( ! $this->request) {
 //            throw new \RuntimeException('The Request object has not been set');

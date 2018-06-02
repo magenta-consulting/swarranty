@@ -38,7 +38,6 @@ class ACRole {
 	 */
 	protected $entries;
 	
-	
 	/**
 	 * @var Organisation
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="roles", cascade={"persist","merge"})

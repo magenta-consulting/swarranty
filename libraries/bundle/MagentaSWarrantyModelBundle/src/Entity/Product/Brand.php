@@ -1,46 +1,39 @@
 <?php
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Product;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="product__brand")
  */
-class Brand {
+class Brand extends Thing {
 	
 	/**
-	 * @var int|null
-	 * @ORM\Id
-	 * @ORM\Column(type="integer",options={"unsigned":true})
-	 * @ORM\GeneratedValue(strategy="AUTO")
+	 * @var Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory", mappedBy="brands", cascade={"persist","merge"})
 	 */
-	protected $id;
+	protected $categories;
 	
 	/**
-	 * @return int|null
+	 * @var Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSubCategory", mappedBy="brands", cascade={"persist","merge"})
 	 */
-	public function getId(): ?int {
-		return $this->id;
-	}
+	protected $subCategories;
 	
 	/**
-	 * @var string
-	 * @ORM\Column(type="text")
+	 * @var Collection
+	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSupplier", mappedBy="brands", cascade={"persist","merge"})
 	 */
-	protected $name;
+	protected $suppliers;
 	
 	/**
-	 * @return string
+	 * @var Organisation|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="brands", cascade={"persist","merge"})
+	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
+	protected $organisation;
 }

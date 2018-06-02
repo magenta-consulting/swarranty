@@ -34,6 +34,36 @@ class Organisation extends OrganizationModel {
 	protected $roles;
 	
 	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $serviceZones;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $categories;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSubCategory", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $subCategories;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSupplier", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $suppliers;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $brands;
+	
+	/**
 	 * @var Media
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */
