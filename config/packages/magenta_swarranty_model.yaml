@@ -23,7 +23,8 @@ security:
         Magenta\Bundle\SWarrantyModelBundle\Entity\User\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_ADMIN:       [ROLE_USER, ROLE_SONATA_ADMIN]
+        ROLE_USER: ROLE_SONATA_ADMIN
+        ROLE_ADMIN:       [ROLE_USER]
         ROLE_ALLOWED_TO_SWITCH: ~
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
@@ -40,10 +41,9 @@ security:
 sonata_media:
     default_context: default
     contexts:
-        book_image:
+        brand_logo:
             providers:
                 - sonata.media.provider.image
-                - sonata.media.provider.file
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
@@ -95,7 +95,7 @@ sonata_media:
  #               key1:       value1 #any amount of metas(sent as x-amz-meta-key1 = value1)
     # if you don't use default namespace configuration
     class:
-        media: Magenta\Bundle\CBookModelBundle\Entity\Media\Media
-        gallery: Magenta\Bundle\CBookModelBundle\Entity\Media\Gallery
-        gallery_has_media: Magenta\Bundle\CBookModelBundle\Entity\Media\GalleryHasMedia
+        media: Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media
+        gallery: Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Gallery
+        gallery_has_media: Magenta\Bundle\SWarrantyModelBundle\Entity\Media\GalleryHasMedia
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr

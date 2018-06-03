@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
  * @ORM\Entity()
@@ -26,6 +27,12 @@ class Organisation extends OrganizationModel {
 	function __construct() {
 		parent::__construct();
 	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="organization", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $members;
 	
 	/**
 	 * @var Collection
@@ -64,7 +71,13 @@ class Organisation extends OrganizationModel {
 	protected $brands;
 	
 	/**
-	 * @var Media
+	 * @var User|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\User\User", mappedBy="adminOrganisation", cascade={"persist","merge"})
+	 */
+	protected $adminUser;
+	
+	/**
+	 * @var Media|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */
 	protected $logo;
@@ -76,10 +89,35 @@ class Organisation extends OrganizationModel {
 	protected $enabled = true;
 	
 	/**
-	 * @var string
+	 * @var string|null
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $name;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $adminEmail;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $adminFamilyName;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $adminGivenName;
+	
+	
+	
+	/**
+	 * @var string|null
+	 */
+	protected $adminPassword;
 	
 	/**
 	 * @return Media
@@ -108,4 +146,76 @@ class Organisation extends OrganizationModel {
 	public function setRoles(Collection $roles): void {
 		$this->roles = $roles;
 	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAdminEmail(): ?string {
+		return $this->adminEmail;
+	}
+	
+	/**
+	 * @param null|string $adminEmail
+	 */
+	public function setAdminEmail(?string $adminEmail): void {
+		$this->adminEmail = $adminEmail;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAdminPassword(): ?string {
+		return $this->adminPassword;
+	}
+	
+	/**
+	 * @param null|string $adminPassword
+	 */
+	public function setAdminPassword(?string $adminPassword): void {
+		$this->adminPassword = $adminPassword;
+	}
+	
+	/**
+	 * @return Media
+	 */
+	public function getAdminUser(): ?User {
+		return $this->adminUser;
+	}
+	
+	/**
+	 * @param Media $adminUser
+	 */
+	public function setAdminUser(User $adminUser): void {
+		$this->adminUser = $adminUser;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAdminFamilyName(): ?string {
+		return $this->adminFamilyName;
+	}
+	
+	/**
+	 * @param null|string $adminFamilyName
+	 */
+	public function setAdminFamilyName(?string $adminFamilyName): void {
+		$this->adminFamilyName = $adminFamilyName;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAdminGivenName(): ?string {
+		return $this->adminGivenName;
+	}
+	
+	/**
+	 * @param null|string $adminGivenName
+	 */
+	public function setAdminGivenName(?string $adminGivenName): void {
+		$this->adminGivenName = $adminGivenName;
+	}
+	
+	
 }

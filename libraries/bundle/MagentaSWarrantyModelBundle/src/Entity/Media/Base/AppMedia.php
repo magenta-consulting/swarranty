@@ -30,6 +30,13 @@ class AppMedia extends BaseMedia {
 	protected $logoOrganisation;
 	
 	/**
+	 * @var Organisation
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="logo")
+	 * @ORM\JoinColumn(name="id_logo_brand", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $logoBrand;
+	
+	/**
 	 * Get id
 	 *
 	 * @return int $id
@@ -52,53 +59,17 @@ class AppMedia extends BaseMedia {
 		$this->logoOrganisation = $logoOrganisation;
 	}
 	
-	
 	/**
-	 * @param ArrayCollection $resumeCandidates
+	 * @return Organisation
 	 */
-	public function setResumeCandidates($resumeCandidates) {
-		$this->resumeCandidates = $resumeCandidates;
+	public function getLogoBrand(): Organisation {
+		return $this->logoBrand;
 	}
 	
 	/**
-	 * @return Media
+	 * @param Organisation $logoBrand
 	 */
-	public function getThumbnail() {
-		return $this->thumbnail;
-	}
-	
-	/**
-	 * @param Media $thumbnail
-	 */
-	public function setThumbnail($thumbnail) {
-		$this->thumbnail = $thumbnail;
-	}
-	
-	/**
-	 * @return User
-	 */
-	public function getAvatarUser() {
-		return $this->avatarUser;
-	}
-	
-	/**
-	 * @param User $avatarUser
-	 */
-	public function setAvatarUser($avatarUser) {
-		$this->avatarUser = $avatarUser;
-	}
-	
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getMediaH5PContent() {
-		return $this->mediaH5PContent;
-	}
-	
-	/**
-	 * @param ArrayCollection $mediaH5PContent
-	 */
-	public function setMediaH5PContent($mediaH5PContent) {
-		$this->mediaH5PContent = $mediaH5PContent;
+	public function setLogoBrand(Organisation $logoBrand): void {
+		$this->logoBrand = $logoBrand;
 	}
 }

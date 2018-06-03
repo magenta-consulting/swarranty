@@ -34,6 +34,12 @@ class ACRole {
 	
 	/**
 	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="role", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $members;
+	
+	/**
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry", mappedBy="role", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $entries;

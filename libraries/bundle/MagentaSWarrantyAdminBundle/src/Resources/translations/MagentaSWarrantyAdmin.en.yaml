@@ -94,9 +94,14 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
+
     label_name: Name
     label_enabled: Enabled
     label_action: Action
+    label_logo: Logo
+    label_admin_email: Admin Email
+    label_admin_user: Admin User
+    label_password: Password
 
 breadcrumb:
     link_organisation_list: Org List

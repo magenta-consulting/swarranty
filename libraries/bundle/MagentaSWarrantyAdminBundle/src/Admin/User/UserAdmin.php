@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\User;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\SecurityRolesType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
@@ -97,6 +98,7 @@ class UserAdmin extends BaseAdmin {
 	
 	public function getTemplate($name) {
 		$_name = strtoupper($name);
+		
 		return parent::getTemplate($name);
 	}
 	
@@ -146,8 +148,7 @@ class UserAdmin extends BaseAdmin {
 		$now = new \DateTime();
 		
 		$formMapper
-			->tab('User')
-			->with('General')
+			->with('General', [ 'class' => 'col-md-6' ])
 			->add('username')
 			->add('email')
 			->add('plainPassword', TextType::class, [
@@ -169,7 +170,6 @@ class UserAdmin extends BaseAdmin {
 //			])
 //			->add('locale', 'locale', [ 'required' => false ])
 //			->add('timezone', 'timezone', [ 'required' => false ])
-//			->add('thanhVien.soDienThoai', null, [ 'required' => false ])
 
 //			->with('Social')
 //			->add('facebookUid', null, [ 'required' => false ])
@@ -178,7 +178,6 @@ class UserAdmin extends BaseAdmin {
 //			->add('twitterName', null, [ 'required' => false ])
 //			->add('gplusUid', null, [ 'required' => false ])
 //			->add('gplusName', null, [ 'required' => false ])
-		
 		;
 		
 		if($this->getSubject() && ! $this->getSubject()->hasRole('ROLE_SUPER_ADMIN')) {
@@ -194,9 +193,9 @@ class UserAdmin extends BaseAdmin {
 //					'expanded' => true,
 //					'multiple' => true,
 //				])
-//				->end()
-//				->with('Roles')
-//				->add('realRoles', 'Sonata\UserBundle\Form\Type\SecurityRolesType', [
+				->end()
+//				->with('Roles', [ 'class' => 'col-md-6' ])
+//				->add('realRoles', SecurityRolesType::class, [
 //					'label'    => 'form.label_roles',
 //					'expanded' => true,
 //					'multiple' => true,
@@ -204,7 +203,6 @@ class UserAdmin extends BaseAdmin {
 //				])
 //				->end()
 			;
-			$formMapper->end();
 			$formMapper->end();
 		}
 
@@ -239,10 +237,8 @@ class UserAdmin extends BaseAdmin {
 				->with('Profile');
 			
 			$formMapper
-				->add('lastname', null, [ 'required' => false ])
-				->add('middlename', null, [ 'required' => false ])
-				->add('firstname', null, [ 'required' => false ]);
-			
+				->add('firstname', null, [ 'required' => false ])
+				->add('roles', null, [ 'required' => false ]);
 			
 			$formMapper->end();
 		}

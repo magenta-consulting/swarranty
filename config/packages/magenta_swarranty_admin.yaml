@@ -3,6 +3,14 @@ sonata_admin:
     options:
         title_mode: 'single_text'
 
+    security:
+#        handler: Magenta\Bundle\SWarrantyAdminBundle\Security\Handler\RoleSecurityHandler
+        handler: sonata.admin.security.handler.role
+#        handler: app.admin.security.handler.role
+#        handler: sonata.admin.security.handler.acl
+        role_admin: ROLE_ADMIN
+        role_super_admin: ROLE_SUPER_ADMIN
+
     templates:
         layout: '@MagentaSWarrantyAdmin/standard_layout.html.twig'
         user_block: '@MagentaSWarrantyAdmin/Core/user_block.html.twig'
@@ -18,12 +26,13 @@ sonata_admin:
 #            - { type: sonata.admin.block.admin_list, position: left }
 
         groups:
+
             system:
                 label: dashboard.system
                 icon: '<i class="fa fa-users"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\User\UserAdmin
-#                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin
 #                    - Sonata\MediaBundle\Admin\MediaAdmin
 #                    - sonata.media.admin.media
@@ -49,3 +58,4 @@ twig:
         - '@SonataCore/Form/datepicker.html.twig'
 #        - 'BeanLocationBundle:Form:google_maps.html.twig'
 #        - 'SonataFormatterBundle:Form:formatter.html.twig'
+

@@ -1,4 +1,12 @@
 services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     Magenta\Bundle\SWarrantyAdminBundle\:
@@ -10,3 +18,29 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+
+#    sonata.admin.security.handler.role:
+#        class: '%sonata.admin.security.handler.role.class%'
+#        public: false
+#        arguments:
+#            - '@security.authorization_checker'
+#            - [ '%sonata.admin.configuration.security.role_super_admin%' ]
+#<service id="sonata.admin.security.handler.role" class="%sonata.admin.security.handler.role.class%" public="false">
+#            <argument type="service" id="security.authorization_checker"/>
+#            <argument type="collection">
+#                <argument>%sonata.admin.configuration.security.role_super_admin%</argument>
+#            </argument>
+#        </service>
+
+#     <service id="sonata.user.editable_role_builder" class="Sonata\UserBundle\Security\EditableRolesBuilder">
+#            <argument type="service" id="security.token_storage" />
+#            <argument type="service" id="security.authorization_checker" />
+#            <argument type="service" id="sonata.admin.pool" />
+#            <argument>%security.role_hierarchy.roles%</argument>
+#        </service>
+#
+#        <service id="sonata.user.form.type.security_roles" class="Sonata\UserBundle\Form\Type\SecurityRolesType">
+#            <tag name="form.type" alias="sonata_security_roles" />
+#
+#            <argument type="service" id="sonata.user.editable_role_builder" />
+#        </service>
