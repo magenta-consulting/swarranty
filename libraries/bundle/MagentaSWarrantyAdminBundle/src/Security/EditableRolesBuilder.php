@@ -75,8 +75,7 @@ class EditableRolesBuilder
             $securityHandler = $admin->getSecurityHandler();
             // TODO get the base role from the admin or security handler
             $baseRole = $securityHandler->getBaseRole($admin);
-	        file_put_contents('php://stdout', ('hello ACL option:::::::::::::::::::::::::::: '.get_class($securityHandler)));
-
+            
             if (strlen($baseRole) == 0) { // the security handler related to the admin does not provide a valid string
                 continue;
             }

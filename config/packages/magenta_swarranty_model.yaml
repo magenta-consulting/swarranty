@@ -23,8 +23,8 @@ security:
         Magenta\Bundle\SWarrantyModelBundle\Entity\User\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_USER: ROLE_SONATA_ADMIN
-        ROLE_ADMIN:       [ROLE_USER]
+        ROLE_POWER_USER: [ROLE_USER,ROLE_SONATA_ADMIN]
+        ROLE_ADMIN:       [ROLE_POWER_USER]
         ROLE_ALLOWED_TO_SWITCH: ~
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 

@@ -4,12 +4,13 @@ sonata_admin:
         title_mode: 'single_text'
 
     security:
+        handler: magenta_swarranty.admin.security.handler.role
 #        handler: Magenta\Bundle\SWarrantyAdminBundle\Security\Handler\RoleSecurityHandler
-        handler: sonata.admin.security.handler.role
+#        handler: sonata.admin.security.handler.role
 #        handler: app.admin.security.handler.role
 #        handler: sonata.admin.security.handler.acl
-        role_admin: ROLE_ADMIN
-        role_super_admin: ROLE_SUPER_ADMIN
+        role_admin: ROLE_POWER_USER
+        role_super_admin: ROLE_ADMIN
 
     templates:
         layout: '@MagentaSWarrantyAdmin/standard_layout.html.twig'

@@ -26,6 +26,8 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserAdmin extends BaseAdmin {
+//	const ADMIN_CODE = 'magenta_bundle_admin_user';
+	
 	protected $action;
 	
 	protected $datagridValues = array(
@@ -194,14 +196,14 @@ class UserAdmin extends BaseAdmin {
 //					'multiple' => true,
 //				])
 				->end()
-//				->with('Roles', [ 'class' => 'col-md-6' ])
-//				->add('realRoles', SecurityRolesType::class, [
-//					'label'    => 'form.label_roles',
-//					'expanded' => true,
-//					'multiple' => true,
-//					'required' => false,
-//				])
-//				->end()
+				->with('Authorisation', [ 'class' => 'col-md-6' ])
+				->add('realRoles', SecurityRolesType::class, [
+					'label'    => 'form.label_roles',
+					'expanded' => true,
+					'multiple' => true,
+					'required' => false,
+				])
+				->end()
 			;
 			$formMapper->end();
 		}

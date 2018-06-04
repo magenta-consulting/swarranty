@@ -13,6 +13,8 @@ class BaseAdmin extends AbstractAdmin {
 	const CONTROLLER = null;
 	const CHILDREN = null;
 	
+	const ADMIN_CODE = null;
+	
 	private $isAdmin;
 	
 	protected function getTemplateType($name) {

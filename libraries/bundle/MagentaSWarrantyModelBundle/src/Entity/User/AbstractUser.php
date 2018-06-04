@@ -469,6 +469,7 @@ abstract class AbstractUser implements UserInterface, GroupableInterface {
 		foreach($roles as $role) {
 			$this->addRole($role);
 		}
+		file_put_contents('php://stdout', ('role param '.implode($roles,'----'). '  setROLES: '.implode($this->roles,' --- ')));
 		
 		return $this;
 	}

@@ -43,8 +43,9 @@ class MagentaSWarrantyAdminExtension extends ConfigurableExtension {
 					'label'                     => strtolower(end($className)),
 					'label_translator_strategy' => 'sonata.admin.label.strategy.underscore'
 				]);
-				
-				$code = $class;
+				if(empty($code = $class::ADMIN_CODE)) {
+					$code = $class;
+				}
 				if(empty($entity = $class::ENTITY)) {
 					$entity = str_replace('Admin\\', 'Entity\\', $code);
 					$entity = str_replace('AdminBundle', 'ModelBundle', $entity);
@@ -72,7 +73,7 @@ class MagentaSWarrantyAdminExtension extends ConfigurableExtension {
 					continue;
 				}
 				$className = explode('\\', str_replace('Admin', '', $class));
-				$def = $container->getDefinition($class);
+				$def       = $container->getDefinition($class);
 				if( ! empty($children = $class::CHILDREN)) {
 					foreach($children as $child => $property) {
 						$def->addMethodCall('addChild', [ $container->getDefinition($child), $property ]);

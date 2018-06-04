@@ -1,7 +1,7 @@
 services:
     # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
+        autowire: false      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
                             # fetching services directly from the container via $container->get() won't work.
@@ -11,7 +11,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Magenta\Bundle\SWarrantyAdminBundle\:
         resource: '../../*'
-#        exclude: '../src/{Entity,Migrations,Tests,Kernel.php}'
+        exclude: '../../{Security/Handler,Entity,Migrations,Tests,Kernel.php}'
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     Magenta\Bundle\SWarrantyAdminBundle\Controller\:
@@ -19,12 +19,29 @@ services:
         tags: ['controller.service_arguments']
 
 
-#    sonata.admin.security.handler.role:
-#        class: '%sonata.admin.security.handler.role.class%'
-#        public: false
-#        arguments:
-#            - '@security.authorization_checker'
-#            - [ '%sonata.admin.configuration.security.role_super_admin%' ]
+    magenta_swarranty.admin.security.handler.role:
+        class: '%sonata.admin.security.handler.role.class%'
+        public: false
+        arguments:
+            - '@security.authorization_checker'
+            - [ '%sonata.admin.configuration.security.role_super_admin%' ]
+            - '@service_container'
+
+    magenta_swarranty.user.editable_role_builder:
+        class: Magenta\Bundle\SWarrantyAdminBundle\Security\EditableRolesBuilder
+        arguments:
+            - '@security.token_storage'
+            - '@security.authorization_checker'
+            - '@sonata.admin.pool'
+            - '%security.role_hierarchy.roles%'
+
+    magenta_swarranty.user.form.type.security_roles:
+        class: Magenta\Bundle\SWarrantyAdminBundle\Form\Type\SecurityRolesType
+        tags:
+            - {name: "form.type", alias: "sonata_security_roles"}
+        arguments:
+            - '@magenta_swarranty.user.editable_role_builder'
+
 #<service id="sonata.admin.security.handler.role" class="%sonata.admin.security.handler.role.class%" public="false">
 #            <argument type="service" id="security.authorization_checker"/>
 #            <argument type="collection">
