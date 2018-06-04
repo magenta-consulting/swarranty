@@ -1,3 +1,7 @@
+sonata_doctrine_orm_admin:
+    templates:
+        form: ['@MagentaSWarrantyAdmin/Form/fields.html.twig']
+
 sonata_admin:
     title: 'Smart Warranty'
     options:
@@ -27,6 +31,13 @@ sonata_admin:
 #            - { type: sonata.admin.block.admin_list, position: left }
 
         groups:
+
+            product:
+                label: dashboard.product
+                icon: '<i class="fa fa-product-hunt"></i>'
+                items:
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin
 
             system:
                 label: dashboard.system
@@ -59,4 +70,4 @@ twig:
         - '@SonataCore/Form/datepicker.html.twig'
 #        - 'BeanLocationBundle:Form:google_maps.html.twig'
 #        - 'SonataFormatterBundle:Form:formatter.html.twig'
-
+        - '@MagentaSWarrantyAdmin/Form/fields.html.twig'

@@ -6,12 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="access__role")
  */
-class ACRole {
+class ACRole extends Thing {
 	
 	/**
 	 * @var int|null
@@ -45,17 +46,10 @@ class ACRole {
 	protected $entries;
 	
 	/**
-	 * @var Organisation
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="roles", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string")
-	 */
-	protected $name;
 	
 	/**
 	 * @return Collection
@@ -69,33 +63,5 @@ class ACRole {
 	 */
 	public function setEntries(Collection $entries): void {
 		$this->entries = $entries;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName(): string {
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName(string $name): void {
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return Organisation
-	 */
-	public function getOrganisation(): Organisation {
-		return $this->organisation;
-	}
-	
-	/**
-	 * @param Organisation $organisation
-	 */
-	public function setOrganisation(Organisation $organisation): void {
-		$this->organisation = $organisation;
 	}
 }

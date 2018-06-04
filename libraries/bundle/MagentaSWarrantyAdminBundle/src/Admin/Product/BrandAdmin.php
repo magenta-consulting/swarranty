@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\BrandCategoriesType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
@@ -42,7 +43,7 @@ class BrandAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var User $object */
+		/** @var Brand $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -53,26 +54,6 @@ class BrandAdmin extends BaseAdmin {
 	 * @param User   $object
 	 */
 	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE' ])) {
-			return $this->isAdmin();
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
 		return parent::isGranted($name, $object);
 	}
 	
@@ -140,8 +121,11 @@ class BrandAdmin extends BaseAdmin {
 		$formMapper
 			->with('form_group.brand', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('name')
-		           ->add('logo', MediaType::class,['context'=>'brand_logo','provider'=>'sonata.media.provider.image'])
+		           ->add('logo', MediaType::class, [ 'context'  => 'brand_logo',
+		                                             'provider' => 'sonata.media.provider.image'
+		           ])
 		           ->add('enabled')
+		           ->add('categories', BrandCategoriesType::class)
 		           ->end();
 	}
 	

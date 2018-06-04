@@ -70,4 +70,8 @@ services:
         alias: 'magenta_user.user_manager'
         public: false
 
-
+    Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService:
+        class: Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService
+        arguments:
+            - '@service_container'
+        public: true

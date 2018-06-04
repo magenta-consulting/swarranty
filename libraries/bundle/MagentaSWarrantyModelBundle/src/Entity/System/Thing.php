@@ -1,8 +1,10 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
  * Class Thing
@@ -25,6 +27,11 @@ class Thing {
 	public function getId(): ?int {
 		return $this->id;
 	}
+	
+	public function isGranted($action, User $user) {
+		return true;
+	}
+	
 	/**
 	 * @var Organisation|null
 	 */

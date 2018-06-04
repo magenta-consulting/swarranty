@@ -51,26 +51,6 @@ class ServiceZoneAdmin extends BaseAdmin {
 	 * @param User   $object
 	 */
 	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE' ])) {
-			return $this->isAdmin();
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
 		return parent::isGranted($name, $object);
 	}
 	
@@ -122,13 +102,14 @@ class ServiceZoneAdmin extends BaseAdmin {
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-				), 'label'=>'form.label_action'
+				),
+				'label'   => 'form.label_action'
 			]
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label'=>'form.label_name' ])
-			->add('enabled', null, [ 'editable' => true, 'label'=>'form.label_enabled' ]);
+			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
+			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}

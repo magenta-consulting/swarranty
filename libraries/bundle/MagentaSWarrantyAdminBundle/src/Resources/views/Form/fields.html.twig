@@ -1,0 +1,34 @@
+{% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
+
+{% block brand_categories_widget %}
+    {% spaceless %}
+        {{ block('choice_widget') }}
+    {% endspaceless %}
+{% endblock %}
+
+{% block choice_widget_expanded %}
+    <style>
+        .n2n-checkbox .checkbox {
+            display: inline;
+            padding-right: 7px;
+        }
+    </style>
+    {% spaceless %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' n2n-checkbox list-unstyled'}) %}
+        <ul {{ block('widget_container_attributes') }}>
+            {% for child in form %}
+                <li>
+                    {{ form_widget(child, {
+                        'horizontal': false,
+                        'horizontal_input_wrapper_class': '',
+                        'translation_domain': choice_translation_domain
+                    }) }}
+                    {#'horizontal' values are needed to avoid MopaBootstrapBundle messing with the DOM#}
+                    <span class="x-editable editable editable-click" data-type="text" data-value="East" data-title="Name" data-pk="1" data-url="/admin/core/set-object-field-value?context=list&amp;field=name&amp;objectId=1&amp;code=Magenta%5CBundle%5CSWarrantyAdminBundle%5CAdmin%5CProduct%5CServiceZoneAdmin">
+                        EDIT
+                    </span>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endspaceless %}
+{% endblock choice_widget_expanded %}

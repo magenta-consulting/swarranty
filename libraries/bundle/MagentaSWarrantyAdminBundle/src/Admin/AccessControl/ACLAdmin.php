@@ -51,26 +51,6 @@ class ACLAdmin extends BaseAdmin {
 	 * @param User   $object
 	 */
 	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE' ])) {
-			return false;
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
 		return parent::isGranted($name, $object);
 	}
 	
@@ -83,11 +63,6 @@ class ACLAdmin extends BaseAdmin {
 	public function createQuery($context = 'list') {
 		/** @var ProxyQueryInterface $query */
 		$query = parent::createQuery($context);
-		if(empty($this->getParentFieldDescription())) {
-//            $this->filterQueryByPosition($query, 'position', '', '');
-		}
-
-//        $query->andWhere()
 		
 		return $query;
 	}
@@ -118,6 +93,7 @@ class ACLAdmin extends BaseAdmin {
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
+				'label'   => 'form.label_action',
 				'actions' => array(
 //					'impersonate' => array( 'template' => 'admin/user/list__action__impersonate.html.twig' ),
 //					'edit'   => array(),
@@ -133,7 +109,7 @@ class ACLAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true ]);
+			->add('name', null, [ 'label' => 'form.label_name', 'editable' => true ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}

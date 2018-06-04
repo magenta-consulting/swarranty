@@ -31,9 +31,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrganisationAdmin extends BaseAdmin {
 	
 	const CHILDREN = [
-		ACLAdmin::class => 'organisation',
+		ACLAdmin::class         => 'organisation',
 		ServiceZoneAdmin::class => 'organisation',
-		BrandAdmin::class => 'organisation',
+		BrandAdmin::class       => 'organisation',
 	];
 	
 	protected $action;
@@ -122,33 +122,32 @@ class OrganisationAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'children'    => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Organisation/Organisation/Action/list__action__children.html.twig' ),
-					'edit'   => array(),
-					'delete' => array(),
+					'children' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Organisation/Organisation/Action/list__action__children.html.twig' ),
+					'edit'     => array(),
+					'delete'   => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-				), 'label'=>'form.label_action'
+				),
+				'label'   => 'form.label_action'
 			]
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label'=>'form.label_name' ])
-			
-		;
+			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper->add('name')
-			->add('adminUser', ModelAutocompleteType::class, array(
-				'required' => false,
-				'property' => 'email'
-			));
+		           ->add('adminUser', ModelAutocompleteType::class, array(
+			           'required' => false,
+			           'property' => 'username'
+		           ));
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [
@@ -159,12 +158,15 @@ class OrganisationAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param User $object
+	 * @param Organisation $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
+		}
+		if( ! empty($admin = $object->getAdminUser())) {
+			$admin->setAdminOrganisation($object);
 		}
 	}
 	
@@ -172,7 +174,10 @@ class OrganisationAdmin extends BaseAdmin {
 	 * @param User $object
 	 */
 	public function preUpdate($object) {
-	
+		
+		if( ! empty($admin = $object->getAdminUser())) {
+			$admin->setAdminOrganisation($object);
+		}
 	}
 	
 	///////////////////////////////////
@@ -194,5 +199,11 @@ class OrganisationAdmin extends BaseAdmin {
 //		;
 	}
 	
+	/**
+	 * @return null|Organisation
+	 */
+	public function getSubject() {
+		return parent::getSubject();
+	}
 	
 }

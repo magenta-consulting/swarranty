@@ -2,7 +2,11 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 
+use Doctrine\ORM\Query\Expr;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
+use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 
@@ -16,6 +20,7 @@ class BaseAdmin extends AbstractAdmin {
 	const ADMIN_CODE = null;
 	
 	private $isAdmin;
+	private $user;
 	
 	protected function getTemplateType($name) {
 		$_name = strtoupper($name);
@@ -39,6 +44,31 @@ class BaseAdmin extends AbstractAdmin {
 	 */
 	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
+	}
+	
+	/**
+	 * @return Organisation|null
+	 */
+	protected function getCurrentOrganisation() {
+		if(empty($this->getParent())) {
+			$user = $this->getLoggedInUser();
+			
+			return $user->getAdminOrganisation();
+		} else {
+			if($this->getParent() instanceof OrganisationAdmin) {
+				return $this->getParent()->getSubject();
+			}
+			
+			return null;
+		}
+	}
+	
+	protected function getLoggedInUser() {
+		if($this->user === null) {
+			$this->user = $this->getConfigurationPool()->getContainer()->get(UserService::class)->getUser();
+		}
+		
+		return $this->user;
 	}
 	
 	protected function isAdmin() {
@@ -110,6 +140,56 @@ class BaseAdmin extends AbstractAdmin {
 		}
 		
 		return $this->request;
+	}
+	
+	public function isGranted($name, $object = null) {
+		$container = $this->getConfigurationPool()->getContainer();
+		$user      = $container->get(UserService::class)->getUser();
+		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+//        $pos = $container->get(UserService::class)->getPosition();
+		if($isAdmin) {
+			return true;
+		}
+		if(is_array($name)) {
+			$isGranted = true;
+			foreach($name as $action) {
+				$isGranted &= $user->isGranted($action, $object);
+			}
+			
+			return $isGranted;
+		}
+		
+		return $user->isGranted($name, $object);
+
+//		return parent::isGranted($name, $object);
+	}
+	
+	public function createQuery($context = 'list') {
+		$query = parent::createQuery($context);
+		if($this->isAdmin()) {
+			return $query;
+		}
+		
+		$organisation = $this->getCurrentOrganisation();
+		if(empty($this->getParentFieldDescription())) {
+			$this->filterQueryByOrganisation($query, $organisation);
+		} else {
+			// TODO: change this so that 1 person can manage multiple organisations
+			$this->clearResults($query);
+		}
+		
+		return $query;
+//        $query->andWhere()
+	}
+	
+	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
+		$pool      = $this->getConfigurationPool();
+		$request   = $this->getRequest();
+		$container = $pool->getContainer();
+		/** @var Expr $expr */
+		$expr = $query->getQueryBuilder()->expr();
+		
+		return $query->andWhere($expr->eq('o.organisation', $organisation->getId()));
 	}
 	
 	/**
