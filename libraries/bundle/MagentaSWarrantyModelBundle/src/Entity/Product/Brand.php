@@ -1,4 +1,5 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Product;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,9 +16,9 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 class Brand extends Thing {
 	
 	function __construct() {
-		$this->categories = new ArrayCollection();
+		$this->categories    = new ArrayCollection();
 		$this->subCategories = new ArrayCollection();
-		$this->suppliers = new ArrayCollection();
+		$this->suppliers     = new ArrayCollection();
 	}
 	
 	/**
@@ -25,6 +26,16 @@ class Brand extends Thing {
 	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory", mappedBy="brands", cascade={"persist","merge"})
 	 */
 	protected $categories;
+	
+	public function addCategory(BrandCategory $cat) {
+		$this->categories->add($cat);
+		$cat->addBrand($this);
+	}
+	
+	public function removeCategory(BrandCategory $cat) {
+		$this->categories->removeElement($cat);
+		$cat->removeBrand($this);
+	}
 	
 	/**
 	 * @var Collection

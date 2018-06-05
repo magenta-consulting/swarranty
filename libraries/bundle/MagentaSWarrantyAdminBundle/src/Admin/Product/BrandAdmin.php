@@ -5,8 +5,12 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\BrandCategoriesType;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSubCategory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSupplier;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
@@ -51,7 +55,7 @@ class BrandAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string $name
-	 * @param User   $object
+	 * @param Brand  $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
@@ -97,7 +101,7 @@ class BrandAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-//					'edit'   => array(),
+					'edit'   => array(),
 					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
@@ -119,18 +123,33 @@ class BrandAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper
-			->with('form_group.brand', [ 'class' => 'col-md-6' ]);
+			->tab('form_tab.general')
+			->with('form_group.brand', [ 'class' => 'col-md-12' ]);
 		$formMapper->add('name')
-		           ->add('logo', MediaType::class, [ 'context'  => 'brand_logo',
-		                                             'provider' => 'sonata.media.provider.image'
+		           ->add('logo', MediaType::class, [
+			           'context'  => 'brand_logo',
+			           'provider' => 'sonata.media.provider.image'
 		           ])
 		           ->add('enabled')
-		           ->add('categories', BrandCategoriesType::class)
 		           ->end();
+		$formMapper->end();
+		$formMapper
+			->tab('form_tab.associated_categories_and_suppliers')
+			->with('form_group.categories', [ 'class' => 'col-md-4' ])
+			->add('categories', ManyToManyThingType::class, [ 'class' => BrandCategory::class ])
+			->end()
+			->with('form_group.subcategories', [ 'class' => 'col-md-4' ])
+			->add('subCategories', ManyToManyThingType::class, [ 'class' => BrandSubCategory::class ])
+			->end()
+			->with('form_group.suppliers', [ 'class' => 'col-md-4' ])
+			->add('suppliers', ManyToManyThingType::class, [ 'class' => BrandSupplier::class ])
+			->end()
+			->end();
+		
 	}
 	
 	/**
-	 * @param User $object
+	 * @param Brand $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -140,10 +159,10 @@ class BrandAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param User $object
+	 * @param Brand $object
 	 */
 	public function preUpdate($object) {
-	
+
 	}
 	
 	///////////////////////////////////

@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Sonata\MediaBundle\Entity\BaseMedia;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -30,8 +31,8 @@ class AppMedia extends BaseMedia {
 	protected $logoOrganisation;
 	
 	/**
-	 * @var Organisation
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="logo")
+	 * @var Brand
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", inversedBy="logo")
 	 * @ORM\JoinColumn(name="id_logo_brand", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $logoBrand;

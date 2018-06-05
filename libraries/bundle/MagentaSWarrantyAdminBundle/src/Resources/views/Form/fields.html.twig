@@ -1,34 +1,142 @@
 {% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
 
-{% block brand_categories_widget %}
+{% block many_to_many_thing_widget %}
     {% spaceless %}
-        {{ block('choice_widget') }}
-    {% endspaceless %}
-{% endblock %}
+        <style>
+            .n2n-entity-action-container {
+                padding-top: 10px;
+                text-align: right;
+            }
 
-{% block choice_widget_expanded %}
-    <style>
-        .n2n-checkbox .checkbox {
-            display: inline;
-            padding-right: 7px;
-        }
-    </style>
-    {% spaceless %}
-        {% set attr = attr|merge({'class': attr.class|default('') ~ ' n2n-checkbox list-unstyled'}) %}
-        <ul {{ block('widget_container_attributes') }}>
-            {% for child in form %}
-                <li>
-                    {{ form_widget(child, {
-                        'horizontal': false,
-                        'horizontal_input_wrapper_class': '',
-                        'translation_domain': choice_translation_domain
-                    }) }}
-                    {#'horizontal' values are needed to avoid MopaBootstrapBundle messing with the DOM#}
-                    <span class="x-editable editable editable-click" data-type="text" data-value="East" data-title="Name" data-pk="1" data-url="/admin/core/set-object-field-value?context=list&amp;field=name&amp;objectId=1&amp;code=Magenta%5CBundle%5CSWarrantyAdminBundle%5CAdmin%5CProduct%5CServiceZoneAdmin">
-                        EDIT
+            .n2n-entity-action i {
+                font-size: 18px;
+            }
+
+            .n2n-checkbox li {
+                /*display: flex;*/
+                /*justify-content: space-between;*/
+                /*align-items: center;*/
+            }
+
+            .n2n-checkbox li .checkbox {
+                /*flex-grow: 5;*/
+            }
+
+            .n2n-checkbox li .n2n-entity-action-container {
+                /*flex-grow: 2;*/
+            }
+
+            .n2n-checkbox .checkbox {
+                display: block;
+                padding-right: 7px;
+            }
+
+            .n2n-entity-action {
+                display: inline;
+                padding-right: 3px;
+            }
+
+            .remove-form-group .editable-buttons {
+                display: block;
+                padding-top: 7px;
+                text-align: center;
+            }
+
+            .remove-form-group .editable-buttons .btn {
+                margin: 3px;
+            }
+        </style>
+        {% spaceless %}
+            {% set attr = attr|merge({'class': attr.class|default('') ~ ' n2n-checkbox list-unstyled'}) %}
+            <input style="margin-bottom: 5px;" type="text" class="form-control" name="add-item"
+                   placeholder="Type to create a new item"/>
+            <ul {{ block('widget_container_attributes') }}>
+                {% for child in form %}
+                    <li>
+                        <div class="row">
+                            <div class="col-md-9">
+                                {{ form_widget(child, {
+                                    'horizontal': false,
+                                    'horizontal_input_wrapper_class': '',
+                                    'translation_domain': choice_translation_domain
+                                }) }}
+                            </div>
+                            {#'horizontal' values are needed to avoid MopaBootstrapBundle messing with the DOM#}
+                            <div class="n2n-entity-action-container col-md-3">
+<span class="n2n-entity-action n2n-entity-editable" tabindex="0" class="btn btn-default"
+      role="button"
+      data-type="text" data-value="{{ child.vars.label }}"
+      data-title="Name" data-pk="{{ child.vars.value }}"
+      data-url="{{ path('sonata_admin_set_object_field_value',{
+          'context': 'list',
+          'field': 'name',
+          'objectId': child.vars.value,
+          'code': sonata_admin.admin.code
+      }) }}"
+      data-toggle="popover" data-trigger="manual" data-placement="left"
+      data-content="<form class='form-inline editableform'><div class='control-group form-group'><div><div class='editable-input' style='position: relative;'><input value='' type='text' class='n2n-entity form-control input-sm' style='padding-right: 24px;' /><span class='editable-clear-x'></span></div><div class='editable-buttons'><button type='button' class='btn btn-primary btn-sm n2n-entity editable-submit'><i class='glyphicon glyphicon-ok'></i></button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel'><i class='glyphicon glyphicon-remove'></i></button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>">
+                        <i class="fa fa-edit"> </i>
                     </span>
-                </li>
-            {% endfor %}
-        </ul>
+                                <span class="n2n-entity-action n2n-entity-remove" tabindex="0" class="btn btn-default"
+                                      role="button"
+                                      data-type="remove" data-value="{{ child.vars.label }}"
+                                      data-title="Please confirm your action" data-pk="{{ child.vars.value }}"
+                                      data-url="{{ path('sonata_admin_set_object_field_value',{
+                                          'context': 'list',
+                                          'field': 'name',
+                                          'objectId': child.vars.value,
+                                          'code': sonata_admin.admin.code
+                                      }) }}"
+                                      data-toggle="popover" data-trigger="manual" data-placement="left"
+                                      data-content="<form class='n2n-entity remove-form'><div class='control-group form-group remove-form-group'><div>
+                          Would you like to remove <code>{{ child.vars.label }}</code>
+                          <div class='editable-buttons'><button type='button' class='btn btn-danger btn-sm n2n-entity editable-submit form-control'><i class='glyphicon glyphicon-ok'> </i> Yes, Remove this Item</button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel form-control'><i class='glyphicon glyphicon-remove'> </i> Cancel</button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>">
+                        <i class="fa fa-trash"></i>
+                    </span>
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+
+            </ul>
+        {% endspaceless %}
     {% endspaceless %}
-{% endblock choice_widget_expanded %}
+    <script>
+        $(function () {
+
+
+            let $popover = $('.n2n-entity-action[data-toggle="popover"]');
+
+            let initiatePopover = function ($popover) {
+                $popover.popover({
+                    html: true,
+                    template: '<div class="popover editable-container editable-popup" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
+                });
+            };
+
+            initiatePopover($popover);
+
+            $popover.on('click', function () {
+                let $thisPopover = $(this);
+                $thisPopover.popover('show');
+            });
+
+            $popover.on('inserted.bs.popover', function () {
+                let $thisPopover = $(this);
+                $('.n2n-entity.editable-cancel').on('click', function () {
+                    $thisPopover.popover('hide');
+                });
+
+                $('.n2n-entity.editable-submit').on('click', function (e) {
+                    e.preventDefault();
+                    alert($thisPopover.data('url'));
+                    $thisPopover.popover('hide');
+                });
+
+                $('input.n2n-entity').val($thisPopover.data('value'));
+
+            })
+
+        })
+    </script>
+{% endblock %}
