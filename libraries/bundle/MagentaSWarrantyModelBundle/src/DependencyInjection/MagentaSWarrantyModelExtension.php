@@ -1,5 +1,4 @@
 <?php
-
 namespace Magenta\Bundle\SWarrantyModelBundle\DependencyInjection;
 
 use ProxyManager\FileLocator\FileLocator;
@@ -13,6 +12,7 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
 class MagentaSWarrantyModelExtension extends ConfigurableExtension {
+	
 	/**
 	 * @var array
 	 */
@@ -39,6 +39,7 @@ class MagentaSWarrantyModelExtension extends ConfigurableExtension {
 		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
 		
 		$loader->load('user.yaml');
+		$loader->load('doctrine.yaml');
 		
 		$definition = $container->getDefinition('magenta_user.object_manager');
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));

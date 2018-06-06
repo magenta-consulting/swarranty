@@ -6,9 +6,11 @@ use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class BaseAdmin extends AbstractAdmin {
 	
@@ -52,15 +54,17 @@ class BaseAdmin extends AbstractAdmin {
 	protected function getCurrentOrganisation() {
 		if(empty($this->getParent())) {
 			$user = $this->getLoggedInUser();
-			
-			return $user->getAdminOrganisation();
+			$org  = $user->getAdminOrganisation();
 		} else {
 			if($this->getParent() instanceof OrganisationAdmin) {
-				return $this->getParent()->getSubject();
+				$org = $this->getParent()->getSubject();
 			}
-			
-			return null;
 		}
+		if(empty($org)) {
+			throw new UnauthorizedHttpException('Unauthorised access');
+		}
+		
+		return $org;
 	}
 	
 	protected function getLoggedInUser() {
@@ -162,6 +166,16 @@ class BaseAdmin extends AbstractAdmin {
 		return $user->isGranted($name, $object);
 
 //		return parent::isGranted($name, $object);
+	}
+	
+	protected function getFilterByOrganisationQueryForModel($class) {
+		/** @var ProxyQuery $productQuery */
+		$brandQuery = $this->getModelManager()->createQuery($class);
+		/** @var Expr $expr */
+		$expr = $brandQuery->expr();
+		$brandQuery->andWhere($expr->eq('o.organisation', $this->getCurrentOrganisation()->getId()));
+		
+		return $brandQuery;
 	}
 	
 	public function createQuery($context = 'list') {
@@ -283,5 +297,14 @@ class BaseAdmin extends AbstractAdmin {
 		$modules  = $registry->getRepository(SystemModule::class)->findAll();
 		
 		return $modules;
+	}
+	
+	/**
+	 * @param mixed $object
+	 */
+	public function preValidate($object) {
+		if($object instanceof Thing) {
+			$object->setOrganisation($this->getCurrentOrganisation());
+		}
 	}
 }

@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Sonata\MediaBundle\Entity\BaseMedia;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
@@ -36,6 +37,13 @@ class AppMedia extends BaseMedia {
 	 * @ORM\JoinColumn(name="id_logo_brand", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $logoBrand;
+	
+	/**
+	 * @var Product
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", inversedBy="image")
+	 * @ORM\JoinColumn(name="id_image_product", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $imageProduct;
 	
 	/**
 	 * Get id
@@ -72,5 +80,19 @@ class AppMedia extends BaseMedia {
 	 */
 	public function setLogoBrand(Organisation $logoBrand): void {
 		$this->logoBrand = $logoBrand;
+	}
+	
+	/**
+	 * @return Product
+	 */
+	public function getImageProduct(): Product {
+		return $this->imageProduct;
+	}
+	
+	/**
+	 * @param Product $imageProduct
+	 */
+	public function setImageProduct(Product $imageProduct): void {
+		$this->imageProduct = $imageProduct;
 	}
 }

@@ -2,9 +2,9 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
 
+use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\BrandCategoriesType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
@@ -136,7 +136,16 @@ class BrandAdmin extends BaseAdmin {
 		$formMapper
 			->tab('form_tab.associated_categories_and_suppliers')
 			->with('form_group.categories', [ 'class' => 'col-md-4' ])
-			->add('categories', ManyToManyThingType::class, [ 'class' => BrandCategory::class ])
+			->add('categories', ManyToManyThingType::class, [
+				'class'         => BrandCategory::class,
+				'query_builder' => function(EntityRepository $er) {
+					$qb   = $er->createQueryBuilder('c');
+					$expr = $qb->expr();
+					$qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
+					
+					return $qb;
+				}
+			])
 			->end()
 			->with('form_group.subcategories', [ 'class' => 'col-md-4' ])
 			->add('subCategories', ManyToManyThingType::class, [ 'class' => BrandSubCategory::class ])
@@ -162,7 +171,7 @@ class BrandAdmin extends BaseAdmin {
 	 * @param Brand $object
 	 */
 	public function preUpdate($object) {
-
+	
 	}
 	
 	///////////////////////////////////

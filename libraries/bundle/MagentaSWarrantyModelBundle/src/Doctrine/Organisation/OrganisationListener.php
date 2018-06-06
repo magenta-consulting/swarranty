@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Bean\OrganisationBundle\EventListener;
+namespace Magenta\Bundle\SWarrantyModelBundle\Doctrine\Organisation;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
@@ -23,12 +23,12 @@ class OrganisationListener {
 //		if( ! empty($organisation->getRegNo())) {
 //			$organisation->setRegNo(strtoupper($organisation->getRegNo()));
 //		}
-		
+
 //		if(empty($organisation->getName())) {
 //			$organisation->setName($organisation->getRegNo());
 //		}
 //		$organisation->setSlug($this->container->get('bean_core.string')->slugify($organisation->getName()));
-		
+
 //		if(empty($organisation->getCode())) {
 //			if( ! empty($organisation->getRegNo())) {
 //				$organisation->setCode($organisation->getRegNo());

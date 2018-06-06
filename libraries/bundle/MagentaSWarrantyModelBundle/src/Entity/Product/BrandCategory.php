@@ -14,6 +14,11 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
  */
 class BrandCategory extends Thing {
 	
+	public function __construct() {
+		$this->brands   = new ArrayCollection();
+		$this->products = new ArrayCollection();
+	}
+	
 	/**
 	 * @var Collection|null
 	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", inversedBy="categories", cascade={"persist","merge"})
@@ -32,6 +37,21 @@ class BrandCategory extends Thing {
 		$this->brands->removeElement($brand);
 	}
 	
+	/**
+	 * @var Collection|null
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", mappedBy="category", cascade={"persist","merge"})
+	 */
+	protected $products;
+	
+	public function addProduct(Product $product) {
+		$this->products->add($product);
+		$product->setCategory($this);
+	}
+	
+	public function removeProduct(Product $product) {
+		$this->products->removeElement($product);
+		$product->setCategory(null);
+	}
 	
 	/**
 	 * @var Organisation|null
@@ -52,6 +72,20 @@ class BrandCategory extends Thing {
 	 */
 	public function setBrands(?Collection $brands): void {
 		$this->brands = $brands;
+	}
+	
+	/**
+	 * @return Collection|null
+	 */
+	public function getProducts(): ?Collection {
+		return $this->products;
+	}
+	
+	/**
+	 * @param Collection|null $products
+	 */
+	public function setProducts(?Collection $products): void {
+		$this->products = $products;
 	}
 	
 	

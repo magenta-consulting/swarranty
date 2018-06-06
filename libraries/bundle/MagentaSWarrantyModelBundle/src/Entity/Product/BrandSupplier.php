@@ -26,4 +26,5 @@ class BrandSupplier extends Thing {
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
+	
 }

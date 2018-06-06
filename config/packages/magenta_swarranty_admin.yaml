@@ -31,17 +31,23 @@ sonata_admin:
 #            - { type: sonata.admin.block.admin_list, position: left }
 
         groups:
+            customer:
+                label: dashboard.customer
+                icon: '<i class="fa fa-users"></i>'
+                items:
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin
 
             product:
                 label: dashboard.product
                 icon: '<i class="fa fa-product-hunt"></i>'
                 items:
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin
 
             system:
                 label: dashboard.system
-                icon: '<i class="fa fa-users"></i>'
+                icon: '<i class="fa fa-database"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\User\UserAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin

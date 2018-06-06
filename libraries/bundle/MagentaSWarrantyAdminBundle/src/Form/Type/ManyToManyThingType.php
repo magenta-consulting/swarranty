@@ -20,16 +20,18 @@ class ManyToManyThingType extends AbstractType {
 //			->add('name')
 			->addModelTransformer(new CallbackTransformer(
 				function(Collection $collection = null) { // input - Collection to array
-					if(empty($collection)){
+					if(empty($collection)) {
 						return [];
 					}
+					
 					// transform the array to a string
 					return $collection->toArray();
 				},
 				function($array = null) { // output - array to Coll
-					if(empty($array)){
+					if(empty($array)) {
 						return new ArrayCollection();
 					}
+					
 					// transform the string back to an array
 					return new ArrayCollection($array);
 				}
@@ -40,6 +42,9 @@ class ManyToManyThingType extends AbstractType {
 		$resolver->setDefaults([
 			// Configure your form options here
 //			'data_class'   => null, // BrandCategory::class
+			'add_route'    => [ 'route_name' => '', 'route_params' => [] ],
+			'edit_route'   => [ 'route_name' => '', 'route_params' => [] ],
+			'remove_route' => [ 'route_name' => '', 'route_params' => [] ],
 			'class'        => Thing::class,
 			'choice_label' => 'name',
 			'multiple'     => true,

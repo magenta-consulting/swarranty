@@ -1,14 +1,14 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation;
+namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
 
+use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
-use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -20,25 +20,17 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class OrganisationAdmin extends BaseAdmin {
-	
-	const CHILDREN = [
-		ACLAdmin::class         => 'organisation',
-		ServiceZoneAdmin::class => 'organisation',
-		BrandAdmin::class       => 'organisation',
-		ProductAdmin::class     => 'organisation',
-		CustomerAdmin::class    => 'organisation',
-	];
+class BrandCategoryAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -52,7 +44,7 @@ class OrganisationAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var User $object */
+		/** @var BrandCategory $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -60,36 +52,16 @@ class OrganisationAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string $name
-	 * @param User   $object
+	 * @param BrandCategory  $object
 	 */
 	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'LIST' ])) {
-			return $this->isAdmin();
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof Organisation
+		return $object instanceof BrandCategory
 			? $object->getName()
-			: 'Organisation'; // shown in the breadcrumb on the create view
+			: 'BrandCategory'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -126,9 +98,8 @@ class OrganisationAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'children' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Organisation/Organisation/Action/list__action__children.html.twig' ),
-					'edit'     => array(),
-					'delete'   => array(),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -141,47 +112,39 @@ class OrganisationAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ]);
+			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
+			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		$formMapper
+			->with('form_group.BrandCategory', [ 'class' => 'col-md-12' ]);
 		$formMapper->add('name')
-		           ->add('adminUser', ModelAutocompleteType::class, array(
-			           'required' => false,
-			           'property' => 'username'
-		           ));
-//			->add('adminFamilyName')
-//			->add('adminGivenName')
-//			->add('adminPassword', TextType::class, [
-//				'label'    => 'form.label_password',
-//				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
-//			])		;
-		;
+		           ->add('logo', MediaType::class, [
+			           'context'  => 'BrandCategory_logo',
+			           'provider' => 'sonata.media.provider.image'
+		           ])
+		           ->add('enabled');
+		$formMapper->end();
 	}
 	
 	/**
-	 * @param Organisation $object
+	 * @param BrandCategory $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
 		}
-		if( ! empty($admin = $object->getAdminUser())) {
-			$admin->setAdminOrganisation($object);
-		}
 	}
 	
 	/**
-	 * @param User $object
+	 * @param BrandCategory $object
 	 */
 	public function preUpdate($object) {
-		
-		if( ! empty($admin = $object->getAdminUser())) {
-			$admin->setAdminOrganisation($object);
-		}
+	
 	}
 	
 	///////////////////////////////////
@@ -202,12 +165,4 @@ class OrganisationAdmin extends BaseAdmin {
 //			->add('groups')
 //		;
 	}
-	
-	/**
-	 * @return null|Organisation
-	 */
-	public function getSubject() {
-		return parent::getSubject();
-	}
-	
 }

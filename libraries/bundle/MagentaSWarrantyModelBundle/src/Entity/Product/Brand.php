@@ -57,6 +57,12 @@ class Brand extends Thing {
 	protected $organisation;
 	
 	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", mappedBy="brand", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $products;
+	
+	/**
 	 * @var Media|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoBrand", cascade={"persist","merge"})
 	 */

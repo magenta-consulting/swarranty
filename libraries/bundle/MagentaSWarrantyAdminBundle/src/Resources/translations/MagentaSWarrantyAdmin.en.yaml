@@ -96,16 +96,33 @@ form:
     new_password_confirmation: 'Repeat new password'
 
     label_name: Name
+    label_family_name: Family Name
+    label_given_name: Given Name
+    label_telephone: Contact Number
+    label_address: Address
+    label_postal_code: Postal Code
+    label_email: Email
     label_enabled: Enabled
     label_action: Action
     label_logo: Logo
+    label_image: Image
     label_admin_email: Admin Email
     label_admin_user: Admin User
     label_password: Password
     label_roles: Roles
+    label_model_number: Model Number
+    label_brand: Brand
+    label_category: Category
+    label_subcategory: Sub-Category
+    label_warranty_period: Warranty Period (months)
+    label_extended_warranty_period: Extended Warranty Period
 
 breadcrumb:
     link_organisation_list: Organisations
     link_service_zone_list: Service Zones
     link_service_zone_create: New Zone
     link_brand_list: Brands
+    link_customer_list: Customers
+    link_customer_create: New Customer
+    link_product_list: Products
+    link_product_create: New Product
