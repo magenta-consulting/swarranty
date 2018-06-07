@@ -9,7 +9,8 @@
                                       <input type="checkbox" id="list_batch_checkbox">
                                   </th>
                               {% elseif field_description.getOption('code') == '_select' %}
-                                  <th  rowspan="2"  class="sonata-ba-list-field-header sonata-ba-list-field-header-select"></th>
+                                  <th rowspan="2"
+                                      class="sonata-ba-list-field-header sonata-ba-list-field-header-select"></th>
                               {% elseif field_description.name == '_action' and app.request.isXmlHttpRequest %}
                                   {# Action buttons disabled in ajax view! #}
                               {% elseif field_description.getOption('ajax_hidden') == true and app.request.isXmlHttpRequest %}
@@ -25,7 +26,8 @@
                                   {% endif %}
 
                                   {% spaceless %}
-                                      <th  rowspan="2"  class="sonata-ba-list-field-header-{{ field_description.type }} {% if sortable %} sonata-ba-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.options.header_class is defined %} {{ field_description.options.header_class }}{% endif %}"{% if field_description.options.header_style is defined %} style="{{ field_description.options.header_style }}"{% endif %}>
+                                      <th rowspan="2"
+                                          class="sonata-ba-list-field-header-{{ field_description.type }} {% if sortable %} sonata-ba-list-field-header-order-{{ sort_by|lower }} {{ sort_active_class }}{% endif %}{% if field_description.options.header_class is defined %} {{ field_description.options.header_class }}{% endif %}"{% if field_description.options.header_style is defined %} style="{{ field_description.options.header_style }}"{% endif %}>
                                           {% if sortable %}<a
                                                   href="{{ admin.generateUrl('list', sort_parameters) }}">{% endif %}
                                               {% if field_description.getOption('label_icon') %}
@@ -40,11 +42,12 @@
                           {% endfor %}
                           {% for module in admin.systemModules %}
 
-                                  <th colspan="{{ module.supportedModuleActions|length }}" class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
+                              <th colspan="{{ module.supportedModuleActions|length }}"
+                                  class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
 
-                                          {{ module.moduleName }}
+                                  {{ module.moduleName }}
 
-                                  </th>
+                              </th>
 
 
                           {% endfor %}
@@ -53,7 +56,7 @@
                           {% for module in admin.systemModules %}
                               {% for supportedAction in module.supportedModuleActions %}
                                   <th class="sonata-ba-list-field-header sonata-ba-list-field-header-batch">
-                                        {{ supportedAction|trans({},'ACLAction') }}
+                                      {{ supportedAction|trans({},'ACLAction') }}
                                   </th>
                               {% endfor %}
 
@@ -68,18 +71,21 @@
                                 {% set elementCount = 2 %}
                                 <td></td>
                                 <td colspan="1" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                <button type="button" class="btn-primary btn form-control">Save New Role</button>
+                                    <button type="button" class="btn-primary btn form-control">Save New Role</button>
                                 </td>
-                                <td colspan="{{ elementCount - 1 }}" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                    <input placeholder="Enter New Role" type="text" name="new_role" class="form-control" />
+                                <td colspan="{{ elementCount - 1 }}"
+                                    class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
+                                    <input placeholder="Enter New Role" type="text" name="new_role"
+                                           class="form-control"/>
                                 </td>
 
                                 {% for module in admin.systemModules %}
-                                            {% for supportedAction in module.supportedModuleActions %}
-                                            <td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                                <input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}" value="{{ supportedAction }}">
-                                            </td>
-                                            {% endfor %}
+                                    {% for supportedAction in module.supportedModuleActions %}
+                                        <td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
+                                            <input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}"
+                                                   value="{{ supportedAction }}">
+                                        </td>
+                                    {% endfor %}
                                 {% endfor %}
                             </tr>
                             {% include get_admin_template('outer_list_rows_' ~ admin.getListMode(), admin.code) %}
@@ -87,4 +93,55 @@
                         {% endblock %}
 
                         {% block table_footer %}
+
                         {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function ($) {
+
+            /* ----------------------------------------------- */
+            /* ----------------------------------------------- */
+            /* OnLoad Page */
+            $(document).ready(function ($) {
+                registerACEEvents($('.ace'));
+            });
+
+            registerACEEvents = function ($ace) {
+                $ace.on('ifChanged change', function (e) {
+
+                        let $parent = $(this).parents('.ace-container');
+                        let url = $parent.data('enableUrl');
+                        // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+                        let isChecked = $(this).is(":checked");
+                        let $iCheck = $(this).parents('.icheckbox_square-blue');
+                        $iCheck.hide();
+                        $parent.append('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+                        let $loading = $parent.children().last();
+                        let data = {};
+                        $.post(url, data)
+                            .done(function (data) {
+                                $loading.remove();
+                                $iCheck.show();
+                                if (isChecked) {
+                                    // $(this).iCheck('check');
+                                } else {
+                                    // $(this).iCheck('uncheck');
+                                }
+                            });
+
+                    }
+                )
+                ;
+            }
+
+            /* OnLoad Window */
+            init = function () {
+
+            };
+            window.onload = init;
+
+        })(jQuery);
+    </script>
+{% endblock %}

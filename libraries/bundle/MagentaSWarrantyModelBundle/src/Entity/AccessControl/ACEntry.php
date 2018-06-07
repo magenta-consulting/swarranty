@@ -15,6 +15,10 @@ class ACEntry {
 	const PERMISSION_UPDATE = 'UPDATE';
 	const PERMISSION_DELETE = 'DELETE';
 	const PERMISSION_LIST = 'LIST';
+	const PERMISSION_ASSIGN = 'ASSIGN';
+	const PERMISSION_RECEIVE = 'RECEIVE';
+	const PERMISSION_APPROVE = 'APPROVE';
+	const PERMISSION_REJECT = 'REJECT';
 	
 	public static function getSupportedActions() {
 		return [
@@ -53,6 +57,7 @@ class ACEntry {
 	 * @ORM\JoinColumn(name="id_module", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $module;
+	
 	
 	/**
 	 * @var string

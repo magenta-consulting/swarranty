@@ -1,21 +1,43 @@
-{% extends '@SonataAdmin/CRUD/Association/show_one_to_many.html.twig' %}
+{#{% extends '@SonataAdmin/CRUD/Association/show_one_to_many.html.twig' %}#}
 
-{% block field %}
-    <ul class="sonata-ba-show-one-to-many">
-        {% set route_name = field_description.options.route.name %}
-        {#{{ dump(value) }}#}
-        {% for element in value%}
-            {% if field_description.hasassociationadmin
-                and field_description.associationadmin.hasRoute(route_name)
-                and field_description.associationadmin.hasAccess(route_name, element) %}
-                <li>
-                    <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
-                        {{ element|render_relation_element(field_description) }}
-                    </a>
-                </li>
-            {% else %}
-                <li>{{ element|render_relation_element(field_description) }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+{#<th{% if(is_diff|default(false)) %} class="diff"{% endif %}>{% block name %}{{ field_description.label|trans({}, field_description.translationDomain ?: admin.translationDomain) }}{% endblock %}</th>#}
+
+<td>
+    {%- block field -%}
+        {% spaceless %}
+            <ul class="sonata-ba-show-one-to-many">
+                {% set route_name = field_description.options.route.name %}
+                {% for element in value%}
+                    {% if field_description.hasassociationadmin
+                        and field_description.associationadmin.hasRoute(route_name)
+                        and field_description.associationadmin.hasAccess(route_name, element) %}
+                        <li style="justify-content: space-between;display: flex;">
+                            <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
+                                {{ element|render_relation_element(field_description) }}
+                                |
+                                {{ element.product.modelNumber }}
+                                |
+                                {{ element.expiryDate|date('d/mY') }}
+                                |
+                                {{ element.number }}
+                            </a>
+                            |
+                            <a class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
+                        </li>
+                    {% else %}
+                        <li>{{ element|render_relation_element(field_description) }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endspaceless %}
+    {%- endblock -%}
+</td>
+
+{% block field_compare %}
+    {% if(value_compare is defined) %}
+        <td>
+            {% set value = value_compare %}
+            {{ block('field') }}
+        </td>
+    {% endif %}
 {% endblock %}

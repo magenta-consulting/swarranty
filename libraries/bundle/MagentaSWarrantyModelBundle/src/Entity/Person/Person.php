@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
@@ -34,6 +35,7 @@ class Person extends PersonModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="person", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $members;
+	
 	public function addMember(OrganisationMember $member) {
 		$this->members->add($member);
 		$member->setPerson($this);
@@ -49,6 +51,7 @@ class Person extends PersonModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", mappedBy="person")
 	 */
 	protected $customers;
+	
 	public function addCustomer(Customer $customer) {
 		$this->customers->add($customer);
 		$customer->setPerson($this);

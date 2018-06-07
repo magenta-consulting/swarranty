@@ -47,6 +47,7 @@ class CustomerAdmin extends BaseAdmin {
 	public function getNewInstance() {
 		/** @var Customer $object */
 		$object = parent::getNewInstance();
+		
 		return $object;
 	}
 	
@@ -91,18 +92,18 @@ class CustomerAdmin extends BaseAdmin {
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
 			->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
-			->add('name',null,['label'=>'form.label_name'])
-			->add('email',null,['label'=>'form.label_email'])
-			->add('homeAddress',null,['label'=>'form.label_address'])
-			->add('homePostalCode',null,['label'=>'form.label_postal_code'])
+			->add('name', null, [ 'label' => 'form.label_name' ])
+			->add('email', null, [ 'label' => 'form.label_email' ])
+			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
+			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 			->end()
 			->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
-			->add('warranties',null,['label'=> false,
-				'associated_property'=>'id',
-				'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Customer/CRUD/Association/show_one_to_many.html.twig'
+			->add('warranties', null, [
+				'label'               => false,
+				'associated_property' => 'product.name',
+				'template'            => '@MagentaSWarrantyAdmin/Admin/Customer/Customer/CRUD/Association/show_one_to_many.html.twig'
 			])
-			->end()
-		;
+			->end();
 		
 	}
 	

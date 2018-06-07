@@ -5,8 +5,11 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation;
 use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 
@@ -28,6 +31,38 @@ class OrganisationMember extends MemberModel {
 	 */
 	public function getId(): ?int {
 		return $this->id;
+	}
+	
+	/**
+	 * @var ArrayCollection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory", cascade={"persist", "merge"}, mappedBy="assignee")
+	 */
+	protected $assigneeHistory;
+	
+	public function addAssigneeHistory(AssigneeHistory $ah) {
+		$this->assigneeHistory->add($ah);
+		$ah->setAssignee($this);
+	}
+	
+	public function removeAssigneeHistory(AssigneeHistory $ah) {
+		$this->assigneeHistory->removeElement($ah);
+		$ah->setAssignee(null);
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="assignee", cascade={"persist","merge"})
+	 */
+	protected $cases;
+	
+	public function addCase(WarrantyCase $case) {
+		$this->cases->add($case);
+		$case->setAssignee($this);
+	}
+	
+	public function removeCase(WarrantyCase $case) {
+		$this->cases->removeElement($case);
+		$case->setAssignee(null);
 	}
 	
 	/**

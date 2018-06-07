@@ -20,8 +20,8 @@ file that was distributed with this source code.
 {% endfor %}
 {% for module in admin.systemModules %}
         {% for supportedAction in module.supportedModuleActions %}
-            <td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}">
-                <input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}" value="{{ supportedAction }}">
+            <td class="ace-container sonata-ba-list-field sonata-ba-list-field-actions" objectid="{{ object.id }}" data-enable-url="{{ path('admin_magenta_swarrantymodel_organisation_organisation_accesscontrol_acrole_setACEntry',{'id':object.organisation.id,'childId':object.id,'code':module.moduleCode,'permission':supportedAction,'action':'enable'}) }}"  data-remove-url="{{ path('admin_magenta_swarrantymodel_organisation_organisation_accesscontrol_acrole_setACEntry',{'id':object.organisation.id,'childId':object.id,'code':module.moduleCode,'permission':supportedAction,'action':'remove'}) }}">
+                <input class="ace" type="checkbox" autocomplete="off" />
             </td>
         {% endfor %}
 {% endfor %}

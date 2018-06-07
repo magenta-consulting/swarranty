@@ -1,5 +1,4 @@
 <?php
-
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
@@ -69,16 +68,16 @@ class ACLAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+		$collection->add('setACEntry', $this->getRouterIdParameter() . '/module/{code}/permission/{permission}/action/{action}');
 		
 	}
 	
 	public function getTemplate($name) {
 		$_name = strtoupper($name);
 		if($_name === 'LIST') {
-			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/Page/list.html.twig';
+			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list.html.twig';
 		} elseif($_name === 'INNER_LIST_ROW') {
-			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/Page/list_inner_row.html.twig';
+			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list_inner_row.html.twig';
 		}
 		
 		return parent::getTemplate($name);
@@ -115,7 +114,7 @@ class ACLAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
-	
+	$formMapper->add('name');
 		
 	}
 	

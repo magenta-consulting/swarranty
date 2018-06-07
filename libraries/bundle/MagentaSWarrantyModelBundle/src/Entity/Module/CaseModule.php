@@ -15,7 +15,10 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 class CaseModule extends SystemModule implements ACModuleInterface {
 	
 	public function getSupportedModuleActions(): array {
-		return ACEntry::getSupportedActions();
+		return array_merge([
+			ACEntry::PERMISSION_ASSIGN,
+			ACEntry::PERMISSION_RECEIVE
+		], ACEntry::getSupportedActions());
 	}
 	
 	public function getModuleName(): string {

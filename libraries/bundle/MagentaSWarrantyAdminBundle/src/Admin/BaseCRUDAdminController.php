@@ -1,4 +1,5 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -9,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 

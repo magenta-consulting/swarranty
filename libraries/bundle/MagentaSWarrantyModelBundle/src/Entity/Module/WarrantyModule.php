@@ -15,7 +15,10 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 class WarrantyModule extends SystemModule implements ACModuleInterface {
 	
 	public function getSupportedModuleActions(): array {
-		return ACEntry::getSupportedActions();
+		return array_merge([
+			ACEntry::PERMISSION_APPROVE,
+			ACEntry::PERMISSION_REJECT
+		], ACEntry::getSupportedActions());
 	}
 	
 	public function getModuleName(): string {

@@ -110,6 +110,7 @@ form:
     label_admin_user: Admin User
     label_password: Password
     label_roles: Roles
+    label_model_name: Model Name
     label_model_number: Model Number
     label_brand: Brand
     label_category: Category
@@ -126,3 +127,4 @@ breadcrumb:
     link_customer_create: New Customer
     link_product_list: Products
     link_product_create: New Product
+    link_a_c_role_list: ACL

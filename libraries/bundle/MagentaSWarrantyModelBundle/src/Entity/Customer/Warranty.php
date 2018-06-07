@@ -19,7 +19,6 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="customer__warranty")
  */
 class Warranty {
-	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -28,11 +27,46 @@ class Warranty {
 	 */
 	protected $id;
 	
+	public function __construct() {
+		$this->cases = new ArrayCollection();
+		
+		$this->createdAt = new \DateTime();
+	}
+	
+	public function initiateNumber() {
+		if(empty($this->number)) {
+			$now          = new \DateTime();
+			$this->number = User::generateCharacterCode();
+			if( ! empty($this->purchaseDate)) {
+				$this->number .= '-' . $this->purchaseDate->format('my');
+			} else {
+				$this->number .= '-' . 'XXXX';
+			}
+			$this->number .= '-' . $now->format('my');
+		}
+	}
+	
 	/**
 	 * @return int|null
 	 */
 	public function getId(): ?int {
 		return $this->id;
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="warranty", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $cases;
+	
+	public function addCase(WarrantyCase $case) {
+		$this->cases->add($case);
+		$case->setWarranty($this);
+	}
+	
+	public function removeCase(WarrantyCase $case) {
+		$this->cases->removeElement($case);
+		$case->setWarranty(null);
 	}
 	
 	/**
@@ -55,6 +89,36 @@ class Warranty {
 	 * @ORM\JoinColumn(name="id_dealer", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $dealer;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $purchaseDate;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $expiryDate;
+	
+	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $productSerialNumber;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $number;
 	
 	/**
 	 * @return Customer|null
@@ -96,5 +160,75 @@ class Warranty {
 	 */
 	public function setProduct(?Product $product): void {
 		$this->product = $product;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getPurchaseDate(): ?\DateTime {
+		return $this->purchaseDate;
+	}
+	
+	/**
+	 * @param \DateTime|null $purchaseDate
+	 */
+	public function setPurchaseDate(?\DateTime $purchaseDate): void {
+		$this->purchaseDate = $purchaseDate;
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAt(): \DateTime {
+		return $this->createdAt;
+	}
+	
+	/**
+	 * @param \DateTime $createdAt
+	 */
+	public function setCreatedAt(\DateTime $createdAt): void {
+		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getProductSerialNumber(): ?string {
+		return $this->productSerialNumber;
+	}
+	
+	/**
+	 * @param null|string $productSerialNumber
+	 */
+	public function setProductSerialNumber(?string $productSerialNumber): void {
+		$this->productSerialNumber = $productSerialNumber;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getNumber(): ?string {
+		return $this->number;
+	}
+	
+	/**
+	 * @param null|string $number
+	 */
+	public function setNumber(?string $number): void {
+		$this->number = $number;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getExpiryDate(): ?\DateTime {
+		return $this->expiryDate;
+	}
+	
+	/**
+	 * @param \DateTime|null $expiryDate
+	 */
+	public function setExpiryDate(?\DateTime $expiryDate): void {
+		$this->expiryDate = $expiryDate;
 	}
 }

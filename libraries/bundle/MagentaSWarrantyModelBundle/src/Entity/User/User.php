@@ -21,6 +21,24 @@ class User extends AbstractUser {
 	 */
 	protected $id;
 	
+	public static function generateCharacterCode($code = null, $x = 4) {
+		if(empty($code)) {
+			$maxRange36 = '';
+			for($i = 0; $i < $x; $i ++) {
+				$maxRange36 .= 'Z';
+			}
+			
+			$maxRange = base_convert($maxRange36, 36, 10);
+			$code     = base_convert(rand(0, $maxRange), 10, 36);
+		}
+		
+		for($i = 0; $i < $x - strlen($code);) {
+			$code = '0' . $code;
+		}
+		
+		return strtoupper($code);
+	}
+	
 	public function isGranted($action = 'ALL', Thing $thing = null) {
 		
 		$action = strtoupper($action);
@@ -41,6 +59,7 @@ class User extends AbstractUser {
 	}
 	
 	//	For UserAdmin
+	
 	/**
 	 * @return array
 	 */
