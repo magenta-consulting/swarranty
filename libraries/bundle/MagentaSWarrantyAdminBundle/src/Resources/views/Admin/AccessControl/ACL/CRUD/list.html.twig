@@ -110,20 +110,22 @@
 
             registerACEEvents = function ($ace) {
                 $ace.on('ifChanged change', function (e) {
-
+                        let $iCheck = $(this);
                         let $parent = $(this).parents('.ace-container');
                         let url = $parent.data('enableUrl');
                         // console.log('url is ', url, 'is checked', $(this).is(":checked"));
                         let isChecked = $(this).is(":checked");
-                        let $iCheck = $(this).parents('.icheckbox_square-blue');
-                        $iCheck.hide();
+                        let $iCheckContainer = $(this).parents('.icheckbox_square-blue');
+                        $iCheckContainer.hide();
                         $parent.append('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
                         let $loading = $parent.children().last();
                         let data = {};
                         $.post(url, data)
                             .done(function (data) {
                                 $loading.remove();
-                                $iCheck.show();
+                                $iCheckContainer.show();
+                                $iCheck.iCheck('uncheck');
+
                                 if (isChecked) {
                                     // $(this).iCheck('check');
                                 } else {
