@@ -78,7 +78,7 @@ class BrandSubCategoryAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+		$collection->add('crud', $this->getRouterIdParameter() . '/operation/{operation}');
 		
 	}
 	

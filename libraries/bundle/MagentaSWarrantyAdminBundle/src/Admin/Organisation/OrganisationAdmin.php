@@ -6,6 +6,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandCategoryAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
@@ -36,6 +37,7 @@ class OrganisationAdmin extends BaseAdmin {
 		ACLAdmin::class         => 'organisation',
 		ServiceZoneAdmin::class => 'organisation',
 		BrandAdmin::class       => 'organisation',
+		BrandCategoryAdmin::class    => 'organisation',
 		ProductAdmin::class     => 'organisation',
 		CustomerAdmin::class    => 'organisation',
 	];

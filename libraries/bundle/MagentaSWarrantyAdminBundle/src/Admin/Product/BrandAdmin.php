@@ -81,8 +81,6 @@ class BrandAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
 	}
 	
 	public function getTemplate($name) {
@@ -137,8 +135,31 @@ class BrandAdmin extends BaseAdmin {
 			->tab('form_tab.associated_categories_and_suppliers')
 			->with('form_group.categories', [ 'class' => 'col-md-4' ])
 			->add('categories', ManyToManyThingType::class, [
-				'class'         => BrandCategory::class,
-				'query_builder' => function(EntityRepository $er) {
+				'router_id_param' => 'childId',
+				'create_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'childId'   => 0,
+						'operation' => 'create'
+					]
+				],
+				'update_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'operation' => 'update'
+					]
+				],
+				'delete_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'operation' => 'delete'
+					]
+				],
+				'class'           => BrandCategory::class,
+				'query_builder'   => function(EntityRepository $er) {
 					$qb   = $er->createQueryBuilder('c');
 					$expr = $qb->expr();
 					$qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
@@ -148,10 +169,42 @@ class BrandAdmin extends BaseAdmin {
 			])
 			->end()
 			->with('form_group.subcategories', [ 'class' => 'col-md-4' ])
-			->add('subCategories', ManyToManyThingType::class, [ 'class' => BrandSubCategory::class ])
+			->add('subCategories', ManyToManyThingType::class, [
+				'class'           => BrandSubCategory::class,
+				'router_id_param' => 'childId',
+				'create_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'childId'   => 0,
+						'operation' => 'create'
+					]
+				],
+				'update_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'operation' => 'update'
+					]
+				],
+				'delete_route'    => [
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_params' => [
+						'id'        => $this->getCurrentOrganisation()->getId(),
+						'operation' => 'delete'
+					]
+				],
+				'query_builder'   => function(EntityRepository $er) {
+					$qb   = $er->createQueryBuilder('c');
+					$expr = $qb->expr();
+					$qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
+					
+					return $qb;
+				}
+			])
 			->end()
 			->with('form_group.suppliers', [ 'class' => 'col-md-4' ])
-			->add('suppliers', ManyToManyThingType::class, [ 'class' => BrandSupplier::class ])
+//			->add('suppliers', ManyToManyThingType::class, [ 'class' => BrandSupplier::class ])
 			->end()
 			->end();
 		

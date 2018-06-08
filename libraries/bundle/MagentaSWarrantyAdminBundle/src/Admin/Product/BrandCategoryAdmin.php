@@ -51,8 +51,8 @@ class BrandCategoryAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param string $name
-	 * @param BrandCategory  $object
+	 * @param string        $name
+	 * @param BrandCategory $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
@@ -78,8 +78,7 @@ class BrandCategoryAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+		$collection->add('crud', $this->getRouterIdParameter() . '/operation/{operation}');
 	}
 	
 	public function getTemplate($name) {

@@ -47,101 +47,205 @@
             }
         </style>
         {% spaceless %}
-            {% set attr = attr|merge({'class': attr.class|default('') ~ ' n2n-checkbox list-unstyled'}) %}
-            <input style="margin-bottom: 5px;" type="text" class="form-control" name="add-item"
+            {% set attr = attr|merge({'class': attr.class|default('') ~ form.vars.name ~ ' n2n-checkbox list-unstyled'}) %}
+
+            {% set createRouteParams = form.vars.create_route.route_params %}
+            {% set createUrl = path(form.vars.create_route.route_name, createRouteParams) %}
+
+            <input style="margin-bottom: 5px;" type="text" class="form-control add-item" data-url="{{ createUrl }}"
                    placeholder="Type to create a new item"/>
-            <ul {{ block('widget_container_attributes') }}>
-                {% for child in form %}
-                    <li>
-                        <div class="row">
-                            <div class="col-md-9">
-                                {{ form_widget(child, {
-                                    'horizontal': false,
-                                    'horizontal_input_wrapper_class': '',
-                                    'translation_domain': choice_translation_domain
-                                }) }}
-                            </div>
-                            {#'horizontal' values are needed to avoid MopaBootstrapBundle messing with the DOM#}
-                            <div class="n2n-entity-action-container col-md-3">
-<span class="n2n-entity-action n2n-entity-editable" tabindex="0" class="btn btn-default"
-      role="button"
-      data-type="text" data-value="{{ child.vars.label }}"
-      data-title="Name" data-pk="{{ child.vars.value }}"
-      data-url="{{ path('sonata_admin_set_object_field_value',{
-          'context': 'list',
-          'field': 'name',
-          'objectId': child.vars.value,
-          'code': sonata_admin.admin.code
-      }) }}"
-      data-toggle="popover" data-trigger="manual" data-placement="left"
-      data-content="<form class='form-inline editableform'><div class='control-group form-group'><div><div class='editable-input' style='position: relative;'><input value='' type='text' class='n2n-entity form-control input-sm' style='padding-right: 24px;' /><span class='editable-clear-x'></span></div><div class='editable-buttons'><button type='button' class='btn btn-primary btn-sm n2n-entity editable-submit'><i class='glyphicon glyphicon-ok'></i></button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel'><i class='glyphicon glyphicon-remove'></i></button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>">
-                        <i class="fa fa-edit"> </i>
-                    </span>
-                                <span class="n2n-entity-action n2n-entity-remove" tabindex="0" class="btn btn-default"
-                                      role="button"
-                                      data-type="remove" data-value="{{ child.vars.label }}"
-                                      data-title="Please confirm your action" data-pk="{{ child.vars.value }}"
-                                      data-url="{{ path('sonata_admin_set_object_field_value',{
-                                          'context': 'list',
-                                          'field': 'name',
-                                          'objectId': child.vars.value,
-                                          'code': sonata_admin.admin.code
-                                      }) }}"
-                                      data-toggle="popover" data-trigger="manual" data-placement="left"
-                                      data-content="<form class='n2n-entity remove-form'><div class='control-group form-group remove-form-group'><div>
-                          Would you like to remove <code>{{ child.vars.label }}</code>
-                          <div class='editable-buttons'><button type='button' class='btn btn-danger btn-sm n2n-entity editable-submit form-control'><i class='glyphicon glyphicon-ok'> </i> Yes, Remove this Item</button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel form-control'><i class='glyphicon glyphicon-remove'> </i> Cancel</button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>">
-                        <i class="fa fa-trash"></i>
-                    </span>
-                            </div>
-                        </div>
-                    </li>
-                {% endfor %}
+
+            {#{{ dump(form) }}#}
+
+            {% set routerIdParam = form.vars.router_id_param %}
+
+            <script>
+                formData_{{ form.vars.name }} = [
+                    {% for child in form %}
+                    {% set updateRouteParams = form.vars.update_route.route_params|merge({(routerIdParam):child.vars.value}) %}
+                    {% set deleteRouteParams = form.vars.delete_route.route_params|merge({(routerIdParam):child.vars.value}) %}
+                    {
+                        'objectId': '{{ child.vars.value }}',
+                        'adminCode': '{{ child.vars.sonata_admin_code }}',
+                        'objectLabel': '{{ child.vars.label }}',
+                        {#'updateUrl': '{{ path('sonata_admin_set_object_field_value',{'context': 'list','field': form.vars.label_property,'objectId': child.vars.value,'code': sonata_admin.admin.code}) }}',#}
+                        'updateUrl': '{{ path(form.vars.update_route.route_name, updateRouteParams) }}',
+                        'deleteUrl': '{{ path(form.vars.delete_route.route_name, deleteRouteParams) }}',
+                        'widget': '{% spaceless %}{{- form_widget(child, {
+                            'horizontal': false,
+                            'horizontal_input_wrapper_class': '',
+                            'translation_domain': choice_translation_domain
+                        })|e('js') -}} {% endspaceless %}'
+                    },
+                    {% endfor %}
+                ];
+
+                (function ($) {
+
+                    /* ----------------------------------------------- */
+                    /* ----------------------------------------------- */
+                    /* OnLoad Page */
+                    $(document).ready(function ($) {
+                        $n2nCheckbox = $('.n2n-checkbox.{{ form.vars.name }}')
+                        addChoice = function (choice) {
+                            let choiceHtml = '<li>' +
+                                '<div class="row choice-container-' + choice.objectId + '">\n' +
+                                '  <div class="col-md-9">'
+                                +
+                                choice.widget
+                                + '</div>' +
+                                '<div class="n2n-entity-action-container col-md-3">'
+                                +
+                                '<span class="n2n-entity-action n2n-entity-editable" tabindex="0" class="btn btn-default"\n' +
+                                '                          role="button"\n' +
+                                '                          data-operation="update" data-type="text" data-value="' + choice.objectLabel + '"\n' +
+                                '                          data-title="Name" data-pk="' + choice.objectId + '"\n' +
+                                '                          data-url="' + choice.updateUrl + '"' +
+                                '                          data-toggle="popover" data-trigger="manual" data-placement="left"\n' +
+                                '                          data-content="<form class=\'form-inline editableform\'><div class=\'control-group form-group\'><div><div class=\'editable-input\' style=\'position: relative;\'><input value=\'\' type=\'text\' class=\'n2n-entity form-control input-sm\' style=\'padding-right: 24px;\' /><span class=\'editable-clear-x\'></span></div><div class=\'editable-buttons\'><button type=\'button\' class=\'btn btn-primary btn-sm n2n-entity editable-submit\'><i class=\'glyphicon glyphicon-ok\'></i></button><button type=\'button\' class=\'btn btn-default btn-sm n2n-entity editable-cancel\'><i class=\'glyphicon glyphicon-remove\'></i></button></div></div><div class=\'editable-error-block help-block\' style=\'display: none;\'></div></div></form>">\n' +
+                                '                    <i class="fa fa-edit"> </i>\n' +
+                                '                    </span>'
+                                +
+                                '<span class="n2n-entity-action n2n-entity-remove" tabindex="0" class="btn btn-default"\n' +
+                                '                                      role="button"\n' +
+                                '                                      data-operation="delete" data-type="" data-value="' + choice.objectLabel + '"\n' +
+                                '                                      data-title="Please confirm your action" data-pk="' + choice.objectId + '"\n' +
+                                '                                      data-url="' + choice.deleteUrl + '" ' +
+                                '                                      data-toggle="popover" data-trigger="manual" data-placement="left"\n' +
+                                '                                      data-content="<form class=\'n2n-entity remove-form\'><div class=\'control-group form-group remove-form-group\'><div>\n' +
+                                '                Would you like to remove <code>' + choice.objectLabel + '</code> ?\n' +
+                                '                <div class=\'editable-buttons\'><button type=\'button\' class=\'btn btn-danger btn-sm n2n-entity editable-submit form-control\'><i class=\'glyphicon glyphicon-ok\'> </i> Yes, Remove this Item</button><button type=\'button\' class=\'btn btn-default btn-sm n2n-entity editable-cancel form-control\'><i class=\'glyphicon glyphicon-remove\'> </i> Cancel</button></div></div><div class=\'editable-error-block help-block\' style=\'display: none;\'></div></div></form>">\n' +
+                                '                <i class="fa fa-trash"></i>\n' +
+                                '                    </span>'
+                                +
+                                '</div>'
+                                + '</div>'
+                                +
+                                '</li>'
+                            $n2nCheckbox.append(choiceHtml);
+                            $n2nCheckbox.find('input').iCheck({
+                                checkboxClass: 'icheckbox_square-blue',
+                            });
+                            let $popover = $('.choice-container-' + choice.objectId + ' .n2n-entity-action[data-toggle="popover"]');
+
+                            initiatePopover($popover);
+                        }
+
+                        let formData = formData_{{ form.vars.name }};
+                        for (let i = 0; i < formData.length; i++) {
+                            let itemData = formData[i];
+                            addChoice(itemData);
+                        }
+
+                        $n2nCheckbox.find('input').iCheck({
+                            checkboxClass: 'icheckbox_square-blue',
+                        });
+                    });
 
 
-                <li><div class="row"><div class="col-md-9"><div class="checkbox"><label class=""><div class="icheckbox_square-blue"><input type="checkbox" id="s5b174b4768512_categories_2" name="s5b174b4768512[categories][]" value="2" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div><span class="control-label__text">
-                    Category 2 Org 1 Binh Le</span></label></div></div><div class="n2n-entity-action-container col-md-3"><span class="n2n-entity-action n2n-entity-editable" tabindex="0" role="button" data-type="text" data-value="Category 2 Org 1 Binh Le" data-title="Name" data-pk="2" data-url="/admin/core/set-object-field-value?context=list&amp;field=name&amp;objectId=2&amp;code=Magenta%5CBundle%5CSWarrantyAdminBundle%5CAdmin%5CProduct%5CBrandAdmin" data-toggle="popover" data-trigger="manual" data-placement="left" data-content="<form class='form-inline editableform'><div class='control-group form-group'><div><div class='editable-input' style='position: relative;'><input value='' type='text' class='n2n-entity form-control input-sm' style='padding-right: 24px;' /><span class='editable-clear-x'></span></div><div class='editable-buttons'><button type='button' class='btn btn-primary btn-sm n2n-entity editable-submit'><i class='glyphicon glyphicon-ok'></i></button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel'><i class='glyphicon glyphicon-remove'></i></button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>" data-original-title="" title=""><i class="fa fa-edit"></i></span><span class="n2n-entity-action n2n-entity-remove" tabindex="0" role="button" data-type="remove" data-value="Category 2 Org 1 Binh Le" data-title="Please confirm your action" data-pk="2" data-url="/admin/core/set-object-field-value?context=list&amp;field=name&amp;objectId=2&amp;code=Magenta%5CBundle%5CSWarrantyAdminBundle%5CAdmin%5CProduct%5CBrandAdmin" data-toggle="popover" data-trigger="manual" data-placement="left" data-content="<form class='n2n-entity remove-form'><div class='control-group form-group remove-form-group'><div>
-                          Would you like to remove <code>Category 2 Org 1 Binh Le</code><div class='editable-buttons'><button type='button' class='btn btn-danger btn-sm n2n-entity editable-submit form-control'><i class='glyphicon glyphicon-ok'></i> Yes, Remove this Item</button><button type='button' class='btn btn-default btn-sm n2n-entity editable-cancel form-control'><i class='glyphicon glyphicon-remove'></i> Cancel</button></div></div><div class='editable-error-block help-block' style='display: none;'></div></div></form>" data-original-title="" title=""><i class="fa fa-trash"></i></span></div></div></li>
+                    /* OnLoad Window */
+                    init = function () {
 
-            </ul>
+                    };
+                    window.onload = init;
+
+                })(jQuery);
+
+            </script>
         {% endspaceless %}
+
+        <ul {{ block('widget_container_attributes') }}>
+        </ul>
+
     {% endspaceless %}
     <script>
-        $(function () {
-
-
-            let $popover = $('.n2n-entity-action[data-toggle="popover"]');
-
-            let initiatePopover = function ($popover) {
+        (function ($) {
+            initiatePopover = function ($popover) {
                 $popover.popover({
                     html: true,
                     template: '<div class="popover editable-container editable-popup" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
                 });
+
+                $popover.on('click', function () {
+                    let $thisPopover = $(this);
+                    $thisPopover.popover('show');
+                });
+
+                $popover.on('inserted.bs.popover', function () {
+                    let $thisPopover = $(this);
+                    $('.n2n-entity.editable-cancel').on('click', function () {
+                        $thisPopover.popover('hide');
+                    });
+
+                    $('.n2n-entity.editable-submit').on('click', function (e) {
+                        e.preventDefault();
+                        let itemCount = {{ form.children|length }};
+
+                        let operation = $thisPopover.data('operation');
+                        operation = operation.toUpperCase();
+                        let value = $thisPopover.data('value');
+                        let actionUrl = $thisPopover.data('url');
+                        let id = $thisPopover.data('pk');
+
+                        // alert( url + ' ---  ' + value + ' --- ' + operation );
+                        $.post(actionUrl, { {{ form.vars.label_property }}:value} ).done(function (actionResponse) {
+                            if( operation === 'UPDATE'){
+                                $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.label_property }});
+                                $thisPopover.popover('hide');
+                            } else if(operation === 'DELETE'){
+                                itemCount--;
+                                $('.choice-container-' + id).parents('li').remove();
+                                $thisPopover.popover('hide');
+
+                            }
+                        });
+                    });
+
+                    $('input.n2n-entity').val($thisPopover.data('value'));
+
+                    $('input.n2n-entity').change(function (e) {
+                        $thisPopover.data('value', $(this).val());
+                    })
+
+                })
             };
 
-            initiatePopover($popover);
+            $(document).ready(function ($) {
+                let $addItem = $('.add-item');
+                let itemCount = {{ form.children|length }};
 
-            $popover.on('click', function () {
-                let $thisPopover = $(this);
-                $thisPopover.popover('show');
+                $addItem.bind("enterKey", function (e) {
+                    let $thisInput = $(this);
+                    $thisInput.prop('disabled', true);
+
+                    let actionUrl = $(this).data('url');
+                    $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
+                        itemCount++;
+                        let newChoice = {
+                            objectId: actionResponse.id,
+                            objectLabel: actionResponse.{{ form.vars.label_property }},
+                            widget: '<div class="checkbox">' +
+                            '<label>' +
+                            '<input type="checkbox" id="{{ form.vars.id }}_' + itemCount + '" ' +
+                            'name="{{ form.vars.full_name }}[]" value="' + actionResponse.id + '" checked="checked" />' +
+                            '<span class="control-label__text">\n'
+                            +
+                            actionResponse.{{ form.vars.label_property }} +
+                            '</span></label></div>'
+                        }
+                        addChoice(newChoice);
+                        $thisInput.prop('disabled', false);
+                        $thisInput.val('');
+                    });
+                });
+
+                $addItem.keydown(function (e) {
+                    if (e.keyCode === 13) {
+                        $(this).trigger("enterKey");
+                        e.preventDefault();
+                    }
+                });
             });
-
-            $popover.on('inserted.bs.popover', function () {
-                let $thisPopover = $(this);
-                $('.n2n-entity.editable-cancel').on('click', function () {
-                    $thisPopover.popover('hide');
-                });
-
-                $('.n2n-entity.editable-submit').on('click', function (e) {
-                    e.preventDefault();
-                    alert($thisPopover.data('url'));
-                    $thisPopover.popover('hide');
-                });
-
-                $('input.n2n-entity').val($thisPopover.data('value'));
-
-            })
-
-        })
+        })(jQuery);
     </script>
 {% endblock %}

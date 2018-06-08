@@ -20,6 +20,10 @@ class ACEntry {
 	const PERMISSION_APPROVE = 'APPROVE';
 	const PERMISSION_REJECT = 'REJECT';
 	
+	const STATUS_GRANTED = 'GRANTED';
+	const STATUS_DENIED = 'DENIED';
+	const STATUS_EMPTY = 'EMPTY';
+	
 	public static function getSupportedActions() {
 		return [
 			self::PERMISSION_CREATE,
@@ -64,6 +68,26 @@ class ACEntry {
 	 * @ORM\Column(type="string")
 	 */
 	protected $permission;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $enabled = true;
+	
+	/**
+	 * @return bool
+	 */
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+	
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
+	}
 	
 	/**
 	 * @return ACRole

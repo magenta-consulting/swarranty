@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
@@ -71,6 +72,13 @@ class Organisation extends OrganizationModel {
 	protected $brands;
 	
 	/**
+	 * @var System|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\System\System", inversedBy="organisations", cascade={"persist","merge"})
+	 * @ORM\JoinColumn(name="id_system", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $system;
+	
+	/**
 	 * @var User|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\User\User", mappedBy="adminOrganisation", cascade={"persist","merge"})
 	 */
@@ -111,7 +119,6 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $adminGivenName;
-	
 	
 	
 	/**
@@ -217,5 +224,17 @@ class Organisation extends OrganizationModel {
 		$this->adminGivenName = $adminGivenName;
 	}
 	
+	/**
+	 * @return System|null
+	 */
+	public function getSystem(): ?System {
+		return $this->system;
+	}
 	
+	/**
+	 * @param System|null $system
+	 */
+	public function setSystem(?System $system): void {
+		$this->system = $system;
+	}
 }

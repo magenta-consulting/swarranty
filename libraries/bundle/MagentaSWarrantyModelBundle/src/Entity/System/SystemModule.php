@@ -5,7 +5,9 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
 
 /**
  * @ORM\Entity
@@ -27,6 +29,19 @@ abstract class SystemModule implements ACModuleInterface {
 	
 	function __construct() {
 		$this->acEntries = new ArrayCollection();
+	}
+	
+	public function isGranted($permission, ACRole $role) {
+		$permission = strtoupper($permission);
+		$entries    = $role->getEntries();
+		/** @var ACEntry $entry */
+		foreach($entries as $entry) {
+			if($entry->getPermission() === $permission && $entry->getModule() === $this) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**

@@ -117,6 +117,12 @@ class WarrantyCase {
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
+	protected $appointmentAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
 	protected $closedAt;
 	
 	
@@ -228,5 +234,47 @@ class WarrantyCase {
 	 */
 	public function setDescription(?string $description): void {
 		$this->description = $description;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getServiceNotes(): Collection {
+		return $this->serviceNotes;
+	}
+	
+	/**
+	 * @param Collection $serviceNotes
+	 */
+	public function setServiceNotes(Collection $serviceNotes): void {
+		$this->serviceNotes = $serviceNotes;
+	}
+	
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getAssigneeHistory(): ArrayCollection {
+		return $this->assigneeHistory;
+	}
+	
+	/**
+	 * @param ArrayCollection $assigneeHistory
+	 */
+	public function setAssigneeHistory(ArrayCollection $assigneeHistory): void {
+		$this->assigneeHistory = $assigneeHistory;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getAppointmentAt(): ?\DateTime {
+		return $this->appointmentAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $appointmentAt
+	 */
+	public function setAppointmentAt(?\DateTime $appointmentAt): void {
+		$this->appointmentAt = $appointmentAt;
 	}
 }

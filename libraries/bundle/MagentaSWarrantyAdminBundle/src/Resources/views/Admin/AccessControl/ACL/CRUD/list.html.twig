@@ -67,27 +67,29 @@
 
                         {% block table_body %}
                             <tbody>
-                            <tr>
-                                {% set elementCount = 2 %}
-                                <td></td>
-                                <td colspan="1" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                    <button type="button" class="btn-primary btn form-control">Save New Role</button>
-                                </td>
-                                <td colspan="{{ elementCount - 1 }}"
-                                    class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                    <input placeholder="Enter New Role" type="text" name="new_role"
-                                           class="form-control"/>
-                                </td>
 
-                                {% for module in admin.systemModules %}
-                                    {% for supportedAction in module.supportedModuleActions %}
-                                        <td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">
-                                            <input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}"
-                                                   value="{{ supportedAction }}">
-                                        </td>
-                                    {% endfor %}
-                                {% endfor %}
-                            </tr>
+                            {#<tr>#}
+                                {#{% set elementCount = 2 %}#}
+                                {#<td></td>#}
+                                {#<td colspan="1" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                                    {#<button type="button" class="btn-primary btn form-control">Save New Role</button>#}
+                                {#</td>#}
+                                {#<td colspan="{{ elementCount - 1 }}"#}
+                                    {#class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                                    {#<input placeholder="Enter New Role" type="text" name="new_role"#}
+                                           {#class="form-control"/>#}
+                                {#</td>#}
+
+                                {#{% for module in admin.systemModules %}#}
+                                    {#{% for supportedAction in module.supportedModuleActions %}#}
+                                        {#<td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                                            {#<input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}"#}
+                                                   {#value="{{ supportedAction }}">#}
+                                        {#</td>#}
+                                    {#{% endfor %}#}
+                                {#{% endfor %}#}
+                            {#</tr>#}
+
                             {% include get_admin_template('outer_list_rows_' ~ admin.getListMode(), admin.code) %}
                             </tbody>
                         {% endblock %}
@@ -108,34 +110,49 @@
                 registerACEEvents($('.ace'));
             });
 
-            registerACEEvents = function ($ace) {
-                $ace.on('ifChanged change', function (e) {
-                        let $iCheck = $(this);
-                        let $parent = $(this).parents('.ace-container');
-                        let url = $parent.data('enableUrl');
-                        // console.log('url is ', url, 'is checked', $(this).is(":checked"));
-                        let isChecked = $(this).is(":checked");
-                        let $iCheckContainer = $(this).parents('.icheckbox_square-blue');
-                        $iCheckContainer.hide();
-                        $parent.append('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
-                        let $loading = $parent.children().last();
-                        let data = {};
-                        $.post(url, data)
-                            .done(function (data) {
-                                $loading.remove();
-                                $iCheckContainer.show();
-                                $iCheck.iCheck('uncheck');
-
-                                if (isChecked) {
-                                    // $(this).iCheck('check');
+            postACE = function (targetStatus, actionUrl, statusUrl, successHandler) {
+                $.post(actionUrl, {})
+                    .done(function (actionResponse) {
+                        let statusData = {};
+                        $.post(statusUrl, statusData)
+                            .done(function (statusResponse) {
+                                if (statusResponse.status !== targetStatus) {
+                                    postACE(targetStatus, actionUrl, statusUrl, successHandler);
                                 } else {
-                                    // $(this).iCheck('uncheck');
+                                    successHandler(statusResponse);
                                 }
                             });
+                    });
+            }
 
+            registerACEEvents = function ($ace) {
+                $ace.on('ifChanged change', function (e) {
+                    let $iCheck = $(this);
+                    let $parent = $(this).parents('.ace-container');
+                    let enableUrl = $parent.data('enableUrl');
+                    let removeUrl = $parent.data('removeUrl');
+                    let statusUrl = $parent.data('statusUrl');
+
+                    // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+                    let isChecked = $(this).is(":checked");
+                    let $iCheckContainer = $(this).parents('.icheckbox_square-blue');
+                    $iCheckContainer.hide();
+                    $parent.append('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+                    let $loading = $parent.children().last();
+                    if (isChecked) {
+                        {# ACEntry::STATUS_GRANTED #}
+                        postACE('GRANTED', enableUrl, statusUrl, function (resp) {
+                            $loading.remove();
+                            $iCheckContainer.show();
+                        });
+                    } else {
+                        {# ACEntry::STATUS_EMPTY #}
+                        postACE('EMPTY', removeUrl, statusUrl, function (resp) {
+                            $loading.remove();
+                            $iCheckContainer.show();
+                        });
                     }
-                )
-                ;
+                });
             }
 
             /* OnLoad Window */

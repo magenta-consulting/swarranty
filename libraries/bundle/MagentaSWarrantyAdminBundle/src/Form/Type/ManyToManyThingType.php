@@ -12,6 +12,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ManyToManyThingType extends AbstractType {
@@ -42,14 +44,16 @@ class ManyToManyThingType extends AbstractType {
 		$resolver->setDefaults([
 			// Configure your form options here
 //			'data_class'   => null, // BrandCategory::class
-			'add_route'    => [ 'route_name' => '', 'route_params' => [] ],
-			'edit_route'   => [ 'route_name' => '', 'route_params' => [] ],
-			'remove_route' => [ 'route_name' => '', 'route_params' => [] ],
-			'class'        => Thing::class,
-			'choice_label' => 'name',
-			'multiple'     => true,
+			'router_id_param' => 'id',
+			'label_property'   => 'name',
+			'create_route'    => [ 'route_name' => '', 'route_params' => [] ],
+			'update_route'    => [ 'route_name' => '', 'route_params' => [] ],
+			'delete_route'    => [ 'route_name' => '', 'route_params' => [] ],
+			'class'           => Thing::class,
+			'choice_label'    => 'name',
+			'multiple'        => true,
 //			'compound' => true,
-			'expanded'     => true,
+			'expanded'        => true,
 //			'choices'    => [
 //				$c1,
 //				$c2,
@@ -58,6 +62,16 @@ class ManyToManyThingType extends AbstractType {
 //				$c5
 //			]
 		]);
+	}
+	
+	public function buildView(FormView $view, FormInterface $form, array $options) {
+		parent::buildView($view, $form, $options);
+		
+		$view->vars['label_property'] = $options['label_property'];
+		$view->vars['router_id_param'] = $options['router_id_param'];
+		$view->vars['create_route']    = $options['create_route'];
+		$view->vars['update_route']    = $options['update_route'];
+		$view->vars['delete_route']    = $options['delete_route'];
 	}
 	
 	public function getParent() {
