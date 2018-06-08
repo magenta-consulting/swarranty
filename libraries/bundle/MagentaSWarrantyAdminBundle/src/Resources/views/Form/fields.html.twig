@@ -52,7 +52,7 @@
             {% set createRouteParams = form.vars.create_route.route_params %}
             {% set createUrl = path(form.vars.create_route.route_name, createRouteParams) %}
 
-            <input style="margin-bottom: 5px;" type="text" class="form-control add-item" data-url="{{ createUrl }}"
+            <input style="margin-bottom: 5px;" type="text" id="{{ form.vars.id }}_input" class="form-control add-item" data-url="{{ createUrl }}"
                    placeholder="Type to create a new item"/>
 
             {#{{ dump(form) }}#}
@@ -86,8 +86,8 @@
                     /* ----------------------------------------------- */
                     /* OnLoad Page */
                     $(document).ready(function ($) {
-                        $n2nCheckbox = $('.n2n-checkbox.{{ form.vars.name }}')
-                        addChoice = function (choice) {
+                        addChoice_{{ form.vars.id }} = function (choice) {
+                            let $n2nCheckbox = $('.n2n-checkbox.{{ form.vars.name }}')
                             let choiceHtml = '<li>' +
                                 '<div class="row choice-container-' + choice.objectId + '">\n' +
                                 '  <div class="col-md-9">'
@@ -126,6 +126,7 @@
                             $n2nCheckbox.find('input').iCheck({
                                 checkboxClass: 'icheckbox_square-blue',
                             });
+
                             let $popover = $('.choice-container-' + choice.objectId + ' .n2n-entity-action[data-toggle="popover"]');
 
                             initiatePopover($popover);
@@ -134,12 +135,8 @@
                         let formData = formData_{{ form.vars.name }};
                         for (let i = 0; i < formData.length; i++) {
                             let itemData = formData[i];
-                            addChoice(itemData);
+                            addChoice_{{ form.vars.id }}(itemData);
                         }
-
-                        $n2nCheckbox.find('input').iCheck({
-                            checkboxClass: 'icheckbox_square-blue',
-                        });
                     });
 
 
@@ -211,38 +208,43 @@
             };
 
             $(document).ready(function ($) {
-                let $addItem = $('.add-item');
+                let $addItem = $('#{{ form.vars.id }}_input');
                 let itemCount = {{ form.children|length }};
 
                 $addItem.bind("enterKey", function (e) {
-                    let $thisInput = $(this);
-                    $thisInput.prop('disabled', true);
-
-                    let actionUrl = $(this).data('url');
-                    $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
-                        itemCount++;
-                        let newChoice = {
-                            objectId: actionResponse.id,
-                            objectLabel: actionResponse.{{ form.vars.label_property }},
-                            widget: '<div class="checkbox">' +
-                            '<label>' +
-                            '<input type="checkbox" id="{{ form.vars.id }}_' + itemCount + '" ' +
-                            'name="{{ form.vars.full_name }}[]" value="' + actionResponse.id + '" checked="checked" />' +
-                            '<span class="control-label__text">\n'
-                            +
-                            actionResponse.{{ form.vars.label_property }} +
-                            '</span></label></div>'
-                        }
-                        addChoice(newChoice);
-                        $thisInput.prop('disabled', false);
-                        $thisInput.val('');
-                    });
+                    console.log('add new Item');
                 });
 
                 $addItem.keydown(function (e) {
                     if (e.keyCode === 13) {
+                        console.log('enterkey down on ',$(this));
+
                         $(this).trigger("enterKey");
                         e.preventDefault();
+
+                        let $thisInput = $(this);
+                        $thisInput.prop('disabled', true);
+
+                        let actionUrl = $(this).data('url');
+                        $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
+                            console.log('posting here');
+                            itemCount++;
+                            let newChoice = {
+                                objectId: actionResponse.id,
+                                objectLabel: actionResponse.{{ form.vars.label_property }},
+                                widget: '<div class="checkbox">' +
+                                '<label>' +
+                                '<input type="checkbox" id="{{ form.vars.id }}_' + itemCount + '" ' +
+                                'name="{{ form.vars.full_name }}[]" value="' + actionResponse.id + '" checked="checked" />' +
+                                '<span class="control-label__text">\n'
+                                +
+                                actionResponse.{{ form.vars.label_property }} +
+                                '</span></label></div>'
+                            }
+                            addChoice_{{ form.vars.id }}(newChoice);
+                            $thisInput.prop('disabled', false);
+                            $thisInput.val('');
+                        });
                     }
                 });
             });

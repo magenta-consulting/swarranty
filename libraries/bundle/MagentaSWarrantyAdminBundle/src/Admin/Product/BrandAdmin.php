@@ -173,7 +173,7 @@ class BrandAdmin extends BaseAdmin {
 				'class'           => BrandSubCategory::class,
 				'router_id_param' => 'childId',
 				'create_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
 					'route_params' => [
 						'id'        => $this->getCurrentOrganisation()->getId(),
 						'childId'   => 0,
@@ -181,14 +181,14 @@ class BrandAdmin extends BaseAdmin {
 					]
 				],
 				'update_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
 					'route_params' => [
 						'id'        => $this->getCurrentOrganisation()->getId(),
 						'operation' => 'update'
 					]
 				],
 				'delete_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
 					'route_params' => [
 						'id'        => $this->getCurrentOrganisation()->getId(),
 						'operation' => 'delete'

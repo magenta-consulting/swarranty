@@ -7,6 +7,8 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandCategoryAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdminController;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
@@ -38,6 +40,7 @@ class OrganisationAdmin extends BaseAdmin {
 		ServiceZoneAdmin::class => 'organisation',
 		BrandAdmin::class       => 'organisation',
 		BrandCategoryAdmin::class    => 'organisation',
+		BrandSubCategoryAdmin::class    => 'organisation',
 		ProductAdmin::class     => 'organisation',
 		CustomerAdmin::class    => 'organisation',
 	];
