@@ -19,6 +19,14 @@ class Product extends Thing {
 	function __construct() {
 	}
 	
+	public function generateSearchText() {
+		$subcat = empty($this->subCategory) ? 'No Sub-Category' : $this->subCategory->getName();
+		$cat    = empty($this->category) ? 'No Sub-Category' : $this->category->getName();
+		$brand  = empty($this->brand) ? 'No Sub-Category' : $this->brand->getName();
+		
+		$this->searchText = $this->name . sprintf(' (%s) ', $this->modelNumber) . sprintf(' %s < %s ( %s ) ', $subcat, $cat, $brand);
+	}
+	
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="product", cascade={"persist","merge"}, orphanRemoval=true)
@@ -73,9 +81,16 @@ class Product extends Thing {
 	 * @var string|null
 	 * @ORM\Column(type="string", nullable=true)
 	 */
+	protected $searchText;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
 	protected $modelNumber;
 	
 	/**
+	 * in months
 	 * @var integer|null
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
@@ -197,5 +212,19 @@ class Product extends Thing {
 	 */
 	public function setExtendedWarrantyPeriod(?int $extendedWarrantyPeriod): void {
 		$this->extendedWarrantyPeriod = $extendedWarrantyPeriod;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSearchText(): ?string {
+		return $this->searchText;
+	}
+	
+	/**
+	 * @param null|string $searchText
+	 */
+	public function setSearchText(?string $searchText): void {
+		$this->searchText = $searchText;
 	}
 }

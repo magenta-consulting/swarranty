@@ -5,10 +5,13 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
@@ -21,6 +24,8 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
@@ -44,9 +49,24 @@ class WarrantyAdmin extends BaseAdmin {
 		'_sort_by'    => 'updatedAt',
 	);
 	
+	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
+		$pool      = $this->getConfigurationPool();
+		$request   = $this->getRequest();
+		$container = $pool->getContainer();
+		/** @var Expr $expr */
+		$expr          = $query->getQueryBuilder()->expr();
+		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
+		
+		return $query->andWhere($expr->eq($customerAlias . '.organisation', $organisation->getId()));
+	}
+	
 	public function getNewInstance() {
 		/** @var Warranty $object */
 		$object = parent::getNewInstance();
+		if(empty($object->getCustomer())) {
+			$object->setCustomer(new Customer());
+		}
+		
 		return $object;
 	}
 	
@@ -60,7 +80,7 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	public function toString($object) {
 		return $object instanceof Warranty
-			? $object->getProduct()->getName()
+			? $object->getCustomer()->getName()
 			: 'Warranty'; // shown in the breadcrumb on the create view
 	}
 	
@@ -74,6 +94,17 @@ class WarrantyAdmin extends BaseAdmin {
 //        $query->andWhere()
 		
 		return $query;
+	}
+	
+	public function getPersistentParameters() {
+		$parameters = parent::getPersistentParameters();
+		if( ! $this->hasRequest()) {
+			return $parameters;
+		}
+		
+		return array_merge($parameters, array(
+			'organisation' => $this->getCurrentOrganisation()->getId()
+		));
 	}
 	
 	public function configureRoutes(RouteCollection $collection) {
@@ -91,18 +122,18 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
 			->with('form_group.Warranty_details', [ 'class' => 'col-md-6' ])
-			->add('name',null,['label'=>'form.label_name'])
-			->add('email',null,['label'=>'form.label_email'])
-			->add('homeAddress',null,['label'=>'form.label_address'])
-			->add('homePostalCode',null,['label'=>'form.label_postal_code'])
+			->add('name', null, [ 'label' => 'form.label_name' ])
+			->add('email', null, [ 'label' => 'form.label_email' ])
+			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
+			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 			->end()
 			->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
-			->add('warranties',null,['label'=> false,
-				'associated_property'=>'id',
-				'template' => '@MagentaSWarrantyAdmin/Admin/Warranty/Warranty/CRUD/Association/show_one_to_many.html.twig'
+			->add('warranties', null, [
+				'label'               => false,
+				'associated_property' => 'id',
+				'template'            => '@MagentaSWarrantyAdmin/Admin/Warranty/Warranty/CRUD/Association/show_one_to_many.html.twig'
 			])
-			->end()
-		;
+			->end();
 		
 	}
 	
@@ -127,26 +158,54 @@ class WarrantyAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
-			->add('email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
-			->add('telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
-			->add('homeAddress', null, [ 'editable' => true, 'label' => 'form.label_address' ])
-			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
+			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
+			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
+			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper
-			->with('form_group.Warranty_details', [ 'class' => 'col-md-12' ]);
+			->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
-			->add('name', null, [ 'label' => 'form.label_name' ])
-			->add('email', null, [ 'label' => 'form.label_email' ])
-			->add('telephone', null, [ 'label' => 'form.label_telephone' ])
-			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
-//			->add('person.familyName',null,['label' => 'form.label_family_name' ])
-//		           ->add('person.givenName',null,['label' => 'form.label_given_name' ])
-			->add('enabled', null, [ 'label' => 'form.label_enabled' ]);
+			->add('customer.name', null, [ 'label' => 'form.label_name' ])
+			->add('customer.email', null, [ 'label' => 'form.label_email' ])
+			->add('customer.telephone', null, [ 'label' => 'form.label_telephone' ]);
+		$formMapper->end();
+		$formMapper
+			->with('form_group.warranty_details', [ 'class' => 'col-md-6' ]);
+		$formMapper->add('product', ModelAutocompleteType::class, [
+			'route'              => [
+				'name'       => 'sonata_admin_retrieve_autocomplete_items',
+				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
+			],
+			'property'           => 'searchText',
+			'btn_add'            => false,
+			'to_string_callback' => function(Product $entity) {
+//				$entity->generateSearchText();
+				
+				return $entity->getSearchText();
+			},
+			'callback'           => function(ProductAdmin $admin, $property, $field) {
+
+//				$queryBuilder, $alias, $field, $value
+//				if( ! $value['value']) {
+//					return;
+//				}
+//
+//				/** @var Expr $expr */
+//				$expr = $queryBuilder->expr();
+//				$queryBuilder
+//					->andWhere('organisation.id = :orgId')
+////					->andWhere($expr->orX(
+////
+////					))
+//					->setParameter('orgId', $this->getCurrentOrganisation()->getId());
+//
+				return true;
+			},
+		]);
 		$formMapper->end();
 	}
 	
@@ -173,14 +232,13 @@ class WarrantyAdmin extends BaseAdmin {
 	///
 	///////////////////////////////////
 	
-	
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('name')//			->add('locked')
+			->add('customer.name')//			->add('locked')
 		;
 //			->add('groups')
 //		;

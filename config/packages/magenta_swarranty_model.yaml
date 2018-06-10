@@ -43,6 +43,57 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\Warranty"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\WarrantyListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Product\\Product"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Product\\ProductListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+
 
 security:
     encoders:

@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
@@ -33,6 +33,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CustomerAdmin extends BaseAdmin {
 	
+	const CHILDREN = [
+		WarrantyAdmin::class    => 'customer',
+	];
+	
+	
 	protected $action;
 	
 	protected $datagridValues = array(
@@ -45,7 +50,7 @@ class CustomerAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var Customer $object */
+		/** @var Warranty $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -53,16 +58,16 @@ class CustomerAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string   $name
-	 * @param Customer $object
+	 * @param Warranty $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof Customer
+		return $object instanceof Warranty
 			? $object->getName()
-			: 'Customer'; // shown in the breadcrumb on the create view
+			: 'Warranty'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -152,7 +157,7 @@ class CustomerAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param Customer $object
+	 * @param Warranty $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -162,7 +167,7 @@ class CustomerAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param Customer $object
+	 * @param Warranty $object
 	 */
 	public function preUpdate($object) {
 		parent::preUpdate($object);
@@ -181,7 +186,7 @@ class CustomerAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('name')//			->add('locked')
+			->add('customer.name')//			->add('locked')
 		;
 //			->add('groups')
 //		;

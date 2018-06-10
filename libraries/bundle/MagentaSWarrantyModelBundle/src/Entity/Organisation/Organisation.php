@@ -30,6 +30,14 @@ class Organisation extends OrganizationModel {
 	}
 	
 	/**
+	 * @param User $adminUser
+	 */
+	public function setAdminUser(User $adminUser): void {
+		$this->adminUser = $adminUser;
+		$adminUser->setAdminOrganisation($this);
+	}
+	
+	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="organization", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
@@ -183,17 +191,10 @@ class Organisation extends OrganizationModel {
 	}
 	
 	/**
-	 * @return Media
+	 * @return User
 	 */
 	public function getAdminUser(): ?User {
 		return $this->adminUser;
-	}
-	
-	/**
-	 * @param Media $adminUser
-	 */
-	public function setAdminUser(User $adminUser): void {
-		$this->adminUser = $adminUser;
 	}
 	
 	/**

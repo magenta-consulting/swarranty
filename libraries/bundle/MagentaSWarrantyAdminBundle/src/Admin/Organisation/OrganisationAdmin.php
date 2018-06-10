@@ -12,12 +12,8 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdminContr
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
-use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserManager;
-use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -57,7 +53,7 @@ class OrganisationAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var User $object */
+		/** @var Organisation $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -65,12 +61,12 @@ class OrganisationAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string $name
-	 * @param User   $object
+	 * @param Organisation   $object
 	 */
 	public function isGranted($name, $object = null) {
 		$container = $this->getConfigurationPool()->getContainer();
 		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(UserService::class)->getPosition();
+//        $pos = $container->get(OrganisationService::class)->getPosition();
 		if(in_array($name, [ 'CREATE', 'LIST' ])) {
 			return $this->isAdmin();
 		}
@@ -78,7 +74,7 @@ class OrganisationAdmin extends BaseAdmin {
 			if($isAdmin) {
 				return true;
 			}
-			if( ! empty($object) && $object->getId() === $container->get(UserService::class)->getUser()->getId()) {
+			if( ! empty($object) && $object->getId() === $container->get(OrganisationService::class)->getOrganisation()->getId()) {
 				return true;
 			}
 			
@@ -111,7 +107,7 @@ class OrganisationAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+//		$collection->add('show_Organisation_profile', $this->getRouterIdParameter() . '/show-Organisation-profile');
 		
 	}
 	
@@ -148,14 +144,14 @@ class OrganisationAdmin extends BaseAdmin {
 		$listMapper
 			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ]);
 
-//		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
+//		$listMapper->add('positions', null, [ 'template' => '::admin/Organisation/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper->add('name')
-		           ->add('adminUser', ModelAutocompleteType::class, array(
+		           ->add('adminOrganisation', ModelAutocompleteType::class, array(
 			           'required' => false,
-			           'property' => 'username'
+			           'property' => 'email'
 		           ));
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
@@ -174,19 +170,13 @@ class OrganisationAdmin extends BaseAdmin {
 		if( ! $object->isEnabled()) {
 			$object->setEnabled(true);
 		}
-		if( ! empty($admin = $object->getAdminUser())) {
-			$admin->setAdminOrganisation($object);
-		}
 	}
 	
 	/**
-	 * @param User $object
+	 * @param Organisation $object
 	 */
 	public function preUpdate($object) {
-		
-		if( ! empty($admin = $object->getAdminUser())) {
-			$admin->setAdminOrganisation($object);
-		}
+	
 	}
 	
 	///////////////////////////////////

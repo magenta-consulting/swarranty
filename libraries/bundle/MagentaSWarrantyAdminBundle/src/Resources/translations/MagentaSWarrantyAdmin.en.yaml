@@ -119,6 +119,7 @@ form:
     label_extended_warranty_period: Extended Warranty Period
 
 breadcrumb:
+    link_warranty_create: New Warranty
     link_organisation_list: Organisations
     link_service_zone_list: Service Zones
     link_service_zone_create: New Zone
@@ -128,3 +129,4 @@ breadcrumb:
     link_product_list: Products
     link_product_create: New Product
     link_a_c_role_list: ACL
+    link_warranty_list: Warranties

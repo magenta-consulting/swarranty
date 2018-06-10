@@ -12,13 +12,21 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="customer__warranty")
  */
-class Warranty {
+class Warranty implements ThingChildInterface {
+	
+	const STATUS_NEW = 'NEW';
+	const STATUS_EXPIRED = 'EXPIRED';
+	const STATUS_REJECTED = 'REJECTED';
+	const STATUS_ACTIVE = 'ACTIVE';
+	
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id
@@ -31,6 +39,10 @@ class Warranty {
 		$this->cases = new ArrayCollection();
 		
 		$this->createdAt = new \DateTime();
+	}
+	
+	public function getOrganisation(): Organisation {
+		return $this->customer->getOrganisation();
 	}
 	
 	public function initiateNumber() {
@@ -107,6 +119,36 @@ class Warranty {
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $createdAt;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $enabled = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $rejected = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $expired = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $new = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", options={"default":"NEW"})
+	 */
+	protected $status = self::STATUS_NEW;
 	
 	/**
 	 * @var string|null

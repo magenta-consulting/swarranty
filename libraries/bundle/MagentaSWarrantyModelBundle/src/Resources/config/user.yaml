@@ -13,6 +13,13 @@ services:
         tags:
             - {name: "console.command", command: "magenta:module:init"}
 
+    magenta_config.command.generate_search_text:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Product\GenerateProductSearchTextCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+            - {name: "console.command", command: "magenta:product:generate-search-text"}
+
     magenta_user.command.create_user:
         class: Magenta\Bundle\SWarrantyModelBundle\Command\User\CreateUserCommand
         public: false

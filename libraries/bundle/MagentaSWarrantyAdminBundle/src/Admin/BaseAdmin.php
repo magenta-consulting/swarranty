@@ -9,8 +9,10 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BaseAdmin extends AbstractAdmin {
 	
@@ -47,12 +49,25 @@ class BaseAdmin extends AbstractAdmin {
 	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
 	}
+
+//	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
+//		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
+//			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
+//			if( ! empty($org)) {
+//			$parameters['organisation'] = $orgId;
+//			}
+//		}
+
+//		return parent::generateUrl($name, $parameters, $absolute);
+//	}
 	
 	/**
 	 * @return Organisation|null
 	 */
-	protected function getCurrentOrganisation() {
-		if(empty($this->getParent())) {
+	protected function getCurrentOrganisation($required = true) {
+		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
+			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
+		} elseif(empty($this->getParent())) {
 			$user = $this->getLoggedInUser();
 			$org  = $user->getAdminOrganisation();
 		} else {
@@ -60,8 +75,11 @@ class BaseAdmin extends AbstractAdmin {
 				$org = $this->getParent()->getSubject();
 			}
 		}
+		
 		if(empty($org)) {
-			throw new UnauthorizedHttpException('Unauthorised access');
+			if($required) {
+				throw new UnauthorizedHttpException('Unauthorised access');
+			}
 		}
 		
 		return $org;
@@ -179,13 +197,18 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	public function createQuery($context = 'list') {
-		$query = parent::createQuery($context);
+		$query    = parent::createQuery($context);
+		$parentFD = $this->getParentFieldDescription();
 		if($this->isAdmin()) {
-			return $query;
+//			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
+			// admin should see everything except in embeded forms
+			if( ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
+				return $query;
+			}
 		}
-		
 		$organisation = $this->getCurrentOrganisation();
-		if(empty($this->getParentFieldDescription())) {
+		
+		if(empty($this->getParent())) { // && ! empty($organisation)
 			$this->filterQueryByOrganisation($query, $organisation);
 		} else {
 			// TODO: change this so that 1 person can manage multiple organisations

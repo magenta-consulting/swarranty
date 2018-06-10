@@ -36,6 +36,7 @@ sonata_admin:
                 icon: '<i class="fa fa-users"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\WarrantyAdmin
 
             product:
                 label: dashboard.product

@@ -30,6 +30,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
+use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -137,7 +138,7 @@ class ProductAdmin extends BaseAdmin {
 				'context'  => 'product_image',
 				'provider' => 'sonata.media.provider.image'
 			])
-			->add('name',null,['label'=>'form.label_model_name'])
+			->add('name', null, [ 'label' => 'form.label_model_name' ])
 			->add('modelNumber')
 			->add('brand', ModelType::class, [
 				'property' => 'name',
@@ -193,7 +194,31 @@ class ProductAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('name')//			->add('locked')
+			->add('name')
+//			->add('searchText','doctrine_orm_callback')
+			->add('searchText', CallbackFilter::class, array(
+				'label'       => 'list.label_id',
+				'show_filter' => true,
+//                'callback'   => array($this, 'getWithOpenCommentFilter'),
+				'callback'    => function($queryBuilder, $alias, $field, $value) {
+					if( ! $value['value']) {
+						return;
+					}
+					
+					/** @var QueryBuilder $queryBuilder */
+					$expr = $queryBuilder->expr();
+
+//					$queryBuilder->leftJoin(sprintf('%s.comments', $alias), 'c');
+//					$queryBuilder->andWhere('c.status = :status');
+//					$queryBuilder->andWhere(
+//						$expr->eq(sprintf('%s.organisation', $alias), ':orgId')
+//					);
+//					$queryBuilder->setParameter('orgId', 2);
+					
+					return true;
+				}
+//				'field_type'  => 'text'
+			))//			->add('locked')
 		;
 //			->add('groups')
 //		;

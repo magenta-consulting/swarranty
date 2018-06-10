@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
 
 /**
  * @ORM\Entity()
@@ -39,8 +40,12 @@ class User extends AbstractUser {
 		return strtoupper($code);
 	}
 	
-	public function isGranted($action = 'ALL', Thing $thing = null) {
+	public function isGranted($action = 'ALL', $object = null) {
+		if($object instanceof Thing) {
 		
+		} elseif($object instanceof ThingChildInterface) {
+		
+		}
 		$action = strtoupper($action);
 		if($action === 'LIST') {
 			return true;
