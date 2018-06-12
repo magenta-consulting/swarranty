@@ -32,10 +32,10 @@
             </section>
             <h3>Product Purchase Information</h3>
             <section>
-                <ng-select class="mb-2" [items]="categories"
+                <ng-select class="mb-2" (change)="selectCategory($event)" [items]="brands"
                            bindLabel="name"
                            placeholder="(*) Product Brand"
-                           [(ngModel)]="selectedCategory">
+                           [(ngModel)]="selectedBrand">
                 </ng-select>
                 <ng-select class="mb-2" [items]="categories"
                            bindLabel="name"

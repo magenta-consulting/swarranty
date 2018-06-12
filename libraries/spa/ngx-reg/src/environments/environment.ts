@@ -6,6 +6,9 @@ export const environment = {
   production: false
 };
 
+export const apiEndPoint = 'http://127.0.0.1:8000';
+export const apiEndPointBase = '/api';
+
 /*
  * In development mode, to ignore zone related error stack frames such as
  * `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
