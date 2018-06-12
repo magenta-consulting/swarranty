@@ -94,10 +94,16 @@ doctrine:
                                             method: postRemoveHandler
 
 
-
 security:
     encoders:
         Magenta\Bundle\SWarrantyModelBundle\Entity\User\UserInterface: bcrypt
+
+    providers:
+        magenta_user:
+            id: magenta_user.user_provider.username_email
+        magenta_username:
+            id: magenta_user.user_provider.username
+
 
     role_hierarchy:
         ROLE_POWER_USER: [ROLE_USER,ROLE_SONATA_ADMIN]
@@ -108,10 +114,6 @@ security:
     # set access_strategy to unanimous, else you may have unexpected behaviors
     access_decision_manager:
         strategy: unanimous
-
-    providers:
-        magenta_user:
-            id: magenta_user.user_provider.username
 
 
 

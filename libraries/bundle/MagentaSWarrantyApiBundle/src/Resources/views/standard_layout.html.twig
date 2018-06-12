@@ -1,9 +1,0 @@
-{% extends '@SonataAdmin/standard_layout.html.twig' %}
-{% trans_default_domain 'MagentaSWarrantyApiBundle' %}
-
-            {% block body_attributes -%}
-                class="sonata-bc skin-red-light fixed
-                {% if app.request.cookies.get('sonata_sidebar_hide') -%}
-                    sidebar-collapse
-                {%- endif -%}"
-            {%- endblock -%}

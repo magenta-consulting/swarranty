@@ -1,0 +1,15 @@
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /api
+
+api_organisation:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/organisation.yaml"
+    prefix: /api
+
+api_product:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/product.yaml"
+    prefix: /api
+
+api_login_check:
+    path: /api/login_check

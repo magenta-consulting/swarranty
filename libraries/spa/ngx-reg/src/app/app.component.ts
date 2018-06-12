@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+  data = ['item 1', 'item 2', 'item 3'];
+
+  addData():void{
+    this.data.push('new data');
+  }
+
 }

@@ -1,0 +1,43 @@
+#Magenta\Bundle\CBookModelBundle\Entity\User\User:
+#    attributes:
+#        firstName:
+#            groups: ['read_user','write_user']
+Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing:
+    attributes:
+        name:
+            groups: ['read_thing','write_thing']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
+    attributes:
+        name:
+            groups: ['read_organisation','write_organisation']
+        logo:
+            groups: ['read_organisation','write_organisation']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
+    attributes:
+        modelNumber:
+            groups: ['read_product','write_product']
+
+#Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
+#    attributes:
+#
+#            groups: ['read_brand','write_brand']
+
+#Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
+#    attributes:
+#        organization:
+#            groups: ['read_organisation','write_organisation']
+#        person:
+#            groups: ['read_app_person','write_app_person']
+
+#Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
+#    attributes:
+#        birthDate:
+#            groups: ['read_app_person','write_app_person']
+#        familyName:
+#            groups: ['read_app_person','write_app_person']
+#        givenName:
+#            groups: ['read_app_person','write_app_person']
+
+

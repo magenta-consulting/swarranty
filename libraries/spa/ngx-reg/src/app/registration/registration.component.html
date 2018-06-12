@@ -1,0 +1,73 @@
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+        <div class="text-center">
+            <h3>Customer and Product Registration</h3>
+            <section>
+                <h5>Customer Details</h5>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="(*) Your Full name"
+                           aria-label="Your Full name">
+                </div>
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">+65</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="(*) Contact Number"
+                           aria-label="Contact Number">
+                </div>
+                <div class="input-group mb-1">
+                    <input type="text" class="form-control" placeholder="Email Address" aria-label="Email Address">
+                </div>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Confirm Email Address"
+                           aria-label="Confirm Email Address">
+                </div>
+
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Your Address" aria-label="Your Address">
+                </div>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Postal Code" aria-label="Postal Code">
+                </div>
+            </section>
+            <h3>Product Purchase Information</h3>
+            <section>
+                <ng-select class="mb-2" [items]="categories"
+                           bindLabel="name"
+                           placeholder="(*) Product Brand"
+                           [(ngModel)]="selectedCategory">
+                </ng-select>
+                <ng-select class="mb-2" [items]="categories"
+                           bindLabel="name"
+                           placeholder="(*) Product Category"
+                           [(ngModel)]="selectedCategory">
+                </ng-select>
+                <ng-select class="mb-2" [items]="categories"
+                           bindLabel="name"
+                           placeholder="(*) Model Name"
+                           [(ngModel)]="selectedCategory">
+                </ng-select>
+                <div class="input-group mb-2">
+                    <input type="text"
+                           placeholder="(*) Purchase Date (MM-DD-YYYY)"
+                           class="form-control"
+                           [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                           bsDatepicker/>
+                </div>
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Product Serial Number"
+                           aria-label="Postal Code">
+                </div>
+                <ng-select class="mb-2" [items]="categories"
+                           bindLabel="name"
+                           placeholder="Dealer's Name"
+                           [(ngModel)]="selectedCategory">
+                </ng-select>
+            </section>
+            <div class="input-group mb-2" style="cursor: pointer;">
+                <fa size="lg" name="plus-square"> </fa>
+                <span class="add-product-text"> Add another Product</span>
+            </div>
+        </div>
+    </div>
+</div>

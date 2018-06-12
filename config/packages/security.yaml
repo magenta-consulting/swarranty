@@ -2,9 +2,9 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory: { memory: ~ }
-        magenta_user:
-#            id: fos_user.user_manager
-            id: magenta_user.user_provider.username_email
+        jwt: # optional
+            lexik_jwt:
+                class: Magenta\Bundle\SWarrantyModelBundle\Security\JWTUser
 
     firewalls:
         dev:
@@ -26,6 +26,33 @@ security:
             anonymous:          true
             switch_user:        true
 
+        api_login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider: magenta_user
+            json_login:
+                check_path: /api/login_check
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            anonymous: true
+#            provider: magenta_user
+            provider: jwt
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        refresh:
+            pattern:  ^/api/token/refresh
+            stateless: true
+            anonymous: true
+
         main:
             anonymous: true
 
@@ -44,3 +71,11 @@ security:
         - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_SONATA_ADMIN }
+
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: ['%env(DEV_IP)%'] }
+#        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+        # ...
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }

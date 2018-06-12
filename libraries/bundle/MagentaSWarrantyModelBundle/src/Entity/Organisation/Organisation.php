@@ -114,6 +114,12 @@ class Organisation extends OrganizationModel {
 	 * @var string|null
 	 * @ORM\Column(type="string", nullable=true)
 	 */
+	protected $code;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
 	protected $adminEmail;
 	
 	/**
@@ -135,9 +141,9 @@ class Organisation extends OrganizationModel {
 	protected $adminPassword;
 	
 	/**
-	 * @return Media
+	 * @return Media|null
 	 */
-	public function getLogo(): Media {
+	public function getLogo(): ?Media {
 		return $this->logo;
 	}
 	
@@ -237,5 +243,75 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setSystem(?System $system): void {
 		$this->system = $system;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCategories(): Collection {
+		return $this->categories;
+	}
+	
+	/**
+	 * @param Collection $categories
+	 */
+	public function setCategories(Collection $categories): void {
+		$this->categories = $categories;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getSubCategories(): Collection {
+		return $this->subCategories;
+	}
+	
+	/**
+	 * @param Collection $subCategories
+	 */
+	public function setSubCategories(Collection $subCategories): void {
+		$this->subCategories = $subCategories;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getSuppliers(): Collection {
+		return $this->suppliers;
+	}
+	
+	/**
+	 * @param Collection $suppliers
+	 */
+	public function setSuppliers(Collection $suppliers): void {
+		$this->suppliers = $suppliers;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getBrands(): Collection {
+		return $this->brands;
+	}
+	
+	/**
+	 * @param Collection $brands
+	 */
+	public function setBrands(Collection $brands): void {
+		$this->brands = $brands;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getCode(): ?string {
+		return $this->code;
+	}
+	
+	/**
+	 * @param null|string $code
+	 */
+	public function setCode(?string $code): void {
+		$this->code = $code;
 	}
 }

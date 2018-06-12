@@ -1,14 +1,143 @@
 # api/config/api_platform/resources.yaml
 resources:
-    Magenta\Bundle\SWarrantyModelBundle\Entity\User\User:
+#    Magenta\Bundle\SWarrantyModelBundle\Entity\User\User:
+##        shortName: 'User'                   # optional
+#        description: 'App Users' # optional
+##        iri: 'http://schema.org/User'       # optional
+#        attributes:                          # optional
+#            pagination_items_per_page: 25    # optional
+#            normalization_context:
+#                groups:
+#                    - read_user
+#            denormalization_context:
+#                groups:
+#                    - write_user
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
 #        shortName: 'User'                   # optional
-        description: 'App Users' # optional
+        description: 'Warranty' # optional
 #        iri: 'http://schema.org/User'       # optional
         attributes:                          # optional
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
-                    - read_user
+                    - read_warranty
+                    - read_product
+                    - read_brand
+                    - read_thing
             denormalization_context:
                 groups:
-                    - write_user
+                    - write_warranty
+                    - write_product
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
+#        shortName: 'User'                   # optional
+        description: 'Product' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_product
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_product
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory:
+#        shortName: 'User'                   # optional
+        description: 'BrandCategory' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_brand_category
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_brand_category
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_category_products:
+                route_name: 'category_products'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
+#        shortName: 'User'                   # optional
+        description: 'Brand' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_brand
+                    - write_thing
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_brand_categories:
+                route_name: 'brand_categories'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
+#        shortName: 'User'                   # optional
+        description: 'Organisation' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_brand
+                    - read_thing
+                    - read_organisation
+            denormalization_context:
+                groups:
+                    - write_organisation
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+            get_brands:
+                route_name: 'organisation_brands'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get:
+                filters: ['swarranty.code_search_filter']
+#            post: ~
