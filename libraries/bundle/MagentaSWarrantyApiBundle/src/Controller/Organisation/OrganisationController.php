@@ -9,8 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrganisationController extends Controller {
 	public function brandsAction(Organisation $data): Collection {
-		$categories = $data->getCategories();
+		$brands = $data->getBrands();
 		
-		return $categories;
+		return $brands;
+	}
+	
+	public function dealersAction(Organisation $data): Collection {
+		$dealers = $data->getDealers();
+		
+		return $dealers;
 	}
 }

@@ -3,7 +3,7 @@ import {BrandSubCategory} from "./brand-sub-category";
 import {Brand} from "./brand";
 
 export class Product {
-    id: number;
+    id: string;
     name: string;
     brand: Brand;
     categories: BrandCategory;

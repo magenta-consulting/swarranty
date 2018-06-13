@@ -10,6 +10,8 @@ import {FormsModule} from "@angular/forms";
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
@@ -25,6 +27,8 @@ import {HttpClientModule} from "@angular/common/http";
     AngularFontAwesomeModule,
 
     BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
+
     AppRoutingModule
 
   ],

@@ -78,6 +78,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $brands;
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $dealers;
+	
 	
 	/**
 	 * @var System|null
@@ -103,6 +109,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="boolean", options={"default":true})
 	 */
 	protected $enabled = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $tos;
 	
 	/**
 	 * @var string|null
@@ -314,4 +326,33 @@ class Organisation extends OrganizationModel {
 	public function setCode(?string $code): void {
 		$this->code = $code;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getDealers(): Collection {
+		return $this->dealers;
+	}
+	
+	/**
+	 * @param Collection $dealers
+	 */
+	public function setDealers(Collection $dealers): void {
+		$this->dealers = $dealers;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getTos(): ?string {
+		return $this->tos;
+	}
+	
+	/**
+	 * @param null|string $tos
+	 */
+	public function setTos(?string $tos): void {
+		$this->tos = $tos;
+	}
+	
 }

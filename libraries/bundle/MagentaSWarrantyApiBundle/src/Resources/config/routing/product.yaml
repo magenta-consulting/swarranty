@@ -7,7 +7,7 @@
 ##        _api_collection_operation_name: 'books'
 #
 brand_categories:
-    path:     /brands/{id}/categories
+    path:     /brands/{id}/brand-categories
     controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Product\BrandController::categoriesAction
     defaults:
         _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand'
@@ -15,7 +15,7 @@ brand_categories:
         _api_collection_operation_name: 'categories'
 
 category_products:
-    path:     /categories/{id}/products
+    path:     /brand-categories/{id}/products
     controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Product\BrandCategoryController::productsAction
     defaults:
         _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product'

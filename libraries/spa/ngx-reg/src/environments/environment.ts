@@ -8,6 +8,7 @@ export const environment = {
 
 export const apiEndPoint = 'http://127.0.0.1:8000';
 export const apiEndPointBase = '/api';
+export const organisationPath = '/organisations';
 
 /*
  * In development mode, to ignore zone related error stack frames such as
