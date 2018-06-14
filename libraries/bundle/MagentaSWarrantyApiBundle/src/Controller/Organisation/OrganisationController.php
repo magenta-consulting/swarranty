@@ -19,4 +19,10 @@ class OrganisationController extends Controller {
 		
 		return $dealers;
 	}
+	
+	public function customersAction(Organisation $data): Collection {
+		$c = $data->getCustomers();
+		
+		return $c;
+	}
 }

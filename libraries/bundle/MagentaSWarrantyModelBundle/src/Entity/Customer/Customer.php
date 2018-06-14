@@ -30,7 +30,7 @@ class Customer extends Thing {
 	
 	/**
 	 * @var Organisation|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="brands", cascade={"persist","merge"})
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="customers", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;
@@ -71,6 +71,12 @@ class Customer extends Thing {
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $homePostalCode;
+	
+	/**
+	 * @var integer|null
+	 * @ORM\Column(type="integer",nullable=true)
+	 */
+	protected $dialingCode = 65;
 	
 	/**
 	 * @var string|null
@@ -174,5 +180,19 @@ class Customer extends Thing {
 	 */
 	public function setWarranties(Collection $warranties): void {
 		$this->warranties = $warranties;
+	}
+	
+	/**
+	 * @return null|integer
+	 */
+	public function getDialingCode(): ?int {
+		return $this->dialingCode;
+	}
+	
+	/**
+	 * @param null|integer $dialingCode
+	 */
+	public function setDialingCode(?int $dialingCode): void {
+		$this->dialingCode = $dialingCode;
 	}
 }

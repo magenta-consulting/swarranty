@@ -20,7 +20,7 @@
         <!-- Key paths should be relative to the project directory -->
         <env name="JWT_PRIVATE_KEY_PATH" value="config/jwt/private.pem"/>
         <env name="JWT_PUBLIC_KEY_PATH" value="config/jwt/public.pem"/>
-        <env name="JWT_PASSPHRASE" value="270c160fc4d0a8dc49ef7fe267a6fda9"/>
+        <env name="JWT_PASSPHRASE" value="652e80a624cd9fb9e44992d6786c5e9a"/>
         <!-- ###- lexik/jwt-authentication-bundle ### -->
     </php>
 

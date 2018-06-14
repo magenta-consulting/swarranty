@@ -28,8 +28,30 @@ resources:
             denormalization_context:
                 groups:
                     - write_warranty
-                    - write_product
-                    - write_brand
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
+#        shortName: 'User'                   # optional
+        description: 'Customer' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_customer
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_customer
                     - write_thing
         itemOperations:
             get: ~
@@ -162,6 +184,8 @@ resources:
                 route_name: 'organisation_brands'
             get_dealers:
                 route_name: 'organisation_dealers'
+            get_customers:
+                route_name: 'organisation_customers'
 #            get_contactable_members:
 #                route_name: 'organisation_contactable_members'
 #                filters: ['contactable_members.name_search_filter']

@@ -21,6 +21,15 @@ organisation_dealers:
         _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
         _api_item_operation_name: 'get_dealers'
         _api_collection_operation_name: 'dealers'
+
+organisation_customers:
+    path:     /organisations/{id}/customers
+    controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Organisation\OrganisationController::customersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'get_customers'
+        _api_collection_operation_name: 'customers'
+
 #
 #organisation_book_chapters:
 #    path:     /books/{id}/chapters

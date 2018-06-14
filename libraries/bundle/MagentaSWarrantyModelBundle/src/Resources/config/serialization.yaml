@@ -11,6 +11,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
     attributes:
         name:
             groups: ['read_organisation','write_organisation']
+        tos:
+            groups: ['read_organisation','write_organisation']
         logo:
             groups: ['read_organisation','write_organisation']
 
@@ -18,6 +20,39 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:
         modelNumber:
             groups: ['read_product','write_product']
+
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
+    attributes:
+        customer:
+            groups: ['read_warranty','write_warranty']
+        product:
+            groups: ['read_warranty','write_warranty']
+        productSerialNumber:
+            groups: ['read_warranty','write_warranty']
+        purchaseDate:
+            groups: ['read_warranty','write_warranty']
+
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
+    attributes:
+        organisation:
+            groups: ['read_customer','write_customer']
+        name:
+            groups: ['read_customer','write_customer']
+        email:
+            groups: ['read_customer','write_customer']
+        telephone:
+            groups: ['read_customer','write_customer']
+
+#{
+#  "customer": {
+#    "name": "new customer"
+#  },
+#  "product": "/api/products/1",
+#  "purchaseDate": "2018-06-14",
+#  "productSerialNumber": "S001"
+#}
 
 #Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
 #    attributes:

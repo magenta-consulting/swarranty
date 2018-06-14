@@ -32,6 +32,7 @@ use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -90,10 +91,48 @@ class WarrantyAdmin extends BaseAdmin {
 		if(empty($this->getParentFieldDescription())) {
 //            $this->filterQueryByPosition($query, 'position', '', '');
 		}
-
-//        $query->andWhere()
+		/** @var Expr $expr */
+		$expr = $query->expr();
+		/** @var QueryBuilder $qb */
+		$qb           = $query->getQueryBuilder();
+		$rootAlias    = $qb->getRootAliases()[0];
+		$statusFilter = $this->getRequest()->query->get('statusFilter');
+		switch($statusFilter) {
+			case 'ALL':
+				break;
+			case 'NEW':
+				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal('NEW')));
+				break;
+			case 'APPROVED':
+				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal('APPROVED')));
+				break;
+			case 'NEAR-EXPIRY':
+				$org   = $this->getCurrentOrganisation();
+				$nep   = $org->getNearExpiryPeriod();
+				$t     = new \DateTime();
+				$today = \DateTime::createFromFormat('d M Y', $t->format('d M Y'));
+				$today->setTime(0, 0, 0);
+				$nepDt = clone $today;
+				$nepDt->modify(sprintf('+%d days', $nep));
+				$nepDt->setTime(23, 59, 59);
+				$query->andWhere($expr->between($rootAlias . '.expiryDate', ':today', ':nep'))
+				      ->setParameter('nep', $nepDt)
+				      ->setParameter('today', $today);
+				break;
+			case 'EXPIRED':
+				$query->andWhere($expr->lt($rootAlias . '.expiryDate', ':today'))
+				      ->setParameter('today', new \DateTime());
+				break;
+			case 'REJECTED':
+				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal('REJECTED')));
+				break;
+		}
 		
-		return $query;
+		//        $query->andWhere()
+		
+		{
+			return $query;
+		}
 	}
 	
 	public function getPersistentParameters() {
@@ -115,6 +154,9 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	public function getTemplate($name) {
 		$_name = strtoupper($name);
+		if($_name === 'LIST') {
+			return '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/CRUD/list.html.twig';
+		}
 		
 		return parent::getTemplate($name);
 	}
@@ -171,7 +213,8 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper
 			->add('customer.name', null, [ 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
-			->add('customer.telephone', null, [ 'label' => 'form.label_telephone' ]);
+			->add('customer.dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
+			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ]);
 		$formMapper->end();
 		$formMapper
 			->with('form_group.warranty_details', [ 'class' => 'col-md-6' ]);
@@ -205,6 +248,19 @@ class WarrantyAdmin extends BaseAdmin {
 //
 				return true;
 			},
+		]);
+		$formMapper->add('purchaseDate', DatePickerType::class, [
+			'datepicker_use_button' => false,
+			'format'                => 'dd-MM-yyyy',
+			'placeholder'           => 'dd-mm-yyyy'
+		
+		]);
+		$formMapper->add('createdAt', DatePickerType::class, [
+			'label'                 => 'form.label_warranty_submission_date',
+			'datepicker_use_button' => false,
+			'format'                => 'dd-MM-yyyy',
+			'placeholder'           => 'dd-mm-yyyy'
+		
 		]);
 		$formMapper->end();
 	}

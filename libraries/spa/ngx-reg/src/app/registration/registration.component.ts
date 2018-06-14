@@ -7,6 +7,8 @@ import {Product} from "../model/product";
 import {BrandSubCategory} from "../model/brand-sub-category";
 import {Dealer} from "../model/dealer";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {Customer} from "../model/customer";
+import {Warranty} from "../model/warranty";
 
 @Component({
     selector: 'app-registration',
@@ -14,74 +16,64 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
     styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-    brands: Brand[] = [
-        {id: null, name: "Loading"} as Brand
-    ];
 
-    categories: BrandCategory[] = [
-        {id: null, name: "Loading"} as BrandCategory
-    ];
+    customer: Customer = {id: null, name: null};
 
-    subCategories: BrandSubCategory[] = [
-        {id: null, name: "Loading"} as BrandSubCategory
-    ];
-
-    products: Product[] = [
-        {id: null, name: "Loading"} as Product
-    ];
-
-    dealers: Dealer[] = [
-        {id: null, name: "Loading"} as Dealer
-    ];
-
-    selectedBrand: Brand = null;
-    selectedCategory: BrandCategory = null;
-    selectedProduct: Product = null;
-    selectedDealer: Dealer = null;
-
-    isCategoryHidden = true;
-    isProductHidden = true;
-
-    purchaseDate: Date;
+    warranties: Warranty[] = [];
 
     constructor(private productService: ProductService) {
-        productService.getBrands().subscribe(brands => this.brands = brands);
-        productService.getDealers().subscribe(d => this.dealers = d);
+        let warranty: Warranty = new Warranty();
+        warranty.id = null;
+
+        this.warranties.push(warranty);
+        productService.getBrands().subscribe(brands => warranty.brands = brands);
+        productService.getDealers().subscribe(d => warranty.dealers = d);
     }
 
     ngOnInit() {
     }
 
-    selectBrand(e): void {
-        if (this.selectedBrand.id !== null) {
-            this.categories = [{id: null, name: "Loading"} as BrandCategory]
-            this.isProductHidden = true;
-            this.isCategoryHidden = true;
+    removeWarranty(w:Warranty){
+        var index = this.warranties.indexOf(w);
+        if (index > -1) {
+            this.warranties.splice(index, 1);
+            this.warranties = this.warranties;
+        }
+    }
+    addWarranty() {
+        let warranty: Warranty = new Warranty();
+        warranty.id = null;
 
-            this.productService.getCategories(this.selectedBrand.id).subscribe(cats => {
-                this.categories = cats;
-                this.isCategoryHidden = false;
-                this.selectedCategory = null;
+        this.warranties.push(warranty);
+        this.productService.getBrands().subscribe(brands => warranty.brands = brands);
+        this.productService.getDealers().subscribe(d => warranty.dealers = d);
+    }
 
+    selectBrand(e, warranty: Warranty): void {
+        if (warranty.selectedBrand.id !== null) {
+            warranty.categories = [{id: null, name: "Loading"} as BrandCategory]
+            warranty.isProductHidden = true;
+            warranty.isCategoryHidden = true;
+
+            this.productService.getCategories(warranty.selectedBrand.id).subscribe(cats => {
+                warranty.categories = cats;
+                warranty.isCategoryHidden = false;
+                warranty.selectedCategory = null;
             });
         }
     }
 
-    selectCategory(e): void {
-        if (this.selectedCategory.id !== null) {
-            this.products = [{id: null, name: "Loading"} as Product]
-            this.isProductHidden = true;
+    selectCategory(e, warranty: Warranty): void {
+        if (warranty.selectedCategory.id !== null) {
+            warranty.products = [{id: null, name: "Loading"} as Product]
+            warranty.isProductHidden = true;
 
-            this.productService.getProductsByCategory(this.selectedCategory.id).subscribe(prods => {
-                this.products = prods;
-                this.isProductHidden = false;
-                this.selectedProduct = null;
-
+            this.productService.getProductsByCategory(warranty.selectedCategory.id).subscribe(prods => {
+                warranty.products = prods;
+                warranty.isProductHidden = false;
+                warranty.selectedProduct = null;
             });
         }
     }
 
-    test(): void {
-        this.categories = [...this.categories, {id: '3', name: "hello 3"} as BrandCategory];
-    }
 }

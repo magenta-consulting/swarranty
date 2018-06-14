@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin;
@@ -14,6 +15,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -32,13 +34,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrganisationAdmin extends BaseAdmin {
 	
 	const CHILDREN = [
-		ACLAdmin::class         => 'organisation',
-		ServiceZoneAdmin::class => 'organisation',
-		BrandAdmin::class       => 'organisation',
+		ACLAdmin::class              => 'organisation',
+		ServiceZoneAdmin::class      => 'organisation',
+		BrandAdmin::class            => 'organisation',
 		BrandCategoryAdmin::class    => 'organisation',
-		BrandSubCategoryAdmin::class    => 'organisation',
-		ProductAdmin::class     => 'organisation',
-		CustomerAdmin::class    => 'organisation',
+		BrandSubCategoryAdmin::class => 'organisation',
+		ProductAdmin::class          => 'organisation',
+		CustomerAdmin::class         => 'organisation',
 	];
 	
 	protected $action;
@@ -60,8 +62,8 @@ class OrganisationAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param string $name
-	 * @param Organisation   $object
+	 * @param string       $name
+	 * @param Organisation $object
 	 */
 	public function isGranted($name, $object = null) {
 		$container = $this->getConfigurationPool()->getContainer();
@@ -149,10 +151,17 @@ class OrganisationAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper->add('name')
-		           ->add('adminOrganisation', ModelAutocompleteType::class, array(
-			           'required' => false,
-			           'property' => 'email'
-		           ));
+		           ->add('nearExpiryPeriod', null, [ 'required' => true ])
+		           ->add('adminUser', ModelAutocompleteType::class, array(
+			           'required'           => false,
+			           'property'           => 'email',
+			           'to_string_callback' => function(User $entity) {
+//				$entity->generateSearchText();
+				
+				           return $entity->getEmail();
+			           }
+		           ))
+		           ->add('tos', CKEditorType::class);
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [

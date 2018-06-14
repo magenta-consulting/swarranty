@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {RegistrationComponent} from "./registration/registration.component";
 
 const routes: Routes = [
+    { path: '', redirectTo: '/registration', pathMatch: 'full' },
     { path: 'registration', component: RegistrationComponent }
 ];
 

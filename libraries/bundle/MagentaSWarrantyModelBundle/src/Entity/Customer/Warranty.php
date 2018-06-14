@@ -24,8 +24,7 @@ class Warranty implements ThingChildInterface {
 	const STATUS_NEW = 'NEW';
 	const STATUS_EXPIRED = 'EXPIRED';
 	const STATUS_REJECTED = 'REJECTED';
-	const STATUS_ACTIVE = 'ACTIVE';
-	
+	const STATUS_APPROVED = 'APPROVED';
 	
 	/**
 	 * @var int|null
@@ -39,6 +38,45 @@ class Warranty implements ThingChildInterface {
 		$this->cases = new ArrayCollection();
 		
 		$this->createdAt = new \DateTime();
+	}
+	
+	public function markStatusAs($status) {
+		switch($status) {
+			case self::STATUS_NEW:
+				$this->new = true;
+				$this->enabled = false;
+				break;
+			case self::STATUS_APPROVED:
+				$this->new      = false;
+				$this->approved = true;
+				$this->rejected = false;
+				$this->enabled = true;
+				break;
+			case self::STATUS_REJECTED:
+				$this->new      = false;
+				$this->approved = false;
+				$this->rejected = true;
+				$this->enabled = false;
+				break;
+			case self::STATUS_EXPIRED:
+				$today = new \DateTime();
+				if($this->expiryDate < $today) {
+					$this->new     = false;
+					$this->expired = true;
+					$this->enabled = false;
+				}
+				break;
+		}
+		$this->status = $status;
+	}
+	
+	/**
+	 * @param Product|null $product
+	 */
+	public function setProduct(?Product $product): void {
+		$this->product                = $product;
+		$this->warrantyPeriod         = $product->getWarrantyPeriod();
+		$this->extendedWarrantyPeriod = $product->getWarrantyPeriod();
 	}
 	
 	public function getOrganisation(): Organisation {
@@ -122,19 +160,25 @@ class Warranty implements ThingChildInterface {
 	
 	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean", options={"default":true})
+	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $enabled = false;
+	protected $approved = false;
 	
 	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean", options={"default":true})
+	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected $rejected = false;
 	
 	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean", options={"default":true})
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $enabled = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected $expired = false;
 	
@@ -143,6 +187,20 @@ class Warranty implements ThingChildInterface {
 	 * @ORM\Column(type="boolean", options={"default":true})
 	 */
 	protected $new = true;
+	
+	/**
+	 * in months
+	 * @var integer|null
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $warrantyPeriod;
+	
+	/**
+	 * @var integer|null
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	protected $extendedWarrantyPeriod;
+	
 	
 	/**
 	 * @var string|null
@@ -195,13 +253,6 @@ class Warranty implements ThingChildInterface {
 	 */
 	public function getProduct(): ?Product {
 		return $this->product;
-	}
-	
-	/**
-	 * @param Product|null $product
-	 */
-	public function setProduct(?Product $product): void {
-		$this->product = $product;
 	}
 	
 	/**
@@ -272,5 +323,47 @@ class Warranty implements ThingChildInterface {
 	 */
 	public function setExpiryDate(?\DateTime $expiryDate): void {
 		$this->expiryDate = $expiryDate;
+	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getWarrantyPeriod(): ?int {
+		return $this->warrantyPeriod;
+	}
+	
+	/**
+	 * @param int|null $warrantyPeriod
+	 */
+	public function setWarrantyPeriod(?int $warrantyPeriod): void {
+		$this->warrantyPeriod = $warrantyPeriod;
+	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getExtendedWarrantyPeriod(): ?int {
+		return $this->extendedWarrantyPeriod;
+	}
+	
+	/**
+	 * @param int|null $extendedWarrantyPeriod
+	 */
+	public function setExtendedWarrantyPeriod(?int $extendedWarrantyPeriod): void {
+		$this->extendedWarrantyPeriod = $extendedWarrantyPeriod;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isApproved(): bool {
+		return $this->approved;
+	}
+	
+	/**
+	 * @param bool $approved
+	 */
+	public function setApproved(bool $approved): void {
+		$this->approved = $approved;
 	}
 }

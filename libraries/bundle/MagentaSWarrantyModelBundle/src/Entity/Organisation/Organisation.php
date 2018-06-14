@@ -78,11 +78,18 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $brands;
+	
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $dealers;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $customers;
 	
 	
 	/**
@@ -103,6 +110,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */
 	protected $logo;
+	
+	/**
+	 * @var integer
+	 * @ORM\Column(type="integer", options={"default":30})
+	 */
+	protected $nearExpiryPeriod = 30;
 	
 	/**
 	 * @var boolean
@@ -354,5 +367,34 @@ class Organisation extends OrganizationModel {
 	public function setTos(?string $tos): void {
 		$this->tos = $tos;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCustomers(): Collection {
+		return $this->customers;
+	}
+	
+	/**
+	 * @param Collection $customers
+	 */
+	public function setCustomers(Collection $customers): void {
+		$this->customers = $customers;
+	}
+	
+	/**
+	 * @return int
+	 */
+	public function getNearExpiryPeriod(): int {
+		return $this->nearExpiryPeriod;
+	}
+	
+	/**
+	 * @param int $nearExpiryPeriod
+	 */
+	public function setNearExpiryPeriod(int $nearExpiryPeriod): void {
+		$this->nearExpiryPeriod = $nearExpiryPeriod;
+	}
+	
 	
 }

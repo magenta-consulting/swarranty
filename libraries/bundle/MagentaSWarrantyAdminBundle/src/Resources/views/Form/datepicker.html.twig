@@ -1,0 +1,7 @@
+{% extends '@SonataCore/Form/datepicker.html.twig' %}
+
+{% block sonata_type_date_picker_widget_html %}
+    {% set attr = attr|merge({'placeholder': 'dd-mm-yyyy'}) %}
+
+    {{ parent() }}
+{% endblock sonata_type_date_picker_widget_html %}

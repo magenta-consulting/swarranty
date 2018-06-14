@@ -14,7 +14,9 @@
   ],
   "require": {
     "magenta-consulting/swarranty-model-bundle": "^0.1",
-    "api-platform/api-pack": "^1.1"
+    "api-platform/api-pack": "^1.1",
+    "gesdinet/jwt-refresh-token-bundle": "^0.4",
+    "lexik/jwt-authentication-bundle": "^2.4"
   },
   "require-dev": {
   },

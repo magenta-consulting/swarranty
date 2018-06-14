@@ -5,7 +5,7 @@
             <section>
                 <h5>Customer Details</h5>
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" placeholder="(*) Your Full name"
+                    <input [(ngModel)]="customer.name" type="text" class="form-control" placeholder="(*) Your Full name"
                            aria-label="Your Full name">
                 </div>
                 <div class="input-group mb-2">
@@ -31,40 +31,41 @@
                 </div>
             </section>
             <h3>Product Purchase Information</h3>
-            <section>
-                <ng-select class="mb-2" (change)="selectBrand($event)" [items]="brands"
+            <section *ngFor="let warranty of warranties; index as i; first as isFirst">
+                <div *ngIf="!isFirst" class="remove-product mb-2" (click)="removeWarranty(warranty)"><fa size="lg" name="minus-square"> </fa> Remove</div>
+                <ng-select class="mb-2" (change)="selectBrand($event,warranty)" [items]="warranty.brands"
                            bindLabel="name"
                            placeholder="(*) Product Brand"
-                           [(ngModel)]="selectedBrand">
+                           [(ngModel)]="warranty.selectedBrand">
                 </ng-select>
-                <ng-select *ngIf="!isCategoryHidden" (change)="selectCategory($event)" class="mb-2" [items]="categories"
+                <ng-select *ngIf="!warranty.isCategoryHidden" (change)="selectCategory($event,warranty)" class="mb-2" [items]="warranty.categories"
                            bindLabel="name"
                            placeholder="(*) Product Category"
-                           [(ngModel)]="selectedCategory">
+                           [(ngModel)]="warranty.selectedCategory">
                 </ng-select>
-                <ng-select *ngIf="!isProductHidden" class="mb-2" [items]="products"
+                <ng-select *ngIf="!warranty.isProductHidden" class="mb-2" [items]="warranty.products"
                            bindLabel="name"
                            placeholder="(*) Model Name"
-                           [(ngModel)]="selectedProduct">
+                           [(ngModel)]="warranty.selectedProduct">
                 </ng-select>
                 <div class="input-group mb-2">
-                    <input [(ngModel)]="purchaseDate" type="text"
-                           placeholder="(*) Purchase Date (MM-DD-YYYY)"
+                    <input [(ngModel)]="warranty.purchaseDate" type="text"
+                           placeholder="(*) Purchase Date (DD-MM-YYYY)"
                            class="form-control"
                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
                            bsDatepicker/>
                 </div>
                 <div class="input-group mb-2">
-                    <input type="text" class="form-control" placeholder="Product Serial Number"
+                    <input  [(ngModel)]="warranty.serialNumber" type="text" class="form-control" placeholder="Product Serial Number"
                            aria-label="Postal Code">
                 </div>
-                <ng-select class="mb-2" [items]="dealers"
+                <ng-select class="mb-2" [items]="warranty.dealers"
                            bindLabel="name"
                            placeholder="Dealer's Name"
-                           [(ngModel)]="selectedDealer">
+                           [(ngModel)]="warranty.selectedDealer">
                 </ng-select>
             </section>
-            <div class="input-group mb-2" style="cursor: pointer;">
+            <div class="input-group mb-2" style="cursor: pointer;" (click)="addWarranty()">
                 <fa size="lg" name="plus-square"> </fa>
                 <span class="add-product-text"> Add another Product</span>
             </div>

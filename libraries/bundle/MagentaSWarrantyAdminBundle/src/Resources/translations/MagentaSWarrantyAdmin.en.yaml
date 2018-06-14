@@ -84,6 +84,7 @@ layout:
 
 form_group:
     service_zone: Service Zone
+    warranty_details: Warranty Details
 
 form:
     group_name: 'Group name'
@@ -94,11 +95,16 @@ form:
     password_confirmation: 'Repeat password'
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
-
+    label_tos: TOS
     label_name: Name
     label_family_name: Family Name
     label_given_name: Given Name
     label_telephone: Contact Number
+    label_dialing_code: Country Dialing Code
+    label_created_at: Created At
+    label_warranty_submission_date: Warranty Submission Date
+    label_purchase_date: Purchase Date
+    label_product: Product
     label_address: Address
     label_postal_code: Postal Code
     label_email: Email

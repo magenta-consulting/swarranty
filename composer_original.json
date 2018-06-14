@@ -71,6 +71,7 @@
         }
     },
     "replace": {
+        "egeloen/ckeditor-bundle": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-php71": "*",
         "symfony/polyfill-php70": "*",

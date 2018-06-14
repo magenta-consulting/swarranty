@@ -1,4 +1,16 @@
 {% extends '@SonataAdmin/standard_layout.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .list-action {
+            margin: 7px 0px 7px 0px;
+        }
+
+        .list-action:first-child {
+            margin-left: 7px;
+        }
+    </style>
+{% endblock %}
 {% trans_default_domain 'MagentaSWarrantyAdmin' %}
 
             {% block body_attributes -%}

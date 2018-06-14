@@ -1,4 +1,6 @@
-.add-product-text {
+.add-product-text, .remove-product {
+  cursor: pointer;
+  display: inherit;
   text-align: left;
-  padding-left:3px;
+  padding-left: 3px;
 }

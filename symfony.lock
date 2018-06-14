@@ -116,6 +116,9 @@
             "ref": "81dee417d2cc60cd1c9d6208dff2ec22a1103e93"
         }
     },
+    "friendsofsymfony/ckeditor-bundle": {
+        "version": "1.1.0"
+    },
     "gesdinet/jwt-refresh-token-bundle": {
         "version": "v0.4.0"
     },
@@ -155,6 +158,9 @@
     "knplabs/gaufrette": {
         "version": "v0.5.0"
     },
+    "knplabs/knp-markdown-bundle": {
+        "version": "1.7.0"
+    },
     "knplabs/knp-menu": {
         "version": "2.3.0"
     },
@@ -172,6 +178,9 @@
             "version": "2.3",
             "ref": "a66e8a7b75a1825cf2414d5dd53c7ed38c8654d1"
         }
+    },
+    "michelf/php-markdown": {
+        "version": "1.8.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -349,6 +358,9 @@
     },
     "sonata-project/exporter": {
         "version": "1.9.0"
+    },
+    "sonata-project/formatter-bundle": {
+        "version": "3.5.0"
     },
     "sonata-project/media-bundle": {
         "version": "3.13",

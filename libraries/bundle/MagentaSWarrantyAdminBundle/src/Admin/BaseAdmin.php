@@ -202,7 +202,7 @@ class BaseAdmin extends AbstractAdmin {
 		if($this->isAdmin()) {
 //			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
 			// admin should see everything except in embeded forms
-			if( ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
+			if(empty($parentFD) || $parentFD->getType() !== ModelAutocompleteType::class) {
 				return $query;
 			}
 		}
