@@ -7,6 +7,10 @@ api_organisation:
     resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/organisation.yaml"
     prefix: /api
 
+api_customer:
+    resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/customer.yaml"
+    prefix: /api
+
 api_product:
     resource: "@MagentaSWarrantyApiBundle/Resources/config/routing/product.yaml"
     prefix: /api

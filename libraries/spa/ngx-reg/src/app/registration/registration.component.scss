@@ -4,3 +4,25 @@
   text-align: left;
   padding-left: 3px;
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.preview-label {
+  flex: 0 0 85px;
+}
+
+.preview-text {
+  display: flex;
+  align-items: center;
+}
+
+.preview-label .input-group-text {
+  white-space: normal;
+}
+
+.preview-container {
+  cursor: pointer;
+}

@@ -5,4 +5,6 @@ import {Product} from "./product";
 export class Customer {
     id: string;
     name: string;
+    dialingCode: number;
+    telephone: number;
 }

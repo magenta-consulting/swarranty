@@ -4,16 +4,43 @@
             <h3>Customer and Product Registration</h3>
             <section>
                 <h5>Customer Details</h5>
-                <div class="input-group mb-2">
+                <div *ngIf="!isPreview('customerName')" class="input-group mb-2">
                     <input [(ngModel)]="customer.name" type="text" class="form-control" placeholder="(*) Your Full name"
-                           aria-label="Your Full name">
+                           aria-label="Your Full name"
+                           (keyup.enter)="updateField('customerName')"
+                           (blur)="updateField('customerName')"
+                    >
                 </div>
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">+65</span>
+                <div *ngIf="isPreview('customerName')" (click)="editPreview('customerName')" class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Full Name </span>
                     </div>
-                    <input type="text" class="form-control" placeholder="(*) Contact Number"
-                           aria-label="Contact Number">
+                    <div class="form-control preview-text">
+                        <span>{{customer.name}}</span>
+                    </div>
+                </div>
+                <div *ngIf="!isPreview('customerTelephone')" class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span *ngIf="!isDialingCodeEditing" (click)="editDialingCode()" class="input-group-text">+{{customer.dialingCode}}</span>
+                        <input #dialingCode [focus]="focusDialingCodeEM" *ngIf="isDialingCodeEditing"
+                               style="width: 45px;" type="number" class="form-control mr-1" value="64"
+                               aria-label="Country Dialing Code"
+                               (keyup.enter)="updateDialingCode(dialingCode.value)"
+                               (blur)="updateDialingCode(dialingCode.value)">
+                    </div>
+                    <input type="number" [(ngModel)]="customer.telephone" class="form-control" placeholder="(*) Contact Number"
+                           aria-label="Contact Number"
+                           (keyup.enter)="updateField('customerTelephone')"
+                           (blur)="updateField('customerTelephone')"
+                    />
+                </div>
+                <div *ngIf="isPreview('customerTelephone')" (click)="editPreview('customerTelephone')" class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Contact Number </span>
+                    </div>
+                    <div class="form-control preview-text">
+                    <span>+{{customer.dialingCode}} {{ customer.telephone }}</span>
+                    </div>
                 </div>
                 <div class="input-group mb-1">
                     <input type="text" class="form-control" placeholder="Email Address" aria-label="Email Address">
@@ -32,13 +59,17 @@
             </section>
             <h3>Product Purchase Information</h3>
             <section *ngFor="let warranty of warranties; index as i; first as isFirst">
-                <div *ngIf="!isFirst" class="remove-product mb-2" (click)="removeWarranty(warranty)"><fa size="lg" name="minus-square"> </fa> Remove</div>
+                <div *ngIf="!isFirst" class="remove-product mb-2" (click)="removeWarranty(warranty)">
+                    <fa size="lg" name="minus-square"></fa>
+                    Remove
+                </div>
                 <ng-select class="mb-2" (change)="selectBrand($event,warranty)" [items]="warranty.brands"
                            bindLabel="name"
                            placeholder="(*) Product Brand"
                            [(ngModel)]="warranty.selectedBrand">
                 </ng-select>
-                <ng-select *ngIf="!warranty.isCategoryHidden" (change)="selectCategory($event,warranty)" class="mb-2" [items]="warranty.categories"
+                <ng-select *ngIf="!warranty.isCategoryHidden" (change)="selectCategory($event,warranty)" class="mb-2"
+                           [items]="warranty.categories"
                            bindLabel="name"
                            placeholder="(*) Product Category"
                            [(ngModel)]="warranty.selectedCategory">
@@ -56,7 +87,8 @@
                            bsDatepicker/>
                 </div>
                 <div class="input-group mb-2">
-                    <input  [(ngModel)]="warranty.serialNumber" type="text" class="form-control" placeholder="Product Serial Number"
+                    <input [(ngModel)]="warranty.serialNumber" type="text" class="form-control"
+                           placeholder="Product Serial Number"
                            aria-label="Postal Code">
                 </div>
                 <ng-select class="mb-2" [items]="warranty.dealers"
@@ -66,16 +98,16 @@
                 </ng-select>
             </section>
             <div class="input-group mb-2" style="cursor: pointer;" (click)="addWarranty()">
-                <fa size="lg" name="plus-square"> </fa>
+                <fa size="lg" name="plus-square"></fa>
                 <span class="add-product-text"> Add another Product</span>
             </div>
             <section>
                 <div class="input-group mb-2">
-                 <button type="button" class="btn btn-primary form-control">REGISTER</button>
+                    <button (click)="submit()" type="button" class="btn btn-primary form-control">REGISTER</button>
                 </div>
             </section>
             <section>
-                I have read and                 <a (click)="lgModal.show()">or this</a>
+                I have read and <a (click)="lgModal.show()">or this</a>
                 <input type="checkbox" aria-label="Checkbox for following text input">
 
                 <br/>

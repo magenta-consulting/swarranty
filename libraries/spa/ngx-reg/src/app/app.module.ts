@@ -13,11 +13,13 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 import {HttpClientModule} from "@angular/common/http";
+import { FocusDirective } from './directive/focus.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    FocusDirective
   ],
   imports: [
     BrowserModule,

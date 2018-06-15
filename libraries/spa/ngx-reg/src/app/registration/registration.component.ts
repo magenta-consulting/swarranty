@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Brand} from "../model/brand";
 import {ProductService} from "../model/product.service";
@@ -9,19 +9,25 @@ import {Dealer} from "../model/dealer";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Customer} from "../model/customer";
 import {Warranty} from "../model/warranty";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-registration',
     templateUrl: './registration.component.html',
     styleUrls: ['./registration.component.scss']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent implements OnInit, AfterViewInit {
 
-    customer: Customer = {id: null, name: null};
+    customer: Customer = {id: null, name: null, dialingCode: 64} as Customer;
 
     warranties: Warranty[] = [];
 
-    constructor(private productService: ProductService) {
+    isDialingCodeEditing = false;
+
+    previewStates: any = {};
+    isFormPreview = false;
+
+    constructor(private productService: ProductService, private router: Router) {
         let warranty: Warranty = new Warranty();
         warranty.id = null;
 
@@ -33,13 +39,49 @@ export class RegistrationComponent implements OnInit {
     ngOnInit() {
     }
 
-    removeWarranty(w:Warranty){
+    ngAfterViewInit() {
+    }
+
+    isPreview(field: string): boolean {
+        if (!this.previewStates.hasOwnProperty(field)) {
+            this.previewStates[field] = true;
+        }
+        return this.previewStates[field] && this.isFormPreview;
+    }
+
+    editPreview(field: string): void {
+        this.previewStates[field] = false;
+    }
+
+    updateField(field: string): void {
+        this.previewStates[field] = true;
+    }
+
+    submit() {
+        this.isFormPreview = true;
+        // this.router.navigate(['/preview', {customer: this.customer, warranties: this.warranties}]);
+    }
+
+    focusDialingCodeEM = new EventEmitter<boolean>();
+
+    editDialingCode() {
+        this.isDialingCodeEditing = true;
+        this.focusDialingCodeEM.emit(true);
+    }
+
+    updateDialingCode(value: number) {
+        this.customer.dialingCode = value;
+        this.isDialingCodeEditing = false;
+    }
+
+    removeWarranty(w: Warranty) {
         var index = this.warranties.indexOf(w);
         if (index > -1) {
             this.warranties.splice(index, 1);
             this.warranties = this.warranties;
         }
     }
+
     addWarranty() {
         let warranty: Warranty = new Warranty();
         warranty.id = null;

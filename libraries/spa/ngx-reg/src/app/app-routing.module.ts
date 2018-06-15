@@ -4,7 +4,7 @@ import {RegistrationComponent} from "./registration/registration.component";
 
 const routes: Routes = [
     { path: '', redirectTo: '/registration', pathMatch: 'full' },
-    { path: 'registration', component: RegistrationComponent }
+    { path: 'registration', component: RegistrationComponent },
 ];
 
 @NgModule({
@@ -13,4 +13,5 @@ const routes: Routes = [
     declarations: []
 })
 export class AppRoutingModule {
+
 }

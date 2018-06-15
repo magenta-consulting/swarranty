@@ -8,6 +8,7 @@ import {apiEndPoint, apiEndPointBase, organisationPath} from "../../environments
 import {BrandCategory} from "./brand-category";
 import {Product} from "./product";
 import {Dealer} from "./dealer";
+import {Customer} from "./customer";
 
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/ld+json'})
@@ -22,6 +23,8 @@ export class ProductService {
     categoriesUrl = '/brand-categories';
     productsUrl = '/products';
     dealersUrl = '/dealers';
+
+    customer: Customer;
 
     constructor(private http: HttpClient) {
     }
