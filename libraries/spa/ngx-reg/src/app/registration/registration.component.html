@@ -18,6 +18,9 @@
                     <div class="form-control preview-text">
                         <span>{{customer.name}}</span>
                     </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
                 </div>
                 <div *ngIf="!isPreview('customerTelephone')" class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -40,6 +43,9 @@
                     </div>
                     <div class="form-control preview-text">
                     <span>+{{customer.dialingCode}} {{ customer.telephone }}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
                 </div>
                 <div class="input-group mb-1">
