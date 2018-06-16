@@ -17,6 +17,7 @@
     "aws/aws-sdk-php": "^3.56",
     "beancomponent/organization": "^0.1",
     "beancomponent/person": "^0.1",
+    "sensio/framework-extra-bundle": "^5.1",
 
     "php": "^7.0",
     "symfony/security-bundle": "^4.0",

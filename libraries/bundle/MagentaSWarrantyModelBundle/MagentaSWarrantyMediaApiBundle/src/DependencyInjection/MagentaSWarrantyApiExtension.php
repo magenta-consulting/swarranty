@@ -2,6 +2,8 @@
 
 namespace Magenta\Bundle\SWarrantyApiBundle\DependencyInjection;
 
+use Magenta\Bundle\SWarrantyApiBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyApiBundle\Admin\BaseCRUDAdminController;
 use ProxyManager\FileLocator\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;

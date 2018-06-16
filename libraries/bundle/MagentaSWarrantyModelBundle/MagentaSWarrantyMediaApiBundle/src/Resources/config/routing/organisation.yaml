@@ -1,0 +1,54 @@
+#organisation_contactable_members:
+#    path:     /organisations/{id}/contactable-members
+#    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgMemberController::contactableMembersAction
+#    defaults:
+#        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\Organisation'
+#        _api_item_operation_name: 'get_contactable_members'
+##        _api_collection_operation_name: 'books'
+#
+organisation_brands:
+    path:     /organisations/{id}/brands
+    controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Organisation\OrganisationController::brandsAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'get_brands'
+        _api_collection_operation_name: 'brands'
+
+organisation_dealers:
+    path:     /organisations/{id}/dealers
+    controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Organisation\OrganisationController::dealersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'get_dealers'
+        _api_collection_operation_name: 'dealers'
+
+organisation_customers:
+    path:     /organisations/{id}/customers
+    controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Organisation\OrganisationController::customersAction
+    defaults:
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
+        _api_item_operation_name: 'get_customers'
+        _api_collection_operation_name: 'customers'
+
+#
+#organisation_book_chapters:
+#    path:     /books/{id}/chapters
+#    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::bookChaptersAction
+#    defaults:
+#        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook'
+#        _api_item_operation_name: 'get_chapters'
+##        _api_collection_operation_name: 'books'
+#
+#organisation_book_root_chapters:
+#    path:     /books/{id}/root-chapters
+#    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::bookRootChaptersAction
+#    defaults:
+#        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgBook'
+#        _api_item_operation_name: 'get_root_chapters'
+#
+#organisation_chapter_sub_chapters:
+#    path:     /chapters/{id}/sub-chapters
+#    controller: Magenta\Bundle\CBookApiBundle\Controller\Organisation\OrgChapterController::subChaptersAction
+#    defaults:
+#        _api_resource_class: 'Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrgChapter'
+#        _api_item_operation_name: 'get_sub_chapters'

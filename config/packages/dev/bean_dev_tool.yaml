@@ -6,3 +6,4 @@ bean_dev_tool:
         - MagentaSWarrantyModelBundle
         - MagentaSWarrantyAdminBundle
         - MagentaSWarrantyApiBundle
+        - MagentaSWarrantyMediaApiBundle

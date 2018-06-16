@@ -1,0 +1,41 @@
+{
+  "name": "magenta-consulting/swarranty-api-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the SWarranty Model.",
+  "keywords": [
+    "Symfony SWarrantyApi Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "magenta-consulting/swarranty-model-bundle": "^0.1",
+    "api-platform/api-pack": "^1.1",
+    "gesdinet/jwt-refresh-token-bundle": "^0.4",
+    "lexik/jwt-authentication-bundle": "^2.4"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\SWarrantyApiBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\SWarrantyApiBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\SWarrantyApiBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

@@ -115,8 +115,6 @@ security:
     access_decision_manager:
         strategy: unanimous
 
-
-
 sonata_media:
     default_context: default
     contexts:
@@ -185,3 +183,30 @@ sonata_media:
         gallery: Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Gallery
         gallery_has_media: Magenta\Bundle\SWarrantyModelBundle\Entity\Media\GalleryHasMedia
     db_driver: doctrine_orm # could be doctrine_orm, doctrine_mongodb or doctrine_phpcr
+
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      grouped
+        grouped:
+            type:    group
+            members: [streamed, deduplicated]
+        streamed:
+            type:  stream
+            path:  '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+        deduplicated:
+            type: deduplication
+            # the time in seconds during which duplicate entries are discarded (default: 60)
+            time: 60
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: 'no-reply@magenta-wellness.com'
+            to_email:   'binh@sunrise.vn'
+            subject:    'SWarranty - An Error Occurred! %%message%%'
+            level:      debug
+            formatter:  monolog.formatter.html
+            content_type: text/html

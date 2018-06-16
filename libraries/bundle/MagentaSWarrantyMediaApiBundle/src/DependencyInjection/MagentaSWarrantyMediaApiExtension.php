@@ -1,6 +1,6 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyApiBundle\DependencyInjection;
+namespace Magenta\Bundle\SWarrantyMediaApiBundle\DependencyInjection;
 
 use ProxyManager\FileLocator\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class MagentaSWarrantyApiExtension extends ConfigurableExtension {
+class MagentaSWarrantyMediaApiExtension extends ConfigurableExtension {
 	// note that this method is called loadInternal and not load
 	protected function loadInternal(array $mergedConfig, ContainerBuilder $container) {
 		$loader = new YamlFileLoader($container, new \Symfony\Component\Config\FileLocator(__DIR__ . '/../Resources/config'));

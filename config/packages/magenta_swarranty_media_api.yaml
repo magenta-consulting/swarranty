@@ -1,0 +1,42 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set.
+    # This allows you to run cache:warmup even if your
+    # environment variables are not available yet.
+    # You should not need to change this value.
+    MEDIA_API_PREFIX: '%env(MEDIA_API_PREFIX)%'
+
+nelmio_api_doc: ~
+
+#twig:
+#    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
+
+sensio_framework_extra:
+    router:  { annotations: true }
+    request: { converters: true }
+
+# Read the documentation: https://symfony.com/doc/master/bundles/FOSRestBundle/index.html
+fos_rest:
+#    param_fetcher_listener:  true
+#    allowed_methods_listener:  true
+#    routing_loader: true
+#    view:
+#        view_response_listener:  true
+#    exception:
+#        codes:
+#            App\Exception\MyException: 403
+#        messages:
+#            App\Exception\MyException: Forbidden area.
+
+    param_fetcher_listener: true
+    body_listener:          true
+#    format_listener:        true
+    view:
+        view_response_listener: force
+    body_converter:
+        enabled: true
+        validate: true
+
+services:
+  Sonata\MediaBundle\Controller\Api\MediaController:
+        alias: sonata.media.controller.api.media
+        public: true
