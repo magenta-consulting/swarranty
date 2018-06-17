@@ -26,3 +26,11 @@ input::-webkit-inner-spin-button {
 .preview-container {
   cursor: pointer;
 }
+
+div.input-group ng-select {
+  width: 100%;
+}
+
+.alert.alert-danger {
+  text-align: left;
+}

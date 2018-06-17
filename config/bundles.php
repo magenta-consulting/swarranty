@@ -37,5 +37,4 @@ return [
     Magenta\Bundle\SWarrantyMediaApiBundle\MagentaSWarrantyMediaApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyApiBundle\MagentaSWarrantyApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyAdminBundle\MagentaSWarrantyAdminBundle::class => ['all' => true, 'test' => true],
-	
 ];

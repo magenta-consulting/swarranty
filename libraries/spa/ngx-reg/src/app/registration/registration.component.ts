@@ -19,6 +19,7 @@ import {Router} from "@angular/router";
 export class RegistrationComponent implements OnInit, AfterViewInit {
 
     customer: Customer = {id: null, name: null, dialingCode: 64} as Customer;
+    emailConfirm: string;
 
     warranties: Warranty[] = [];
 
@@ -55,6 +56,11 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     updateField(field: string): void {
         this.previewStates[field] = true;
+    }
+
+    isEmailValid() {
+        if (this.customer.email == null || this.customer.email.trim() == '') return true;
+        return (/^.+\@.+\..+$/.test(this.customer.email));
     }
 
     submit() {

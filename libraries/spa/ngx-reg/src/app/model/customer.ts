@@ -7,4 +7,7 @@ export class Customer {
     name: string;
     dialingCode: number;
     telephone: number;
+    email: string;
+    address: string;
+    postalCode: string;
 }
