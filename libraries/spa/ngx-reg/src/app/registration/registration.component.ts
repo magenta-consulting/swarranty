@@ -79,14 +79,15 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (this.emailConfirm != this.customer.email) {
             return false;
         }
-        this.warranties.forEach(warranty => {
+        for (let i = 0; i < this.warranties.length; i++) {
+            const warranty = this.warranties[i];
             if (warranty.selectedBrand == null) {
                 return false;
             }
             if (warranty.purchaseDate == null) {
                 return false;
             }
-        });
+        }
         return true;
     }
 
