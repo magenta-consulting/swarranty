@@ -4,7 +4,7 @@ security:
         in_memory: { memory: ~ }
         jwt: # optional
             lexik_jwt:
-                class: Magenta\Bundle\SWarrantyModelBundle\Security\JWTUser
+                class: Magenta\Bundle\SWarrantyJWTBundle\Security\JWTUser
 
     firewalls:
         dev:

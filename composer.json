@@ -83,7 +83,8 @@
             "Magenta\\Bundle\\SWarrantyAdminBundle\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\src/",
             "Magenta\\Bundle\\SWarrantyApiBundle\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\src/",
             "Magenta\\Bundle\\SWarrantyMediaApiBundle\\": "libraries\\bundle\\MagentaSWarrantyMediaApiBundle\\src/",
-            "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/"
+            "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/",
+            "Magenta\\Bundle\\SWarrantyJWTBundle\\": "libraries\\bundle\\MagentaSWarrantyJWTBundle\\src/"
         }
     },
     "autoload-dev": {

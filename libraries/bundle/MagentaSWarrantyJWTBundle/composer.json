@@ -1,5 +1,5 @@
 {
-  "name": "magenta-consulting/swarranty-api-bundle",
+  "name": "magenta-consulting/swarranty-jwt-bundle",
   "type": "symfony-bundle",
   "description": "Provides a Bundle Integration for the SWarranty Model.",
   "keywords": [
@@ -14,8 +14,8 @@
   ],
   "require": {
     "magenta-consulting/swarranty-model-bundle": "^0.1",
-    "api-platform/api-pack": "^1.1",
-    "magenta-consulting/swarranty-jwt-bundle": "^0.1"
+    "gesdinet/jwt-refresh-token-bundle": "^0.4",
+    "lexik/jwt-authentication-bundle": "^2.4"
   },
   "require-dev": {
   },
@@ -23,13 +23,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Magenta\\Bundle\\SWarrantyApiBundle\\": "src/"
+      "Magenta\\Bundle\\SWarrantyJWTBundle\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Magenta\\Bundle\\SWarrantyApiBundle\\spec\\": "tests/spec/",
-      "Magenta\\Bundle\\SWarrantyApiBundle\\Tests\\": "tests/units/"
+      "Magenta\\Bundle\\SWarrantyJWTBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\SWarrantyJWTBundle\\Tests\\": "tests/units/"
     }
   },
   "extra": {

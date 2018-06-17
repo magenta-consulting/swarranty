@@ -1,5 +1,5 @@
 <?php
-namespace Magenta\Bundle\SWarrantyMediaApiBundle\Entity;
+namespace Magenta\Bundle\SWarrantyJWTBundle\Entity;
 
 use Gesdinet\JWTRefreshTokenBundle\Entity\AbstractRefreshToken;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
