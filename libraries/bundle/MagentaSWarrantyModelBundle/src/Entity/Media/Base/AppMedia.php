@@ -95,4 +95,6 @@ class AppMedia extends BaseMedia {
 	public function setImageProduct(Product $imageProduct): void {
 		$this->imageProduct = $imageProduct;
 	}
+	
+	
 }

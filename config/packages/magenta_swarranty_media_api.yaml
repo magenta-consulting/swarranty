@@ -5,6 +5,13 @@ parameters:
     # You should not need to change this value.
     MEDIA_API_PREFIX: '%env(MEDIA_API_PREFIX)%'
 
+#jms_serializer:
+#    metadata:
+#        directories:
+#            FOSUB:
+#                namespace_prefix: "FOS\\UserBundle"
+#                path: "%kernel.root_dir%/serializer/FOSUB"
+
 nelmio_api_doc: ~
 
 #twig:

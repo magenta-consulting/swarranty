@@ -118,6 +118,13 @@ security:
 sonata_media:
     default_context: default
     contexts:
+        receipt_image:
+            providers:
+                - sonata.media.provider.image
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
         product_image:
             providers:
                 - sonata.media.provider.image

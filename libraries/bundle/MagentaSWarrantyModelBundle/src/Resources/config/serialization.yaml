@@ -45,6 +45,13 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
         telephone:
             groups: ['read_customer','write_customer']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+    attributes:
+        id:
+            groups: ['read_medium', 'sonata_api_read']
+
+
+
 #{
 #  "customer": {
 #    "name": "new customer"

@@ -15,4 +15,5 @@ magenta_media_api_sonata_gallery:
 magenta_media_api_sonata_media:
     type:         rest
     prefix:       '%MEDIA_API_PREFIX%'
-    resource:     'Sonata\MediaBundle\Controller\Api\MediaController'
+    resource:     'Magenta\Bundle\SWarrantyMediaApiBundle\Controller\MediaController'
+

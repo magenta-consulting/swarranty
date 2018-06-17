@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<serializer>
+    <class name="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base\AppMedia" exclusion-policy="all" xml-root-name="media">
+        <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read"/>
+    </class>
+</serializer>
