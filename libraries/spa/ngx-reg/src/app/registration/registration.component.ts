@@ -20,6 +20,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     customer: Customer = {id: null, name: null, dialingCode: 64} as Customer;
     emailConfirm: string;
+    typingEmail: false;
+    typingConfirm: false;
 
     warranties: Warranty[] = [];
 
@@ -27,6 +29,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     previewStates: any = {};
     isFormPreview = false;
+    checkingError = false;
 
     constructor(private productService: ProductService, private router: Router) {
         let warranty: Warranty = new Warranty();
@@ -63,8 +66,40 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         return (/^.+\@.+\..+$/.test(this.customer.email));
     }
 
+    isOk() {
+        if (this.customer.name == null || this.customer.name.trim() == '') {
+            return false;
+        }
+        if (this.customer.telephone == null) {
+            return false
+        }
+        if (!this.isEmailValid()) {
+            return false;
+        }
+        if (this.emailConfirm != this.customer.email) {
+            return false;
+        }
+        this.warranties.forEach(warranty => {
+            if (warranty.selectedBrand == null) {
+                return false;
+            }
+            if (warranty.purchaseDate == null) {
+                return false;
+            }
+        });
+        return true;
+    }
+
     submit() {
-        this.isFormPreview = true;
+        if (this.isFormPreview) {
+            // Confirmed
+
+        } else {
+            if (this.isOk()) {
+                this.isFormPreview = true;            
+            }
+            this.checkingError = true;
+        }
         // this.router.navigate(['/preview', {customer: this.customer, warranties: this.warranties}]);
     }
 

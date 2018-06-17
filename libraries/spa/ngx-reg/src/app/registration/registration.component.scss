@@ -34,3 +34,18 @@ div.input-group ng-select {
 .alert.alert-danger {
   text-align: left;
 }
+
+a {
+  color: #0056b3 !important;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline !important;  
+}
+
+table.checkboxes td {
+  text-align: left !important;
+  vertical-align: top;
+  padding-right: 15px;
+}
