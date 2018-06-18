@@ -111,6 +111,13 @@ class Organisation extends OrganizationModel {
 	
 	
 	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $messageTemplates;
+	
+	
+	/**
 	 * @var System|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\System\System", inversedBy="organisations", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_system", referencedColumnName="id", onDelete="CASCADE")

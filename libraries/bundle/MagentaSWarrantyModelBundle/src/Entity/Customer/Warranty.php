@@ -228,7 +228,6 @@ class Warranty implements ThingChildInterface {
 	 */
 	protected $extendedWarrantyPeriod;
 	
-	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string", options={"default":"NEW"})
