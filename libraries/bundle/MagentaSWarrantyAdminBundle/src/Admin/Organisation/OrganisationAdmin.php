@@ -154,8 +154,9 @@ class OrganisationAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper->add('logo', MediaType::class, [
-			'context'  => 'organisation_logo',
-			'provider' => 'sonata.media.provider.image'
+			'new_on_update' => false,
+			'context'       => 'organisation_logo',
+			'provider'      => 'sonata.media.provider.image'
 		])
 		           ->end();
 		$formMapper->add('name')
