@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
@@ -43,20 +44,20 @@ class Warranty implements ThingChildInterface {
 	public function markStatusAs($status) {
 		switch($status) {
 			case self::STATUS_NEW:
-				$this->new = true;
+				$this->new     = true;
 				$this->enabled = false;
 				break;
 			case self::STATUS_APPROVED:
 				$this->new      = false;
 				$this->approved = true;
 				$this->rejected = false;
-				$this->enabled = true;
+				$this->enabled  = true;
 				break;
 			case self::STATUS_REJECTED:
 				$this->new      = false;
 				$this->approved = false;
 				$this->rejected = true;
-				$this->enabled = false;
+				$this->enabled  = false;
 				break;
 			case self::STATUS_EXPIRED:
 				$today = new \DateTime();
@@ -146,6 +147,12 @@ class Warranty implements ThingChildInterface {
 	 * @ORM\JoinColumn(name="id_dealer", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $dealer;
+	
+	/**
+	 * @var Media|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="receiptImageWarranty", cascade={"persist","merge"})
+	 */
+	protected $receiptImage;
 	
 	/**
 	 * @var \DateTime|null
@@ -372,5 +379,19 @@ class Warranty implements ThingChildInterface {
 	 */
 	public function setApproved(bool $approved): void {
 		$this->approved = $approved;
+	}
+	
+	/**
+	 * @return Media|null
+	 */
+	public function getReceiptImage(): ?Media {
+		return $this->receiptImage;
+	}
+	
+	/**
+	 * @param Media|null $receiptImage
+	 */
+	public function setReceiptImage(?Media $receiptImage): void {
+		$this->receiptImage = $receiptImage;
 	}
 }
