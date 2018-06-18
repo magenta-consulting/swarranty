@@ -64,16 +64,25 @@ class MediaController extends SonataMediaController {
 	}
 	
 	/**
-	 * @param string $id
-	 * @param string $format
+	 * Returns media binary content for the format (reference by default)
 	 *
-	 * @throws NotFoundHttpException
+	 * @ApiDoc(
+	 *  requirements={
+	 *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="media id"}
+	 *  },
+	 *  statusCodes={
+	 *      200="Returned when successful",
+	 *      404="Returned when media is not found"
+	 *  }
+	 * )
+	 *
+	 * @param $id
+	 * @param $format
 	 *
 	 * @return Response
-	 *
 	 */
 	public function getMediumBinaryViewAction(Request $request, $id, $format = MediaProviderInterface::FORMAT_REFERENCE) {
-		$media = $this->getMedia($id);
+		$media = $this->getMedium($id);
 		
 		if( ! $media) {
 			throw new NotFoundHttpException(sprintf('unable to find the media with the id : %s', $id));
@@ -134,13 +143,29 @@ class MediaController extends SonataMediaController {
 	}
 	
 	/**
-	 * @param string $id
+	 * Returns media urls for each format.
 	 *
-	 * @return MediaInterface
+	 * @ApiDoc(
+	 *  requirements={
+	 *      {"name"="id", "dataType"="integer", "requirement"="\d+", "description"="media id"}
+	 *  },
+	 *  statusCodes={
+	 *      200="Returned when successful",
+	 *      404="Returned when media is not found"
+	 *  }
+	 * )
+	 *
+	 * @param $id
+	 *
+	 * @return array
 	 */
-	public function getMedia($id) {
-		return $this->mediaManager->find($id);
+	public function getMediumFormatsAction($id) {
+		$properties                = parent::getMediumFormatsAction($id);
+		$properties['private-url'] = sprintf('/media-api/media/%s/binaries/reference/view.json', $id);
+		
+		return $properties;
 	}
+	
 	
 	/**
 	 * @param MediaInterface $media

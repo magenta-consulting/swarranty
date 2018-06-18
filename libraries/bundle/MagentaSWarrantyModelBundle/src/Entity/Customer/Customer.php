@@ -19,7 +19,8 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 class Customer extends Thing {
 	
 	public function __construct() {
-		$this->warranties = new ArrayCollection();
+		$this->warranties    = new ArrayCollection();
+		$this->registrations = new ArrayCollection();
 	}
 	
 	/**
@@ -27,6 +28,12 @@ class Customer extends Thing {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $warranties;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $registrations;
 	
 	/**
 	 * @var Organisation|null
@@ -194,5 +201,19 @@ class Customer extends Thing {
 	 */
 	public function setDialingCode(?int $dialingCode): void {
 		$this->dialingCode = $dialingCode;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getRegistrations(): Collection {
+		return $this->registrations;
+	}
+	
+	/**
+	 * @param Collection $registrations
+	 */
+	public function setRegistrations(Collection $registrations): void {
+		$this->registrations = $registrations;
 	}
 }

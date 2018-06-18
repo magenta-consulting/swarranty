@@ -165,7 +165,7 @@
                             <span class="input-group-text">Product Brand </span>
                         </div>
                         <div class="form-control preview-text">
-                            <span>{{warranty.selectedBrand}}</span>
+                            <span>{{warranty.selectedBrand.name}}</span>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text"><fa name="edit"></fa></span>
@@ -190,11 +190,14 @@
                             <span class="input-group-text">Product Category </span>
                         </div>
                         <div class="form-control preview-text">
-                            <span>{{warranty.categories}}</span>
+                            <span>{{warranty.selectedCategory.name}}</span>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text"><fa name="edit"></fa></span>
                         </div>
+                    </div>
+                    <div *ngIf="checkingError && warranty.selectedCategory == null" class="alert alert-danger" role="alert">
+                        This field is required
                     </div>
                 </div>
                 <div *ngIf="!warranty.isProductHidden">
@@ -211,11 +214,14 @@
                             <span class="input-group-text">Model Name </span>
                         </div>
                         <div class="form-control preview-text">
-                            <span>{{warranty.selectedProduct}}</span>
+                            <span>{{warranty.selectedProduct.name}}</span>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text"><fa name="edit"></fa></span>
                         </div>
+                    </div>
+                    <div *ngIf="checkingError && warranty.selectedProduct == null" class="alert alert-danger" role="alert">
+                        This field is required
                     </div>
                 </div>
                 <div *ngIf="!isPreview('purchaseDate'+i)">
@@ -286,17 +292,19 @@
                 <fa size="lg" name="plus-square"></fa>
                 <span class="add-product-text"> Add another Product</span>
             </div>
-            <section>
-                <table class="checkboxes">
-                    <tr>
-                        <td><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                        <td>Keep me updated on new Fujioh product and promotions.</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" aria-label="Checkbox for following text input"></td>
-                        <td>I have read and agree to the Warranty Terms and Conditions (<a (click)="lgModal.show()">support/information/general-warranty-terms-and-conditions/</a>) and Fujioh Data Protection Policy (<a (click)="lgModal.show()">/data-protection-policy/</a>).</td>
-                    </tr>
-                </table>
+            <section class="checkboxes">
+                <div class="form-check">
+                    <input required="required" type="checkbox" aria-label="Checkbox for following text input" id="newsletterSubscription">
+                    <label class="form-check-label" for="newsletterSubscription">
+                        Keep me updated on new Fujioh product and promotions.
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input required="required" type="checkbox" aria-label="Checkbox for following text input" id="agreeTos">
+                    <label class="form-check-label" for="agreeTos">
+                        I have read and agree to the <a (click)="lgModal.show(); false">Warranty Terms and Conditions</a> and <a (click)="lgModal.show();false">Fujioh Data Protection Policy</a>.
+                    </label>
+                </div>
             </section>
             <section>
                 <div class="input-group mb-2">
@@ -313,7 +321,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Large modal</h4>
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Terms and Policy</h4>
                 <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

@@ -10,8 +10,10 @@ export class FocusDirective implements OnInit {
     }
 
     ngOnInit() {
-        this.focusEvent.subscribe(event => {
-            this.element.nativeElement.focus();
-        });
+        if (this.focusEvent !== undefined) {
+            this.focusEvent.subscribe(event => {
+                this.element.nativeElement.focus();
+            });
+        }
     }
 }

@@ -81,7 +81,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         }
         for (let i = 0; i < this.warranties.length; i++) {
             const warranty = this.warranties[i];
-            if (warranty.selectedBrand == null) {
+            if (warranty.selectedBrand == null || warranty.selectedCategory == null || warranty.selectedProduct == null) {
                 return false;
             }
             if (warranty.purchaseDate == null) {
@@ -97,7 +97,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
         } else {
             if (this.isOk()) {
-                this.isFormPreview = true;            
+                this.isFormPreview = true;
             }
             this.checkingError = true;
         }

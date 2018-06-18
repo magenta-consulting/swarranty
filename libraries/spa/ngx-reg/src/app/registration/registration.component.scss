@@ -41,11 +41,22 @@ a {
 }
 
 a:hover {
-  text-decoration: underline !important;  
+  text-decoration: underline !important;
 }
 
 table.checkboxes td {
   text-align: left !important;
   vertical-align: top;
   padding-right: 15px;
+}
+
+.form-check {
+  text-align: left !important;
+  padding-left: 0px;
+  display: flex;
+  align-items: baseline;
+}
+
+.form-check-label {
+  padding-left: 10px;
 }

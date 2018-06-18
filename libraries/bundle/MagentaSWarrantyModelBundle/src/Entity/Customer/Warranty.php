@@ -127,6 +127,13 @@ class Warranty implements ThingChildInterface {
 	protected $customer;
 	
 	/**
+	 * @var Customer|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", cascade={"persist", "merge"}, inversedBy="warranties")
+	 * @ORM\JoinColumn(name="id_registration", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $registration;
+	
+	/**
 	 * @var Product|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="SET NULL")
