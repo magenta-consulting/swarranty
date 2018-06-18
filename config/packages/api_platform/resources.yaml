@@ -218,6 +218,31 @@ resources:
         collectionOperations:
             get: ~
 
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+        description: 'Media' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_thing
+                    - read_organisation
+            denormalization_context:
+                groups:
+                    - write_medium
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+#            post: ~
+
+
     Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
 #        shortName: 'User'                   # optional
         description: 'Organisation' # optional
@@ -226,6 +251,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
+                    - read_medium
                     - read_brand
                     - read_thing
                     - read_organisation

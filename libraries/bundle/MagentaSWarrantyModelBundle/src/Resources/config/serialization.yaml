@@ -21,7 +21,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
         fieldRequirements:
             groups: ['read_organisation','write_organisation']
 
-
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:
         modelNumber:
@@ -67,9 +66,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
         id:
-            groups: ['read_medium', 'sonata_api_read']
-
-
+            groups: ['read_medium']
 
 #{
 #  "customer": {
