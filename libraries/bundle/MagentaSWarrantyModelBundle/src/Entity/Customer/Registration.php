@@ -60,6 +60,18 @@ class Registration implements ThingChildInterface {
 	protected $customer;
 	
 	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $verified = false;
+	
+	/**
 	 * @return \DateTime
 	 */
 	public function getCreatedAt(): \DateTime {

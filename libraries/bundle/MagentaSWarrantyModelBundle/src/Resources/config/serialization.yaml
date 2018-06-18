@@ -2,6 +2,7 @@
 #    attributes:
 #        firstName:
 #            groups: ['read_user','write_user']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing:
     attributes:
         name:
@@ -26,6 +27,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
         customer:
             groups: ['read_warranty','write_warranty']
+        registration:
+            groups: ['read_warranty','write_warranty']
         product:
             groups: ['read_warranty','write_warranty']
         productSerialNumber:
@@ -44,6 +47,17 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
             groups: ['read_customer','write_customer']
         telephone:
             groups: ['read_customer','write_customer']
+
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
+    attributes:
+        email:
+            groups: ['read_nls','write_nls']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
+    attributes:
+        customer:
+            groups: ['read_registration','write_registration']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
