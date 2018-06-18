@@ -7,6 +7,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
         id:
             groups: ['read_medium']
+        name:
+            groups: ['read_medium']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing:
     attributes:
