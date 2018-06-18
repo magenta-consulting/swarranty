@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
@@ -224,7 +225,15 @@ class BrandAdmin extends BaseAdmin {
 	 * @param Brand $object
 	 */
 	public function preUpdate($object) {
-	
+		$c  = $this->getConfigurationPool()->getContainer();
+		$mr = $c->get('doctrine')->getRepository(Media::class);
+		if( ! empty($media = $mr->findOneBy([ 'logoBrand' => $object->getId() ]))) {
+			if($media !== $object->getLogo()) {
+				$em = $c->get('doctrine.orm.default_entity_manager');
+				$em->remove($media);
+				$em->flush($media);
+			}
+		}
 	}
 	
 	///////////////////////////////////

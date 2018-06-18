@@ -41,6 +41,19 @@ class Warranty implements ThingChildInterface {
 		$this->createdAt = new \DateTime();
 	}
 	
+	/**
+	 * @param Media|null $receiptImage
+	 */
+	public function setReceiptImage(?Media $receiptImage): void {
+		if( ! empty($receiptImage)) {
+			$receiptImage->setReceiptImageWarranty($this);
+		}
+		if( ! empty($this->receiptImage)) {
+			$this->receiptImage->setReceiptImageWarranty(null);
+		}
+		$this->receiptImage = $receiptImage;
+	}
+	
 	public function markStatusAs($status) {
 		switch($status) {
 			case self::STATUS_NEW:
@@ -388,10 +401,4 @@ class Warranty implements ThingChildInterface {
 		return $this->receiptImage;
 	}
 	
-	/**
-	 * @param Media|null $receiptImage
-	 */
-	public function setReceiptImage(?Media $receiptImage): void {
-		$this->receiptImage = $receiptImage;
-	}
 }

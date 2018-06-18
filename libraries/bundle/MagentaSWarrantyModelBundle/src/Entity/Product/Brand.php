@@ -22,6 +22,19 @@ class Brand extends Thing {
 	}
 	
 	/**
+	 * @param Media|null $logo
+	 */
+	public function setLogo(?Media $logo): void {
+		if( ! empty($logo)) {
+			$logo->setLogoBrand($this);
+		}
+		if( ! empty($this->logo)) {
+			$this->logo->setLogoBrand(null);
+		}
+		$this->logo = $logo;
+	}
+	
+	/**
 	 * @var Collection
 	 * @ORM\ManyToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory", mappedBy="brands", cascade={"persist","merge"})
 	 */
@@ -64,7 +77,7 @@ class Brand extends Thing {
 	
 	/**
 	 * @var Media|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoBrand", cascade={"persist","merge"})
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoBrand", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $logo;
 	
@@ -131,10 +144,5 @@ class Brand extends Thing {
 		return $this->logo;
 	}
 	
-	/**
-	 * @param Media|null $logo
-	 */
-	public function setLogo(?Media $logo): void {
-		$this->logo = $logo;
-	}
+	
 }

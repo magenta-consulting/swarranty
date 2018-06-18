@@ -5,6 +5,9 @@ parameters:
     s3_secret_key: '%env(resolve:AWS_S3_SECRET_KEY)%'
     s3_region: ap-southeast-1
     s3_directory: '%env(resolve:AWS_S3_DIR)%'
+    MEDIA_API_BASE_URL: '%env(resolve:MEDIA_API_BASE_URL)%'
+    MEDIA_API_PREFIX: '%env(MEDIA_API_PREFIX)%'
+
 
 doctrine:
     dbal:
@@ -131,6 +134,9 @@ sonata_media:
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 600 , quality: 70}
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
 
         brand_logo:
             providers:
@@ -138,6 +144,19 @@ sonata_media:
             formats:
                 small: { width: 100 , quality: 70}
                 big:   { width: 500 , quality: 70}
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
+        organisation_logo:
+            providers:
+                - sonata.media.provider.image
+            formats:
+                small: { width: 200 , quality: 70}
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
 
         default:
             providers:

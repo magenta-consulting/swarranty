@@ -19,6 +19,19 @@ class Product extends Thing {
 	function __construct() {
 	}
 	
+	/**
+	 * @param Media|null $image
+	 */
+	public function setImage(?Media $image): void {
+		if( ! empty($image)) {
+			$image->setImageProduct($this);
+		}
+		if( ! empty($this->image)) {
+			$this->image->setImageProduct(null);
+		}
+		$this->image = $image;
+	}
+	
 	public function generateSearchText() {
 		$subcat = empty($this->subCategory) ? 'No Sub-Category' : $this->subCategory->getName();
 		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
@@ -73,7 +86,7 @@ class Product extends Thing {
 	
 	/**
 	 * @var Media|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="imageProduct", cascade={"persist","merge"})
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="imageProduct", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $image;
 	
@@ -163,13 +176,6 @@ class Product extends Thing {
 	 */
 	public function getImage(): ?Media {
 		return $this->image;
-	}
-	
-	/**
-	 * @param Media|null $image
-	 */
-	public function setImage(?Media $image): void {
-		$this->image = $image;
 	}
 	
 	/**

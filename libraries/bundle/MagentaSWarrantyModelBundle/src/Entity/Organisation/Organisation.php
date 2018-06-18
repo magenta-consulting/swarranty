@@ -17,8 +17,8 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  */
 class Organisation extends OrganizationModel {
 	const FIELD_REGISTRATION = [
-		'form_field.label_customer_telephone' => 'customer.telephone',
-		'form_field.label_customer_email'     => 'customer.email',
+		'form_field.label_customer_telephone'           => 'customer.telephone',
+		'form_field.label_customer_email'               => 'customer.email',
 		'form_field.label_warranty_productSerialNumber' => 'warranty.productSerialNumber'
 	];
 	
@@ -32,6 +32,19 @@ class Organisation extends OrganizationModel {
 	
 	function __construct() {
 		parent::__construct();
+	}
+	
+	/**
+	 * @param Media $logo |null
+	 */
+	public function setLogo(?Media $logo): void {
+		if( ! empty($logo)) {
+			$logo->setLogoOrganisation($this);
+		}
+		if( ! empty($this->logo)) {
+			$this->logo->setLogoOrganisation(null);
+		}
+		$this->logo = $logo;
 	}
 	
 	/**
@@ -112,7 +125,7 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var Media|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $logo;
 	
@@ -190,12 +203,6 @@ class Organisation extends OrganizationModel {
 		return $this->logo;
 	}
 	
-	/**
-	 * @param Media $logo
-	 */
-	public function setLogo(Media $logo): void {
-		$this->logo = $logo;
-	}
 	
 	/**
 	 * @return Collection

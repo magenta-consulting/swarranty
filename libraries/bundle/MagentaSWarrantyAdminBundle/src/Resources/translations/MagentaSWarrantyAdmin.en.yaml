@@ -104,6 +104,7 @@ form:
     new_password: 'New password'
     new_password_confirmation: 'Repeat new password'
     label_tos: TOS
+    label_data_policy: Data Protection Policy
     label_name: Name
     label_family_name: Family Name
     label_given_name: Given Name

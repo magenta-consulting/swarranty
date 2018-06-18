@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
@@ -178,7 +179,16 @@ class ProductAdmin extends BaseAdmin {
 	 * @param Product $object
 	 */
 	public function preUpdate($object) {
-	
+		$c = $this->getConfigurationPool()->getContainer();
+//		if(!empty($object->get))
+		$mr = $c->get('doctrine')->getRepository(Media::class);
+		if( ! empty($media = $mr->findOneBy([ 'imageProduct' => $object->getId() ]))) {
+			if($media !== $object->getImage()) {
+				$em = $c->get('doctrine.orm.default_entity_manager');
+				$em->remove($media);
+				$em->flush($media);
+			}
+		}
 	}
 	
 	///////////////////////////////////
