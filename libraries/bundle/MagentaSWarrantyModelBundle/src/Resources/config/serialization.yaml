@@ -14,8 +14,13 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
             groups: ['read_organisation','write_organisation']
         tos:
             groups: ['read_organisation','write_organisation']
+        dataPolicy:
+            groups: ['read_organisation','write_organisation']
         logo:
             groups: ['read_organisation','write_organisation']
+        fieldRequirements:
+            groups: ['read_organisation','write_organisation']
+
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:

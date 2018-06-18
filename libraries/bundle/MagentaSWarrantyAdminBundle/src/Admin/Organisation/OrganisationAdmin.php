@@ -170,6 +170,7 @@ class OrganisationAdmin extends BaseAdmin {
 				'translation_domain' => $this->translationDomain
 			));
 		$formMapper->add('tos', CKEditorType::class);
+		$formMapper->add('dataPolicy', CKEditorType::class);
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [

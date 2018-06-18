@@ -140,6 +140,13 @@ class Organisation extends OrganizationModel {
 	 */
 	protected $tos;
 	
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $dataPolicy;
+	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string", nullable=true)
@@ -419,5 +426,19 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setFieldRequirements(array $fieldRequirements): void {
 		$this->fieldRequirements = $fieldRequirements;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDataPolicy(): ?string {
+		return $this->dataPolicy;
+	}
+	
+	/**
+	 * @param null|string $dataPolicy
+	 */
+	public function setDataPolicy(?string $dataPolicy): void {
+		$this->dataPolicy = $dataPolicy;
 	}
 }
