@@ -27,6 +27,7 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -160,8 +161,15 @@ class OrganisationAdmin extends BaseAdmin {
 				
 				           return $entity->getEmail();
 			           }
-		           ))
-		           ->add('tos', CKEditorType::class);
+		           ));
+		$formMapper
+			->add('fieldRequirements', ChoiceType::class, array(
+				'multiple'           => true,
+				'placeholder'        => 'Select required fields',
+				'choices'            => [ 'form_field.label_registration_fields' => Organisation::FIELD_REGISTRATION ],
+				'translation_domain' => $this->translationDomain
+			));
+		$formMapper->add('tos', CKEditorType::class);
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [

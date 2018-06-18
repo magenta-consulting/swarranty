@@ -86,7 +86,15 @@ form_group:
     service_zone: Service Zone
     warranty_details: Warranty Details
 
+form_field:
+    label_registration_fields: Registration Fields
+    label_warranty_productSerialNumber: Product Serial Number
+    label_customer_telephone: Customer Contact Number
+    label_customer_email: Customer Email
+
 form:
+    label_near_expiry_period: Near-Expiry Period (days)
+    label_field_requirements: Required fields
     group_name: 'Group name'
     username: Username
     email: Email

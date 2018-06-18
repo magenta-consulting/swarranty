@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Brand} from "../model/brand";
-import {ProductService} from "../model/product.service";
+import {ProductService} from "../service/product.service";
 import {BrandCategory} from "../model/brand-category";
 import {Product} from "../model/product";
 import {BrandSubCategory} from "../model/brand-sub-category";

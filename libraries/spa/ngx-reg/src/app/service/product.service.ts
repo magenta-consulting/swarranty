@@ -3,12 +3,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {Brand} from "./brand";
+import {Brand} from "../model/brand";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../environments/environment";
-import {BrandCategory} from "./brand-category";
-import {Product} from "./product";
-import {Dealer} from "./dealer";
-import {Customer} from "./customer";
+import {BrandCategory} from "../model/brand-category";
+import {Product} from "../model/product";
+import {Dealer} from "../model/dealer";
+import {Customer} from "../model/customer";
+import {Warranty} from "../model/warranty";
 
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/ld+json'})

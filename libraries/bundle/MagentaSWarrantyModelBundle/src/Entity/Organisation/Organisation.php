@@ -16,6 +16,11 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="organisation__organisation")
  */
 class Organisation extends OrganizationModel {
+	const FIELD_REGISTRATION = [
+		'form_field.label_customer_telephone' => 'customer.telephone',
+		'form_field.label_customer_email'     => 'customer.email',
+		'form_field.label_warranty_productSerialNumber' => 'warranty.productSerialNumber'
+	];
 	
 	/**
 	 * @var int|null
@@ -110,6 +115,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
 	 */
 	protected $logo;
+	
+	/**
+	 * @var array
+	 * @ORM\Column(type="magenta_json")
+	 */
+	protected $fieldRequirements = [];
 	
 	/**
 	 * @var integer
@@ -396,5 +407,17 @@ class Organisation extends OrganizationModel {
 		$this->nearExpiryPeriod = $nearExpiryPeriod;
 	}
 	
+	/**
+	 * @return array
+	 */
+	public function getFieldRequirements(): ?array {
+		return $this->fieldRequirements;
+	}
 	
+	/**
+	 * @param array $fieldRequirements
+	 */
+	public function setFieldRequirements(array $fieldRequirements): void {
+		$this->fieldRequirements = $fieldRequirements;
+	}
 }
