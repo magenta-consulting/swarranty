@@ -46,7 +46,7 @@ resources:
             normalization_context:
                 groups:
                     - read_registration
-
+                    - read_warranty
                     - read_product
                     - read_brand
                     - read_thing
