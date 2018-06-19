@@ -112,7 +112,6 @@ form:
     label_dialing_code: Country Dialing Code
     label_created_at: Created At
     label_warranty_submission_date: Warranty Submission Date
-    label_purchase_date: Purchase Date
     label_product: Product
     label_address: Address
     label_postal_code: Postal Code
@@ -127,11 +126,17 @@ form:
     label_roles: Roles
     label_model_name: Model Name
     label_model_number: Model Number
+    label_purchase_date: Purchase On
+    label_submission_date: Registered On
+    label_expiry_date: Expiry Date
+    label_receipt_image: Receipt Image
+
     label_brand: Brand
     label_category: Category
     label_subcategory: Sub-Category
     label_warranty_period: Warranty Period (months)
     label_extended_warranty_period: Extended Warranty Period
+    label_dealer: Dealer
 
 breadcrumb:
     link_warranty_create: New Warranty

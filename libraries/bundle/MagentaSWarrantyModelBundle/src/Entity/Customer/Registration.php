@@ -72,6 +72,12 @@ class Registration implements ThingChildInterface {
 	protected $verified = false;
 	
 	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $submitted = false;
+	
+	/**
 	 * @var string|null
 	 * @ORM\Column(type="string")
 	 */
@@ -146,4 +152,20 @@ class Registration implements ThingChildInterface {
 	public function setCode(?string $code): void {
 		$this->code = $code;
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSubmitted(): bool {
+		return $this->submitted;
+	}
+	
+	/**
+	 * @param bool $submitted
+	 */
+	public function setSubmitted(bool $submitted): void {
+		$this->submitted = $submitted;
+	}
+	
+	
 }

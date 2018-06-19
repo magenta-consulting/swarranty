@@ -29,7 +29,6 @@ class MessageTemplate extends Thing {
 	const TYPE_REGISTRATION_VERIFICATION = 'REGISTRATION_VERIFICATION';
 	const TYPE_REGISTRATION_COPY = 'REGISTRATION_COPY';
 	
-	
 	/**
 	 * @var int|null
 	 * @ORM\Id

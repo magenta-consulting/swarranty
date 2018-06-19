@@ -11,7 +11,7 @@ export const apiEndPointBase = '/api';
 export const organisationPath = '/organisations';
 
 /**
- * QR Path: http://127.0.0.1:8000/index.php/api/qr-code/http:%2F%2Fwww.google.com.png
+ * QR Path:
  */
 
 /*
