@@ -24,7 +24,8 @@
             {% if value is not empty and value.providerReference %}
                 <div class="pull-left" style="margin-right: 5px">
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
-                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json" class="img-polaroid media-object"/>
+                    {#<img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json" class="img-polaroid media-object"/>#}
+                    <img src="{{ value.id|privateMediumUrl }}" class="img-polaroid media-object"/>
                 </div>
             {% else %}
                 <div class="pull-left" style="margin-right: 5px">

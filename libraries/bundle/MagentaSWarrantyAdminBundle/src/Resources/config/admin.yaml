@@ -42,6 +42,14 @@ services:
         arguments:
             - '@magenta_swarranty.user.editable_role_builder'
 
+    magenta_swarranty.twig.extension:
+        class: Magenta\Bundle\SWarrantyAdminBundle\Twig\MagentaTwigExtension
+        tags: ['twig.extension']
+        arguments:
+            - '@service_container'
+    Magenta\Bundle\SWarrantyAdminBundle\Twig\MagentaTwigExtension:
+        alias: magenta_swarranty.twig.extension
+
 #<service id="sonata.admin.security.handler.role" class="%sonata.admin.security.handler.role.class%" public="false">
 #            <argument type="service" id="security.authorization_checker"/>
 #            <argument type="collection">

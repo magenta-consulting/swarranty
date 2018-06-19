@@ -33,7 +33,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
         modelNumber:
             groups: ['read_product','write_product']
 
-
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
         id:
@@ -48,7 +47,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
             groups: ['read_warranty','write_warranty', 'read_registration_warranty']
         purchaseDate:
             groups: ['read_warranty','write_warranty', 'read_registration_warranty']
-
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:

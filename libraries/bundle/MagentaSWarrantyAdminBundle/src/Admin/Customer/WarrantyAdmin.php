@@ -209,9 +209,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('purchaseDate', null, [ 'editable' => true, 'label' => 'form.label_purchase_date' ])
 			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
 			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ])
-			->add('receiptImage', null, [ 'editable' => true, 'label' => 'form.label_receipt_image' ])
-		
-		
+			->add('receiptImage', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_image' ])
 		;
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
