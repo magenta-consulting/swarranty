@@ -2,6 +2,11 @@
 
 namespace Magenta\Bundle\SWarrantyMediaApiBundle\Controller;
 
+use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\ORM\EntityRepository;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Sonata\MediaBundle\Controller\Api\MediaController as SonataMediaController;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\Annotations\View;
@@ -12,10 +17,15 @@ use Sonata\DatagridBundle\Pager\PagerInterface;
 use Sonata\MediaBundle\Filesystem\Local;
 use Sonata\MediaBundle\Form\Type\ApiMediaType;
 use Sonata\MediaBundle\Model\MediaInterface;
+use Sonata\CoreBundle\Model\ManagerInterface;
 use Sonata\MediaBundle\Provider\MediaProviderInterface;
 use Sonata\MediaBundle\Provider\Pool;
+use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -23,6 +33,23 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class MediaController extends SonataMediaController {
+	
+	/** @var RegistryInterface */
+	private $registry;
+	
+	private function populateOwnerFields(Media $media, array $fields, Request $request) {
+		foreach($fields as $field => $class) {
+			$id = $request->get($field);
+			if( ! empty($id)) {
+				$repo = $this->registry->getRepository($class);
+				if( ! empty($owner = $repo->find($id))) {
+					$media->{'set' . ucfirst($field)}($owner);
+					
+					return $owner;
+				}
+			}
+		}
+	}
 	
 	/**
 	 * Write a medium, this method is used by both POST and PUT action methods.
@@ -43,11 +70,16 @@ class MediaController extends SonataMediaController {
 		$form->handleRequest($request);
 		
 		if($form->isValid()) {
-			/** @var MediaInterface $media */
+			/** @var Media $media */
 			$media = $form->getData();
 			if( ! empty($mc = $request->query->get('context'))) {
 				$media->setContext($mc);
 			}
+			
+			$this->populateOwnerFields($media, [
+				'receiptImageWarranty' => Warranty::class
+			], $request);
+			
 			$this->mediaManager->save($media);
 			
 			$context = new Context();
@@ -60,7 +92,16 @@ class MediaController extends SonataMediaController {
 			return $view;
 		}
 		
-		return $form;
+		$errors   = $form->getErrors(true, true);
+		$errorMsg = '';
+		/** @var FormError $error */
+		foreach($errors as $error) {
+			$errorMsg .= $error->getMessage() . ' Caused by: ' . $error->getCause();
+		}
+		
+		return new JsonResponse($errorMsg);
+
+//		return $form;
 	}
 	
 	/**
@@ -176,4 +217,10 @@ class MediaController extends SonataMediaController {
 		return $this->mediaPool->getProvider($media->getProviderName());
 	}
 	
+	/**
+	 * @param RegistryInterface $registry
+	 */
+	public function setRegistry(RegistryInterface $registry): void {
+		$this->registry = $registry;
+	}
 }

@@ -155,5 +155,8 @@ twig:
 #        - 'BeanLocationBundle:Form:google_maps.html.twig'
 #        - 'SonataFormatterBundle:Form:formatter.html.twig'
         - '@SonataFormatter/Form/formatter.html.twig'
+        - '@MagentaSWarrantyAdmin/Form/media_widgets.html.twig'
         - '@MagentaSWarrantyAdmin/Form/datepicker.html.twig'
         - '@MagentaSWarrantyAdmin/Form/fields.html.twig'
+    globals:
+        media_endpoint: '%MEDIA_API_BASE_URL%%MEDIA_API_PREFIX%'

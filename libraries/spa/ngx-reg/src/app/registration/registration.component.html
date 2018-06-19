@@ -250,19 +250,19 @@
                 <div *ngIf="checkingError && warranty.purchaseDate == null" class="alert alert-danger" role="alert">
                     This field is required
                 </div>
-                <div *ngIf="!isPreview('serialNumber'+i)" class="input-group mb-2">
-                    <input [(ngModel)]="warranty.serialNumber" type="text" class="form-control"
+                <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-2">
+                    <input [(ngModel)]="warranty.productSerialNumber" type="text" class="form-control"
                            placeholder="Product Serial Number"
                            aria-label="Product Serial Number"
-                           (keyup.enter)="updateField('serialNumber'+i)"
-                           (blur)="updateField('serialNumber'+i)">
+                           (keyup.enter)="updateField('productSerialNumber'+i)"
+                           (blur)="updateField('productSerialNumber'+i)">
                 </div>
-                <div *ngIf="isPreview('serialNumber'+i)" (click)="editPreview('serialNumber'+i)" class="input-group mb-2 preview-container">
+                <div *ngIf="isPreview('productSerialNumber'+i)" (click)="editPreview('productSerialNumber'+i)" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
                         <span class="input-group-text">Serial Number </span>
                     </div>
                     <div class="form-control preview-text">
-                        <span>{{warranty.serialNumber}}</span>
+                        <span>{{warranty.productSerialNumber}}</span>
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>

@@ -22,6 +22,7 @@ resources:
             normalization_context:
                 groups:
                     - read_warranty
+                    - read_registration
                     - read_product
                     - read_brand
                     - read_thing
@@ -29,9 +30,65 @@ resources:
                 groups:
                     - write_warranty
                     - write_customer
+                    - write_registration
 #                    - write_product
 #                    - write_brand
 #                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
+#        shortName: 'User'                   # optional
+        description: 'Reg' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_registration
+                    - read_warranty
+                    - read_product
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_registration
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            get: ~
+        collectionOperations:
+            get: ~
+            post: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
+#        shortName: 'User'                   # optional
+        description: 'Newsletter Subscription' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_nls
+                    - read_registration
+                    - read_warranty
+                    - read_product
+                    - read_brand
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_nls
+                    - write_registration
+                    - write_warranty
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+                    - write_thing
         itemOperations:
             get: ~
         collectionOperations:
@@ -162,6 +219,31 @@ resources:
         collectionOperations:
             get: ~
 
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+        description: 'Media' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_medium
+                    - read_thing
+                    - read_organisation
+            denormalization_context:
+                groups:
+                    - write_medium
+        itemOperations:
+            get: ~
+    #        special:
+    #            route_name: 'book_special'
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+#            post: ~
+
+
     Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
 #        shortName: 'User'                   # optional
         description: 'Organisation' # optional
@@ -170,6 +252,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
+                    - read_medium
                     - read_brand
                     - read_thing
                     - read_organisation

@@ -24,5 +24,40 @@ services:
             - '@sonata.media.manager.media'
             - '@sonata.media.pool'
             - '@form.factory'
+        calls:
+            - method: setRegistry
+              arguments:
+                  - '@doctrine'
         tags:
             - 'controller.service_arguments'
+
+    magenta_serializer_handler.organisation.organisation:
+        class: Magenta\Bundle\SWarrantyMediaApiBundle\Serializer\Organisation\OrganisationSerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
+    magenta_serializer_handler.customer.warranty:
+        class: Magenta\Bundle\SWarrantyMediaApiBundle\Serializer\Customer\WarrantySerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
+
+
+    magenta_media_api.form.type.media:
+        class: Magenta\Bundle\SWarrantyMediaApiBundle\Form\Type\ApiMediaType
+        tags: ['sonata_media_api_form_media']
+        arguments: ['@sonata.media.pool','%sonata.media.admin.media.entity%']
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'
+            - method: setOrgTransformer
+              arguments:
+                  - '@magenta_media_api.form.transformer.organisation'
+
+    magenta_media_api.form.transformer.organisation:
+        class: Magenta\Bundle\SWarrantyMediaApiBundle\Form\DataTransformer\OrganisationDataTransformer
+        arguments: ['@doctrine']
+        calls:
+            - method: setLogger
+              arguments:
+                  - '@logger'

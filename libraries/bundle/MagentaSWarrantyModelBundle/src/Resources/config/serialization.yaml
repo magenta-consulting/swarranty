@@ -2,6 +2,14 @@
 #    attributes:
 #        firstName:
 #            groups: ['read_user','write_user']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+    attributes:
+        id:
+            groups: ['read_medium']
+        name:
+            groups: ['read_medium']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing:
     attributes:
         name:
@@ -13,7 +21,11 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
             groups: ['read_organisation','write_organisation']
         tos:
             groups: ['read_organisation','write_organisation']
+        dataPolicy:
+            groups: ['read_organisation','write_organisation']
         logo:
+            groups: ['read_organisation','write_organisation']
+        fieldRequirements:
             groups: ['read_organisation','write_organisation']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
@@ -24,7 +36,11 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
+        id:
+            groups: ['read_warranty']
         customer:
+            groups: ['read_warranty','write_warranty']
+        registration:
             groups: ['read_warranty','write_warranty']
         product:
             groups: ['read_warranty','write_warranty']
@@ -45,11 +61,22 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
         telephone:
             groups: ['read_customer','write_customer']
 
-Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
-    attributes:
-        id:
-            groups: ['read_medium', 'sonata_api_read']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
+    attributes:
+        email:
+            groups: ['read_nls','write_nls']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
+    attributes:
+        customer:
+            groups: ['read_registration', 'write_registration']
+        warranties:
+            groups: ['read_registration']
+        submitted:
+            groups: ['read_registration','write_registration']
+        verified:
+            groups: ['read_registration']
 
 
 #{

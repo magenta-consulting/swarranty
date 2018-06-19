@@ -46,6 +46,7 @@
         "sonata-project/admin-bundle": "^3.35",
         "friendsofsymfony/ckeditor-bundle": "^1.0",
         "sonata-project/formatter-bundle": "^3.5",
+        "endroid/qr-code-bundle": "^3.2",
         "gesdinet/jwt-refresh-token-bundle": "^0.4",
         "lexik/jwt-authentication-bundle": "^2.4",
         "nelmio/api-doc-bundle": "^2.13",
@@ -82,9 +83,9 @@
             "App\\": "src/",
             "Magenta\\Bundle\\SWarrantyAdminBundle\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\src/",
             "Magenta\\Bundle\\SWarrantyApiBundle\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\src/",
+            "Magenta\\Bundle\\SWarrantyJWTBundle\\": "libraries\\bundle\\MagentaSWarrantyJWTBundle\\src/",
             "Magenta\\Bundle\\SWarrantyMediaApiBundle\\": "libraries\\bundle\\MagentaSWarrantyMediaApiBundle\\src/",
-            "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/",
-            "Magenta\\Bundle\\SWarrantyJWTBundle\\": "libraries\\bundle\\MagentaSWarrantyJWTBundle\\src/"
+            "Magenta\\Bundle\\SWarrantyModelBundle\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\src/"
         }
     },
     "autoload-dev": {
@@ -94,6 +95,8 @@
             "Magenta\\Bundle\\SWarrantyAdminBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyAdminBundle\\tests/units/",
             "Magenta\\Bundle\\SWarrantyApiBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\tests/spec/",
             "Magenta\\Bundle\\SWarrantyApiBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyApiBundle\\tests/units/",
+            "Magenta\\Bundle\\SWarrantyJWTBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyJWTBundle\\tests/spec/",
+            "Magenta\\Bundle\\SWarrantyJWTBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyJWTBundle\\tests/units/",
             "Magenta\\Bundle\\SWarrantyMediaApiBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyMediaApiBundle\\tests/spec/",
             "Magenta\\Bundle\\SWarrantyMediaApiBundle\\Tests\\": "libraries\\bundle\\MagentaSWarrantyMediaApiBundle\\tests/units/",
             "Magenta\\Bundle\\SWarrantyModelBundle\\spec\\": "libraries\\bundle\\MagentaSWarrantyModelBundle\\tests/spec/",

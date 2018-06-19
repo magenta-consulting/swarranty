@@ -16,6 +16,11 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="organisation__organisation")
  */
 class Organisation extends OrganizationModel {
+	const FIELD_REGISTRATION = [
+		'form_field.label_customer_telephone'           => 'customer.telephone',
+		'form_field.label_customer_email'               => 'customer.email',
+		'form_field.label_warranty_productSerialNumber' => 'warranty.productSerialNumber'
+	];
 	
 	/**
 	 * @var int|null
@@ -27,6 +32,19 @@ class Organisation extends OrganizationModel {
 	
 	function __construct() {
 		parent::__construct();
+	}
+	
+	/**
+	 * @param Media $logo |null
+	 */
+	public function setLogo(?Media $logo): void {
+		if( ! empty($logo)) {
+			$logo->setLogoOrganisation($this);
+		}
+		if( ! empty($this->logo)) {
+			$this->logo->setLogoOrganisation(null);
+		}
+		$this->logo = $logo;
 	}
 	
 	/**
@@ -91,6 +109,11 @@ class Organisation extends OrganizationModel {
 	 */
 	protected $customers;
 	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $messageTemplates;
 	
 	/**
 	 * @var System|null
@@ -107,9 +130,15 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var Media|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"})
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="logoOrganisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $logo;
+	
+	/**
+	 * @var array
+	 * @ORM\Column(type="magenta_json")
+	 */
+	protected $fieldRequirements = [];
 	
 	/**
 	 * @var integer
@@ -128,6 +157,13 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $tos;
+	
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $dataPolicy;
 	
 	/**
 	 * @var string|null
@@ -172,12 +208,6 @@ class Organisation extends OrganizationModel {
 		return $this->logo;
 	}
 	
-	/**
-	 * @param Media $logo
-	 */
-	public function setLogo(Media $logo): void {
-		$this->logo = $logo;
-	}
 	
 	/**
 	 * @return Collection
@@ -396,5 +426,31 @@ class Organisation extends OrganizationModel {
 		$this->nearExpiryPeriod = $nearExpiryPeriod;
 	}
 	
+	/**
+	 * @return array
+	 */
+	public function getFieldRequirements(): ?array {
+		return $this->fieldRequirements;
+	}
 	
+	/**
+	 * @param array $fieldRequirements
+	 */
+	public function setFieldRequirements(array $fieldRequirements): void {
+		$this->fieldRequirements = $fieldRequirements;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDataPolicy(): ?string {
+		return $this->dataPolicy;
+	}
+	
+	/**
+	 * @param null|string $dataPolicy
+	 */
+	public function setDataPolicy(?string $dataPolicy): void {
+		$this->dataPolicy = $dataPolicy;
+	}
 }

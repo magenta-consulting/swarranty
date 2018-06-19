@@ -10,7 +10,7 @@ export class Warranty {
     name: string;
     product: Product;
     customer: Customer;
-    serialNumber: string;
+    productSerialNumber: string;
     purchaseDate: Date;
 
 

@@ -12,6 +12,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdminController;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -27,6 +28,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -150,7 +153,14 @@ class OrganisationAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		$formMapper->add('logo', MediaType::class, [
+			'new_on_update' => false,
+			'context'       => 'organisation_logo',
+			'provider'      => 'sonata.media.provider.image'
+		])
+		           ->end();
 		$formMapper->add('name')
+		           ->add('enabled')
 		           ->add('nearExpiryPeriod', null, [ 'required' => true ])
 		           ->add('adminUser', ModelAutocompleteType::class, array(
 			           'required'           => false,
@@ -160,8 +170,16 @@ class OrganisationAdmin extends BaseAdmin {
 				
 				           return $entity->getEmail();
 			           }
-		           ))
-		           ->add('tos', CKEditorType::class);
+		           ));
+		$formMapper
+			->add('fieldRequirements', ChoiceType::class, array(
+				'multiple'           => true,
+				'placeholder'        => 'Select required fields',
+				'choices'            => [ 'form_field.label_registration_fields' => Organisation::FIELD_REGISTRATION ],
+				'translation_domain' => $this->translationDomain
+			));
+		$formMapper->add('tos', CKEditorType::class);
+		$formMapper->add('dataPolicy', CKEditorType::class);
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [
@@ -169,6 +187,17 @@ class OrganisationAdmin extends BaseAdmin {
 //				'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 //			])		;
 		;
+	}
+	
+	
+	/**
+	 * @param Organisation $object
+	 */
+	public function preValidate($object) {
+		parent::preValidate($object);
+		if( ! empty($logo = $object->getLogo())) {
+			$logo->setLogoOrganisation($object);
+		}
 	}
 	
 	/**
@@ -185,7 +214,16 @@ class OrganisationAdmin extends BaseAdmin {
 	 * @param Organisation $object
 	 */
 	public function preUpdate($object) {
-	
+		$c  = $this->getConfigurationPool()->getContainer();
+		$mr = $c->get('doctrine')->getRepository(Media::class);
+		if( ! empty($media = $mr->findOneBy([ 'logoOrganisation' => $object->getId() ]))) {
+			if($media !== $object->getLogo()) {
+				$em = $c->get('doctrine.orm.default_entity_manager');
+				$em->remove($media);
+				$em->flush($media);
+			}
+		}
+		
 	}
 	
 	///////////////////////////////////

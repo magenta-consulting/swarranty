@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
@@ -25,25 +26,32 @@ class AppMedia extends BaseMedia {
 	}
 	
 	/**
-	 * @var Organisation
+	 * @var Organisation|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="logo")
 	 * @ORM\JoinColumn(name="id_logo_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $logoOrganisation;
 	
 	/**
-	 * @var Brand
+	 * @var Brand|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand", inversedBy="logo")
 	 * @ORM\JoinColumn(name="id_logo_brand", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $logoBrand;
 	
 	/**
-	 * @var Product
+	 * @var Product|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", inversedBy="image")
 	 * @ORM\JoinColumn(name="id_image_product", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $imageProduct;
+	
+	/**
+	 * @var Warranty|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", inversedBy="receiptImage")
+	 * @ORM\JoinColumn(name="id_receipt_image_warranty", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $receiptImageWarranty;
 	
 	/**
 	 * Get id
@@ -55,46 +63,58 @@ class AppMedia extends BaseMedia {
 	}
 	
 	/**
-	 * @return Organisation
+	 * @return Organisation|null
 	 */
-	public function getLogoOrganisation() {
+	public function getLogoOrganisation(): ?Organisation {
 		return $this->logoOrganisation;
 	}
 	
 	/**
-	 * @param Organisation $logoOrganisation
+	 * @param Organisation|null $logoOrganisation
 	 */
-	public function setLogoOrganisation($logoOrganisation) {
+	public function setLogoOrganisation(?Organisation $logoOrganisation): void {
 		$this->logoOrganisation = $logoOrganisation;
 	}
 	
 	/**
-	 * @return Organisation
+	 * @return Brand|null
 	 */
-	public function getLogoBrand(): Organisation {
+	public function getLogoBrand(): ?Brand {
 		return $this->logoBrand;
 	}
 	
 	/**
-	 * @param Organisation $logoBrand
+	 * @param Brand|null $logoBrand
 	 */
-	public function setLogoBrand(Organisation $logoBrand): void {
+	public function setLogoBrand(?Brand $logoBrand): void {
 		$this->logoBrand = $logoBrand;
 	}
 	
 	/**
-	 * @return Product
+	 * @return Product|null
 	 */
-	public function getImageProduct(): Product {
+	public function getImageProduct(): ?Product {
 		return $this->imageProduct;
 	}
 	
 	/**
-	 * @param Product $imageProduct
+	 * @param Product|null $imageProduct
 	 */
-	public function setImageProduct(Product $imageProduct): void {
+	public function setImageProduct(?Product $imageProduct): void {
 		$this->imageProduct = $imageProduct;
 	}
 	
+	/**
+	 * @return Warranty|null
+	 */
+	public function getReceiptImageWarranty(): ?Warranty {
+		return $this->receiptImageWarranty;
+	}
 	
+	/**
+	 * @param Warranty|null $receiptImageWarranty
+	 */
+	public function setReceiptImageWarranty(?Warranty $receiptImageWarranty): void {
+		$this->receiptImageWarranty = $receiptImageWarranty;
+	}
 }
