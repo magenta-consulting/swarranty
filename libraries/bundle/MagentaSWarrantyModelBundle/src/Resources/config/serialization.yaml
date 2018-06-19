@@ -37,9 +37,9 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
         customer:
-            groups: ['read_warranty','write_warranty']
+            groups: ['read_warranty']
         registration:
-            groups: ['read_warranty','write_warranty']
+            groups: ['read_warranty']
         product:
             groups: ['read_warranty','write_warranty']
         productSerialNumber:
@@ -68,7 +68,9 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
     attributes:
         customer:
-            groups: ['read_registration','write_registration']
+            groups: ['read_registration']
+        warranties:
+            groups: ['read_registration']
         submitted:
             groups: ['read_registration','write_registration']
         verified:
