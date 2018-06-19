@@ -40,7 +40,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base\AppMedia;
 class Media extends AppMedia {
 	
 	protected $context = 'default';
-	
+
 	function __construct() {
 		parent::__construct();
 	}

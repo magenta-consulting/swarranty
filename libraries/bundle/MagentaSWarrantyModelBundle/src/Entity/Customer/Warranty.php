@@ -228,7 +228,7 @@ class Warranty implements ThingChildInterface {
 	 */
 	protected $extendedWarrantyPeriod;
 	
-	
+
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string", options={"default":"NEW"})
@@ -400,5 +400,5 @@ class Warranty implements ThingChildInterface {
 	public function getReceiptImage(): ?Media {
 		return $this->receiptImage;
 	}
-	
+
 }

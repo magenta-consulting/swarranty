@@ -15,11 +15,19 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import {HttpClientModule} from "@angular/common/http";
 import { FocusDirective } from './directive/focus.directive';
 
+// import components
+import {UploadsComponent} from "./components/uploads/uploads.component";
+import {SendEmailComponent} from "./components/send-email/send-email.component";
+import {SuccessComponent} from "./components/success/success.component";
+
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationComponent,
-    FocusDirective
+    FocusDirective,
+    UploadsComponent,
+    SendEmailComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

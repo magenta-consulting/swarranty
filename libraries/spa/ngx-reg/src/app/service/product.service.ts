@@ -24,6 +24,7 @@ export class ProductService {
     categoriesUrl = '/brand-categories';
     productsUrl = '/products';
     dealersUrl = '/dealers';
+    registrationsUrl = '/registrations';
 
     customer: Customer;
 
@@ -97,6 +98,26 @@ export class ProductService {
                 return prods;
             }),
             catchError(this.handleError('getProducts', []))
+        );
+    }
+
+    // get registrations
+    getApiRegistrations(regId: number) {
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
+        
+        return this.http.get<any>(url).pipe(
+            map((res) => {
+
+                let collection = res["warranties"];
+                // console.log('collection', collection);
+                let prods: any = [];
+                for (let item of collection) {
+                    prods.push(item);
+                }
+
+                return prods;
+            }),
+            catchError(this.handleError('getRegistrations', []))
         );
     }
 

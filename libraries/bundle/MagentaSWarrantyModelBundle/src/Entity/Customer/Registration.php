@@ -38,7 +38,7 @@ class Registration implements ThingChildInterface {
 	
 	public function __construct() {
 		$this->warranties = new ArrayCollection();
-		
+
 		$this->createdAt = new \DateTime();
 	}
 	
@@ -70,7 +70,7 @@ class Registration implements ThingChildInterface {
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected $verified = false;
-	
+
 	/**
 	 * @return \DateTime
 	 */
@@ -112,6 +112,6 @@ class Registration implements ThingChildInterface {
 	public function setCustomer(?Customer $customer): void {
 		$this->customer = $customer;
 	}
-	
+
 	
 }
