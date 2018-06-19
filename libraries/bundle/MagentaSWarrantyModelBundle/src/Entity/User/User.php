@@ -29,7 +29,7 @@ class User extends AbstractUser {
 				$maxRange36 .= 'Z';
 			}
 			
-			$maxRange = base_convert($maxRange36, 36, 10);
+			$maxRange = intval(base_convert($maxRange36, 36, 10));
 			$code     = base_convert(rand(0, $maxRange), 10, 36);
 		}
 		

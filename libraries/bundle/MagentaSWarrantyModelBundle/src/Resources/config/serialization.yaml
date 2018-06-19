@@ -70,7 +70,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
     attributes:
         customer:
-            groups: ['read_registration']
+            groups: ['read_registration', 'write_registration']
         warranties:
             groups: ['read_registration']
         submitted:
