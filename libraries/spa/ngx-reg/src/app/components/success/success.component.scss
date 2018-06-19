@@ -1,0 +1,23 @@
+.success-list {
+    .success-item {
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 10px;
+        p {
+            margin-bottom: 0;
+        }
+    }
+}
+.success-wrap {
+    h3 {
+        margin-bottom: 20px;
+    }
+    .note {
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 15px;
+    }
+}
