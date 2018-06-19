@@ -302,7 +302,7 @@
                 <div class="form-check">
                     <input required="required" type="checkbox" aria-label="Checkbox for following text input" id="agreeTos">
                     <label class="form-check-label" for="agreeTos">
-                        I have read and agree to the <a (click)="lgModal.show(); false">Warranty Terms and Conditions</a> and <a (click)="lgModal.show();false">Fujioh Data Protection Policy</a>.
+                        I have read and agree to the <a (click)="lgModal.show(); false">Warranty Terms and Conditions</a> and <a (click)="lgModal.show();false">{{organisation.name}} Data Protection Policy</a>.
                     </label>
                 </div>
             </section>
@@ -327,7 +327,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                ...
+                {{organisation.dataPolicy}}
             </div>
         </div>
     </div>

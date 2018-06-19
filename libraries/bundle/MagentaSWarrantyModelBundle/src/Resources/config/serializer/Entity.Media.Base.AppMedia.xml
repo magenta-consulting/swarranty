@@ -2,7 +2,7 @@
 <serializer>
     <class name="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base\AppMedia" exclusion-policy="all"
            xml-root-name="media">
-        <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read, read_medium"/>
+        <property name="id" type="integer" expose="true" since-version="1.0" groups="sonata_api_read"/>
         <property name="logoOrganisation" serialized-name="id_logo_organisation"
                   type="magenta_organisation_organisation_id" expose="true" since-version="1.0"
                   groups="sonata_api_read,sonata_api_write"/>

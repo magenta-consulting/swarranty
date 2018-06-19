@@ -10,6 +10,7 @@ import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Customer} from "../model/customer";
 import {Warranty} from "../model/warranty";
 import {Router} from "@angular/router";
+import {OrganisationService} from "../service/organisation.service";
 
 @Component({
     selector: 'app-registration',
@@ -30,14 +31,16 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     previewStates: any = {};
     isFormPreview = false;
     checkingError = false;
+    organisation =null;
 
-    constructor(private productService: ProductService, private router: Router) {
+    constructor(private productService: ProductService, private organisationService: OrganisationService,private router: Router) {
         let warranty: Warranty = new Warranty();
         warranty.id = null;
 
         this.warranties.push(warranty);
         productService.getBrands().subscribe(brands => warranty.brands = brands);
         productService.getDealers().subscribe(d => warranty.dealers = d);
+        organisationService.getOrganisation().subscribe(organisation => this.organisation = organisation);
     }
 
     ngOnInit() {

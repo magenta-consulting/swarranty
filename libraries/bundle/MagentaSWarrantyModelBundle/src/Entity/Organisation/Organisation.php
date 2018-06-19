@@ -108,12 +108,7 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $customers;
-	
-	/**
-	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
-	 */
-	protected $messageTemplates;
+
 	
 	/**
 	 * @var System|null

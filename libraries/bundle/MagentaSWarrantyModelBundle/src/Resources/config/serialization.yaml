@@ -3,13 +3,6 @@
 #        firstName:
 #            groups: ['read_user','write_user']
 
-Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
-    attributes:
-        id:
-            groups: ['read_medium']
-        name:
-            groups: ['read_medium']
-
 Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing:
     attributes:
         name:
@@ -36,18 +29,16 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
-        id:
-            groups: ['read_warranty', 'read_registration_warranty']
         customer:
             groups: ['read_warranty','write_warranty']
         registration:
             groups: ['read_warranty','write_warranty']
         product:
-            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
+            groups: ['read_warranty','write_warranty']
         productSerialNumber:
-            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
+            groups: ['read_warranty','write_warranty']
         purchaseDate:
-            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
+            groups: ['read_warranty','write_warranty']
 
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
@@ -70,14 +61,12 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
     attributes:
         customer:
-            groups: ['read_registration', 'write_registration']
-        warranties:
-            groups: ['read_registration']
-        submitted:
             groups: ['read_registration','write_registration']
-        verified:
-            groups: ['read_registration']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
+    attributes:
+        id:
+            groups: ['read_medium']
 
 #{
 #  "customer": {

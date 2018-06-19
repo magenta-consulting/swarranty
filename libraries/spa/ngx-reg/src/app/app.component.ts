@@ -1,4 +1,5 @@
 import {Component, ElementRef} from '@angular/core';
+import {OrganisationService} from "./service/organisation.service";
 
 @Component({
     selector: 'app-root',
@@ -8,11 +9,13 @@ import {Component, ElementRef} from '@angular/core';
 export class AppComponent {
     title = 'app';
     data = ['item 1', 'item 2', 'item 3'];
+    logoSrc = null;
 
-    constructor(private eRef: ElementRef) {
+    constructor(private eRef: ElementRef, private organisationService: OrganisationService) {
         const native = eRef.nativeElement;
         const orgId = native.getAttribute('organisation');
         localStorage.setItem('orgId', orgId);
+        organisationService.getLogo().subscribe(logoSrc => this.logoSrc = logoSrc);
     }
 
     addData(): void {

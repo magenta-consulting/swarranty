@@ -9,10 +9,12 @@ export const environment = {
 // export const apiEndPoint = 'http://127.0.0.1:8000';
 export const apiEndPoint = 'http://dev-swarranty.magentapulse.com';
 export const apiEndPointBase = '/api';
+export const apiEndPointMedia = '/media-api';
 export const organisationPath = '/organisations';
+export const MEDIA_PREFIX = '/organisations';
 
 /**
- * QR Path:
+ * http://127.0.0.1:8000/index.php/api/qr-code/http:%2F%2Fwww.google.com.png
  */
 
 /*
