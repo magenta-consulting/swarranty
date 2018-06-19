@@ -22,6 +22,7 @@ resources:
             normalization_context:
                 groups:
                     - read_warranty
+                    - read_registration
                     - read_product
                     - read_brand
                     - read_thing
@@ -29,6 +30,7 @@ resources:
                 groups:
                     - write_warranty
                     - write_customer
+                    - write_registration
 #                    - write_product
 #                    - write_brand
 #                    - write_thing
@@ -54,7 +56,6 @@ resources:
             denormalization_context:
                 groups:
                     - write_registration
-                    - write_warranty
                     - write_customer
 #                    - write_product
 #                    - write_brand
