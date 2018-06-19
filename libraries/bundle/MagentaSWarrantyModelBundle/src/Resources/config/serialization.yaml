@@ -69,6 +69,10 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
     attributes:
         customer:
             groups: ['read_registration','write_registration']
+        submitted:
+            groups: ['read_registration','write_registration']
+        verified:
+            groups: ['read_registration']
 
 
 #{
