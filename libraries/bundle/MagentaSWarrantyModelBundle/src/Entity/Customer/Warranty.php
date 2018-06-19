@@ -141,7 +141,7 @@ class Warranty implements ThingChildInterface {
 	protected $customer;
 	
 	/**
-	 * @var Customer|null
+	 * @var Registration|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_registration", referencedColumnName="id", onDelete="SET NULL")
 	 */
@@ -399,6 +399,104 @@ class Warranty implements ThingChildInterface {
 	 */
 	public function getReceiptImage(): ?Media {
 		return $this->receiptImage;
+	}
+	
+	/**
+	 * @return Registration|null
+	 */
+	public function getRegistration(): ?Registration {
+		return $this->registration;
+	}
+	
+	/**
+	 * @param Registration|null $registration
+	 */
+	public function setRegistration(?Registration $registration): void {
+		$this->registration = $registration;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCases(): Collection {
+		return $this->cases;
+	}
+	
+	/**
+	 * @param Collection $cases
+	 */
+	public function setCases(Collection $cases): void {
+		$this->cases = $cases;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isRejected(): bool {
+		return $this->rejected;
+	}
+	
+	/**
+	 * @param bool $rejected
+	 */
+	public function setRejected(bool $rejected): void {
+		$this->rejected = $rejected;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+	
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isExpired(): bool {
+		return $this->expired;
+	}
+	
+	/**
+	 * @param bool $expired
+	 */
+	public function setExpired(bool $expired): void {
+		$this->expired = $expired;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isNew(): bool {
+		return $this->new;
+	}
+	
+	/**
+	 * @param bool $new
+	 */
+	public function setNew(bool $new): void {
+		$this->new = $new;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getStatus(): ?string {
+		return $this->status;
+	}
+	
+	/**
+	 * @param null|string $status
+	 */
+	public function setStatus(?string $status): void {
+		$this->status = $status;
 	}
 
 }

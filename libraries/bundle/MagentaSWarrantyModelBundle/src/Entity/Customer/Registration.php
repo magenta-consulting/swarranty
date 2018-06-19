@@ -38,8 +38,8 @@ class Registration implements ThingChildInterface {
 	
 	public function __construct() {
 		$this->warranties = new ArrayCollection();
-
-		$this->createdAt = new \DateTime();
+		$this->createdAt  = new \DateTime();
+		$this->code       = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
 	}
 	
 	public function getOrganisation(): Organisation {
@@ -70,7 +70,19 @@ class Registration implements ThingChildInterface {
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected $verified = false;
-
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $submitted = false;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string")
+	 */
+	protected $code;
+	
 	/**
 	 * @return \DateTime
 	 */
@@ -112,6 +124,46 @@ class Registration implements ThingChildInterface {
 	public function setCustomer(?Customer $customer): void {
 		$this->customer = $customer;
 	}
-
 	
+	/**
+	 * @return bool
+	 */
+	public function isVerified(): bool {
+		return $this->verified;
+	}
+	
+	/**
+	 * @param bool $verified
+	 */
+	public function setVerified(bool $verified): void {
+		$this->verified = $verified;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSubmitted(): bool {
+		return $this->submitted;
+	}
+	
+	/**
+	 * @param bool $submitted
+	 */
+	public function setSubmitted(bool $submitted): void {
+		$this->submitted = $submitted;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getCode(): ?string {
+		return $this->code;
+	}
+	
+	/**
+	 * @param null|string $code
+	 */
+	public function setCode(?string $code): void {
+		$this->code = $code;
+	}
 }

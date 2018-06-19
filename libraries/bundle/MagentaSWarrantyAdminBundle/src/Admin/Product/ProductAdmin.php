@@ -136,6 +136,7 @@ class ProductAdmin extends BaseAdmin {
 			->with('form_group.product', [ 'class' => 'col-md-12' ]);
 		$formMapper
 			->add('image', MediaType::class, [
+				'new_on_update' => false,
 				'context'  => 'product_image',
 				'provider' => 'sonata.media.provider.image'
 			])

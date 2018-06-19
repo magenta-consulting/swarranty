@@ -21,7 +21,7 @@ class MagentaSWarrantyMediaApiExtension extends ConfigurableExtension {
 //		$container->registerForAutoconfiguration(BaseCRUDAdminController::class)
 //		          ->addTag('controller.service_arguments');
 		
-		$loader->load('api.yaml');
+		$loader->load('media-api.yaml');
 		
 	}
 }

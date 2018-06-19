@@ -126,6 +126,7 @@ class BrandAdmin extends BaseAdmin {
 			->with('form_group.brand', [ 'class' => 'col-md-12' ]);
 		$formMapper->add('name')
 		           ->add('logo', MediaType::class, [
+			           'new_on_update' => false,
 			           'context'  => 'brand_logo',
 			           'provider' => 'sonata.media.provider.image'
 		           ])

@@ -27,7 +27,7 @@ class Dealer extends Thing {
 	
 	/**
 	 * @var Organisation|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="dea", cascade={"persist","merge"})
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="dealers", cascade={"persist","merge"})
 	 * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $organisation;

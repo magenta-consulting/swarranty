@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
-import {apiEndPoint, apiEndPointBase,apiEndPointMedia, organisationPath} from "../../environments/environment";
+import {apiEndPoint, apiEndPointBase, apiEndPointMedia, organisationPath} from "../../environments/environment";
 
 import {Organisation} from "../model/organisation";
 
@@ -19,16 +19,17 @@ export class OrganisationService {
     constructor(private http: HttpClient) {
     }
 
-    getOrganisation(){
+    getOrganisation(): Observable<Organisation> {
         const orgId = localStorage.getItem('orgId');
         let url = `${apiEndPoint}${apiEndPointBase}${organisationPath}/${orgId}`;
-        return this.http.get<Organisation[]>(url).pipe(
+        return this.http.get<any>(url).pipe(
             map((res) => {
                 return res;
             }),
             catchError(this.handleError('getOrganisation', []))
         );
     }
+
     getLogo() {
         const orgId = localStorage.getItem('orgId');
         let url = `${apiEndPoint}${apiEndPointBase}${organisationPath}/${orgId}`;

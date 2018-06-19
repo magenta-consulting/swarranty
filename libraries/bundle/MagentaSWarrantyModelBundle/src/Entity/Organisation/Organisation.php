@@ -69,6 +69,12 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
+	 */
+	protected $messageTemplates;
+	
+	/**
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $serviceZones;
@@ -108,7 +114,7 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $customers;
-
+	
 	
 	/**
 	 * @var System|null
@@ -447,5 +453,19 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setDataPolicy(?string $dataPolicy): void {
 		$this->dataPolicy = $dataPolicy;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getMessageTemplates(): Collection {
+		return $this->messageTemplates;
+	}
+	
+	/**
+	 * @param Collection $messageTemplates
+	 */
+	public function setMessageTemplates(Collection $messageTemplates): void {
+		$this->messageTemplates = $messageTemplates;
 	}
 }

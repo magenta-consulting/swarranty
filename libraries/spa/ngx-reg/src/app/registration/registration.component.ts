@@ -32,12 +32,12 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     previewStates: any = {};
     isFormPreview = false;
     checkingError = false;
-    organisation: Organisation = {id:null,name:null,tos:null,dataPolicy:null};
+    organisation: Organisation = {id: null, name: null, tos: null, dataPolicy: null} as Organisation;
 
     modalTitle: string;
     modalContent: string;
 
-    constructor(private productService: ProductService, private organisationService: OrganisationService,private router: Router) {
+    constructor(private productService: ProductService, private organisationService: OrganisationService, private router: Router) {
         let warranty: Warranty = new Warranty();
         warranty.id = null;
 
@@ -166,12 +166,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             });
         }
     }
-    getInforModal(type){
-        if(type == 1) {
-            this.modalTitle = 'Tos';
+
+    getInforModal(type) {
+        if (type == 1) {
+            this.modalTitle = 'Terms and Conditions';
             this.modalContent = this.organisation.tos;
-        }else{
-            this.modalTitle = 'Data Policy';
+        } else {
+            this.modalTitle = 'Data Protection Policy';
             this.modalContent = this.organisation.dataPolicy;
         }
     }
