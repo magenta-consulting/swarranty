@@ -11,6 +11,7 @@ import {Customer} from "../model/customer";
 import {Warranty} from "../model/warranty";
 import {Router} from "@angular/router";
 import {OrganisationService} from "../service/organisation.service";
+import {Organisation} from "../model/organisation";
 
 @Component({
     selector: 'app-registration',
@@ -31,7 +32,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     previewStates: any = {};
     isFormPreview = false;
     checkingError = false;
-    organisation =null;
+    organisation: Organisation = {id:null,name:null,tos:null,dataPolicy:null};
+
+    modalTitle: string;
+    modalContent: string;
 
     constructor(private productService: ProductService, private organisationService: OrganisationService,private router: Router) {
         let warranty: Warranty = new Warranty();
@@ -160,6 +164,15 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 warranty.isProductHidden = false;
                 warranty.selectedProduct = null;
             });
+        }
+    }
+    getInforModal(type){
+        if(type == 1) {
+            this.modalTitle = 'Tos';
+            this.modalContent = this.organisation.tos;
+        }else{
+            this.modalTitle = 'Data Policy';
+            this.modalContent = this.organisation.dataPolicy;
         }
     }
 
