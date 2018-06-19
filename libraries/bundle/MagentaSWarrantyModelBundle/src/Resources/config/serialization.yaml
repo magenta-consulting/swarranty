@@ -43,11 +43,11 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
         registration:
             groups: ['read_warranty','write_warranty']
         product:
-            groups: ['read_warranty','write_warranty']
+            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
         productSerialNumber:
-            groups: ['read_warranty','write_warranty']
+            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
         purchaseDate:
-            groups: ['read_warranty','write_warranty']
+            groups: ['read_warranty','write_warranty', 'read_registration_warranty']
 
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
