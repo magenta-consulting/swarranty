@@ -202,7 +202,15 @@ class WarrantyAdmin extends BaseAdmin {
 		$listMapper
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
-			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ]);
+			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
+			->add('dealer.name', null, [ 'editable' => true, 'label' => 'form.label_dealer' ])
+			->add('product.brand.name', null, [ 'editable' => true, 'label' => 'form.label_brand' ])
+			->add('product.name', null, [ 'editable' => true, 'label' => 'form.label_model_name' ])
+			->add('purchaseDate', null, [ 'editable' => true, 'label' => 'form.label_purchase_date' ])
+			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
+			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ]);
+		
+		$listMapper->add('receiptImage', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_image' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}

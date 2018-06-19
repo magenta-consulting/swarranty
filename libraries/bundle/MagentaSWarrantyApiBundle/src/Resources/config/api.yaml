@@ -23,3 +23,11 @@ services:
             - '@doctrine'
         tags:
             - { name: kernel.event_subscriber }
+
+    magenta_swarranty_api.customer.registration_email_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\RegistrationEmailSubscriber
+        arguments:
+            - '@doctrine'
+            - '@swiftmailer.mailer'
+        tags:
+            - { name: kernel.event_subscriber }

@@ -275,3 +275,16 @@ resources:
             get:
                 filters: ['swarranty.code_search_filter']
 #            post: ~
+
+###################### DTO #######################################
+    Magenta\Bundle\SWarrantyApiBundle\Dto\Customer\RegistrationEmail:
+#        shortName: 'User'                   # optional
+        description: 'RegistrationConfirmationEmail' # optional
+#        iri: 'http://schema.org/User'       # optional
+        itemOperations: []
+        collectionOperations:
+            post:
+                method: 'POST'
+                path: '/registrations/email'
+
+#            post: ~

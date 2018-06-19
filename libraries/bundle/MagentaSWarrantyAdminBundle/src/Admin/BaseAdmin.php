@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
@@ -10,6 +11,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -49,7 +51,41 @@ class BaseAdmin extends AbstractAdmin {
 	public function getTemplate($name) {
 		return $this->getTemplateRegistry()->getTemplate($name);
 	}
-
+	
+	protected function buildList() {
+		parent::buildList();
+		/** @var FieldDescription $fieldDescription */
+		foreach($this->listFieldDescriptions as $fieldDescription) {
+			switch($fieldDescription->getMappingType()) {
+//				case ClassMetadata::MANY_TO_ONE:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_one.html.twig'
+//					);
+//
+//					break;
+				case ClassMetadata::ONE_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/list_one_to_one.html.twig'
+					);
+					
+					break;
+//				case ClassMetadata::ONE_TO_MANY:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_one_to_many.html.twig'
+//					);
+//
+//					break;
+//				case ClassMetadata::MANY_TO_MANY:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_many.html.twig'
+//					);
+//
+//					break;
+			}
+		}
+		
+		return;
+	}
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
