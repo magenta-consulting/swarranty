@@ -1,0 +1,22 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+            {%- block field %}
+                {% if field_description.name == 'avatar' %}
+a
+                    {#{% set user = object %}#}
+                    {#<a href="{{ admin.generateUrl('show_user_profile', {'id' : object|sonata_urlsafeid }) }}">#}
+                    {#<img src="{{ userAvatar(user,'admin') }}" width="75" /></a>#}
+                {% elseif field_description.type == 'image' %}
+                    b
+                    {% spaceless %}
+                        {% set user = attribute(object,field_description.name) %}
+                        <a href="{{ admin.generateUrl('show', {'id' : object|sonata_urlsafeid }) }}">
+                            <img src="{{ object|sonata_urlsafeid|privateMediumUrl }}" width="75"/>
+                        </a>
+                    {% endspaceless %}
+                {% else %}
+                    {#{{ dump(field_description) }}#}
+                    c
+                    {{ parent() }}
+
+                {% endif %}
+            {% endblock -%}
