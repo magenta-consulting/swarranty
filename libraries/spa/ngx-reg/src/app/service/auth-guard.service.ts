@@ -31,11 +31,10 @@ export class AuthGuard implements CanActivate {
             let regId = parseInt(localStorage.getItem('regId'));
             
             this.productService.getApiRegistration(regId).subscribe(res => {
-                // this.dataRegistration = res;
-                console.log('res', res);
                 if(res.submitted == false) {
                     this.router.navigate(['upload-receipt-image/', parseInt(localStorage.getItem('regId'))]);
                 } else {
+                    // check email exists
                     if(res && res.customer.email) {
                         this.router.navigate(['send-email/', parseInt(localStorage.getItem('regId'))]);
                     } else {

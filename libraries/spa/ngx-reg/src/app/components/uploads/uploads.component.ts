@@ -5,6 +5,8 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
 
+import { ImageUploadModule, FileHolder } from "angular2-image-upload";
+
 @Component({
     selector: 'uploads',
     templateUrl: './uploads.component.html',
@@ -48,5 +50,18 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             this.prodList = [];
             this.isLoading = false;
         }
+    }
+
+    // 2. Event uploads
+    onUploadFinished(file: FileHolder) {
+        console.log('finished', file);
+    }
+
+    onRemoved(file: FileHolder) {
+        console.log('removed', file);
+    }
+
+    onUploadStateChanged(state: boolean) {
+        console.log('state', state);
     }
 }

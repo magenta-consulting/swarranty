@@ -51,6 +51,26 @@ ng-select {
     transform: rotate(1800deg);
   }
 }
+.custome-upload{
+  .img-ul-button {
+    background: #007bff !important;
+    text-transform: none !important;
+    width: 100%;
+  }
+  .img-ul-file-upload {
+    padding: 0 !important;
+  }
+  .img-ul-drag-box-msg,
+  .img-ul-clear {
+    display: none !important;
+  }
+  .img-ul-image {
+    width: 56px !important;
+    height: 56px !important;
+  }
+}
+
+// CSS RESPONSIVE
 
 @media (max-width: 1200px) {
   h3 {

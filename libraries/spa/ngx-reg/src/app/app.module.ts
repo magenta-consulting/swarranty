@@ -23,6 +23,9 @@ import {SuccessComponent} from "./components/success/success.component";
 // import services
 import { AuthGuard } from './service/auth-guard.service';
 
+// import libs
+import { ImageUploadModule } from "angular2-image-upload";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +44,9 @@ import { AuthGuard } from './service/auth-guard.service';
 
     BsDatepickerModule.forRoot(),
     ModalModule.forRoot(),
+
+    // import libs
+    ImageUploadModule.forRoot(),
 
     AppRoutingModule
 
