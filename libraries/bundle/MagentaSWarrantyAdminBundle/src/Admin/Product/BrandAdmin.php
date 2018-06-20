@@ -127,88 +127,123 @@ class BrandAdmin extends BaseAdmin {
 		$formMapper->add('name')
 		           ->add('logo', MediaType::class, [
 			           'new_on_update' => false,
-			           'context'  => 'brand_logo',
-			           'provider' => 'sonata.media.provider.image'
+			           'context'       => 'brand_logo',
+			           'provider'      => 'sonata.media.provider.image'
 		           ])
 		           ->add('enabled')
 		           ->end();
-		$formMapper->end();
-		$formMapper
-			->tab('form_tab.associated_categories_and_suppliers')
-			->with('form_group.categories', [ 'class' => 'col-md-4' ])
-			->add('categories', ManyToManyThingType::class, [
-				'router_id_param' => 'childId',
-				'create_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'childId'   => 0,
-						'operation' => 'create'
-					]
-				],
-				'update_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'operation' => 'update'
-					]
-				],
-				'delete_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'operation' => 'delete'
-					]
-				],
-				'class'           => BrandCategory::class,
-				'query_builder'   => function(EntityRepository $er) {
-					$qb   = $er->createQueryBuilder('c');
-					$expr = $qb->expr();
-					$qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
-					
-					return $qb;
-				}
-			])
-			->end()
-			->with('form_group.subcategories', [ 'class' => 'col-md-4' ])
-			->add('subCategories', ManyToManyThingType::class, [
-				'class'           => BrandSubCategory::class,
-				'router_id_param' => 'childId',
-				'create_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'childId'   => 0,
-						'operation' => 'create'
-					]
-				],
-				'update_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'operation' => 'update'
-					]
-				],
-				'delete_route'    => [
-					'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
-					'route_params' => [
-						'id'        => $this->getCurrentOrganisation()->getId(),
-						'operation' => 'delete'
-					]
-				],
-				'query_builder'   => function(EntityRepository $er) {
-					$qb   = $er->createQueryBuilder('c');
-					$expr = $qb->expr();
-					$qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
-					
-					return $qb;
-				}
-			])
-			->end()
-			->with('form_group.suppliers', [ 'class' => 'col-md-4' ])
-//			->add('suppliers', ManyToManyThingType::class, [ 'class' => BrandSupplier::class ])
-			->end()
-			->end();
+//		$formMapper->end();
+//		$formMapper
+//			->tab('form_tab.associated_categories_and_suppliers');
+		$formMapper->with('form_group.categories', [ 'class' => 'col-md-4' ])
+		           ->add('categories', ManyToManyThingType::class, [
+			           'label'           => false,
+			           'router_id_param' => 'childId',
+			           'create_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'childId'   => 0,
+					           'operation' => 'create'
+				           ]
+			           ],
+			           'update_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'update'
+				           ]
+			           ],
+			           'delete_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'delete'
+				           ]
+			           ],
+			           'class'           => BrandCategory::class,
+			           'query_builder'   => function(EntityRepository $er) {
+				           $qb   = $er->createQueryBuilder('c');
+				           $expr = $qb->expr();
+				           $qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
+				
+				           return $qb;
+			           }
+		           ])
+		           ->end()
+		           ->with('form_group.subcategories', [ 'class' => 'col-md-4' ])
+		           ->add('subCategories', ManyToManyThingType::class, [
+			           'label'           => false,
+			           'class'           => BrandSubCategory::class,
+			           'router_id_param' => 'childId',
+			           'create_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'childId'   => 0,
+					           'operation' => 'create'
+				           ]
+			           ],
+			           'update_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'update'
+				           ]
+			           ],
+			           'delete_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsubcategory_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'delete'
+				           ]
+			           ],
+			           'query_builder'   => function(EntityRepository $er) {
+				           $qb   = $er->createQueryBuilder('c');
+				           $expr = $qb->expr();
+				           $qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
+				
+				           return $qb;
+			           }
+		           ])
+		           ->end()
+		           ->with('form_group.suppliers', [ 'class' => 'col-md-4' ])
+		           ->add('suppliers', ManyToManyThingType::class, [
+			           'label'           => false,
+			           'class'           => BrandSupplier::class,
+			           'router_id_param' => 'childId',
+			           'create_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsupplier_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'childId'   => 0,
+					           'operation' => 'create'
+				           ]
+			           ],
+			           'update_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsupplier_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'update'
+				           ]
+			           ],
+			           'delete_route'    => [
+				           'route_name'   => 'admin_magenta_swarrantymodel_organisation_organisation_product_brandsupplier_crud',
+				           'route_params' => [
+					           'id'        => $this->getCurrentOrganisation()->getId(),
+					           'operation' => 'delete'
+				           ]
+			           ],
+			           'query_builder'   => function(EntityRepository $er) {
+				           $qb   = $er->createQueryBuilder('c');
+				           $expr = $qb->expr();
+				           $qb->andWhere($expr->eq('c.organisation', $this->getCurrentOrganisation()->getId()));
+				
+				           return $qb;
+			           }
+		           ])
+//			->end()
+                   ->end();
 		
 	}
 	

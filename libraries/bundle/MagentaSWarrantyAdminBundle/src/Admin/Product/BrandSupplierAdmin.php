@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSupplier;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
@@ -30,7 +31,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class BrandCategoryAdmin extends BaseAdmin {
+class BrandSupplierAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -59,9 +60,9 @@ class BrandCategoryAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof BrandCategory
+		return $object instanceof BrandSupplier
 			? $object->getName()
-			: 'BrandCategory'; // shown in the breadcrumb on the create view
+			: 'BrandSupplier'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -119,7 +120,7 @@ class BrandCategoryAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$formMapper
-			->with('form_group.BrandCategory', [ 'class' => 'col-md-12' ]);
+			->with('form_group.brand_supplier', [ 'class' => 'col-md-12' ]);
 		$formMapper->add('name')
 		           ->add('enabled');
 		$formMapper->end();

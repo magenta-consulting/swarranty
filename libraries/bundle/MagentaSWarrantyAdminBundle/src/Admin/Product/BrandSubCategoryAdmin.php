@@ -122,10 +122,6 @@ class BrandSubCategoryAdmin extends BaseAdmin {
 		$formMapper
 			->with('form_group.BrandSubCategory', [ 'class' => 'col-md-12' ]);
 		$formMapper->add('name')
-		           ->add('logo', MediaType::class, [
-			           'context'  => 'BrandSubCategory_logo',
-			           'provider' => 'sonata.media.provider.image'
-		           ])
 		           ->add('enabled');
 		$formMapper->end();
 	}

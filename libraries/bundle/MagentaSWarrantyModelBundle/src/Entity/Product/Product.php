@@ -17,6 +17,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 class Product extends Thing {
 	
 	function __construct() {
+		$this->warranties = new ArrayCollection();
 	}
 	
 	/**

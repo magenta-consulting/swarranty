@@ -82,9 +82,16 @@ layout:
     register: Register
     logged_in_as: 'Logged in as %username%'
 
+form_tab:
+    general: General
+
 form_group:
+    brand: Brand
     service_zone: Service Zone
     warranty_details: Warranty Details
+    categories: Manage Associated Categories
+    subcategories: Manage Associated Sub-Categories
+    suppliers: Manage Associated Suppliers
 
 form_field:
     label_registration_fields: Registration Fields
@@ -131,8 +138,12 @@ form:
     label_expiry_date: Expiry Date
     label_receipt_image: Receipt Image
     label_brand: Brand
+    label_categories: Categories
+    label_sub_categories : Sub-Categories
+    label_suppliers: Suppliers
     label_category: Category
     label_subcategory: Sub-Category
+    label_supplier: Supplier
     label_warranty_period: Warranty Period (months)
     label_extended_warranty_period: Extended Warranty Period
     label_dealer: Dealer
