@@ -39,8 +39,9 @@ class Warranty implements ThingChildInterface {
 		$this->cases = new ArrayCollection();
 		
 		$this->createdAt = new \DateTime();
+		$this->code       = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
+		
 	}
-	
 	
 	public function markStatusAs($status) {
 		switch($status) {
@@ -226,6 +227,11 @@ class Warranty implements ThingChildInterface {
 	 */
 	protected $extendedWarrantyPeriod;
 	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string")
+	 */
+	protected $code;
 	
 	/**
 	 * @var string|null
@@ -505,4 +511,17 @@ class Warranty implements ThingChildInterface {
 		$this->status = $status;
 	}
 	
+	/**
+	 * @return null|string
+	 */
+	public function getCode(): ?string {
+		return $this->code;
+	}
+	
+	/**
+	 * @param null|string $code
+	 */
+	public function setCode(?string $code): void {
+		$this->code = $code;
+	}
 }

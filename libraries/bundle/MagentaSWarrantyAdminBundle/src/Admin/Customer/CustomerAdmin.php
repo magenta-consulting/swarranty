@@ -106,11 +106,10 @@ class CustomerAdmin extends BaseAdmin {
 			->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
 			->add('warranties', null, [
 				'label'               => false,
-				'associated_property' => 'product.name',
-				'template'            => '@MagentaSWarrantyAdmin/Admin/Customer/Customer/CRUD/Association/show_one_to_many.html.twig'
+				'associated_property' => 'product.name'
+//				'template'            => '@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_many.html.twig'
 			])
 			->end();
-		
 	}
 	
 	/**

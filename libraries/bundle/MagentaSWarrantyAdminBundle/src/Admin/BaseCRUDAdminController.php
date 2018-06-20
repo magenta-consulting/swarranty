@@ -9,12 +9,55 @@ use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class BaseCRUDAdminController extends CRUDController {
+	
+	/**
+	 * Show action.
+	 *
+	 * @param int|string|null $id
+	 *
+	 * @throws NotFoundHttpException If the object does not exist
+	 * @throws AccessDeniedException If access is not granted
+	 *
+	 * @return Response
+	 */
+	public function decideAction($id = null, $action) {
+		$request = $this->getRequest();
+		$id      = $request->get($this->admin->getIdParameter());
+		
+		$object = $this->admin->getObject($id);
+		
+		if( ! $object) {
+			throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+		}
+		
+		$this->admin->checkAccess($action, $object);
+		
+		$preResponse = $this->preShow($request, $object);
+		if(null !== $preResponse) {
+			return $preResponse;
+		}
+		
+		$this->admin->setSubject($object);
+		
+		// NEXT_MAJOR: Remove this line and use commented line below it instead
+		$template = $this->admin->getTemplate('decide');
+
+//		$template = $this->templateRegistry->getTemplate('show');
+		
+		return $this->renderWithExtraParams($template, [
+			'action'   => $action,
+			'object'   => $object,
+			'elements' => $this->admin->getShow(),
+		], null);
+	}
 	
 	protected function getRefererParams() {
 		$request = $this->getRequest();

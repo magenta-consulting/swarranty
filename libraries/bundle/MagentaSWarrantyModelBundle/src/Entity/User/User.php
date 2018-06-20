@@ -13,6 +13,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
  * @ORM\Table(name="user__user")
  */
 class User extends AbstractUser {
+	const ROLE_ADMIN = 'ROLE_ADMIN';
 	
 	/**
 	 * @var int|null
@@ -21,6 +22,16 @@ class User extends AbstractUser {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	
+	public function isAdmin(): bool {
+		foreach($this->roles as $role) {
+			if(in_array($role, [ User::ROLE_SUPER_ADMIN, User::ROLE_ADMIN ])) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 	public static function generateCharacterCode($code = null, $x = 4) {
 		if(empty($code)) {

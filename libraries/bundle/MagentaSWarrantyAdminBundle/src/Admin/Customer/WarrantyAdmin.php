@@ -83,7 +83,7 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	public function toString($object) {
 		return $object instanceof Warranty
-			? $object->getCustomer()->getName()
+			? $object->getCustomer()->getName() . ' - ' . $object->getProduct()->getName()
 			: 'Warranty'; // shown in the breadcrumb on the create view
 	}
 	
@@ -165,19 +165,45 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
-			->with('form_group.Warranty_details', [ 'class' => 'col-md-6' ])
-			->add('name', null, [ 'label' => 'form.label_name' ])
-			->add('email', null, [ 'label' => 'form.label_email' ])
-			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
-			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
-			->end()
-			->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
-			->add('warranties', null, [
-				'label'               => false,
-				'associated_property' => 'id',
-				'template'            => '@MagentaSWarrantyAdmin/Admin/Warranty/Warranty/CRUD/Association/show_one_to_many.html.twig'
+			->with('form_group.warranty_details', [ 'class' => 'col-md-6' ])
+			->add('code', null, [ 'label' => 'form.label_reference_number' ])
+			->add('product.brand', null, [
+				'label'               => 'form.label_brand',
+				'associated_property' => 'name'
 			])
+			->add('product.category', null, [
+				'label'               => 'form.label_category',
+				'associated_property' => 'name'
+			])
+			->add('product.subCategory', null, [
+				'label'               => 'form.label_subcategory',
+				'associated_property' => 'name'
+			])
+			->add('product.name', null, [ 'label' => 'form.label_model_name' ])
+			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
+			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
+			->add('purchaseDate', null, [ 'label' => 'form.label_purchase_date', 'format' => 'd - m - Y' ])
+			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
+			->add('product.warrantyPeriod', null, [ 'label' => 'form.label_default_warranty_period' ])
+			->add('product.extendedWarrantyPeriod', null, [ 'label' => 'form.label_extended_warranty_period' ])
+			->add('expiryDate', null, [ 'label' => 'form.label_warranty_expiry', 'format' => 'd - m - Y' ])
+			->add('dealer.name', null, [ 'label' => 'form.label_dealer' ])
 			->end();
+		
+		$showMapper->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
+		           ->add('customer.name', null, [ 'label' => 'form.label_name' ])
+		           ->add('customer.telephone', null, [ 'label' => 'form.label_telephone' ])
+		           ->add('customer.email', null, [ 'label' => 'form.label_email' ])
+		           ->add('customer.homeAddress', null, [ 'label' => 'form.label_address' ])
+		           ->add('customer.homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
+		           ->end()
+		           ->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
+		           ->add('customer.warranties', null, [
+			           'label'               => false,
+			           'associated_property' => 'id'
+//				'template'            => '@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_many.html.twig'
+		           ])
+		           ->end();
 		
 	}
 	
@@ -187,9 +213,9 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'show'   => array(),
-					'edit'   => array(),
-					'delete' => array(),
+					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
+					'edit'              => array(),
+					'delete'            => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -224,7 +250,7 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper
 			->add('receiptImages', MediaCollectionType::class,
 				[
-					'source'        => $c->getParameter('MEDIA_API_BASE_URL').$c->getParameter('MEDIA_API_PREFIX'),
+					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
 					'new_on_update' => false,
 					'context'       => 'receipt_image',
 					'provider'      => 'sonata.media.provider.image',

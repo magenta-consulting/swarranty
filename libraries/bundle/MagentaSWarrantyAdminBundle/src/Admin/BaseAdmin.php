@@ -13,6 +13,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -61,6 +62,43 @@ class BaseAdmin extends AbstractAdmin {
 				'label'       => 'form.label_full_text_search',
 				'show_filter' => true
 			]);
+		}
+	}
+	
+	protected function configureRoutes(RouteCollection $collection) {
+		parent::configureRoutes($collection);
+		$collection->add('decide', $this->getRouterIdParameter() . '/approve/{action}');
+	}
+	
+	protected function buildShow() {
+		parent::buildShow();
+		/** @var FieldDescription $fieldDescription */
+		foreach($this->showFieldDescriptions as $fieldDescription) {
+			switch($fieldDescription->getMappingType()) {
+//				case ClassMetadata::MANY_TO_ONE:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_one.html.twig'
+//					);
+//
+//					break;
+				case ClassMetadata::ONE_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_one.html.twig'
+					);
+					
+					break;
+				case ClassMetadata::ONE_TO_MANY:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_many.html.twig'
+					);
+					break;
+//				case ClassMetadata::MANY_TO_MANY:
+//					$fieldDescription->setTemplate(
+//						'@SonataAdmin/CRUD/Association/list_many_to_many.html.twig'
+//					);
+//
+//					break;
+			}
 		}
 	}
 	
@@ -234,6 +272,13 @@ class BaseAdmin extends AbstractAdmin {
 		}
 		
 		return $this->request;
+	}
+	
+	protected function getAccess() {
+		return array_merge(parent::getAccess(), [
+			'approve' => 'DECISION_APPROVE',
+			'reject'  => 'DECISION_REJECT'
+		]);
 	}
 	
 	public

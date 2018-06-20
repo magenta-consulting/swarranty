@@ -1,0 +1,9 @@
+{% extends '@SonataAdmin/CRUD/base_show.html.twig' %}
+   {% block tab_menu_navbar_header %}
+       {% if _navbar_title is not empty %}
+           <div class="navbar-header">
+               <a class="decision-button btn btn-success" href="#"> APPROVE </a>
+               <a class="decision-button btn btn-danger" href="#"> REJECT </a>
+           </div>
+       {% endif %}
+   {% endblock %}
