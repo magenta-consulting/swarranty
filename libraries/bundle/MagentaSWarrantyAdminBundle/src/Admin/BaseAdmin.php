@@ -67,7 +67,7 @@ class BaseAdmin extends AbstractAdmin {
 	
 	protected function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-		$collection->add('decide', $this->getRouterIdParameter() . '/approve/{action}');
+		$collection->add('decide', $this->getRouterIdParameter() . '/decide/{action}');
 	}
 	
 	protected function buildShow() {
