@@ -1,7 +1,3 @@
-parameters:
-    sonata.media.admin.media.class: Magenta\Bundle\SWarrantyAdminBundle\Admin\Media\MediaAdmin
-#    sonata.media.admin.gallery.class: Application\Sonata\MediaBundle\Admin\AppGalleryAdmin
-
 fos_ck_editor:
     default_config: default
     configs:
@@ -135,6 +131,7 @@ sonata_admin:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\User\UserAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationMemberAdmin
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
                     - sonata.media.admin.media
 #                    - sonata.user.admin.group

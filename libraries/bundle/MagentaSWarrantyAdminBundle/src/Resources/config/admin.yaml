@@ -1,3 +1,7 @@
+parameters:
+    sonata.media.admin.media.class: Magenta\Bundle\SWarrantyAdminBundle\Admin\Media\MediaAdmin
+#    sonata.media.admin.gallery.class: Application\Sonata\MediaBundle\Admin\AppGalleryAdmin
+
 services:
     # default configuration for services in *this* file
     _defaults:

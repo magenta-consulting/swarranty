@@ -23,6 +23,11 @@ class Customer extends Thing {
 		$this->registrations = new ArrayCollection();
 	}
 	
+	public function generateFullText() {
+		parent::generateFullText();
+		$this->fullText .= ' ' . sprintf('email:%s phone:%s home address:%s ', $this->email, $this->telephone, $this->homeAddress);
+	}
+	
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)

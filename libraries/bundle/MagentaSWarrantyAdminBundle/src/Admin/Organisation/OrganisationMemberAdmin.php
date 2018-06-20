@@ -1,16 +1,19 @@
 <?php
 
-namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Product;
+namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation;
 
 use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandSubCategory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -29,16 +32,15 @@ use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ProductAdmin extends BaseAdmin {
+class OrganisationMemberAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -52,24 +54,27 @@ class ProductAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var Product $object */
+		/** @var OrganisationMember $object */
 		$object = parent::getNewInstance();
+		if(empty($object->getPerson())) {
+			$object->setPerson(new Person());
+		}
 		
 		return $object;
 	}
 	
 	/**
-	 * @param string  $name
-	 * @param Product $object
+	 * @param string             $name
+	 * @param OrganisationMember $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof Product
-			? $object->getName()
-			: 'Product'; // shown in the breadcrumb on the create view
+		return $object instanceof OrganisationMember
+			? $object->getPerson()->getName()
+			: 'OrganisationMember'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -78,10 +83,28 @@ class ProductAdmin extends BaseAdmin {
 		if(empty($this->getParentFieldDescription())) {
 //            $this->filterQueryByPosition($query, 'position', '', '');
 		}
-
-//        $query->andWhere()
+		/** @var Expr $expr */
+		$expr = $query->expr();
+		/** @var QueryBuilder $qb */
+		$qb        = $query->getQueryBuilder();
+		$rootAlias = $qb->getRootAliases()[0];
 		
-		return $query;
+		//        $query->andWhere()
+		
+		{
+			return $query;
+		}
+	}
+	
+	public function getPersistentParameters() {
+		$parameters = parent::getPersistentParameters();
+		if( ! $this->hasRequest()) {
+			return $parameters;
+		}
+		
+		return array_merge($parameters, array(
+			'organisation' => $this->getCurrentOrganisation()->getId()
+		));
 	}
 	
 	public function configureRoutes(RouteCollection $collection) {
@@ -92,12 +115,28 @@ class ProductAdmin extends BaseAdmin {
 	
 	public function getTemplate($name) {
 		$_name = strtoupper($name);
+		if($_name === 'LIST') {
+		}
 		
 		return parent::getTemplate($name);
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
-	
+		$showMapper
+			->with('form_group.OrganisationMember_details', [ 'class' => 'col-md-6' ])
+			->add('name', null, [ 'label' => 'form.label_name' ])
+			->add('email', null, [ 'label' => 'form.label_email' ])
+			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
+			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
+			->end()
+			->with('form_group.OrganisationMember_records', [ 'class' => 'col-md-6' ])
+			->add('warranties', null, [
+				'label'               => false,
+				'associated_property' => 'id',
+				'template'            => '@MagentaSOrganisationMemberAdmin/Admin/OrganisationMember/OrganisationMember/CRUD/Association/show_one_to_many.html.twig'
+			])
+			->end();
+		
 	}
 	
 	/**
@@ -106,6 +145,7 @@ class ProductAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
+					'show'   => array(),
 					'edit'   => array(),
 					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
@@ -120,54 +160,40 @@ class ProductAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
+			->add('person.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
+			->add('person.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
+			->add('role', null, [
+				'editable'            => true,
+				'label'               => 'form.label_role',
+				'associated_property' => 'name'
+			])
 			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
-
-//		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		/** @var ProxyQuery $productQuery */
-		$brandQuery       = $this->getFilterByOrganisationQueryForModel(Brand::class);
-		$categoryQuery    = $this->getFilterByOrganisationQueryForModel(BrandCategory::class);
-		$subCategoryQuery = $this->getFilterByOrganisationQueryForModel(BrandSubCategory::class);
+		$acroleQuery = $this->getFilterByOrganisationQueryForModel(ACRole::class);
 		
+		
+		$c = $this->getConfigurationPool()->getContainer();
 		$formMapper
-			->with('form_group.product', [ 'class' => 'col-md-12' ]);
+			->with('form_group.user_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
-			->add('image', MediaType::class, [
-				'new_on_update' => false,
-				'context'       => 'product_image',
-				'provider'      => 'sonata.media.provider.image'
-			])
-			->add('name', null, [ 'label' => 'form.label_model_name' ])
-			->add('modelNumber')
-			->add('brand', ModelType::class, [
-				'property' => 'name',
+			->add('person.name', null, [ 'label' => 'form.label_name' ])
+			->add('person.email', null, [ 'label' => 'form.label_email' ])
+			->add('role', ModelType::class, [
+				'label'    => 'form.label_role',
 				'btn_add'  => false,
-				'query'    => $brandQuery
-			])
-			->add('category', ModelType::class, [
-				'label'    => 'form.label_category',
 				'property' => 'name',
-				'btn_add'  => false,
-				'query'    => $categoryQuery
+				'query'    => $acroleQuery
+			
 			])
-			->add('subCategory', ModelType::class, [
-				'label'    => 'form.label_subcategory',
-				'property' => 'name',
-				'btn_add'  => false,
-				'query'    => $subCategoryQuery
-			])
-			->add('warrantyPeriod', IntegerType::class, [])
-			->add('extendedWarrantyPeriod', IntegerType::class, [ 'required' => false ])
 			->add('enabled');
 		$formMapper->end();
-		
 	}
 	
 	/**
-	 * @param Product $object
+	 * @param OrganisationMember $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -177,19 +203,10 @@ class ProductAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param Product $object
+	 * @param OrganisationMember $object
 	 */
 	public function preUpdate($object) {
-		$c = $this->getConfigurationPool()->getContainer();
-//		if(!empty($object->get))
-		$mr = $c->get('doctrine')->getRepository(Media::class);
-		if( ! empty($media = $mr->findOneBy([ 'imageProduct' => $object->getId() ]))) {
-			if($media !== $object->getImage()) {
-				$em = $c->get('doctrine.orm.default_entity_manager');
-				$em->remove($media);
-				$em->flush($media);
-			}
-		}
+		parent::preUpdate($object);
 	}
 	
 	///////////////////////////////////
@@ -198,38 +215,13 @@ class ProductAdmin extends BaseAdmin {
 	///
 	///////////////////////////////////
 	
-	
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('name')
-//			->add('searchText','doctrine_orm_callback')
-			->add('searchText', CallbackFilter::class, array(
-				'show_filter' => false,
-				'label'       => 'list.label_id',
-//                'callback'   => array($this, 'getWithOpenCommentFilter'),
-				'callback'    => function($queryBuilder, $alias, $field, $value) {
-					if( ! $value['value']) {
-						return;
-					}
-					
-					/** @var QueryBuilder $queryBuilder */
-					$expr = $queryBuilder->expr();
-
-//					$queryBuilder->leftJoin(sprintf('%s.comments', $alias), 'c');
-//					$queryBuilder->andWhere('c.status = :status');
-//					$queryBuilder->andWhere(
-//						$expr->eq(sprintf('%s.organisation', $alias), ':orgId')
-//					);
-//					$queryBuilder->setParameter('orgId', 2);
-					
-					return true;
-				}
-//				'field_type'  => 'text'
-			))//			->add('locked')
+			->add('person.name')//			->add('locked')
 		;
 		parent::configureDatagridFilters($filterMapper);
 	}

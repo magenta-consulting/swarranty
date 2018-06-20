@@ -68,7 +68,7 @@
                         'objectId': '{{ child.vars.value }}',
                         'adminCode': '{{ child.vars.sonata_admin_code }}',
                         'objectLabel': '{{ child.vars.label }}',
-                        {#'updateUrl': '{{ path('sonata_admin_set_object_field_value',{'context': 'list','field': form.vars.label_property,'objectId': child.vars.value,'code': sonata_admin.admin.code}) }}',#}
+                        {#'updateUrl': '{{ path('sonata_admin_set_object_field_value',{'context': 'list','field': form.vars.source,'objectId': child.vars.value,'code': sonata_admin.admin.code}) }}',#}
                         'updateUrl': '{{ path(form.vars.update_route.route_name, updateRouteParams) }}',
                         'deleteUrl': '{{ path(form.vars.delete_route.route_name, deleteRouteParams) }}',
                         'widget': '{% spaceless %}{{- form_widget(child, {
@@ -185,9 +185,9 @@
                         let id = $thisPopover.data('pk');
 
                         // alert( url + ' ---  ' + value + ' --- ' + operation );
-                        $.post(actionUrl, { {{ form.vars.label_property }}:value} ).done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.source }}:value} ).done(function (actionResponse) {
                             if( operation === 'UPDATE'){
-                                $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.label_property }});
+                                $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.source }});
                                 $thisPopover.popover('hide');
                             } else if(operation === 'DELETE'){
                                 itemCount--;
@@ -226,19 +226,19 @@
                         $thisInput.prop('disabled', true);
 
                         let actionUrl = $(this).data('url');
-                        $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.source }}:$(this).val()} ).done(function (actionResponse) {
                             console.log('posting here');
                             itemCount++;
                             let newChoice = {
                                 objectId: actionResponse.id,
-                                objectLabel: actionResponse.{{ form.vars.label_property }},
+                                objectLabel: actionResponse.{{ form.vars.source }},
                                 widget: '<div class="checkbox">' +
                                 '<label>' +
                                 '<input type="checkbox" id="{{ form.vars.id }}_' + itemCount + '" ' +
                                 'name="{{ form.vars.full_name }}[]" value="' + actionResponse.id + '" checked="checked" />' +
                                 '<span class="control-label__text">\n'
                                 +
-                                actionResponse.{{ form.vars.label_property }} +
+                                actionResponse.{{ form.vars.source }} +
                                 '</span></label></div>'
                             }
                             addChoice_{{ form.vars.id }}(newChoice);

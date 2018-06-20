@@ -20,6 +20,23 @@ class Product extends Thing {
 		$this->warranties = new ArrayCollection();
 	}
 	
+	public function generateSearchText() {
+		$subcat = empty($this->subCategory) ? 'No Sub-Category' : $this->subCategory->getName();
+		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
+		$brand  = empty($this->brand) ? 'No Brand' : $this->brand->getName();
+		
+		$this->searchText = $this->name . sprintf(' (%s) ', $this->modelNumber) . sprintf(' %s < %s ( %s ) ', $subcat, $cat, $brand);
+	}
+	
+	public function generateFullText() {
+		parent::generateFullText();
+		$subcat = empty($this->subCategory) ? 'none' : $this->subCategory->getName();
+		$cat    = empty($this->category) ? 'none' : $this->category->getName();
+		$brand  = empty($this->brand) ? 'none' : $this->brand->getName();
+		
+		$this->fullText .= ' ' . sprintf('model number:%s model name:%s subcategory:%s category:%s brand:%s', $this->modelNumber, $this->name, $subcat, $cat, $brand);
+	}
+	
 	/**
 	 * @param Media|null $image
 	 */
@@ -31,14 +48,6 @@ class Product extends Thing {
 			$this->image->setImageProduct(null);
 		}
 		$this->image = $image;
-	}
-	
-	public function generateSearchText() {
-		$subcat = empty($this->subCategory) ? 'No Sub-Category' : $this->subCategory->getName();
-		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
-		$brand  = empty($this->brand) ? 'No Brand' : $this->brand->getName();
-		
-		$this->searchText = $this->name . sprintf(' (%s) ', $this->modelNumber) . sprintf(' %s < %s ( %s ) ', $subcat, $cat, $brand);
 	}
 	
 	/**
@@ -90,12 +99,6 @@ class Product extends Thing {
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="imageProduct", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $image;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
-	 */
-	protected $searchText;
 	
 	/**
 	 * @var string|null
@@ -219,19 +222,5 @@ class Product extends Thing {
 	 */
 	public function setExtendedWarrantyPeriod(?int $extendedWarrantyPeriod): void {
 		$this->extendedWarrantyPeriod = $extendedWarrantyPeriod;
-	}
-	
-	/**
-	 * @return null|string
-	 */
-	public function getSearchText(): ?string {
-		return $this->searchText;
-	}
-	
-	/**
-	 * @param null|string $searchText
-	 */
-	public function setSearchText(?string $searchText): void {
-		$this->searchText = $searchText;
 	}
 }

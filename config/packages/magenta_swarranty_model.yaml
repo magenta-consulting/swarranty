@@ -5,14 +5,9 @@ parameters:
     s3_secret_key: '%env(resolve:AWS_S3_SECRET_KEY)%'
     s3_region: ap-southeast-1
     s3_directory: '%env(resolve:AWS_S3_DIR)%'
+
     MEDIA_API_BASE_URL: '%env(resolve:MEDIA_API_BASE_URL)%'
     MEDIA_API_PREFIX: '%env(MEDIA_API_PREFIX)%'
-
-#    sonata.media.provider.youtube.class: Application\Sonata\MediaBundle\Provider\AppYouTubeProvider
-#    sonata.media.provider.image.class: Application\Sonata\MediaBundle\Provider\AppImageProvider
-#    sonata.media.provider.file.class: Application\Sonata\MediaBundle\Provider\AppFileProvider
-#    sonata.media.manager.media.class: Application\Sonata\MediaBundle\Entity\AppMediaManager
-
 
 doctrine:
     dbal:
@@ -27,6 +22,57 @@ doctrine:
                     SonataMediaBundle: ~
                 entity_listeners:
                     entities:
+#                    Will not work for Mere Interfaces
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\FullTextSearchInterface"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\FullTextSearchInterfaceListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\Thing"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\ThingListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
                         -
                             class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\Customer"
                             listener:
@@ -51,6 +97,7 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+
                         -
                             class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\Warranty"
                             listener:

@@ -11,7 +11,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @package Magenta\Bundle\SWarrantyModelBundle\Entity\System
  * @ORM\MappedSuperclass()
  */
-class Thing {
+abstract class Thing implements FullTextSearchInterface {
 	
 	/**
 	 * @var int|null
@@ -20,6 +20,15 @@ class Thing {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	
+	public function generateSearchText() {
+		$this->searchText = $this->name . sprintf(' (%s)', $this->enabled ? 'enabled' : 'disabled');
+	}
+	
+	public function generateFullText() {
+		$orgName        = $this->organisation === null ? 'none' : $this->organisation->getName();
+		$this->fullText = sprintf('name:%s %s org:%s', $this->name, $this->enabled ? 'enabled' : 'disabled', $orgName);
+	}
 	
 	/**
 	 * @return int|null
@@ -48,6 +57,40 @@ class Thing {
 	 * @ORM\Column(type="string")
 	 */
 	protected $name;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $searchText;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $fullText;
+	
+	public function setFullText(?string $text): void {
+		$this->fullText = $text;
+	}
+	
+	public function getFullText() {
+		return $this->fullText;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSearchText(): ?string {
+		return $this->searchText;
+	}
+	
+	/**
+	 * @param null|string $searchText
+	 */
+	public function setSearchText(?string $searchText): void {
+		$this->searchText = $searchText;
+	}
 	
 	/**
 	 * @return null|string
@@ -90,4 +133,5 @@ class Thing {
 	public function setOrganisation(?Organisation $organisation): void {
 		$this->organisation = $organisation;
 	}
+	
 }

@@ -94,6 +94,7 @@ EOT
 		/** @var Product $product */
 		foreach($products as $product) {
 			$product->generateSearchText();
+			$product->generateFullText();
 			$this->entityManager->persist($product);
 		}
 		

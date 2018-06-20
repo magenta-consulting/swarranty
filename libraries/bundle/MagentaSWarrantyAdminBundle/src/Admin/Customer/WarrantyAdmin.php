@@ -7,8 +7,10 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
@@ -216,9 +218,19 @@ class WarrantyAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		$c = $this->getConfigurationPool()->getContainer();
 		$formMapper
 			->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
+			->add('receiptImages', MediaCollectionType::class,
+				[
+					'source'        => $c->getParameter('MEDIA_API_BASE_URL').$c->getParameter('MEDIA_API_PREFIX'),
+					'new_on_update' => false,
+					'context'       => 'receipt_image',
+					'provider'      => 'sonata.media.provider.image',
+					'label'         => 'form.label_receipt_image',
+					'class'         => Media::class
+				])
 			->add('customer.name', null, [ 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
 			->add('customer.dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
@@ -257,6 +269,7 @@ class WarrantyAdmin extends BaseAdmin {
 				return true;
 			},
 		]);
+		
 		$formMapper->add('purchaseDate', DatePickerType::class, [
 			'datepicker_use_button' => false,
 			'format'                => 'dd-MM-yyyy',
@@ -304,8 +317,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('id')
 			->add('customer.name')//			->add('locked')
 		;
-//			->add('groups')
-//		;
+		parent::configureDatagridFilters($filterMapper);
 	}
 	
 	

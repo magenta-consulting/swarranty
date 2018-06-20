@@ -1,0 +1,6 @@
+parameters:
+
+#    sonata.media.provider.youtube.class: Application\Sonata\MediaBundle\Provider\AppYouTubeProvider
+#    sonata.media.provider.image.class: Application\Sonata\MediaBundle\Provider\AppImageProvider
+#    sonata.media.provider.file.class: Application\Sonata\MediaBundle\Provider\AppFileProvider
+    sonata.media.manager.media.class: Magenta\Bundle\SWarrantyModelBundle\Service\Media\MediaService

@@ -6,10 +6,12 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
@@ -52,7 +54,18 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->getTemplateRegistry()->getTemplate($name);
 	}
 	
-	protected function buildList() {
+	protected function configureDatagridFilters(DatagridMapper $filter) {
+		parent::configureDatagridFilters($filter);
+		if(is_subclass_of($this->getClass(), FullTextSearchInterface::class)) {
+			$filter->add('fullText', null, [
+				'label'       => 'form.label_full_text_search',
+				'show_filter' => true
+			]);
+		}
+	}
+	
+	protected
+	function buildList() {
 		parent::buildList();
 		/** @var FieldDescription $fieldDescription */
 		foreach($this->listFieldDescriptions as $fieldDescription) {
@@ -85,6 +98,7 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
+
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
@@ -99,7 +113,10 @@ class BaseAdmin extends AbstractAdmin {
 	/**
 	 * @return Organisation|null
 	 */
-	protected function getCurrentOrganisation($required = true) {
+	protected
+	function getCurrentOrganisation(
+		$required = true
+	) {
 		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
 		} elseif(empty($this->getParent())) {
@@ -120,7 +137,8 @@ class BaseAdmin extends AbstractAdmin {
 		return $org;
 	}
 	
-	protected function getLoggedInUser() {
+	protected
+	function getLoggedInUser() {
 		if($this->user === null) {
 			$this->user = $this->getConfigurationPool()->getContainer()->get(UserService::class)->getUser();
 		}
@@ -128,7 +146,8 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->user;
 	}
 	
-	protected function isAdmin() {
+	protected
+	function isAdmin() {
 		if($this->isAdmin === null) {
 			$this->isAdmin = $this->getConfigurationPool()->getContainer()->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
 		}
@@ -136,12 +155,16 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->isAdmin;
 	}
 	
-	protected $translationDomain = 'MagentaSWarrantyAdmin'; // default is 'messages'
+	protected
+		$translationDomain = 'MagentaSWarrantyAdmin'; // default is 'messages'
 	
-	protected $action = '';
-	protected $actionParams = [];
+	protected
+		$action = '';
+	protected
+		$actionParams = [];
 	
-	public function getAction() {
+	public
+	function getAction() {
 		if(empty($this->action)) {
 			$request = $this->getRequest();
 			if( ! empty($action = $request->query->get('action'))) {
@@ -154,7 +177,10 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->action;
 	}
 	
-	public function getActionParam($key) {
+	public
+	function getActionParam(
+		$key
+	) {
 		if(array_key_exists($key, $this->actionParams)) {
 			return $this->actionParams[ $key ];
 		}
@@ -165,22 +191,32 @@ class BaseAdmin extends AbstractAdmin {
 	/**
 	 * @return array
 	 */
-	public function getActionParams() {
+	public
+	function getActionParams() {
 		return $this->actionParams;
 	}
 	
 	/**
 	 * @param array $actionParams
 	 */
-	public function setActionParams($actionParams) {
+	public
+	function setActionParams(
+		$actionParams
+	) {
 		$this->actionParams = $actionParams;
 	}
 	
-	public function setAction($action) {
+	public
+	function setAction(
+		$action
+	) {
 		$this->action = $action;
 	}
 	
-	public function toString($object) {
+	public
+	function toString(
+		$object
+	) {
 		if(method_exists($object, 'getTitle')) {
 			return $object->getTitle();
 		} elseif(method_exists($object, 'getName')) {
@@ -190,7 +226,8 @@ class BaseAdmin extends AbstractAdmin {
 		return parent::toString($object);
 	}
 	
-	public function getRequest() {
+	public
+	function getRequest() {
 		if( ! $this->request) {
 //            throw new \RuntimeException('The Request object has not been set');
 			$this->request = $this->getConfigurationPool()->getContainer()->get('request_stack')->getCurrentRequest();
@@ -199,14 +236,29 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->request;
 	}
 	
-	public function isGranted($name, $object = null) {
+	public
+	function isGranted(
+		$name, $object = null
+	) {
 		$container = $this->getConfigurationPool()->getContainer();
 		$user      = $container->get(UserService::class)->getUser();
 		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
+
 //        $pos = $container->get(UserService::class)->getPosition();
 		if($isAdmin) {
+//			if(is_array($name)) {
+//				foreach($name as $action) {
+//					$_name = strtoupper($name);
+//				}
+//			}
+			if($name === 'CREATE') {
+				return ! empty($this->getCurrentOrganisation(false));
+			}
+			
 			return true;
+			
 		}
+		
 		if(is_array($name)) {
 			$isGranted = true;
 			foreach($name as $action) {
@@ -221,7 +273,10 @@ class BaseAdmin extends AbstractAdmin {
 //		return parent::isGranted($name, $object);
 	}
 	
-	protected function getFilterByOrganisationQueryForModel($class) {
+	protected
+	function getFilterByOrganisationQueryForModel(
+		$class
+	) {
 		/** @var ProxyQuery $productQuery */
 		$brandQuery = $this->getModelManager()->createQuery($class);
 		/** @var Expr $expr */
@@ -231,7 +286,10 @@ class BaseAdmin extends AbstractAdmin {
 		return $brandQuery;
 	}
 	
-	public function createQuery($context = 'list') {
+	public
+	function createQuery(
+		$context = 'list'
+	) {
 		$query    = parent::createQuery($context);
 		$parentFD = $this->getParentFieldDescription();
 		if($this->isAdmin()) {
@@ -241,6 +299,7 @@ class BaseAdmin extends AbstractAdmin {
 				return $query;
 			}
 		}
+		
 		$organisation = $this->getCurrentOrganisation();
 		
 		if(empty($this->getParent())) { // && ! empty($organisation)
@@ -254,7 +313,10 @@ class BaseAdmin extends AbstractAdmin {
 //        $query->andWhere()
 	}
 	
-	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
+	protected
+	function filterQueryByOrganisation(
+		ProxyQuery $query, Organisation $organisation
+	) {
 		$pool      = $this->getConfigurationPool();
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
@@ -269,7 +331,10 @@ class BaseAdmin extends AbstractAdmin {
 	 *
 	 * @return ProxyQuery
 	 */
-	protected function clearResults(ProxyQuery $query) {
+	protected
+	function clearResults(
+		ProxyQuery $query
+	) {
 		/** @var Expr $expr */
 		$expr = $query->getQueryBuilder()->expr();
 		$query->andWhere($expr->eq($expr->literal(true), $expr->literal(false)));
@@ -277,10 +342,16 @@ class BaseAdmin extends AbstractAdmin {
 		return $query;
 	}
 	
-	protected function verifyDirectParent($parent) {
+	protected
+	function verifyDirectParent(
+		$parent
+	) {
 	}
 	
-	protected function isDirectParentAccess($parentClass, $subjectAdminCodes = array()) {
+	protected
+	function isDirectParentAccess(
+		$parentClass, $subjectAdminCodes = array()
+	) {
 		$parentAdmin          = $this->getParent();
 		$isDirectParentAccess = false;
 		if( ! empty($parentAdmin)) {
@@ -294,13 +365,17 @@ class BaseAdmin extends AbstractAdmin {
 		return $isDirectParentAccess;
 	}
 	
-	protected function isAppendFormElement() {
+	protected
+	function isAppendFormElement() {
 		$request = $this->getRequest();
 		
 		return $request->attributes->get('_route') === 'sonata_admin_append_form_element';
 	}
 	
-	protected function filterByParentClass(ProxyQuery $query, $parentClass, $subjectAdminCodes = array()) {
+	protected
+	function filterByParentClass(
+		ProxyQuery $query, $parentClass, $subjectAdminCodes = array()
+	) {
 		$pool      = $this->getConfigurationPool();
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
@@ -350,7 +425,8 @@ class BaseAdmin extends AbstractAdmin {
 		return $this->clearResults($query);
 	}
 	
-	public function getSystemModules() {
+	public
+	function getSystemModules() {
 		$registry = $this->getConfigurationPool()->getContainer()->get('doctrine');
 		$modules  = $registry->getRepository(SystemModule::class)->findAll();
 		
@@ -360,7 +436,10 @@ class BaseAdmin extends AbstractAdmin {
 	/**
 	 * @param mixed $object
 	 */
-	public function preValidate($object) {
+	public
+	function preValidate(
+		$object
+	) {
 		if($object instanceof Thing) {
 			$object->setOrganisation($this->getCurrentOrganisation());
 		}

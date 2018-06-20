@@ -40,7 +40,7 @@ class MagentaSWarrantyAdminExtension extends ConfigurableExtension {
 				$def->setClass($class);
 				$def->addTag('sonata.admin', [
 					'manager_type'              => 'orm',
-					'label'                     => strtolower(end($className)),
+					'label'                     => 'sidebar_left.'.strtolower(end($className)),
 					'label_translator_strategy' => 'sonata.admin.label.strategy.underscore'
 				]);
 				if(empty($code = $class::ADMIN_CODE)) {

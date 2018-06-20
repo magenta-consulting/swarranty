@@ -37,14 +37,15 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class OrganisationAdmin extends BaseAdmin {
 	
 	const CHILDREN = [
-		ACLAdmin::class              => 'organisation',
-		ServiceZoneAdmin::class      => 'organisation',
-		BrandAdmin::class            => 'organisation',
-		BrandCategoryAdmin::class    => 'organisation',
-		BrandSubCategoryAdmin::class => 'organisation',
-		ProductAdmin::class          => 'organisation',
-		CustomerAdmin::class         => 'organisation',
-		BrandSupplierAdmin::class    => 'organisation'
+		ACLAdmin::class                => 'organisation',
+		ServiceZoneAdmin::class        => 'organisation',
+		BrandAdmin::class              => 'organisation',
+		BrandCategoryAdmin::class      => 'organisation',
+		BrandSubCategoryAdmin::class   => 'organisation',
+		ProductAdmin::class            => 'organisation',
+		CustomerAdmin::class           => 'organisation',
+		BrandSupplierAdmin::class      => 'organisation',
+		OrganisationMemberAdmin::class => 'organization'
 	];
 	
 	protected $action;

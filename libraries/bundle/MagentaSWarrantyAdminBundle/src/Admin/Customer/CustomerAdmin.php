@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -34,7 +35,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class CustomerAdmin extends BaseAdmin {
 	
 	const CHILDREN = [
-		WarrantyAdmin::class    => 'customer',
+		WarrantyAdmin::class => 'customer',
 	];
 	
 	
@@ -65,9 +66,9 @@ class CustomerAdmin extends BaseAdmin {
 	}
 	
 	public function toString($object) {
-		return $object instanceof Warranty
+		return $object instanceof Customer
 			? $object->getName()
-			: 'Warranty'; // shown in the breadcrumb on the create view
+			: 'Customer'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
@@ -186,10 +187,8 @@ class CustomerAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('customer.name')//			->add('locked')
-		;
-//			->add('groups')
-//		;
+			->add('name');
+		parent::configureDatagridFilters($filterMapper);
 	}
 	
 	

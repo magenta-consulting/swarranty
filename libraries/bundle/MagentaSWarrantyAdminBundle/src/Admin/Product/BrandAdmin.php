@@ -287,8 +287,7 @@ class BrandAdmin extends BaseAdmin {
 			->add('id')
 			->add('name')//			->add('locked')
 		;
-//			->add('groups')
-//		;
+		parent::configureDatagridFilters($filterMapper);
 	}
 	
 	

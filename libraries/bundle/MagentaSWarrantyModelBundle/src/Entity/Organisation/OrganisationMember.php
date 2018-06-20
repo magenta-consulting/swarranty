@@ -74,7 +74,7 @@ class OrganisationMember extends MemberModel {
 	
 	/**
 	 * @var Person|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person", inversedBy="members")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person", inversedBy="members", cascade={"merge", "persist"})
 	 * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $person;
@@ -85,6 +85,12 @@ class OrganisationMember extends MemberModel {
 	 * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $role;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $enabled = true;
 	
 	/**
 	 * @var boolean
@@ -118,6 +124,20 @@ class OrganisationMember extends MemberModel {
 	 */
 	public function setRole(?ACRole $role): void {
 		$this->role = $role;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isEnabled(): bool {
+		return $this->enabled;
+	}
+	
+	/**
+	 * @param bool $enabled
+	 */
+	public function setEnabled(bool $enabled): void {
+		$this->enabled = $enabled;
 	}
 	
 }

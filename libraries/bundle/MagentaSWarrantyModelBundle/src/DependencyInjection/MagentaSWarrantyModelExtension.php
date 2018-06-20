@@ -1,9 +1,11 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyModelBundle\DependencyInjection;
 
 use ProxyManager\FileLocator\FileLocator;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -11,7 +13,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\ConfigurableExtension;
 
-class MagentaSWarrantyModelExtension extends ConfigurableExtension {
+class MagentaSWarrantyModelExtension extends ConfigurableExtension implements CompilerPassInterface {
 	
 	/**
 	 * @var array
@@ -39,10 +41,29 @@ class MagentaSWarrantyModelExtension extends ConfigurableExtension {
 		$container->setAlias('magenta_user.doctrine_registry', new Alias(self::$doctrineDrivers['orm']['registry'], false));
 		
 		$loader->load('user.yaml');
+		$loader->load('app.yaml');
+		$loader->load('parameters.yaml');
 		$loader->load('doctrine.yaml');
 		
 		$definition = $container->getDefinition('magenta_user.object_manager');
 		$definition->setFactory(array( new Reference('magenta_user.doctrine_registry'), 'getManager' ));
 		
+	}
+	
+	/**
+	 * You can modify the container here before it is dumped to PHP code.
+	 *
+	 * @param ContainerBuilder $container
+	 */
+	public function process(ContainerBuilder $container) {
+//		$definition = $container->getDefinition('sonata.media.provider.image');
+//		$definition->addArgument(new Reference('service_container'));
+//		$definition = $container->getDefinition('sonata.media.provider.file');
+//		$definition->addArgument(new Reference('service_container'));
+//		$definition = $container->getDefinition('sonata.media.provider.youtube');
+//		$definition->addArgument(new Reference('service_container'));
+		
+		$definition = $container->getDefinition('sonata.media.manager.media');
+		$definition->addMethodCall('setContainer', [ new Reference('service_container') ]);
 	}
 }
