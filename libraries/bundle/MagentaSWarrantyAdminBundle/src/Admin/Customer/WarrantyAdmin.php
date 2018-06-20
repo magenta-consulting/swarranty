@@ -210,7 +210,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
 			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ]);
 		
-		$listMapper->add('receiptImage', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_image' ]);
+		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_image' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}

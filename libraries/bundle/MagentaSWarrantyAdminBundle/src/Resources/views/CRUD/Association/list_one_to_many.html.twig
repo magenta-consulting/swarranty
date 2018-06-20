@@ -1,0 +1,49 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+
+{% extends '@SonataAdmin/CRUD/Association/list_one_to_many.html.twig' %}
+
+{%- block relation_link -%}
+    {% if field_description.type == 'image' %}
+        {% spaceless %}
+            <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
+                {{- block('relation_value') -}}
+            </a>
+        {% endspaceless %}
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{%- endblock -%}
+
+{%- block relation_value -%}
+    {% if field_description.type == 'image' %}
+        {% spaceless %}
+            {#{% set media = attribute(object,field_description.name) %}#}
+            {% set route_name = field_description.options.route.name %}
+            {% if field_description.hasAssociationAdmin
+                and field_description.associationadmin.id(element)
+                and field_description.associationadmin.hasRoute(route_name)
+                and field_description.associationadmin.hasAccess(route_name, element) %}
+                <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
+                    <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"
+                         width="75"/>
+                </a>
+            {% else %}
+                <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"
+                     width="75"/>
+            {% endif %}
+
+        {% endspaceless %}
+    {% else %}
+        {{ parent() }}
+    {% endif %}
+{%- endblock -%}
+

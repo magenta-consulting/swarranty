@@ -41,18 +41,6 @@ class Warranty implements ThingChildInterface {
 		$this->createdAt = new \DateTime();
 	}
 	
-	/**
-	 * @param Media|null $receiptImage
-	 */
-	public function setReceiptImage(?Media $receiptImage): void {
-		if( ! empty($receiptImage)) {
-			$receiptImage->setReceiptImageWarranty($this);
-		}
-		if( ! empty($this->receiptImage)) {
-			$this->receiptImage->setReceiptImageWarranty(null);
-		}
-		$this->receiptImage = $receiptImage;
-	}
 	
 	public function markStatusAs($status) {
 		switch($status) {
@@ -162,10 +150,20 @@ class Warranty implements ThingChildInterface {
 	protected $dealer;
 	
 	/**
-	 * @var Media|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="receiptImageWarranty", cascade={"persist","merge"})
+	 * @var Collection|null
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="receiptImageWarranty", cascade={"persist","merge"})
 	 */
-	protected $receiptImage;
+	protected $receiptImages;
+	
+	public function addReceiptImage(Media $image) {
+		$this->receiptImages->add($image);
+		$image->setReceiptImageWarranty($this);
+	}
+	
+	public function removeReceiptImage(Media $image) {
+		$this->receiptImages->removeElement($image);
+		$image->setReceiptImageWarranty(null);
+	}
 	
 	/**
 	 * @var \DateTime|null
@@ -228,7 +226,7 @@ class Warranty implements ThingChildInterface {
 	 */
 	protected $extendedWarrantyPeriod;
 	
-
+	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string", options={"default":"NEW"})
@@ -395,11 +393,19 @@ class Warranty implements ThingChildInterface {
 	}
 	
 	/**
-	 * @return Media|null
+	 * @return Collection|null
 	 */
-	public function getReceiptImage(): ?Media {
-		return $this->receiptImage;
+	public function getReceiptImages(): ?Collection {
+		return $this->receiptImages;
 	}
+	
+	/**
+	 * @param Collection|null $receiptImages
+	 */
+	public function setReceiptImages(?Collection $receiptImages): void {
+		$this->receiptImages = $receiptImages;
+	}
+	
 	
 	/**
 	 * @return Registration|null
@@ -498,5 +504,5 @@ class Warranty implements ThingChildInterface {
 	public function setStatus(?string $status): void {
 		$this->status = $status;
 	}
-
+	
 }

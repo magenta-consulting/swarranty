@@ -69,12 +69,11 @@ class BaseAdmin extends AbstractAdmin {
 					);
 					
 					break;
-//				case ClassMetadata::ONE_TO_MANY:
-//					$fieldDescription->setTemplate(
-//						'@SonataAdmin/CRUD/Association/list_one_to_many.html.twig'
-//					);
-//
-//					break;
+				case ClassMetadata::ONE_TO_MANY:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/list_one_to_many.html.twig'
+					);
+					break;
 //				case ClassMetadata::MANY_TO_MANY:
 //					$fieldDescription->setTemplate(
 //						'@SonataAdmin/CRUD/Association/list_many_to_many.html.twig'

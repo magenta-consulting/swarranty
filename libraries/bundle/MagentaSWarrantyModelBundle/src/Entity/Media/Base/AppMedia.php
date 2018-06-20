@@ -48,7 +48,7 @@ class AppMedia extends BaseMedia {
 	
 	/**
 	 * @var Warranty|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", inversedBy="receiptImage")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", inversedBy="receiptImages")
 	 * @ORM\JoinColumn(name="id_receipt_image_warranty", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $receiptImageWarranty;

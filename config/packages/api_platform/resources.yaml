@@ -21,6 +21,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
+                    - read_medium
                     - read_warranty
                     - read_product
                     - read_brand
@@ -45,6 +46,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
+                    - read_medium
                     - read_registration
                     - read_registration_warranty
                     - read_product
