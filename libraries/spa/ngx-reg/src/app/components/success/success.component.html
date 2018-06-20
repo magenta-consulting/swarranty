@@ -2,23 +2,31 @@
     <div class="text-center">
         <h3>REGISTRATION SUCCESSFUL</h3>
         <p class="note">A copy of this product registration will be sent to your email for your reference.             </p>
-        <div class="success-list">
-            <div class="success-item">
-                <p>Warranty Registration ID: XPODX001-2018</p>
-                <p>Date of Registration: 01 Jan 2018</p>
-                <p>Warranty Expiry: 31 Dec 2019</p>
-                <p>Product Category: Hood</p>
-                <p>Model Name: Ariana Hood GS-1234</p>
-                <p>Serial Number: Not Provided</p>
-            </div>
-            <div class="success-item">
-                    <p>Warranty Registration ID: XPODX001-2018</p>
-                    <p>Date of Registration: 01 Jan 2018</p>
+        <div class="success-list"
+        *ngIf="!isLoading">
+            <div *ngIf="prodList.length != 0">
+                <div
+                *ngFor="let prod of prodList; index as i;"
+                class="success-item">
+                    <p>Warranty Registration ID: {{prod.id}}</p>
+                    <p>Date of Registration: {{prod.purchaseDate | date:'dd MMM yyyy'}}</p>
                     <p>Warranty Expiry: 31 Dec 2019</p>
-                    <p>Product Category: Hood</p>
-                    <p>Model Name: Ariana Hood GS-1234</p>
-                    <p>Serial Number: Not Provided</p>
+                    <p>Product Category: {{prod.product.name}}</p>
+                    <p>Model Name: {{prod.product.modelNumber}}</p>
+                    <p>Serial Number: {{prod.productSerialNumber}}</p>
                 </div>
+            </div>
+            <div
+            *ngIf="prodList.length == 0"
+            class="success-item">
+                No data
+            </div>
+        </div>
+        <!-- Loading -->
+        <div
+        *ngIf="isLoading"
+        class="text-center">
+            <div class="lds-hourglass"></div>
         </div>
     </div>
 </div>

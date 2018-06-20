@@ -2,6 +2,9 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef,
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router} from "@angular/router";
 
+import {ProductService} from "../../service/product.service";
+import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
+
 @Component({
     selector: 'send-email',
     templateUrl: './send-email.component.html',
@@ -9,13 +12,37 @@ import {Router} from "@angular/router";
 })
 export class SendEmailComponent implements OnInit, AfterViewInit {
 
-    constructor(private router: Router) {
+    isLoading: boolean = false;
+    dataCustomer : any = [];
+
+    constructor(private productService: ProductService) {
     }
 
     ngOnInit() {
+        // 1.
+        this.getDataCustomer();
     }
 
     ngAfterViewInit() {
     }
 
+    /* =========================================== */
+    /** Actions in this Comp */
+
+    // 1. Get Data Customer
+    getDataCustomer() {
+        // let regId = this.router.snapshot.params['id'];
+        this.isLoading = true;
+        if(localStorage.getItem('regId')) {
+            let regId = parseInt(localStorage.getItem('regId'));
+    
+            this.productService.getApiCustomer(regId).subscribe(res => {
+                this.isLoading = false;
+                this.dataCustomer = res;
+            });
+        } else {
+            this.dataCustomer = [];
+            this.isLoading = false;
+        }
+    }
 }

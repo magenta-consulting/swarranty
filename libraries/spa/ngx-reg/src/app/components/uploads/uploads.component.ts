@@ -22,7 +22,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         // 1.
-        this.getDataRegistrations();
+        this.getDataWarranties();
         
         this.qrCodeImg = apiEndPoint + apiEndPointBase +'/qr-code/'+ apiEndPoint +'/registrations/'+ this.router.snapshot.params['id'] +'/upload-image.png';
     }
@@ -33,14 +33,20 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     /* =========================================== */
     /** Actions in this Comp */
 
-    // 1. Get Data Registration
-    getDataRegistrations() {
-        let regId = this.router.snapshot.params['id'];
+    // 1. Get Data Warranties
+    getDataWarranties() {
+        // let regId = this.router.snapshot.params['id'];
         this.isLoading = true;
-
-        this.productService.getApiRegistrations(regId).subscribe(prods => {
+        if(localStorage.getItem('regId')) {
+            let regId = parseInt(localStorage.getItem('regId'));
+    
+            this.productService.getApiWarranties(regId).subscribe(res => {
+                this.isLoading = false;
+                this.prodList = res;
+            });
+        } else {
+            this.prodList = [];
             this.isLoading = false;
-            this.prodList = prods;
-        });
+        }
     }
 }
