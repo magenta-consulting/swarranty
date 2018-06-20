@@ -217,7 +217,7 @@ sonata_media:
 
 monolog:
     handlers:
-        main:
+        critical_error_logging:
             type:         fingers_crossed
             action_level: critical
             handler:      grouped
