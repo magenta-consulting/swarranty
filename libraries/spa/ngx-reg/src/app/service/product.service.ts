@@ -11,6 +11,8 @@ import {Dealer} from '../model/dealer';
 import {Customer} from '../model/customer';
 import {Warranty} from '../model/warranty';
 
+import * as moment from 'moment';
+
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/ld+json'})
 };
@@ -101,8 +103,8 @@ export class ProductService {
         );
     }
 
-    // get registrations
-    getApiRegistrations(regId: number) {
+    // get warranties
+    getApiWarranties(regId: number) {
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
 
         return this.http.get<any>(url).pipe(
@@ -117,7 +119,37 @@ export class ProductService {
 
                 return prods;
             }),
-            catchError(this.handleError('getRegistrations', []))
+            catchError(this.handleError('getWarranties', []))
+        );
+    }
+
+    // get data customer
+    getApiCustomer(regId: number) {
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
+        
+        return this.http.get<any>(url).pipe(
+            map((res) => {
+
+                let dataCutomer: any = res["customer"];
+
+                return dataCutomer;
+            }),
+            catchError(this.handleError('getCustomer', []))
+        );
+    }
+
+    // get data Registration
+    getApiRegistration(regId: number) {
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
+        
+        return this.http.get<any>(url).pipe(
+            map((res) => {
+
+                let dataRegistration: any = res;
+                console.log('dataRegistration', dataRegistration);
+                return dataRegistration;
+            }),
+            catchError(this.handleError('getRegistration', []))
         );
     }
 

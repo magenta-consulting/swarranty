@@ -20,6 +20,9 @@ import {UploadsComponent} from "./components/uploads/uploads.component";
 import {SendEmailComponent} from "./components/send-email/send-email.component";
 import {SuccessComponent} from "./components/success/success.component";
 
+// import services
+import { AuthGuard } from './service/auth-guard.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +45,7 @@ import {SuccessComponent} from "./components/success/success.component";
     AppRoutingModule
 
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
