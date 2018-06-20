@@ -47,6 +47,7 @@ resources:
             normalization_context:
                 groups:
                     - read_medium
+                    - read_customer
                     - read_registration
                     - read_registration_warranty
                     - read_product
