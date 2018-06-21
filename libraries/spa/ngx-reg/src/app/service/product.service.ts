@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, map, tap} from 'rxjs/operators';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
-import {Brand} from "../model/brand";
-import {apiEndPoint, apiEndPointBase, organisationPath} from "../../environments/environment";
-import {BrandCategory} from "../model/brand-category";
-import {Product} from "../model/product";
-import {Dealer} from "../model/dealer";
-import {Customer} from "../model/customer";
-import {Warranty} from "../model/warranty";
+import {Brand} from '../model/brand';
+import {apiEndPoint, apiEndPointBase, organisationPath} from '../../environments/environment';
+import {BrandCategory} from '../model/brand-category';
+import {Product} from '../model/product';
+import {Dealer} from '../model/dealer';
+import {Customer} from '../model/customer';
+import {Warranty} from '../model/warranty';
 
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/ld+json'})
@@ -89,7 +89,7 @@ export class ProductService {
         return this.http.get<Product[]>(url).pipe(
             map((res) => {
 
-                let collection = res["hydra:member"];
+                let collection = res['hydra:member'];
                 let prods: Product[] = [];
                 for (let item of collection) {
                     prods.push({id: item['@id'], name: item['name']} as Product);
@@ -104,11 +104,11 @@ export class ProductService {
     // get registrations
     getApiRegistrations(regId: number) {
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
-        
+
         return this.http.get<any>(url).pipe(
             map((res) => {
 
-                let collection = res["warranties"];
+                let collection = res['warranties'];
                 // console.log('collection', collection);
                 let prods: any = [];
                 for (let item of collection) {
