@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
@@ -276,8 +277,10 @@ class BaseAdmin extends AbstractAdmin {
 	
 	protected function getAccess() {
 		return array_merge(parent::getAccess(), [
-			'approve' => 'DECISION_APPROVE',
-			'reject'  => 'DECISION_REJECT'
+			'decide'            => 'DECIDE',
+			'decide_everything' => 'DECIDE_ALL',
+			'approve'           => 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE,
+			'reject'            => 'DECISION_' . DecisionMakingInterface::DECISION_REJECT
 		]);
 	}
 	
@@ -296,11 +299,13 @@ class BaseAdmin extends AbstractAdmin {
 //					$_name = strtoupper($name);
 //				}
 //			}
-			if($name === 'CREATE') {
-				return ! empty($this->getCurrentOrganisation(false));
+			if(in_array($name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE','VIEW' ])) {
+				if($name === 'CREATE') {
+					return ! empty($this->getCurrentOrganisation(false));
+				}
+				
+				return true;
 			}
-			
-			return true;
 			
 		}
 		

@@ -21,9 +21,9 @@ class MagentaTwigExtension extends AbstractExtension {
 		);
 	}
 	
-	public function privateMediumUrl($mediumId) {
+	public function privateMediumUrl($mediumId, $format = 'admin') {
 		$c = $this->container;
 		
-		return $c->get('sonata.media.manager.media')->generatePrivateUrl($mediumId);
+		return $c->get('sonata.media.manager.media')->generatePrivateUrl($mediumId, $format);
 	}
 }

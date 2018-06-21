@@ -25,7 +25,7 @@ class Product extends Thing {
 		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
 		$brand  = empty($this->brand) ? 'No Brand' : $this->brand->getName();
 		
-		$this->searchText = $this->name . sprintf(' (%s) ', $this->modelNumber) . sprintf(' %s < %s ( %s ) ', $subcat, $cat, $brand);
+		return $this->searchText = $this->name . sprintf(' (%s) ', $this->modelNumber) . sprintf(' %s < %s ( %s ) ', $subcat, $cat, $brand);
 	}
 	
 	public function generateFullText() {
@@ -34,7 +34,7 @@ class Product extends Thing {
 		$cat    = empty($this->category) ? 'none' : $this->category->getName();
 		$brand  = empty($this->brand) ? 'none' : $this->brand->getName();
 		
-		$this->fullText .= ' ' . sprintf('model number:%s model name:%s subcategory:%s category:%s brand:%s', $this->modelNumber, $this->name, $subcat, $cat, $brand);
+		return $this->fullText .= ' ' . sprintf('model number:%s model name:%s subcategory:%s category:%s brand:%s', $this->modelNumber, $this->name, $subcat, $cat, $brand);
 	}
 	
 	/**

@@ -7,22 +7,31 @@
         {% spaceless %}
             <ul class="sonata-ba-show-one-to-many">
                 {% set route_name = field_description.options.route.name %}
-                {% for element in value%}
+                {% for element in value %}
                     {% if field_description.hasassociationadmin
                         and field_description.associationadmin.hasRoute(route_name)
                         and field_description.associationadmin.hasAccess(route_name, element) %}
                         <li style="justify-content: space-between;display: flex;">
-                            <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
-                                {{ element|render_relation_element(field_description) }}
+                            {% if field_description.name == 'warranties' %}
+                                <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
+
+                                    {{ element|render_relation_element(field_description) }}
+                                    |
+                                    {{ element.product.modelNumber }}
+                                    |
+                                    {{ element.expiryDate|date('d/mY') }}
+                                    |
+                                    {{ element.number }}
+
+                                </a>
                                 |
-                                {{ element.product.modelNumber }}
-                                |
-                                {{ element.expiryDate|date('d/mY') }}
-                                |
-                                {{ element.number }}
-                            </a>
-                            |
-                            <a class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
+                                <a class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
+                            {% elseif field_description.type == 'image' %}
+                                <!-- Button trigger modal -->
+                                <span class="img-thumbnail" data-src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl('reference') }}" data-toggle="modal" data-target="#admin-modal">
+                                    <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"/>
+                                </span>
+                            {% endif %}
                         </li>
                     {% else %}
                         <li>{{ element|render_relation_element(field_description) }}</li>
@@ -31,6 +40,7 @@
             </ul>
         {% endspaceless %}
     {%- endblock -%}
+
 </td>
 
 {% block field_compare %}
@@ -41,3 +51,28 @@
         </td>
     {% endif %}
 {% endblock %}
+{%- block stylesheets -%}
+    <style>
+        .img-thumbnail {
+            cursor: pointer;
+        }
+    </style>
+{%- endblock -%}
+{%- block javascripts -%}
+    <script>
+        (function ($) {
+            /* ----------------------------------------------- */
+            /* ----------------------------------------------- */
+            /* OnLoad Page */
+            $(document).ready(function ($) {
+
+            });
+            /* OnLoad Window */
+            var init = function () {
+
+            };
+            window.onload = init;
+
+        })(jQuery);
+    </script>
+{%- endblock -%}

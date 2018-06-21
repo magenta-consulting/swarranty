@@ -1,5 +1,5 @@
-{% if admin.hasAccess('edit', object) and admin.hasRoute('show') %}
-    <a href="{{ admin.generateObjectUrl('show', object) }}" class="btn btn-sm btn-primary view_link" title="{{ 'action_show'|trans({}, 'SonataAdminBundle') }}">
+{% if admin.hasAccess('decide', object) and admin.hasRoute('decide') %}
+    <a href="{{ admin.generateObjectUrl('decide', object,{'action':'show'}) }}" class="btn btn-sm btn-primary view_link" title="{{ 'action_show'|trans({}, 'SonataAdminBundle') }}">
         <i class="fa fa-eye" aria-hidden="true"></i>
         {{ 'action_button.label_review_submission'|trans({}, admin.translationDomain) }}
     </a>

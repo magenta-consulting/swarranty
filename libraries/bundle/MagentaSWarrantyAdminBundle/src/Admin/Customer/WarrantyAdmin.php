@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
+use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
@@ -34,6 +35,7 @@ use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -151,7 +153,7 @@ class WarrantyAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -184,10 +186,18 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
 			->add('purchaseDate', null, [ 'label' => 'form.label_purchase_date', 'format' => 'd - m - Y' ])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
-			->add('product.warrantyPeriod', null, [ 'label' => 'form.label_default_warranty_period' ])
+			->add('product.warrantyPeriod', null, [
+				'editable' => true,
+				'label'    => 'form.label_default_warranty_period'
+			])
 			->add('product.extendedWarrantyPeriod', null, [ 'label' => 'form.label_extended_warranty_period' ])
 			->add('expiryDate', null, [ 'label' => 'form.label_warranty_expiry', 'format' => 'd - m - Y' ])
 			->add('dealer.name', null, [ 'label' => 'form.label_dealer' ])
+			->end();
+		
+		$showMapper
+			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ])
+			->add('receiptImages', 'image', [ 'label' => 'form.label_reference_number' ])
 			->end();
 		
 		$showMapper->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
@@ -238,7 +248,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
 			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ]);
 		
-		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_image' ]);
+		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_images' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
@@ -246,24 +256,39 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
 		$formMapper
-			->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
+			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ]);
 		$formMapper
-			->add('receiptImages', MediaCollectionType::class,
+			->add('receiptImages', CollectionType::class,
 				[
-					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
-					'new_on_update' => false,
-					'context'       => 'receipt_image',
-					'provider'      => 'sonata.media.provider.image',
-					'label'         => 'form.label_receipt_image',
-					'class'         => Media::class
-				])
+					// each entry in the array will be an "media" field
+					'entry_type'    => MediaType::class,
+					'allow_add'     => true,
+					'allow_delete'  => true,
+//					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
+					// these options are passed to each "media" type
+					'entry_options' => array(
+						'new_on_update' => false,
+						'attr'          => array( 'class' => 'receipt-image' ),
+						'context'       => 'receipt_image',
+						'provider'      => 'sonata.media.provider.image'
+					),
+					
+					'label' => false,
+//					'class'         => Media::class
+				]);
+		$formMapper->end();
+		$formMapper
+			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
+		$formMapper
 			->add('customer.name', null, [ 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
 			->add('customer.dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
-			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ]);
+			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ])
+			->add('customer.homeAddress', null, [ 'required' => true, 'label' => 'form.label_address' ])
+			->add('customer.homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ]);
 		$formMapper->end();
 		$formMapper
-			->with('form_group.warranty_details', [ 'class' => 'col-md-6' ]);
+			->with('form_group.warranty_details', [ 'class' => 'col-md-3' ]);
 		$formMapper->add('product', ModelAutocompleteType::class, [
 			'route'              => [
 				'name'       => 'sonata_admin_retrieve_autocomplete_items',
@@ -295,6 +320,7 @@ class WarrantyAdmin extends BaseAdmin {
 				return true;
 			},
 		]);
+		$formMapper->add('product.name', ProductDetailType::class);
 		
 		$formMapper->add('purchaseDate', DatePickerType::class, [
 			'datepicker_use_button' => false,
@@ -310,6 +336,18 @@ class WarrantyAdmin extends BaseAdmin {
 		
 		]);
 		$formMapper->end();
+	}
+	
+	/**
+	 * @param Warranty $object
+	 */
+	public function preValidate($object) {
+		parent::preValidate($object);
+		$ris = $object->getReceiptImages();
+		/** @var Media $ri */
+		foreach($ris as $m) {
+			$object->addReceiptImage($m);
+		}
 	}
 	
 	/**

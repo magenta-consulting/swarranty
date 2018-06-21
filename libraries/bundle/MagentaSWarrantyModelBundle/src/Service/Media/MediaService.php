@@ -10,8 +10,8 @@ class MediaService extends MediaManager {
 	/** @var ContainerInterface $container */
 	private $container;
 	
-	public function generatePrivateUrl($mid) {
-		return $url = $this->container->getParameter('MEDIA_API_BASE_URL') . $this->container->getParameter('MEDIA_API_PREFIX') . sprintf('/media/%d/binaries/admin/view.json', $mid);
+	public function generatePrivateUrl($mid, $format = 'admin') {
+		return $url = $this->container->getParameter('MEDIA_API_BASE_URL') . $this->container->getParameter('MEDIA_API_PREFIX') . sprintf('/media/%d/binaries/%s/view.json', $mid, $format);
 	}
 	
 	/**

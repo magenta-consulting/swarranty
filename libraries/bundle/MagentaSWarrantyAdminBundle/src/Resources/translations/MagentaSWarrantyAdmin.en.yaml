@@ -108,6 +108,7 @@ form_group:
     suppliers: Manage Associated Suppliers
     warranty_records: Warranty Records
     customer_details: Customer Details
+    receipt_images: Receipt Images
 
 form_field:
     label_registration_fields: Registration Fields
@@ -156,7 +157,7 @@ form:
     label_submission_date: Registered On
     label_expiry_date: Expiry Date
     label_warranty_expiry: Warranty Expiry
-    label_receipt_image: Receipt Image
+    label_receipt_images: Receipt Images
     label_brand: Brand
     label_categories: Categories
     label_sub_categories : Sub-Categories
@@ -166,6 +167,7 @@ form:
     label_supplier: Supplier
     label_warranty_period: Warranty Period (months)
     label_extended_warranty_period: Extended Warranty Period
+    label_default_warranty_period: Default Warranty Period
     label_dealer: Dealer
     label_role: Role
 

@@ -20,7 +20,7 @@
         {#<div class="col-md-2 pull-left"><strong>{{ 'link_media'|trans({}, 'SonataMediaBundle') }}</strong></div>#}
     </div>
     <div class="row">
-        <div class="col-md-4 pull-left">
+        <div class="col-md-5 pull-left">
             {% if value is not empty and value.providerReference %}
                 <div class="pull-left" style="margin-right: 5px">
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
@@ -44,7 +44,7 @@
         {#<strong>{{ 'widget_label_context'|trans({}, 'SonataMediaBundle') }}:</strong> <span type="label">{{ form.vars['context']|trans({}, 'SonataMediaBundle') }}</span>#}
         {#{% endif %}#}
         {#</div>#}
-        <div class="col-md-2 pull-left">
+        <div class="col-md-1 pull-left">
             {{ block('form_widget') }}
         </div>
     </div>

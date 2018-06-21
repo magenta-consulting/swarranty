@@ -5,6 +5,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
 
@@ -57,6 +58,7 @@ class User extends AbstractUser {
 		} elseif($object instanceof ThingChildInterface) {
 		
 		}
+		
 		$action = strtoupper($action);
 		if($action === 'LIST') {
 			return true;
@@ -69,6 +71,19 @@ class User extends AbstractUser {
 		}
 		if($action === 'CREATE') {
 			return true;
+		}
+		if($action === 'VIEW') {
+			return true;
+		}
+		if($object instanceof DecisionMakingInterface) {
+			if($action === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
+				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_APPROVED;
+			} elseif($action === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
+				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+			}
+			if(in_array($action, [ 'DECIDE', 'DECIDE_ALL', 'DECISION_APPROVE', 'DECISION_REJECT' ])) {
+				return true;
+			}
 		}
 		
 		return false;

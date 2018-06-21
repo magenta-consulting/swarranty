@@ -4,8 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 
-interface ThingChildInterface {
+interface ThingChildInterface extends OrganisationAwareInterface {
 	
-	public function getOrganisation(): Organisation;
-	
+
 }

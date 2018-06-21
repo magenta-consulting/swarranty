@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Symfony\Component\Form\FormView;
@@ -28,14 +29,19 @@ class BaseCRUDAdminController extends CRUDController {
 	 *
 	 * @return Response
 	 */
-	public function decideAction($id = null, $action) {
+	public function decideAction($id = null, $action = 'show') {
 		$request = $this->getRequest();
 		$id      = $request->get($this->admin->getIdParameter());
 		
+		/** @var DecisionMakingInterface $object */
 		$object = $this->admin->getObject($id);
 		
 		if( ! $object) {
 			throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+		}
+		
+		if( ! $object instanceof DecisionMakingInterface) {
+			throw new AccessDeniedException(sprintf('unable to find the object with id: %s', $id));
 		}
 		
 		$this->admin->checkAccess($action, $object);
@@ -49,8 +55,21 @@ class BaseCRUDAdminController extends CRUDController {
 		
 		// NEXT_MAJOR: Remove this line and use commented line below it instead
 		$template = $this->admin->getTemplate('decide');
-
 //		$template = $this->templateRegistry->getTemplate('show');
+		
+		if($request->isMethod('post')) {
+			if($action === 'approve') {
+				$decision = DecisionMakingInterface::DECISION_APPROVE;
+			} elseif($action === 'reject') {
+				$decision = DecisionMakingInterface::DECISION_REJECT;
+			}
+			$object->setDecisionRemarks($request->get('decision-remarks'));
+			$object->makeDecision($decision);
+			$this->admin->update($object);
+		}
+		if($action !== 'show') {
+			return $this->redirect($this->admin->generateObjectUrl('decide', $object, [ 'action' => 'show' ]));
+		}
 		
 		return $this->renderWithExtraParams($template, [
 			'action'   => $action,

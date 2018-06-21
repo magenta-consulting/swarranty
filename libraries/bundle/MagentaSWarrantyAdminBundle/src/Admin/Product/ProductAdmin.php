@@ -86,7 +86,7 @@ class ProductAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+		$collection->add('image', $this->getRouterIdParameter() . '/image');
 		
 	}
 	
@@ -154,6 +154,7 @@ class ProductAdmin extends BaseAdmin {
 				'query'    => $categoryQuery
 			])
 			->add('subCategory', ModelType::class, [
+				'required' => false,
 				'label'    => 'form.label_subcategory',
 				'property' => 'name',
 				'btn_add'  => false,

@@ -7,6 +7,9 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearch;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,12 +23,25 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Entity()
  * @ORM\Table(name="customer__warranty")
  */
-class Warranty implements ThingChildInterface {
+class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMakingInterface, FullTextSearchInterface {
 	
-	const STATUS_NEW = 'NEW';
-	const STATUS_EXPIRED = 'EXPIRED';
-	const STATUS_REJECTED = 'REJECTED';
-	const STATUS_APPROVED = 'APPROVED';
+	public function generateSearchText() {
+		$this->searchText = $this->generateFullText();
+	}
+	
+	public function generateFullText() {
+		$org      = $this->getOrganisation();
+		$orgName  = $org === null ? 'none' : $org->getName();
+		$customer = $this->customer;
+		$product  = $this->product;
+		$mName    = $mNumber = $pCat = $pSubCat = $pBrand = '';
+		$cName    = $cEmail = $cHAddress = $cPhone = $cHPostal = '';
+		if( ! empty($product)) {
+			$mName   = $product->getName();
+			$mNumber = $product->getModelNumber();
+		}
+		$this->fullText = $this->customer->generateFullText() . ' ' . $this->product->generateFullText();
+	}
 	
 	/**
 	 * @var int|null
@@ -33,35 +49,64 @@ class Warranty implements ThingChildInterface {
 	 * @ORM\Column(type="integer",options={"unsigned":true})
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	protected
+		$id;
 	
-	public function __construct() {
-		$this->cases = new ArrayCollection();
+	public
+	function __construct() {
+		$this->cases         = new ArrayCollection();
+		$this->receiptImages = new ArrayCollection();
 		
 		$this->createdAt = new \DateTime();
-		$this->code       = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
+		$this->code      = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
 		
 	}
 	
-	public function markStatusAs($status) {
+	public
+	function getDecisionStatus(): string {
+		return $this->status;
+	}
+	
+	public
+	function makeDecision(
+		string $decision
+	) {
+		$status = null;
+		if($decision === DecisionMakingInterface::DECISION_APPROVE) {
+			$status = DecisionMakingInterface::STATUS_APPROVED;
+		} elseif($decision === DecisionMakingInterface::DECISION_REJECT) {
+			$status = DecisionMakingInterface::STATUS_REJECTED;
+		}
+		if(empty($status)) {
+			return;
+		}
+		$this->markStatusAs($status);
+	}
+	
+	public
+	function markStatusAs(
+		$status
+	) {
 		switch($status) {
-			case self::STATUS_NEW:
-				$this->new     = true;
-				$this->enabled = false;
+			case DecisionMakingInterface::STATUS_NEW:
+				$this->new      = true;
+				$this->enabled  = false;
+				$this->approved = null;
+				$this->rejected = null;
 				break;
-			case self::STATUS_APPROVED:
+			case DecisionMakingInterface::STATUS_APPROVED:
 				$this->new      = false;
 				$this->approved = true;
 				$this->rejected = false;
 				$this->enabled  = true;
 				break;
-			case self::STATUS_REJECTED:
+			case DecisionMakingInterface::STATUS_REJECTED:
 				$this->new      = false;
 				$this->approved = false;
 				$this->rejected = true;
 				$this->enabled  = false;
 				break;
-			case self::STATUS_EXPIRED:
+			case DecisionMakingInterface::STATUS_EXPIRED:
 				$today = new \DateTime();
 				if($this->expiryDate < $today) {
 					$this->new     = false;
@@ -73,20 +118,75 @@ class Warranty implements ThingChildInterface {
 		$this->status = $status;
 	}
 	
+	
+	/**
+	 * @param bool $new
+	 */
+	public
+	function setNew(
+		bool $new
+	): void {
+		$this->new = $new;
+	}
+	
+	/**
+	 * @param bool $expired
+	 */
+	public
+	function setExpired(
+		bool $expired
+	): void {
+		$this->expired = $expired;
+		if($expired) {
+			$this->markStatusAs(DecisionMakingInterface::STATUS_EXPIRED);
+		}
+	}
+	
+	/**
+	 * @param bool $rejected
+	 */
+	public
+	function setRejected(
+		bool $rejected
+	): void {
+		$this->rejected = $rejected;
+		if($rejected) {
+			$this->markStatusAs(DecisionMakingInterface::STATUS_REJECTED);
+		}
+	}
+	
+	/**
+	 * @param bool $approved
+	 */
+	public
+	function setApproved(
+		bool $approved
+	): void {
+		$this->approved = $approved;
+		if($approved) {
+			$this->markStatusAs(DecisionMakingInterface::STATUS_APPROVED);
+		}
+	}
+	
 	/**
 	 * @param Product|null $product
 	 */
-	public function setProduct(?Product $product): void {
+	public
+	function setProduct(
+		?Product $product
+	): void {
 		$this->product                = $product;
 		$this->warrantyPeriod         = $product->getWarrantyPeriod();
 		$this->extendedWarrantyPeriod = $product->getWarrantyPeriod();
 	}
 	
-	public function getOrganisation(): Organisation {
+	public
+	function getOrganisation(): ?Organisation {
 		return $this->customer->getOrganisation();
 	}
 	
-	public function initiateNumber() {
+	public
+	function initiateNumber() {
 		if(empty($this->number)) {
 			$now          = new \DateTime();
 			$this->number = User::generateCharacterCode();
@@ -102,7 +202,8 @@ class Warranty implements ThingChildInterface {
 	/**
 	 * @return int|null
 	 */
-	public function getId(): ?int {
+	public
+	function getId(): ?int {
 		return $this->id;
 	}
 	
@@ -110,14 +211,21 @@ class Warranty implements ThingChildInterface {
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="warranty", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
-	protected $cases;
+	protected
+		$cases;
 	
-	public function addCase(WarrantyCase $case) {
+	public
+	function addCase(
+		WarrantyCase $case
+	) {
 		$this->cases->add($case);
 		$case->setWarranty($this);
 	}
 	
-	public function removeCase(WarrantyCase $case) {
+	public
+	function removeCase(
+		WarrantyCase $case
+	) {
 		$this->cases->removeElement($case);
 		$case->setWarranty(null);
 	}
@@ -127,41 +235,52 @@ class Warranty implements ThingChildInterface {
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_customer", referencedColumnName="id", onDelete="CASCADE")
 	 */
-	protected $customer;
+	protected
+		$customer;
 	
 	/**
 	 * @var Registration|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_registration", referencedColumnName="id", onDelete="SET NULL")
 	 */
-	protected $registration;
+	protected
+		$registration;
 	
 	/**
 	 * @var Product|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="SET NULL")
 	 */
-	protected $product;
+	protected
+		$product;
 	
 	/**
 	 * @var Dealer|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer", cascade={"persist", "merge"}, inversedBy="warranties")
 	 * @ORM\JoinColumn(name="id_dealer", referencedColumnName="id", onDelete="SET NULL")
 	 */
-	protected $dealer;
+	protected
+		$dealer;
 	
 	/**
 	 * @var Collection|null
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="receiptImageWarranty", cascade={"persist","merge"})
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="receiptImageWarranty", cascade={"persist","merge"},orphanRemoval=true)
 	 */
-	protected $receiptImages;
+	protected
+		$receiptImages;
 	
-	public function addReceiptImage(Media $image) {
+	public
+	function addReceiptImage(
+		Media $image
+	) {
 		$this->receiptImages->add($image);
 		$image->setReceiptImageWarranty($this);
 	}
 	
-	public function removeReceiptImage(Media $image) {
+	public
+	function removeReceiptImage(
+		Media $image
+	) {
 		$this->receiptImages->removeElement($image);
 		$image->setReceiptImageWarranty(null);
 	}
@@ -170,245 +289,301 @@ class Warranty implements ThingChildInterface {
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime",nullable=true)
 	 */
-	protected $purchaseDate;
+	protected
+		$purchaseDate;
 	
 	/**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime",nullable=true)
 	 */
-	protected $expiryDate;
+	protected
+		$expiryDate;
 	
 	/**
 	 * @var \DateTime
 	 * @ORM\Column(type="datetime")
 	 */
-	protected $createdAt;
+	protected
+		$createdAt;
 	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $approved = false;
+	protected
+		$approved = false;
 	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $rejected = false;
+	protected
+		$rejected = false;
 	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $enabled = false;
+	protected
+		$enabled = false;
 	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $expired = false;
+	protected
+		$expired = false;
 	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":true})
 	 */
-	protected $new = true;
+	protected
+		$new = true;
 	
 	/**
 	 * in months
 	 * @var integer|null
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $warrantyPeriod;
+	protected
+		$warrantyPeriod;
 	
 	/**
 	 * @var integer|null
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $extendedWarrantyPeriod;
+	protected
+		$extendedWarrantyPeriod;
 	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string")
 	 */
-	protected $code;
+	protected
+		$code;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected
+		$decisionRemarks;
 	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string", options={"default":"NEW"})
 	 */
-	protected $status = self::STATUS_NEW;
+	protected
+		$status = DecisionMakingInterface::STATUS_NEW;
 	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
-	protected $productSerialNumber;
+	protected
+		$productSerialNumber;
 	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
-	protected $number;
+	protected
+		$number;
 	
 	/**
 	 * @return Customer|null
 	 */
-	public function getCustomer(): ?Customer {
+	public
+	function getCustomer(): ?Customer {
 		return $this->customer;
 	}
 	
 	/**
 	 * @param Customer|null $customer
 	 */
-	public function setCustomer(?Customer $customer): void {
+	public
+	function setCustomer(
+		?Customer $customer
+	): void {
 		$this->customer = $customer;
 	}
 	
 	/**
 	 * @return Dealer|null
 	 */
-	public function getDealer(): ?Dealer {
+	public
+	function getDealer(): ?Dealer {
 		return $this->dealer;
 	}
 	
 	/**
 	 * @param Dealer|null $dealer
 	 */
-	public function setDealer(?Dealer $dealer): void {
+	public
+	function setDealer(
+		?Dealer $dealer
+	): void {
 		$this->dealer = $dealer;
 	}
 	
 	/**
 	 * @return Product|null
 	 */
-	public function getProduct(): ?Product {
+	public
+	function getProduct(): ?Product {
 		return $this->product;
 	}
 	
 	/**
 	 * @return \DateTime|null
 	 */
-	public function getPurchaseDate(): ?\DateTime {
+	public
+	function getPurchaseDate(): ?\DateTime {
 		return $this->purchaseDate;
 	}
 	
 	/**
 	 * @param \DateTime|null $purchaseDate
 	 */
-	public function setPurchaseDate(?\DateTime $purchaseDate): void {
+	public
+	function setPurchaseDate(
+		?\DateTime $purchaseDate
+	): void {
 		$this->purchaseDate = $purchaseDate;
 	}
 	
 	/**
 	 * @return \DateTime
 	 */
-	public function getCreatedAt(): \DateTime {
+	public
+	function getCreatedAt(): \DateTime {
 		return $this->createdAt;
 	}
 	
 	/**
 	 * @param \DateTime $createdAt
 	 */
-	public function setCreatedAt(\DateTime $createdAt): void {
+	public
+	function setCreatedAt(
+		\DateTime $createdAt
+	): void {
 		$this->createdAt = $createdAt;
 	}
 	
 	/**
 	 * @return null|string
 	 */
-	public function getProductSerialNumber(): ?string {
+	public
+	function getProductSerialNumber(): ?string {
 		return $this->productSerialNumber;
 	}
 	
 	/**
 	 * @param null|string $productSerialNumber
 	 */
-	public function setProductSerialNumber(?string $productSerialNumber): void {
+	public
+	function setProductSerialNumber(
+		?string $productSerialNumber
+	): void {
 		$this->productSerialNumber = $productSerialNumber;
 	}
 	
 	/**
 	 * @return null|string
 	 */
-	public function getNumber(): ?string {
+	public
+	function getNumber(): ?string {
 		return $this->number;
 	}
 	
 	/**
 	 * @param null|string $number
 	 */
-	public function setNumber(?string $number): void {
+	public
+	function setNumber(
+		?string $number
+	): void {
 		$this->number = $number;
 	}
 	
 	/**
 	 * @return \DateTime|null
 	 */
-	public function getExpiryDate(): ?\DateTime {
+	public
+	function getExpiryDate(): ?\DateTime {
 		return $this->expiryDate;
 	}
 	
 	/**
 	 * @param \DateTime|null $expiryDate
 	 */
-	public function setExpiryDate(?\DateTime $expiryDate): void {
+	public
+	function setExpiryDate(
+		?\DateTime $expiryDate
+	): void {
 		$this->expiryDate = $expiryDate;
 	}
 	
 	/**
 	 * @return int|null
 	 */
-	public function getWarrantyPeriod(): ?int {
+	public
+	function getWarrantyPeriod(): ?int {
 		return $this->warrantyPeriod;
 	}
 	
 	/**
 	 * @param int|null $warrantyPeriod
 	 */
-	public function setWarrantyPeriod(?int $warrantyPeriod): void {
+	public
+	function setWarrantyPeriod(
+		?int $warrantyPeriod
+	): void {
 		$this->warrantyPeriod = $warrantyPeriod;
 	}
 	
 	/**
 	 * @return int|null
 	 */
-	public function getExtendedWarrantyPeriod(): ?int {
+	public
+	function getExtendedWarrantyPeriod(): ?int {
 		return $this->extendedWarrantyPeriod;
 	}
 	
 	/**
 	 * @param int|null $extendedWarrantyPeriod
 	 */
-	public function setExtendedWarrantyPeriod(?int $extendedWarrantyPeriod): void {
+	public
+	function setExtendedWarrantyPeriod(
+		?int $extendedWarrantyPeriod
+	): void {
 		$this->extendedWarrantyPeriod = $extendedWarrantyPeriod;
 	}
 	
 	/**
 	 * @return bool
 	 */
-	public function isApproved(): bool {
+	public
+	function isApproved(): bool {
 		return $this->approved;
-	}
-	
-	/**
-	 * @param bool $approved
-	 */
-	public function setApproved(bool $approved): void {
-		$this->approved = $approved;
 	}
 	
 	/**
 	 * @return Collection|null
 	 */
-	public function getReceiptImages(): ?Collection {
+	public
+	function getReceiptImages(): ?Collection {
 		return $this->receiptImages;
 	}
 	
 	/**
 	 * @param Collection|null $receiptImages
 	 */
-	public function setReceiptImages(?Collection $receiptImages): void {
+	public
+	function setReceiptImages(
+		?Collection $receiptImages
+	): void {
 		$this->receiptImages = $receiptImages;
 	}
 	
@@ -416,112 +591,133 @@ class Warranty implements ThingChildInterface {
 	/**
 	 * @return Registration|null
 	 */
-	public function getRegistration(): ?Registration {
+	public
+	function getRegistration(): ?Registration {
 		return $this->registration;
 	}
 	
 	/**
 	 * @param Registration|null $registration
 	 */
-	public function setRegistration(?Registration $registration): void {
+	public
+	function setRegistration(
+		?Registration $registration
+	): void {
 		$this->registration = $registration;
 	}
 	
 	/**
 	 * @return Collection
 	 */
-	public function getCases(): Collection {
+	public
+	function getCases(): Collection {
 		return $this->cases;
 	}
 	
 	/**
 	 * @param Collection $cases
 	 */
-	public function setCases(Collection $cases): void {
+	public
+	function setCases(
+		Collection $cases
+	): void {
 		$this->cases = $cases;
 	}
 	
 	/**
 	 * @return bool
 	 */
-	public function isRejected(): bool {
+	public
+	function isRejected(): bool {
 		return $this->rejected;
-	}
-	
-	/**
-	 * @param bool $rejected
-	 */
-	public function setRejected(bool $rejected): void {
-		$this->rejected = $rejected;
 	}
 	
 	/**
 	 * @return bool
 	 */
-	public function isEnabled(): bool {
+	public
+	function isEnabled(): bool {
 		return $this->enabled;
 	}
 	
 	/**
 	 * @param bool $enabled
 	 */
-	public function setEnabled(bool $enabled): void {
+	public
+	function setEnabled(
+		bool $enabled
+	): void {
 		$this->enabled = $enabled;
 	}
 	
 	/**
 	 * @return bool
 	 */
-	public function isExpired(): bool {
+	public
+	function isExpired(): bool {
 		return $this->expired;
-	}
-	
-	/**
-	 * @param bool $expired
-	 */
-	public function setExpired(bool $expired): void {
-		$this->expired = $expired;
 	}
 	
 	/**
 	 * @return bool
 	 */
-	public function isNew(): bool {
+	public
+	function isNew(): bool {
 		return $this->new;
-	}
-	
-	/**
-	 * @param bool $new
-	 */
-	public function setNew(bool $new): void {
-		$this->new = $new;
 	}
 	
 	/**
 	 * @return null|string
 	 */
-	public function getStatus(): ?string {
+	public
+	function getStatus(): ?string {
 		return $this->status;
 	}
 	
 	/**
 	 * @param null|string $status
 	 */
-	public function setStatus(?string $status): void {
+	public
+	function setStatus(
+		?string $status
+	): void {
 		$this->status = $status;
 	}
 	
 	/**
 	 * @return null|string
 	 */
-	public function getCode(): ?string {
+	public
+	function getCode(): ?string {
 		return $this->code;
 	}
 	
 	/**
 	 * @param null|string $code
 	 */
-	public function setCode(?string $code): void {
+	public
+	function setCode(
+		?string $code
+	): void {
 		$this->code = $code;
 	}
+	
+	/**
+	 * @return null|string
+	 */
+	public
+	function getDecisionRemarks(): ?string {
+		return $this->decisionRemarks;
+	}
+	
+	/**
+	 * @param null|string $decisionRemarks
+	 */
+	public
+	function setDecisionRemarks(
+		?string $decisionRemarks
+	): void {
+		$this->decisionRemarks = $decisionRemarks;
+	}
+	
 }

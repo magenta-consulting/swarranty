@@ -2,7 +2,23 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
-        .decision-button {
+        .decision-status {
+            padding-top: 7px;
+            margin-top: 7px;
+            margin-bottom: 7px;
+            border-top-width: 1px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-bottom: 7px;
+            align-items: center;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 1.42857143;
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .decision-button, .decision-remarks {
             margin: 7px 0px 7px 6px;
         }
 
@@ -15,6 +31,46 @@
         }
     </style>
 {% endblock %}
+
+{%- block javascripts -%}
+    {{ parent() }}
+    <script>
+        (function ($) {
+            /* ----------------------------------------------- */
+            /* ----------------------------------------------- */
+            /* OnLoad Page */
+            $(document).ready(function ($) {
+                $adminModal = $('#admin-modal');
+                $adminModalHeader = $('#admin-modal-header');
+                $adminModalBody = $('#admin-modal-body');
+                $adminModalFooter = $('#admin-modal-footer');
+
+                $('.img-thumbnail').on('click', function () {
+                    $adminModalHeader.hide();
+                    $adminModalBody.append('<img style="display: none;" class="loading" width="100%" src="' + $(this).data('src') + '" />');
+                    $adminModalBody.find('.loading').hide();
+                    $adminModalBody.find('.loading').load(function (e) {
+                        $(this).siblings().remove();
+                        $(this).show();
+                    })
+                })
+
+                $adminModal.on('hidden.bs.modal', function (e) {
+                    $adminModalHeader.show();
+                    $adminModalBody.html('<div class="text-center"><i class="fa fa-refresh fa-spin" style="font-size:200px;"><br/></i></div>');
+                });
+
+            });
+            /* OnLoad Window */
+            var init = function () {
+
+            };
+            window.onload = init;
+
+        })(jQuery);
+    </script>
+{%- endblock -%}
+
 {% trans_default_domain 'MagentaSWarrantyAdmin' %}
 
             {% block body_attributes -%}
@@ -23,3 +79,25 @@
                     sidebar-collapse
                 {%- endif -%}"
             {%- endblock -%}
+
+{%- block sonata_header -%}
+    {{ parent() }}
+    <!-- Modal -->
+    <div class="modal fade" id="admin-modal" tabindex="-1" role="dialog" aria-labelledby="admin-modal-label">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" id="admin-modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="admin-modal-label"></h4>
+                </div>
+                <div class="modal-body" id="admin-modal-body">
+                    <div class="text-center"><i class="fa fa-refresh fa-spin" style="font-size:200px;"><br/></i></div>
+                </div>
+                <div class="modal-footer" id="admin-modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endblock -%}

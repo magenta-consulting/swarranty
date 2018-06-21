@@ -1,4 +1,37 @@
 {% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
+{% block product_detail_widget %}
+    {#{{ dump(form) }}#}
+    <span id="{{ form.vars.id }}-spinner"><i class="fa fa-refresh fa-spin" style="font-size:20px;"></i></span>
+    <span id="{{ form.vars.id }}-label"></span>
+    <span id="{{ form.vars.id }}-value"></span>
+    {#spinner-${{ form.vars.id }}.hide();#}
+    <script>
+        (function ($) {
+            spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
+            getProductImageUrl = function (id) {
+                let url = '{{ path('admin_magenta_swarrantymodel_product_product_image', { 'id':form.vars.id}) }}';
+                return url.replace('{{ form.vars.id }}', id);
+            }
+
+            $(document).ready(function ($) {
+                $productInput = $('input[name = "{{ form.parent.vars.id }}[{{ form.vars.product_property }}]"]');
+                productId = $productInput.val();
+                // alert(getProductImageUrl(productId));
+                setInterval(function () {
+                    if (productId !== $productInput.val()) {
+                        productId = $productInput.val();
+                        getProductImageUrl(productId)
+                    }
+                }, 500);
+
+            });
+        })(jQuery);
+
+    </script>
+    {#{{ dump(form) }}#}
+{% endblock %}
+{% block media_collection_widget %}
+{% endblock media_collection_widget %}
 
 {% block many_to_many_thing_widget %}
     {% spaceless %}
@@ -52,7 +85,8 @@
             {% set createRouteParams = form.vars.create_route.route_params %}
             {% set createUrl = path(form.vars.create_route.route_name, createRouteParams) %}
 
-            <input style="margin-bottom: 5px;" type="text" id="{{ form.vars.id }}_input" class="form-control add-item" data-url="{{ createUrl }}"
+            <input style="margin-bottom: 5px;" type="text" id="{{ form.vars.id }}_input" class="form-control add-item"
+                   data-url="{{ createUrl }}"
                    placeholder="Type to create a new item"/>
 
             {#{{ dump(form) }}#}
@@ -185,11 +219,14 @@
                         let id = $thisPopover.data('pk');
 
                         // alert( url + ' ---  ' + value + ' --- ' + operation );
-                        $.post(actionUrl, { {{ form.vars.source }}:value} ).done(function (actionResponse) {
-                            if( operation === 'UPDATE'){
+                        $.post(actionUrl, { {{ form.vars.source }}:
+                        value
+                    } ).
+                        done(function (actionResponse) {
+                            if (operation === 'UPDATE') {
                                 $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.source }});
                                 $thisPopover.popover('hide');
-                            } else if(operation === 'DELETE'){
+                            } else if (operation === 'DELETE') {
                                 itemCount--;
                                 $('.choice-container-' + id).parents('li').remove();
                                 $thisPopover.popover('hide');
@@ -217,7 +254,7 @@
 
                 $addItem.keydown(function (e) {
                     if (e.keyCode === 13) {
-                        console.log('enterkey down on ',$(this));
+                        console.log('enterkey down on ', $(this));
 
                         $(this).trigger("enterKey");
                         e.preventDefault();
@@ -226,7 +263,10 @@
                         $thisInput.prop('disabled', true);
 
                         let actionUrl = $(this).data('url');
-                        $.post(actionUrl, { {{ form.vars.source }}:$(this).val()} ).done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.source }}:
+                        $(this).val()
+                    } ).
+                        done(function (actionResponse) {
                             console.log('posting here');
                             itemCount++;
                             let newChoice = {
