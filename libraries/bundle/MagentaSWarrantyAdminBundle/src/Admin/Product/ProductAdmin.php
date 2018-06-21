@@ -124,7 +124,7 @@ class ProductAdmin extends BaseAdmin {
 			->add('brand.name', null, [ 'label' => 'form.label_brand' ])
 			->add('modelNumber', null, [ 'editable' => true, 'label' => 'form.label_model_number' ])
 			->add('name', null, [ 'editable' => true, 'label' => 'form.label_model_name' ])
-			->add('category', null, [ 'editable' => true, 'label' => 'form.label_category' ])
+			->add('category.name', null, [ 'editable' => true, 'label' => 'form.label_category' ])
 			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
