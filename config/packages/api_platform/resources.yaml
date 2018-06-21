@@ -56,7 +56,7 @@ resources:
             denormalization_context:
                 groups:
                     - write_registration
-
+                    - write_warranty
                     - write_customer
 #                    - write_product
 #                    - write_brand

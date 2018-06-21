@@ -53,7 +53,13 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
             groups: ['read_customer','write_customer']
         email:
             groups: ['read_customer','write_customer']
+        dialingCode:
+            groups: ['read_customer','write_customer']
         telephone:
+            groups: ['read_customer','write_customer']
+        homeAddress:
+            groups: ['read_customer','write_customer']
+        homePostalCode:
             groups: ['read_customer','write_customer']
 
 
@@ -67,7 +73,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         customer:
             groups: ['read_registration', 'write_registration']
         warranties:
-            groups: ['read_registration']
+            groups: ['read_registration', 'write_registration']
         submitted:
             groups: ['read_registration','write_registration']
         verified:

@@ -51,7 +51,7 @@ class CustomerAdmin extends BaseAdmin {
 	);
 	
 	public function getNewInstance() {
-		/** @var Warranty $object */
+		/** @var Customer $object */
 		$object = parent::getNewInstance();
 		
 		return $object;
@@ -59,7 +59,7 @@ class CustomerAdmin extends BaseAdmin {
 	
 	/**
 	 * @param string   $name
-	 * @param Warranty $object
+	 * @param Customer $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
@@ -157,7 +157,7 @@ class CustomerAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param Warranty $object
+	 * @param Customer $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -167,7 +167,7 @@ class CustomerAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param Warranty $object
+	 * @param Customer $object
 	 */
 	public function preUpdate($object) {
 		parent::preUpdate($object);
