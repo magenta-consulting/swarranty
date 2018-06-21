@@ -192,6 +192,14 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		$formMapper->end();
 	}
 	
+	/** @param OrganisationMember $object */
+	public function preValidate(
+		$object
+	) {
+		parent::preValidate($object);
+		$object->setOrganization($this->getCurrentOrganisation());
+	}
+	
 	/**
 	 * @param OrganisationMember $object
 	 */
