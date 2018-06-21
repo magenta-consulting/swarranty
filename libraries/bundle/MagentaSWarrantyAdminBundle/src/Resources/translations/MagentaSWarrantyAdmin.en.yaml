@@ -177,6 +177,7 @@ breadcrumb:
     link_service_zone_list: Service Zones
     link_service_zone_create: New Zone
     link_brand_list: Brands
+    link_brand_create: New Brand
     link_customer_list: Customers
     link_customer_create: New Customer
     link_product_list: Products

@@ -163,7 +163,7 @@
 
                             let $popover = $('.choice-container-' + choice.objectId + ' .n2n-entity-action[data-toggle="popover"]');
 
-                            initiatePopover($popover);
+                            initiatePopover_{{ form.vars.id }}($popover);
                         }
 
                         let formData = formData_{{ form.vars.name }};
@@ -172,13 +172,6 @@
                             addChoice_{{ form.vars.id }}(itemData);
                         }
                     });
-
-
-                    /* OnLoad Window */
-                    init = function () {
-
-                    };
-                    window.onload = init;
 
                 })(jQuery);
 
@@ -191,7 +184,7 @@
     {% endspaceless %}
     <script>
         (function ($) {
-            initiatePopover = function ($popover) {
+            initiatePopover_{{ form.vars.id }} = function ($popover) {
                 $popover.popover({
                     html: true,
                     template: '<div class="popover editable-container editable-popup" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
@@ -237,7 +230,6 @@
                     $('input.n2n-entity').change(function (e) {
                         $thisPopover.data('value', $(this).val());
                     })
-
                 })
             };
 
@@ -260,10 +252,7 @@
                         $thisInput.prop('disabled', true);
 
                         let actionUrl = $(this).data('url');
-                        $.post(actionUrl, { {{ form.vars.label_property }}:
-                        $(this).val()
-                    } ).
-                        done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
                             console.log('posting here');
                             itemCount++;
                             let newChoice = {
