@@ -55,11 +55,15 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
                 "type": "verification"
             }
     
-            this.productService.postVerifyEmail(params).subscribe(res => {
-                console.log(res);
-                // this.isLoading = false;
-                // this.dataCustomer = res;
-            });
+            this.productService.postVerifyEmail(params)
+            .subscribe(
+                data => console.log('data',data),
+                error => {
+                    // var details = error.json();
+                    console.log(error);
+                },
+                ()  =>  console.log("Finished")
+            );
         } else {
             // this.dataCustomer = [];
             // this.isLoading = false;

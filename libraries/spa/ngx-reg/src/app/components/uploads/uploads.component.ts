@@ -5,7 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
 
-import { ImageUploadModule, FileHolder } from "angular2-image-upload";
+import { ImageUploadModule, FileHolder, UploadMetadata } from "angular2-image-upload";
 
 @Component({
     selector: 'uploads',
@@ -53,6 +53,13 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     // 2. Event uploads
+    onBeforeUpload = (warId: any, metadata: UploadMetadata) => {
+        // mutate the file or replace it entirely - metadata.file
+        metadata.formData.receiptImageWarranty = warId;
+      
+        return metadata;
+    };
+
     onUploadFinished(file: FileHolder, warId: any) {
         console.log('finished', file);
 
