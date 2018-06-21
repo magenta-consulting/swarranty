@@ -45,4 +45,24 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
             this.isLoading = false;
         }
     }
+
+    // 2. Resend Email
+    resendEmail(event: any) {
+        if(localStorage.getItem('regId')) {
+            let regId = parseInt(localStorage.getItem('regId'));
+            let params = {
+                "registrationId": regId,
+                "type": "verification"
+            }
+    
+            this.productService.postVerifyEmail(params).subscribe(res => {
+                console.log(res);
+                // this.isLoading = false;
+                // this.dataCustomer = res;
+            });
+        } else {
+            // this.dataCustomer = [];
+            // this.isLoading = false;
+        }
+    }
 }

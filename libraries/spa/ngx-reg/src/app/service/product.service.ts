@@ -1,20 +1,24 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, map, tap} from 'rxjs/operators';
+import {HttpClient, HttpHeaders, } from '@angular/common/http';
 
 import {Observable, of} from 'rxjs';
-import {Brand} from '../model/brand';
-import {apiEndPoint, apiEndPointBase, organisationPath} from '../../environments/environment';
-import {BrandCategory} from '../model/brand-category';
-import {Product} from '../model/product';
-import {Dealer} from '../model/dealer';
-import {Customer} from '../model/customer';
-import {Warranty} from '../model/warranty';
+import {catchError, map, tap} from 'rxjs/operators';
+import {Brand} from "../model/brand";
+import {apiEndPoint, apiEndPointBase, organisationPath, apiUploadWarranty} from "../../environments/environment";
+import {BrandCategory} from "../model/brand-category";
+import {Product} from "../model/product";
+import {Dealer} from "../model/dealer";
+import {Customer} from "../model/customer";
+import {Warranty} from "../model/warranty";
 
 import * as moment from 'moment';
 
 const httpOptions = {
     headers: new HttpHeaders({'Content-Type': 'application/ld+json'})
+};
+
+const httpUploadsOptions = {
+    headers: new HttpHeaders({'Content-Type': 'multipart/form-data'})
 };
 
 @Injectable({
@@ -27,8 +31,10 @@ export class ProductService {
     productsUrl = '/products';
     dealersUrl = '/dealers';
     registrationsUrl = '/registrations';
+    verifyEmailUrl = '/email';
 
     customer: Customer;
+
 
     constructor(private http: HttpClient) {
     }
@@ -38,7 +44,6 @@ export class ProductService {
         let url = `${apiEndPoint}${apiEndPointBase}${organisationPath}/${orgId}${this.dealersUrl}`;
         return this.http.get<Dealer[]>(url).pipe(
             map((res) => {
-
                 let collection = res["hydra:member"];
                 let dealers: Dealer[] = [];
                 for (let item of collection) {
@@ -126,7 +131,7 @@ export class ProductService {
     // get data customer
     getApiCustomer(regId: number) {
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
-        
+
         return this.http.get<any>(url).pipe(
             map((res) => {
 
@@ -141,7 +146,7 @@ export class ProductService {
     // get data Registration
     getApiRegistration(regId: number) {
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
-        
+
         return this.http.get<any>(url).pipe(
             map((res) => {
 
@@ -150,6 +155,24 @@ export class ProductService {
                 return dataRegistration;
             }),
             catchError(this.handleError('getRegistration', []))
+        );
+    }
+
+    // verification email
+    postVerifyEmail(params: any) {
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}${this.verifyEmailUrl}`;
+
+        return this.http.post(url, params, httpOptions).pipe(
+            catchError(this.handleError('postVerify', []))
+        );
+    }
+
+    // verification email
+    uploadWarrantyImg(params: any) {
+        let url = `${apiUploadWarranty}`;
+
+        return this.http.post(url, params, httpUploadsOptions).pipe(
+            catchError(this.handleError('uploadWarranty', []))
         );
     }
 

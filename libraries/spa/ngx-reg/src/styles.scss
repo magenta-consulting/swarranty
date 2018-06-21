@@ -68,6 +68,23 @@ ng-select {
     width: 56px !important;
     height: 56px !important;
   }
+  .img-ul-image {
+    border: 1px solid #ddd;
+  }
+  .img-ul-container {
+    padding: 0;
+  }
+  .img-ul-x-mark,
+  .img-ul-close {
+    width: 14px!important;
+    height: 14px!important;
+  }
+  .img-ul-close {
+    &::before, &::after {
+      height: 8px !important;
+      right: 0 !important;
+    }
+  }
 }
 
 // CSS RESPONSIVE
