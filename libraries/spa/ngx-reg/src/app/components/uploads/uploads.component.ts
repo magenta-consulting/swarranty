@@ -53,8 +53,18 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     // 2. Event uploads
-    onUploadFinished(file: FileHolder) {
+    onUploadFinished(file: FileHolder, warId: any) {
         console.log('finished', file);
+
+        let params = {
+            'binaryContent' : file.src,
+            'context' : 'receipt_image',
+            'enabled' : 1,
+            'receiptImageWarranty' : warId
+        };
+
+        this.uploadsImg(params);
+        
     }
 
     onRemoved(file: FileHolder) {
@@ -63,5 +73,15 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     onUploadStateChanged(state: boolean) {
         console.log('state', state);
+    }
+
+    // 3. Upload images
+    uploadsImg(params: any) {
+
+        this.productService.uploadWarrantyImg(params).subscribe(res => {
+            console.log(res);
+            // this.isLoading = false;
+            // this.dataCustomer = res;
+        });
     }
 }

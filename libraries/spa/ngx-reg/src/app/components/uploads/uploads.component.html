@@ -29,8 +29,9 @@
                                 <!-- <button type="button" class="btn btn-primary form-control">Upload/Take a Picture Now</button> -->
                                 <image-upload
                                 class="custome-upload"
+
                                 (removed)="onRemoved($event)"
-                                (uploadFinished)="onUploadFinished($event)"
+                                (uploadFinished)="onUploadFinished($event, prod.id)"
                                 (uploadStateChanged)="onUploadStateChanged($event)"
                                 buttonCaption="Upload/Take a Picture Now"></image-upload>
                             </div>
