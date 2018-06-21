@@ -1,13 +1,10 @@
-import {BrandCategory} from "./brand-category";
-import {BrandSubCategory} from "./brand-sub-category";
-import {Product} from "./product";
-
 export class Customer {
-    id: string;
+    organisation: string;
+    id?: string;
     name: string;
     dialingCode: number;
-    telephone: number;
+    telephone: string;
     email: string;
-    address: string;
-    postalCode: string;
+    homeAddress: string;
+    homePostalCode: string;
 }

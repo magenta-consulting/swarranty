@@ -105,38 +105,38 @@
                 <div *ngIf="emailConfirm != customer.email && !typingConfirm && !typingEmail" class="alert alert-danger" role="alert">
                     The Confirmation Email must match your Email!
                 </div>
-                <div *ngIf="!isPreview('address')" class="input-group mb-2">
-                    <input [(ngModel)]="customer.address" type="text" class="form-control" placeholder="Your Address"
+                <div *ngIf="!isPreview('homeAddress')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.homeAddress" type="text" class="form-control" placeholder="Your Address"
                            aria-label="Your Address"
-                           (keyup.enter)="updateField('address')"
-                           (blur)="updateField('address')"
+                           (keyup.enter)="updateField('homeAddress')"
+                           (blur)="updateField('homeAddress')"
                     >
                 </div>
-                <div *ngIf="isPreview('address')" (click)="editPreview('address')" class="input-group mb-2 preview-container">
+                <div *ngIf="isPreview('homeAddress')" (click)="editPreview('homeAddress')" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
                         <span class="input-group-text">Your Address </span>
                     </div>
                     <div class="form-control preview-text">
-                        <span>{{customer.address}}</span>
+                        <span>{{customer.homeAddress}}</span>
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
                 </div>
-                <div *ngIf="!isPreview('postalCode')" class="input-group mb-2">
-                    <input [(ngModel)]="customer.postalCode" type="text" class="form-control" placeholder="Postal Code"
+                <div *ngIf="!isPreview('homePostalCode')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.homePostalCode" type="text" class="form-control" placeholder="Postal Code"
                            aria-label="Postal Code"
-                           (keyup.enter)="updateField('postalCode')"
-                           (blur)="updateField('postalCode')"
+                           (keyup.enter)="updateField('homePostalCode')"
+                           (blur)="updateField('homePostalCode')"
                            type="number"
                     >
                 </div>
-                <div *ngIf="isPreview('postalCode')" (click)="editPreview('postalCode')" class="input-group mb-2 preview-container">
+                <div *ngIf="isPreview('homePostalCode')" (click)="editPreview('homePostalCode')" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
                         <span class="input-group-text">Postal Code </span>
                     </div>
                     <div class="form-control preview-text">
-                        <span>{{customer.postalCode}}</span>
+                        <span>{{customer.homePostalCode}}</span>
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
@@ -149,7 +149,7 @@
                     <fa size="lg" name="minus-square"></fa>
                     Remove
                 </div>
-                <div *ngIf="!isPreview('productBrand'+i)">                    
+                <div *ngIf="!isPreview('productBrand'+i)">
                     <div class="input-group mb-2">
                         <ng-select class="mb-2" (change)="selectBrand($event,warranty)" [items]="warranty.brands"
                             bindLabel="name"
@@ -288,23 +288,26 @@
                     </div>
                 </div>
             </section>
-            <div class="input-group mb-2" style="cursor: pointer;" (click)="addWarranty()">
+            <div *ngIf="!isFormPreview" class="input-group mb-2" style="cursor: pointer;" (click)="addWarranty()">
                 <fa size="lg" name="plus-square"></fa>
                 <span class="add-product-text"> Add another Product</span>
             </div>
-            <section class="checkboxes">
+            <section *ngIf="!isFormPreview" class="checkboxes">
                 <div class="form-check">
                     <input required="required" type="checkbox" aria-label="Checkbox for following text input" id="newsletterSubscription">
                     <label class="form-check-label" for="newsletterSubscription">
-                        Keep me updated on new Fujioh product and promotions.
+                        Keep me updated on new {{organisation.name}} product and promotions.
                     </label>
                 </div>
                 <div class="form-check">
-                    <input required="required" type="checkbox" aria-label="Checkbox for following text input" id="agreeTos">
+                    <input required="required" type="checkbox" [(ngModel)]="isAgreedToTermsAndPolicy" aria-label="Checkbox for following text input" id="agreeTos">
                     <label class="form-check-label" for="agreeTos">
                         I have read and agree to the <a (click)="lgModal.show();getInforModal(1); false">Warranty Terms and Conditions</a> and <a (click)="lgModal.show();getInforModal(2);false">{{organisation.name}} Data Protection Policy</a>.
                     </label>
                 </div>
+                <div *ngIf="!isAgreedToTermsAndPolicy && checkingError" class="alert alert-danger" role="alert">
+                  Please read and agree to our Terms, Conditions and Policy.
+              </div>
             </section>
             <section>
                 <div class="input-group mb-2">

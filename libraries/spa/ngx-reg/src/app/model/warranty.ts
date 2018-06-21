@@ -8,8 +8,8 @@ import {Customer} from "./customer";
 export class Warranty {
     id: string;
     name: string;
-    product: Product;
-    customer: Customer;
+    product: Product|string;
+    customer: Customer|string;
     productSerialNumber: string;
     purchaseDate: Date;
 
