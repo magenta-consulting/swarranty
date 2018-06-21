@@ -71,6 +71,9 @@ class WarrantyAdmin extends BaseAdmin {
 		if(empty($object->getCustomer())) {
 			$object->setCustomer(new Customer());
 		}
+		if(empty($object->getProduct())) {
+			$object->setProduct(new Product());
+		}
 		
 		return $object;
 	}
