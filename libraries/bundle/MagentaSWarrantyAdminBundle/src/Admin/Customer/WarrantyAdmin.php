@@ -292,7 +292,7 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper->end();
 		$formMapper
 			->with('form_group.warranty_details', [ 'class' => 'col-md-3' ]);
-		$formMapper->add('product', ModelAutocompleteType::class, [
+		$formMapper->add('product', ModelType::class, [
 			'route'              => [
 				'name'       => 'sonata_admin_retrieve_autocomplete_items',
 				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
