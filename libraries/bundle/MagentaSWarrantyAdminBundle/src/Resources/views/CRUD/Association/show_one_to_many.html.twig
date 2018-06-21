@@ -5,7 +5,7 @@
 <td>
     {%- block field -%}
         {% spaceless %}
-            <ul class="sonata-ba-show-one-to-many">
+            <ul class="sonata-ba-show-one-to-many {{ field_description.type == 'image'?'container-show-one-to-many-image':'' }}">
                 {% set route_name = field_description.options.route.name %}
                 {% for element in value %}
                     {% if field_description.hasassociationadmin
@@ -82,6 +82,16 @@
     <style>
         .img-thumbnail {
             cursor: pointer;
+        }
+
+        .container-show-one-to-many-image {
+            display: flex;
+            overflow: inherit;
+            white-space: normal;
+            flex-wrap: wrap;
+            word-wrap: normal;
+            width: auto;
+            list-style-type: none;
         }
     </style>
 {%- endblock -%}
