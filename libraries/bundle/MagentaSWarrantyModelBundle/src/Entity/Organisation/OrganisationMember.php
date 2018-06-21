@@ -82,7 +82,7 @@ class OrganisationMember extends MemberModel {
 	/**
 	 * @var ACRole|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole", inversedBy="members")
-	 * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="id_role", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $role;
 	
