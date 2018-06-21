@@ -219,12 +219,9 @@
                         let id = $thisPopover.data('pk');
 
                         // alert( url + ' ---  ' + value + ' --- ' + operation );
-                        $.post(actionUrl, { {{ form.vars.source }}:
-                        value
-                    } ).
-                        done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.label_property }}:value}).done(function (actionResponse) {
                             if (operation === 'UPDATE') {
-                                $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.source }});
+                                $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.label_property }});
                                 $thisPopover.popover('hide');
                             } else if (operation === 'DELETE') {
                                 itemCount--;
@@ -263,7 +260,7 @@
                         $thisInput.prop('disabled', true);
 
                         let actionUrl = $(this).data('url');
-                        $.post(actionUrl, { {{ form.vars.source }}:
+                        $.post(actionUrl, { {{ form.vars.label_property }}:
                         $(this).val()
                     } ).
                         done(function (actionResponse) {
@@ -271,14 +268,14 @@
                             itemCount++;
                             let newChoice = {
                                 objectId: actionResponse.id,
-                                objectLabel: actionResponse.{{ form.vars.source }},
+                                objectLabel: actionResponse.{{ form.vars.label_property }},
                                 widget: '<div class="checkbox">' +
                                 '<label>' +
                                 '<input type="checkbox" id="{{ form.vars.id }}_' + itemCount + '" ' +
                                 'name="{{ form.vars.full_name }}[]" value="' + actionResponse.id + '" checked="checked" />' +
                                 '<span class="control-label__text">\n'
                                 +
-                                actionResponse.{{ form.vars.source }} +
+                                actionResponse.{{ form.vars.label_property }} +
                                 '</span></label></div>'
                             }
                             addChoice_{{ form.vars.id }}(newChoice);

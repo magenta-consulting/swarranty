@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
@@ -299,7 +300,7 @@ class BaseAdmin extends AbstractAdmin {
 //					$_name = strtoupper($name);
 //				}
 //			}
-			if(in_array($name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE','VIEW' ])) {
+			if(in_array($name, [ 'LIST', 'EDIT', 'DELETE', 'CREATE', 'VIEW' ])) {
 				if($name === 'CREATE') {
 					return ! empty($this->getCurrentOrganisation(false));
 				}
@@ -371,9 +372,13 @@ class BaseAdmin extends AbstractAdmin {
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
 		/** @var Expr $expr */
-		$expr = $query->getQueryBuilder()->expr();
+		$expr     = $query->getQueryBuilder()->expr();
+		$orgField = 'organisation';
+		if($this->getClass() === OrganisationMember::class) {
+			$orgField = 'organization';
+		}
 		
-		return $query->andWhere($expr->eq('o.organisation', $organisation->getId()));
+		return $query->andWhere($expr->eq('o.' . $orgField, $organisation->getId()));
 	}
 	
 	/**
