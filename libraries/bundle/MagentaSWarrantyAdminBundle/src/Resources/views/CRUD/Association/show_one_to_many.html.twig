@@ -12,7 +12,12 @@
                         and field_description.associationadmin.hasRoute(route_name)
                         and field_description.associationadmin.hasAccess(route_name, element) %}
                         <li style="justify-content: space-between;display: flex;">
-                            {% if field_description.name == 'warranties' %}
+                            {% if field_description.type == 'image' %}
+                                <!-- Button trigger modal -->
+                                <span class="img-thumbnail" data-src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl('reference') }}" data-toggle="modal" data-target="#admin-modal">
+                                    <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"/>
+                                </span>
+                            {% elseif field_description.name == 'warranties' %}
                                 <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
 
                                     {{ element|render_relation_element(field_description) }}
@@ -26,11 +31,6 @@
                                 </a>
                                 |
                                 <a class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
-                            {% elseif field_description.type == 'image' %}
-                                <!-- Button trigger modal -->
-                                <span class="img-thumbnail" data-src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl('reference') }}" data-toggle="modal" data-target="#admin-modal">
-                                    <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"/>
-                                </span>
                             {% endif %}
                         </li>
                     {% else %}
