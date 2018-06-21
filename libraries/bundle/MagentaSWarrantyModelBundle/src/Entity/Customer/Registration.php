@@ -48,9 +48,21 @@ class Registration implements ThingChildInterface {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="registration", cascade={"persist","merge"})
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="registration", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $warranties;
+	
+	public function addWarranty(Warranty $warranty) {
+		$this->warranties->add($warranty);
+		$warranty->setRegistration($this);
+		$warranty->setCustomer($this->customer);
+	}
+	
+	public function removeWarranty(Warranty $warranty) {
+		$this->warranties->removeElement($warranty);
+		$warranty->setRegistration(null);
+		
+	}
 	
 	/**
 	 * @var Customer|null
