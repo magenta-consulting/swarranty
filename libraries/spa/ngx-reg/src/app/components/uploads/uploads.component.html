@@ -29,7 +29,8 @@
                                 <!-- <button type="button" class="btn btn-primary form-control">Upload/Take a Picture Now</button> -->
                                 <image-upload
                                 class="custome-upload"
-
+                                partName="binaryContent"
+                                [beforeUpload]="onBeforeUpload(prod.id)"
                                 (removed)="onRemoved($event)"
                                 (uploadFinished)="onUploadFinished($event, prod.id)"
                                 (uploadStateChanged)="onUploadStateChanged($event)"
