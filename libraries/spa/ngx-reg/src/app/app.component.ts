@@ -20,7 +20,7 @@ export class AppComponent {
         localStorage.setItem('orgId', orgId);
         organisationService.getLogo().subscribe(logoSrc => this.logoSrc = logoSrc);
         // create regId sample
-        localStorage.setItem('regId', '1');
+        // localStorage.setItem('regId', '/api/registrations/1');
     }
 
     addData(): void {

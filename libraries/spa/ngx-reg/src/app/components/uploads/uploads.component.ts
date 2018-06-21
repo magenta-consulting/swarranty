@@ -5,7 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
 
-import { ImageUploadModule, FileHolder, UploadMetadata } from "angular2-image-upload";
+import {ImageUploadModule, FileHolder, UploadMetadata} from "angular2-image-upload";
 
 @Component({
     selector: 'uploads',
@@ -14,19 +14,19 @@ import { ImageUploadModule, FileHolder, UploadMetadata } from "angular2-image-up
 })
 export class UploadsComponent implements OnInit, AfterViewInit {
 
-    prodList : any = [];
+    prodList: any = [];
     isLoading: boolean = false;
-    qrCodeImg : string = '';
+    qrCodeImg: string = '';
 
     constructor(private router: ActivatedRoute,
-        private productService: ProductService) {
+                private productService: ProductService) {
     }
 
     ngOnInit() {
         // 1.
         this.getDataWarranties();
-        
-        this.qrCodeImg = apiEndPoint + apiEndPointBase +'/qr-code/'+ apiEndPoint +'/registrations/'+ this.router.snapshot.params['id'] +'/upload-image.png';
+
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + apiEndPoint + '/registrations/' + this.router.snapshot.params['id'] + '/upload-image.png';
     }
 
     ngAfterViewInit() {
@@ -37,11 +37,12 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     // 1. Get Data Warranties
     getDataWarranties() {
-        // let regId = this.router.snapshot.params['id'];
+        let regId = this.router.snapshot.params['id'];
         this.isLoading = true;
-        if(localStorage.getItem('regId')) {
+        localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
+        if (localStorage.getItem('regId')) {
             let regId = parseInt(localStorage.getItem('regId'));
-    
+
             this.productService.getApiWarranties(regId).subscribe(res => {
                 this.isLoading = false;
                 this.prodList = res;
@@ -56,7 +57,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     onBeforeUpload = (warId: any, metadata: UploadMetadata) => {
         // mutate the file or replace it entirely - metadata.file
         metadata.formData.receiptImageWarranty = warId;
-      
+
         return metadata;
     };
 
@@ -64,14 +65,14 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         console.log('finished', file);
 
         let params = {
-            'binaryContent' : file.src,
-            'context' : 'receipt_image',
-            'enabled' : 1,
-            'receiptImageWarranty' : warId
+            'binaryContent': file.src,
+            'context': 'receipt_image',
+            'enabled': 1,
+            'receiptImageWarranty': warId
         };
 
         this.uploadsImg(params);
-        
+
     }
 
     onRemoved(file: FileHolder) {
