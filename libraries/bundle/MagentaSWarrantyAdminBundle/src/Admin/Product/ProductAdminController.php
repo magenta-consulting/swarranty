@@ -30,11 +30,17 @@ class ProductAdminController extends BaseCRUDAdminController {
 		}
 		
 		$image = $object->getImage();
-		$afUrl = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId());
-		$rfUrl = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId(), 'reference');
+		if(empty($image)) {
+			$imageId = null;
+			$afUrl   = $rfUrl = '/bundles/sonatamedia/grey.png';
+		} else {
+			$imageId = $image->getId();
+			$afUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId());
+			$rfUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId(), 'reference');
+		}
 		
 		return new JsonResponse([
-			'id'               => $image->getId(),
+			'id'               => $imageId,
 			'admin_format'     => $afUrl,
 			'reference_format' => $rfUrl
 		]);

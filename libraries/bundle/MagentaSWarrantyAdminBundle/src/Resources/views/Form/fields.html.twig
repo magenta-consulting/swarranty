@@ -7,20 +7,57 @@
     {#spinner-${{ form.vars.id }}.hide();#}
     <script>
         (function ($) {
-            spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
+            $spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
+            $label_{{ form.vars.id }} = $('#{{ form.vars.id }}-label');
+            $value_{{ form.vars.id }} = $('#{{ form.vars.id }}-value');
+
             getProductImageUrl = function (id) {
                 let url = '{{ path('admin_magenta_swarrantymodel_product_product_image', { 'id':form.vars.id}) }}';
                 return url.replace('{{ form.vars.id }}', id);
             }
 
             $(document).ready(function ($) {
-                $productInput = $('input[name = "{{ form.parent.vars.id }}[{{ form.vars.product_property }}]"]');
-                productId = $productInput.val();
-                // alert(getProductImageUrl(productId));
+                $productInput_{{ form.vars.id }} = $('input[name = "{{ form.parent.vars.id }}[{{ form.vars.product_property }}]"]');
+                productInputType_{{ form.vars.id }} = 'input';
+                if ($productInput_{{ form.vars.id }}.length === 0) {
+                    $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
+                    productInputType_{{ form.vars.id }} = 'select';
+                }
+
+                productId_{{ form.vars.id }} = $productInput_{{ form.vars.id }}.val();
+                if (productId_{{ form.vars.id }} !== '') {
+                    $.get(getProductImageUrl(productId_{{ form.vars.id }}), function (data) {
+                        $(".result").html(data);
+                        // alert("hello data " + JSON.stringify(data));
+                        $value_{{ form.vars.id }}.html('<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>');
+                        $value_{{ form.vars.id }}.find('.loading_{{ form.vars.id }}').load(function (e) {
+                            $spinner_{{ form.vars.id }}.hide();
+                            $(this).show();
+                        })
+                    });
+                }
+
                 setInterval(function () {
-                    if (productId !== $productInput.val()) {
-                        productId = $productInput.val();
-                        getProductImageUrl(productId)
+                    if (productInputType_{{ form.vars.id }} === 'select') {
+                        $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
+                    }
+
+                    if (productId_{{ form.vars.id }} !== $productInput_{{ form.vars.id }}.val()) {
+                        productId_{{ form.vars.id }} = $productInput_{{ form.vars.id }}.val();
+                        if (productId_{{ form.vars.id }} !== '') {
+                            $value_{{ form.vars.id }}.html('');
+                            $spinner_{{ form.vars.id }}.show();
+                            $.get(getProductImageUrl(productId_{{ form.vars.id }}), function (data) {
+                                $(".result").html(data);
+                                // alert("hello data " + JSON.stringify(data));
+                                $value_{{ form.vars.id }}.html('<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>');
+                                $value_{{ form.vars.id }}.find('.loading_{{ form.vars.id }}').load(function (e) {
+                                    $spinner_{{ form.vars.id }}.hide();
+                                    $(this).show();
+                                })
+                            });
+                        }
+
                     }
                 }, 500);
 
@@ -212,7 +249,10 @@
                         let id = $thisPopover.data('pk');
 
                         // alert( url + ' ---  ' + value + ' --- ' + operation );
-                        $.post(actionUrl, { {{ form.vars.label_property }}:value}).done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.label_property }}:
+                        value
+                    }).
+                        done(function (actionResponse) {
                             if (operation === 'UPDATE') {
                                 $('.choice-container-' + id + ' span.control-label__text').text(actionResponse.{{ form.vars.label_property }});
                                 $thisPopover.popover('hide');
@@ -252,7 +292,10 @@
                         $thisInput.prop('disabled', true);
 
                         let actionUrl = $(this).data('url');
-                        $.post(actionUrl, { {{ form.vars.label_property }}:$(this).val()} ).done(function (actionResponse) {
+                        $.post(actionUrl, { {{ form.vars.label_property }}:
+                        $(this).val()
+                    } ).
+                        done(function (actionResponse) {
                             console.log('posting here');
                             itemCount++;
                             let newChoice = {

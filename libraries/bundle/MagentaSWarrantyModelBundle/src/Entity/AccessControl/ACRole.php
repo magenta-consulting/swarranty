@@ -99,7 +99,7 @@ class ACRole extends Thing {
 	public function getEntry($permission, SystemModule $module) {
 		/** @var ACEntry $entry */
 		foreach($this->entries as $entry) {
-			if($entry->getModule() === $module) {
+			if($entry->getModule() === $module && $entry->getPermission() === $permission) {
 				return $entry;
 			}
 		}

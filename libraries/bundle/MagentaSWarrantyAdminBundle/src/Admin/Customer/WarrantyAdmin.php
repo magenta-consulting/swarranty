@@ -37,6 +37,7 @@ use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -285,7 +286,7 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper
 			->add('customer.name', null, [ 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
-			->add('customer.dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
+			->add('customer.dialingCode', NumberType::class, [ 'label' => 'form.label_dialing_code' ])
 			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ])
 			->add('customer.homeAddress', null, [ 'required' => true, 'label' => 'form.label_address' ])
 			->add('customer.homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ]);
