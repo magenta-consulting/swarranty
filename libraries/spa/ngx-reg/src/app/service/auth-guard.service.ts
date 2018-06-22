@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Router, CanActivate} from '@angular/router';
+import { Injectable }     from '@angular/core';
+import { Router, CanActivate }    from '@angular/router';
 
 import {ProductService} from "./product.service";
 import {RegistrationService} from "./registration.service";
@@ -18,11 +18,9 @@ export class AuthGuard implements CanActivate {
 
     }
 
-
     canActivate() {
         // 1.
         this.getDataRegistration();
-
         return true;
     }
 

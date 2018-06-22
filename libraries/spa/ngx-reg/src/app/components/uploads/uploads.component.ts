@@ -37,10 +37,12 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     // 1. Get Data Warranties
     getDataWarranties() {
-        let regId = this.router.snapshot.params['id'];
-        this.isLoading = true;
-        localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
-        if (localStorage.getItem('regId')) {
+        if(!localStorage.getItem('regId')) {
+            let regId = this.router.snapshot.params['id'];
+
+            localStorage.setItem('regId', regId);
+            this.isLoading = true;
+            // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
             // let regId = parseInt(localStorage.getItem('regId'));
 
             this.productService.getApiWarranties(regId).subscribe(res => {
@@ -62,7 +64,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         let warId = metadata.url.substring(apiUploadWarranty.length);
         metadata.formData = {receiptImageWarranty: warId};
         console.log('warid is',warId);        metadata.url = apiUploadWarranty;
-
         return metadata;
     };
 
@@ -78,7 +79,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         };
 
         this.uploadsImg(params);
-
     }
 
     onRemoved(file: FileHolder) {
