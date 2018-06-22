@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class ProductAdminController extends BaseCRUDAdminController {
 	
-	public function imageAction($id = null, Request $request) {
+	public function detailAction($id = null, Request $request) {
 		$request = $this->getRequest();
 		$id      = $request->get($this->admin->getIdParameter());
 		/** @var Product $object */
@@ -40,9 +40,11 @@ class ProductAdminController extends BaseCRUDAdminController {
 		}
 		
 		return new JsonResponse([
-			'id'               => $imageId,
-			'admin_format'     => $afUrl,
-			'reference_format' => $rfUrl
+			'id_image'                 => $imageId,
+			'admin_format'             => $afUrl,
+			'reference_format'         => $rfUrl,
+			'warranty_period'          => $object->getWarrantyPeriod(),
+			'extended_warranty_period' => $object->getExtendedWarrantyPeriod()
 		]);
 	}
 }

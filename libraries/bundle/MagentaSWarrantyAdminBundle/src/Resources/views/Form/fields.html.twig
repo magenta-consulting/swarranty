@@ -1,72 +1,149 @@
 {% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
 {% block product_detail_widget %}
-    {#{{ dump(form) }}#}
-    <span id="{{ form.vars.id }}-spinner"><i class="fa fa-refresh fa-spin" style="font-size:20px;"></i></span>
-    <span id="{{ form.vars.id }}-label"></span>
-    <span id="{{ form.vars.id }}-value"></span>
-    {#spinner-${{ form.vars.id }}.hide();#}
-    <script>
-        (function ($) {
-            $spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
-            $label_{{ form.vars.id }} = $('#{{ form.vars.id }}-label');
-            $value_{{ form.vars.id }} = $('#{{ form.vars.id }}-value');
-
-            getProductImageUrl = function (id) {
-                let url = '{{ path('admin_magenta_swarrantymodel_product_product_image', { 'id':form.vars.id}) }}';
-                return url.replace('{{ form.vars.id }}', id);
-            }
-
-            $(document).ready(function ($) {
-                $productInput_{{ form.vars.id }} = $('input[name = "{{ form.parent.vars.id }}[{{ form.vars.product_property }}]"]');
-                productInputType_{{ form.vars.id }} = 'input';
-                if ($productInput_{{ form.vars.id }}.length === 0) {
-                    $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
-                    productInputType_{{ form.vars.id }} = 'select';
-                }
-
-                productId_{{ form.vars.id }} = $productInput_{{ form.vars.id }}.val();
-                if (productId_{{ form.vars.id }} !== '') {
-                    $.get(getProductImageUrl(productId_{{ form.vars.id }}), function (data) {
-                        $(".result").html(data);
-                        // alert("hello data " + JSON.stringify(data));
-                        $value_{{ form.vars.id }}.html('<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>');
-                        $value_{{ form.vars.id }}.find('.loading_{{ form.vars.id }}').load(function (e) {
-                            $spinner_{{ form.vars.id }}.hide();
-                            $(this).show();
-                        })
+    <div class="form-group" id="sonata-ba-field-container-{{ form.vars.id }}">
+        {#{{ dump(form) }}#}
+        <span id="{{ form.vars.id }}-label">
+    {% if form.vars.label is not empty %}
+        <label class="control-label required" for="{{ form.vars.id }}">
+        {{ form.vars.label|trans({}, form.vars.translation_domain) }}
+        </label>
+    {% endif %}
+    </span>
+        <div class="sonata-ba-field sonata-ba-field-standard-natural">
+            <span id="{{ form.vars.id }}-spinner"><i class="fa fa-refresh fa-spin"
+                                                         style="font-size:20px;"></i></span>
+            <span id="{{ form.vars.id }}-value"></span>
+            {% if form.vars.type == "calculated_date" %}
+                <div class="input-group">
+                    {{ block('sonata_type_date_picker_widget_html') }}
+                </div>
+                <script type="text/javascript">
+                    jQuery(function ($) {
+                        $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ form.vars.id }}').datetimepicker({{ dp_options|json_encode|raw }});
                     });
+                </script>
+            {% endif %}
+
+        </div>
+        {#spinner-${{ form.vars.id }}.hide();#}
+        <script>
+            (function ($) {
+                $spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
+                $label_{{ form.vars.id }} = $('#{{ form.vars.id }}-label');
+                $value_{{ form.vars.id }} = $('#{{ form.vars.id }}-value');
+                $dtp_{{ form.vars.id }} = $('#{{ form.vars.id }}');
+
+                $dtp_{{ form.vars.id }}.hide();
+
+                getProductDetailUrl = function (id) {
+                    let url = '{{ path('admin_magenta_swarrantymodel_product_product_detail', { 'id':form.vars.id}) }}';
+                    return url.replace('{{ form.vars.id }}', id);
                 }
 
-                setInterval(function () {
-                    if (productInputType_{{ form.vars.id }} === 'select') {
-                        $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
-                    }
+                onProductSelection_{{ form.vars.id }} = function () {
+                    productId_{{ form.vars.product_property }} = $productInput_{{ form.vars.id }}.val();
 
-                    if (productId_{{ form.vars.id }} !== $productInput_{{ form.vars.id }}.val()) {
-                        productId_{{ form.vars.id }} = $productInput_{{ form.vars.id }}.val();
-                        if (productId_{{ form.vars.id }} !== '') {
-                            $value_{{ form.vars.id }}.html('');
-                            $spinner_{{ form.vars.id }}.show();
-                            $.get(getProductImageUrl(productId_{{ form.vars.id }}), function (data) {
-                                $(".result").html(data);
-                                // alert("hello data " + JSON.stringify(data));
-                                $value_{{ form.vars.id }}.html('<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>');
-                                $value_{{ form.vars.id }}.find('.loading_{{ form.vars.id }}').load(function (e) {
-                                    $spinner_{{ form.vars.id }}.hide();
-                                    $(this).show();
-                                })
-                            });
+                    let productId = $productInput_{{ form.vars.id }}.val();
+                    if (productId !== '') {
+                        let updateStatus = {{ form.vars.product_property }}_status;
+
+                        if (updateStatus === 'pending') {
+                            {{ form.vars.id }}_status = 'pending';
+                            if (!$spinner_{{ form.vars.id }}.is(":visible")) {
+                                $value_{{ form.vars.id }}.html('');
+                                $spinner_{{ form.vars.id }}.show();
+                            }
+                            return;
+                        } else if (updateStatus === 'done') {
+                            {{ form.vars.id }}_status = 'done';
+                            productId_{{ form.vars.id }} = productId_{{ form.vars.product_property }};
+
+                            {#let dataJSON = localStorage.getItem('{{ form.vars.product_property }}_data');#}
+                            let data = {{ form.vars.product_property }}_data;
+                            let _html = '';
+
+                            {% if form.vars.type == "image" %}
+                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" />';
+                            _html += '<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>';
+                            {% elseif form.vars.type == "calculated_date" %}
+                            _html += 'date input do not know what to do';
+                            {% else %}
+                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';
+                            _html += data.{{ form.vars.type }} + ' {{ form.vars.appended_value }}';
+                            {% endif %}
+
+                            $value_{{ form.vars.id }}.html(_html);
+
+                            {% if form.vars.type == "image" %}
+                            $value_{{ form.vars.id }}.find('.loading_{{ form.vars.id }}').load(function (e) {
+                                $spinner_{{ form.vars.id }}.hide();
+                                $(this).show();
+                            })
+                            {% else %}
+                            $spinner_{{ form.vars.id }}.hide();
+                            {% endif %}
+                            return;
+                            {#localStorage.removeItem('{{ form.vars.product_property }}_data');#}
+                        } else {
+                            updateStatus = {{ form.vars.product_property }}_status = 'pending';
+                            {{ form.vars.id }}_status = 'pending';
                         }
 
+
+                        let jqxhr = $.get(getProductDetailUrl(productId), function (data) {
+                                updateStatus = {{ form.vars.product_property }}_status = 'done';
+                                // alert("hello data " + JSON.stringify(data));
+                                    {#localStorage.setItem('{{ form.vars.product_property }}_data', JSON.stringify(data));#}
+                                    {{ form.vars.product_property }}_data = data;
+                            })
+                                .fail(function () {
+                                    updateStatus = {{ form.vars.product_property }}_status = 'error';
+                                    {#setTimeout(onProductSelection_{{ form.vars.id }}(), 1000);#}
+                                })
+                        ;
                     }
-                }, 500);
+                }
 
-            });
-        })(jQuery);
+                $(document).ready(function ($) {
+                    $productInput_{{ form.vars.id }} = $('input[name = "{{ form.parent.vars.id }}[{{ form.vars.product_property }}]"]');
+                    productInputType_{{ form.vars.id }} = 'input';
+                    {{ form.vars.id }}_status = '';
 
-    </script>
-    {#{{ dump(form) }}#}
+                    if ($productInput_{{ form.vars.id }}.length === 0) {
+                        $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
+                        productInputType_{{ form.vars.id }} = 'select';
+                    }
+
+                    if (typeof(productId_{{ form.vars.product_property }}) === 'undefined') {
+                        productId_{{ form.vars.product_property }} = $productInput_{{ form.vars.id }}.val();
+                        {{ form.vars.product_property }}_data = {};
+                        {{ form.vars.product_property }}_status = '';
+                    }
+
+                    productId_{{ form.vars.id }} = productId_{{ form.vars.product_property }};
+                    onProductSelection_{{ form.vars.id }}();
+
+                    setInterval(function () {
+                        if (productInputType_{{ form.vars.id }} === 'select') {
+                            $productInput_{{ form.vars.id }} = $("#{{ form.parent.vars.id }}_{{ form.vars.product_property }} option:selected");
+                        }
+
+                        if (productId_{{ form.vars.product_property }} !== $productInput_{{ form.vars.id }}.val()) {
+                            {{ form.vars.product_property }}_status = '';
+                            onProductSelection_{{ form.vars.id }}();
+                        } else if ({{ form.vars.id }}_status === 'pending' || productId_{{ form.vars.id }} !== productId_{{ form.vars.product_property }}) {
+                            onProductSelection_{{ form.vars.id }}();
+                        }
+                    }, 500);
+
+                });
+            })(jQuery);
+
+        </script>
+        {#{{ dump(form) }}#}
+    </div>
 {% endblock %}
+
 {% block media_collection_widget %}
 {% endblock media_collection_widget %}
 

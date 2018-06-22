@@ -25,6 +25,7 @@ class MagentaSWarrantyAdminExtension extends ConfigurableExtension {
 //		          ->addTag('controller.service_arguments');
 		
 		$loader->load('admin.yaml');
+		$loader->load('custom_form.yaml');
 		
 		$definitions = [];
 		foreach(get_declared_classes() as $class) {

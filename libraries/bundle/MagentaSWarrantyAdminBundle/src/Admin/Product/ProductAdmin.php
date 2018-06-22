@@ -86,7 +86,7 @@ class ProductAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-		$collection->add('image', $this->getRouterIdParameter() . '/image');
+		$collection->add('detail', $this->getRouterIdParameter() . '/detail');
 		
 	}
 	

@@ -1,0 +1,9 @@
+services:
+    magenta_swarranty.product.form.type.product_detail:
+        class: Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType
+        tags:
+            - {name: "form.type"}
+        arguments:
+            - '@doctrine'
+            - '@sonata.core.date.moment_format_converter'
+            - '@translator'
