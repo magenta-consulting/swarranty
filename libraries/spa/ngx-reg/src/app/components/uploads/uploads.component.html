@@ -41,7 +41,7 @@
 
                                 <image-upload
                                 class="custome-upload"
-                                url="prod.uploadUrl"
+                                [url]=prod.uploadUrl
                                 partName="binaryContent"
                                 [beforeUpload]="onBeforeUpload"
                                 (removed)="onRemoved($event)"

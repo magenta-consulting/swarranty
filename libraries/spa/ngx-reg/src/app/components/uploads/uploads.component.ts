@@ -3,7 +3,11 @@ import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {ProductService} from "../../service/product.service";
-import {apiEndPoint, apiEndPointBase, apiUploadWarranty, organisationPath} from "../../../environments/environment";
+import {apiEndPoint, 
+        apiEndPointBase, 
+        apiEndPointMedia, 
+        apiMediaUploadPath, 
+        organisationPath} from "../../../environments/environment";
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
@@ -69,24 +73,28 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // 2. Event uploads
     onBeforeUpload = (metadata: UploadMetadata) => {
         // mutate the file or replace it entirely - metadata.file
-        let warId = metadata.url.substring(apiUploadWarranty.length);
-        metadata.formData = {receiptImageWarranty: warId};
-        console.log('warid is',warId);        metadata.url = apiUploadWarranty;
+        console.log('metadata.url', metadata.url);
+        let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
+        let warId = metadata.url.substring(apiUploadWarranty.length+1);
+        metadata.formData = { "receiptImageWarranty" : warId};
+        
+        console.log('warid is',warId);        
+        metadata.url = apiUploadWarranty;
         return metadata;
     };
 
     onUploadFinished(file: FileHolder, warId: any) {
         console.log('finished', file);
 
-        let params = {
-            'binaryContent': file.src,
-            'context': 'receipt_image',
-            'enabled': 1,
-            'receiptImageWarranty': warId,
-            'name': 'Receipt Image'
-        };
+        // let params = {
+        //     'binaryContent': file.src,
+        //     'context': 'receipt_image',
+        //     'enabled': 1,
+        //     'receiptImageWarranty': warId,
+        //     'name': 'Receipt Image' 
+        // };
 
-        this.uploadsImg(params);
+        // this.uploadsImg(params);
     }
 
     onRemoved(file: FileHolder) {
