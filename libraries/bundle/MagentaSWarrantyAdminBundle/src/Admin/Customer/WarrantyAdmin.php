@@ -293,35 +293,35 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper
 			->with('form_group.warranty_details', [ 'class' => 'col-md-3' ]);
 		$formMapper->add('product', ModelType::class, [
-			'route'              => [
-				'name'       => 'sonata_admin_retrieve_autocomplete_items',
-				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
-			],
+//			'route'              => [
+//				'name'       => 'sonata_admin_retrieve_autocomplete_items',
+//				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
+//			],
 			'property'           => 'searchText',
 			'btn_add'            => false,
-			'to_string_callback' => function(Product $entity) {
-//				$entity->generateSearchText();
-				
-				return $entity->getSearchText();
-			},
-			'callback'           => function(ProductAdmin $admin, $property, $field) {
-
-//				$queryBuilder, $alias, $field, $value
-//				if( ! $value['value']) {
-//					return;
-//				}
+//			'to_string_callback' => function(Product $entity) {
+////				$entity->generateSearchText();
 //
-//				/** @var Expr $expr */
-//				$expr = $queryBuilder->expr();
-//				$queryBuilder
-//					->andWhere('organisation.id = :orgId')
-////					->andWhere($expr->orX(
+//				return $entity->getSearchText();
+//			},
+//			'callback'           => function(ProductAdmin $admin, $property, $field) {
+//
+////				$queryBuilder, $alias, $field, $value
+////				if( ! $value['value']) {
+////					return;
+////				}
 ////
-////					))
-//					->setParameter('orgId', $this->getCurrentOrganisation()->getId());
-//
-				return true;
-			},
+////				/** @var Expr $expr */
+////				$expr = $queryBuilder->expr();
+////				$queryBuilder
+////					->andWhere('organisation.id = :orgId')
+//////					->andWhere($expr->orX(
+//////
+//////					))
+////					->setParameter('orgId', $this->getCurrentOrganisation()->getId());
+////
+//				return true;
+//			},
 		]);
 		$formMapper->add('product.name', ProductDetailType::class);
 		
