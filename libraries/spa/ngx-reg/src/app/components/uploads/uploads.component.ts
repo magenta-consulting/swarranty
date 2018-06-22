@@ -76,7 +76,10 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         console.log('metadata.url', metadata.url);
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         let warId = metadata.url.substring(apiUploadWarranty.length+1);
-        metadata.formData = { "receiptImageWarranty" : warId};
+        metadata.formData = { 
+            "receiptImageWarranty" : warId,
+            "context" : 'receipt_image'
+        };
         
         console.log('warid is',warId);        
         metadata.url = apiUploadWarranty;
