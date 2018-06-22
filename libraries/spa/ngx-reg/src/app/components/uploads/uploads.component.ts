@@ -68,8 +68,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     // 2. Event uploads
     onBeforeUpload = (metadata: UploadMetadata) => {
+        console.log('metadata', metadata);
         // mutate the file or replace it entirely - metadata.file
-        let warId = metadata.url.substring(apiUploadWarranty.length);
+        let warId = metadata.url.substring(apiUploadWarranty.length+1);
         metadata.formData = {receiptImageWarranty: warId};
         console.log('warid is',warId);        metadata.url = apiUploadWarranty;
         return metadata;
@@ -86,7 +87,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             'name': 'Receipt Image'
         };
 
-        this.uploadsImg(params);
+        // this.uploadsImg(params);
     }
 
     onRemoved(file: FileHolder) {

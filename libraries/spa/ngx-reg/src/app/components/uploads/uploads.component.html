@@ -41,7 +41,8 @@
 
                                 <image-upload
                                 class="custome-upload"
-                                url="prod.uploadUrl"
+                                [url]=prod.uploadUrl
+                                [headers]="{'Content-Type': 'multipart/form-data'}"
                                 partName="binaryContent"
                                 [beforeUpload]="onBeforeUpload"
                                 (removed)="onRemoved($event)"
