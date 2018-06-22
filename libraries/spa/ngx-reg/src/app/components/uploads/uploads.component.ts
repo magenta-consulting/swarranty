@@ -12,6 +12,8 @@ import {apiEndPoint,
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
+// import {Helper} from "../../helper/Helper";
+
 @Component({
     selector: 'uploads',
     templateUrl: './uploads.component.html',
@@ -24,7 +26,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     qrCodeImg: string = '';
 
     constructor(private router: ActivatedRoute,
-                private productService: ProductService) {
+                private productService: ProductService,
+                //private helper: Helper
+    ) {
     }
 
     ngOnInit() {
@@ -98,7 +102,27 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     onRemoved(file: FileHolder) {
+        // let v_confirm = confirm('Do you really want to remove this image ?');
         console.log('removed', file);
+        // let apiDeleteImg = apiEndPointMedia + '/media/';
+        // let warId = file.src.substring(apiDeleteImg.length);
+        // console.log('apiDeleteImg', apiDeleteImg);
+        // console.log('warId', warId);
+        // console.log('url', this.helper.explode('/', file.src, 0));
+        
+        // if(v_confirm == true) {
+            // this.productService.deleteWarrantyImg(regId).subscribe(
+            //     res => {
+                    
+            //     },
+            //     error => {
+            //         console.log('Error', error);
+            //     },
+            //     () => {
+            //         console.log('Complete Request');
+            //     }
+            // );
+        // }
     }
 
     onUploadStateChanged(state: boolean) {
