@@ -26,7 +26,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // 1.
         this.getDataWarranties();
 
-        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + apiEndPoint + '/registrations/' + this.router.snapshot.params['id'] + '/upload-image.png';
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/http://' + window.location.hostname + '/registrations/' + this.router.snapshot.params['id'] + '/upload-image.png';
     }
 
     ngAfterViewInit() {
