@@ -50,7 +50,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
         // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
         // let regId = parseInt(localStorage.getItem('regId'));
-
+        let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         this.productService.getApiWarranties(regId).subscribe(
             res => {
                 this.isLoading = false;
