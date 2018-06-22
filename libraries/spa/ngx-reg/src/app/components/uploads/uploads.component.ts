@@ -26,7 +26,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // 1.
         this.getDataWarranties();
 
-        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/http://' + window.location.hostname + '/registrations/' + this.router.snapshot.params['id'] + '/upload-image.png';
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/http://' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
     }
 
     ngAfterViewInit() {
@@ -73,7 +73,8 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             'binaryContent': file.src,
             'context': 'receipt_image',
             'enabled': 1,
-            'receiptImageWarranty': warId
+            'receiptImageWarranty': warId,
+            'name': 'Receipt Image'
         };
 
         this.uploadsImg(params);

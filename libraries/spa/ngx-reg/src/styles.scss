@@ -25,6 +25,7 @@ ng-select {
   width: 64px;
   height: 64px;
 }
+
 .lds-hourglass:after {
   content: " ";
   display: block;
@@ -38,6 +39,7 @@ ng-select {
   border-color: #007bff transparent #007bff transparent;
   animation: lds-hourglass 1.2s infinite;
 }
+
 @keyframes lds-hourglass {
   0% {
     transform: rotate(0);
@@ -51,7 +53,14 @@ ng-select {
     transform: rotate(1800deg);
   }
 }
-.custome-upload{
+
+.custome-upload.warning {
+  .img-ul-button {
+    background: #ffc107 !important;
+  }
+}
+
+.custome-upload {
   .img-ul-button {
     background: #007bff !important;
     text-transform: none !important;
@@ -76,8 +85,8 @@ ng-select {
   }
   .img-ul-x-mark,
   .img-ul-close {
-    width: 14px!important;
-    height: 14px!important;
+    width: 14px !important;
+    height: 14px !important;
   }
   .img-ul-close {
     &::before, &::after {
@@ -91,12 +100,13 @@ ng-select {
 
 @media (max-width: 1200px) {
   h3 {
-      font-size: 22px;
+    font-size: 22px;
   }
   h5 {
     font-size: 18px;
   }
 }
+
 @media (max-width: 992px) {
   .blk-upload {
     .col-left {
@@ -112,14 +122,16 @@ ng-select {
     }
   }
 }
+
 @media (max-width: 992px) {
   h3 {
-      font-size: 20px;
+    font-size: 20px;
   }
   h5 {
     font-size: 16px;
   }
 }
+
 @media (max-width: 640px) {
   .send-email-wrap {
     .note {
@@ -127,6 +139,7 @@ ng-select {
     }
   }
 }
+
 @media (max-width: 480px) {
   .blk-upload {
     .col-right {
