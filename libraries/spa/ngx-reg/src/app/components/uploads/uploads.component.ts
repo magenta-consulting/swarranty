@@ -7,7 +7,8 @@ import {apiEndPoint,
         apiEndPointBase, 
         apiEndPointMedia, 
         apiMediaUploadPath, 
-        organisationPath} from "../../../environments/environment";
+        organisationPath,
+        binariesMedia} from "../../../environments/environment";
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
@@ -30,7 +31,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // 1.
         this.getDataWarranties();
 
-        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/http://' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/'+ location.protocol + '//' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
     }
 
     ngAfterViewInit() {
@@ -57,6 +58,11 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                 this.prodList = res;
                 for (let prod of this.prodList) {
                     prod.uploadUrl = apiUploadWarranty + '/' + prod.id;
+                    prod.imageUrl = [];
+                    for (let prodImg of prod.receiptImages) {
+                        prod.imageUrl.push(apiEndPointMedia + '/media/' + prodImg.id + binariesMedia);
+                        console.log('prod', prod);
+                    }
                 }
             },
             error => {
@@ -76,7 +82,10 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         console.log('metadata.url', metadata.url);
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         let warId = metadata.url.substring(apiUploadWarranty.length+1);
-        metadata.formData = { "receiptImageWarranty" : warId};
+        metadata.formData = { 
+            "receiptImageWarranty" : warId,
+            "context" : "receipt_image"
+        };
         
         console.log('warid is',warId);        
         metadata.url = apiUploadWarranty;
@@ -85,16 +94,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     onUploadFinished(file: FileHolder, warId: any) {
         console.log('finished', file);
-
-        // let params = {
-        //     'binaryContent': file.src,
-        //     'context': 'receipt_image',
-        //     'enabled': 1,
-        //     'receiptImageWarranty': warId,
-        //     'name': 'Receipt Image' 
-        // };
-
-        // this.uploadsImg(params);
     }
 
     onRemoved(file: FileHolder) {
@@ -103,15 +102,5 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     onUploadStateChanged(state: boolean) {
         console.log('state', state);
-    }
-
-    // 3. Upload images
-    uploadsImg(params: any) {
-
-        this.productService.uploadWarrantyImg(params).subscribe(res => {
-            console.log(res);
-            // this.isLoading = false;
-            // this.dataCustomer = res;
-        });
     }
 }
