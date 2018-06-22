@@ -20,7 +20,9 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
         // 1.
-        this.getDataRegistration();
+        if (localStorage.getItem('regId')) {
+            this.getDataRegistration();
+        }
         return true;
     }
 
