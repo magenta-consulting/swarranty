@@ -3,7 +3,7 @@ import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {ProductService} from "../../service/product.service";
-import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
+import {apiEndPoint, apiEndPointBase, apiUploadWarranty, organisationPath} from "../../../environments/environment";
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "angular2-image-upload";
 
@@ -41,11 +41,14 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
         localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
         if (localStorage.getItem('regId')) {
-            let regId = parseInt(localStorage.getItem('regId'));
+            // let regId = parseInt(localStorage.getItem('regId'));
 
             this.productService.getApiWarranties(regId).subscribe(res => {
                 this.isLoading = false;
                 this.prodList = res;
+                for (let prod of this.prodList) {
+                    prod.uploadUrl = apiUploadWarranty + '/' + prod.id;
+                }
             });
         } else {
             this.prodList = [];
@@ -54,9 +57,11 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     // 2. Event uploads
-    onBeforeUpload = (warId: any, metadata: UploadMetadata) => {
+    onBeforeUpload = (metadata: UploadMetadata) => {
         // mutate the file or replace it entirely - metadata.file
-        metadata.formData.receiptImageWarranty = warId;
+        let warId = metadata.url.substring(apiUploadWarranty.length);
+        metadata.formData = {receiptImageWarranty: warId};
+        console.log('warid is',warId);        metadata.url = apiUploadWarranty;
 
         return metadata;
     };
