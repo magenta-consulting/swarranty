@@ -37,25 +37,33 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     // 1. Get Data Warranties
     getDataWarranties() {
+        let regId = this.router.snapshot.params['id'];
+
         if(!localStorage.getItem('regId')) {
-            let regId = this.router.snapshot.params['id'];
-
             localStorage.setItem('regId', regId);
-            this.isLoading = true;
-            // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
-            // let regId = parseInt(localStorage.getItem('regId'));
+        } 
+        
+        this.isLoading = true;
+        // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
+        // let regId = parseInt(localStorage.getItem('regId'));
 
-            this.productService.getApiWarranties(regId).subscribe(res => {
+        this.productService.getApiWarranties(regId).subscribe(
+            res => {
                 this.isLoading = false;
                 this.prodList = res;
                 for (let prod of this.prodList) {
                     prod.uploadUrl = apiUploadWarranty + '/' + prod.id;
                 }
-            });
-        } else {
-            this.prodList = [];
-            this.isLoading = false;
-        }
+            },
+            error => {
+                console.log('Error', error);
+                this.prodList = [];
+                this.isLoading = false;
+            },
+            () => {
+                console.log('Complete Request');
+            }
+        );
     }
 
     // 2. Event uploads
