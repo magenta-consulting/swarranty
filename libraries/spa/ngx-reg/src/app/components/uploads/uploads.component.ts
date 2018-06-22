@@ -58,10 +58,11 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                 this.prodList = res;
                 for (let prod of this.prodList) {
                     prod.uploadUrl = apiUploadWarranty + '/' + prod.id;
+
+                    // create array images
                     prod.imageUrl = [];
                     for (let prodImg of prod.receiptImages) {
                         prod.imageUrl.push(apiEndPointMedia + '/media/' + prodImg.id + binariesMedia);
-                        console.log('prod', prod);
                     }
                 }
             },
@@ -79,7 +80,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // 2. Event uploads
     onBeforeUpload = (metadata: UploadMetadata) => {
         // mutate the file or replace it entirely - metadata.file
-        console.log('metadata.url', metadata.url);
+        // console.log('metadata.url', metadata.url);
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         let warId = metadata.url.substring(apiUploadWarranty.length+1);
         metadata.formData = { 
@@ -87,7 +88,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             "context" : "receipt_image"
         };
         
-        console.log('warid is',warId);        
+        // console.log('warid is',warId);        
         metadata.url = apiUploadWarranty;
         return metadata;
     };
