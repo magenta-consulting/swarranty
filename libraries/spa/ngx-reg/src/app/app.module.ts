@@ -24,7 +24,7 @@ import {SuccessComponent} from "./components/success/success.component";
 import { AuthGuard } from './service/auth-guard.service';
 
 // import libs
-import { ImageUploadModule } from "angular2-image-upload";
+import { ImageUploadModule } from "./extensions/angular2-image-upload";
 
 @NgModule({
   declarations: [

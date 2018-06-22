@@ -5,7 +5,7 @@ import {Router, ActivatedRoute} from "@angular/router";
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, apiUploadWarranty, organisationPath} from "../../../environments/environment";
 
-import {ImageUploadModule, FileHolder, UploadMetadata} from "angular2-image-upload";
+import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
 @Component({
     selector: 'uploads',
