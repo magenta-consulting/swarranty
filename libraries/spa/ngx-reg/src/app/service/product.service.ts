@@ -170,7 +170,7 @@ export class ProductService {
     // delete image
     deleteWarrantyImg(warId: any) {
         let url = `${apiEndPointMedia}/media/${warId}.json`;
-
+        console.log('warId', warId);
         return this.http.delete(url, warId).pipe(
             catchError(this.handleError('deleteImage', []))
         );

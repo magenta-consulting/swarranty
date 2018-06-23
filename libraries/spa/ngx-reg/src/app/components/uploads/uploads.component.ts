@@ -12,7 +12,7 @@ import {apiEndPoint,
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
-// import {Helper} from "../../helper/Helper";
+import {Helper} from "../../helper/Helper";
 
 @Component({
     selector: 'uploads',
@@ -27,7 +27,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     constructor(private router: ActivatedRoute,
                 private productService: ProductService,
-                //private helper: Helper
+                private helper: Helper
     ) {
     }
 
@@ -102,27 +102,24 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     onRemoved(file: FileHolder) {
-        // let v_confirm = confirm('Do you really want to remove this image ?');
-        console.log('removed', file);
-        // let apiDeleteImg = apiEndPointMedia + '/media/';
-        // let warId = file.src.substring(apiDeleteImg.length);
-        // console.log('apiDeleteImg', apiDeleteImg);
-        // console.log('warId', warId);
-        // console.log('url', this.helper.explode('/', file.src, 0));
+        let v_confirm = confirm('Do you really want to remove this image ?');
+        // console.log('removed', file);
+        let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
+        let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
         
-        // if(v_confirm == true) {
-            // this.productService.deleteWarrantyImg(regId).subscribe(
-            //     res => {
-                    
-            //     },
-            //     error => {
-            //         console.log('Error', error);
-            //     },
-            //     () => {
-            //         console.log('Complete Request');
-            //     }
-            // );
-        // }
+        if(v_confirm == true) {
+            this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+                res => {
+                    console.log('res', res);
+                },
+                error => {
+                    console.log('Error', error);
+                },
+                () => {
+                    console.log('Complete Request');
+                }
+            );
+        }
     }
 
     onUploadStateChanged(state: boolean) {
