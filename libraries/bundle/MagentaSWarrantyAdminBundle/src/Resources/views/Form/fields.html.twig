@@ -11,17 +11,33 @@
     </span>
         <div class="sonata-ba-field sonata-ba-field-standard-natural">
             <span id="{{ form.vars.id }}-spinner"><i class="fa fa-refresh fa-spin"
-                                                         style="font-size:20px;"></i></span>
-            <span id="{{ form.vars.id }}-value"></span>
+                                                     style="font-size:20px;"></i></span>
+
             {% if form.vars.type == "calculated_date" %}
+                <span id="{{ form.vars.id }}-value">{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}</span>
                 <div class="input-group">
                     {{ block('sonata_type_date_picker_widget_html') }}
                 </div>
                 <script type="text/javascript">
+                    function add_months(dt, n)
+                    {
+
+                        return new Date(dt.setMonth(dt.getMonth() + n));
+                    }
+
+                    dt = new Date();
+                    console.log(add_months(dt, 10).toString());
+
+                    dt = new Date(2014,10,2);
+                    console.log(add_months(dt, 0).toString());
+
                     jQuery(function ($) {
-                        $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ form.vars.id }}').datetimepicker({{ dp_options|json_encode|raw }});
+                        $('#{{ form.vars.id }}-spinner').hide();
+                        $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ form.vars.id }}').datetimepicker({{ dp_options|json_encode|raw }}).hide();
                     });
                 </script>
+            {% else %}
+                <span id="{{ form.vars.id }}-value"> </span>
             {% endif %}
 
         </div>
@@ -66,10 +82,12 @@
                             _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" />';
                             _html += '<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>';
                             {% elseif form.vars.type == "calculated_date" %}
-                            _html += 'date input do not know what to do';
+                            _html += '{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}';
                             {% else %}
                             _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';
                             _html += data.{{ form.vars.type }} + ' {{ form.vars.appended_value }}';
+                            let chckValue = $('#{{ form.parent.vars.id }}_{{ form.vars.calculations.add.when.value }}').iCheck('update')[0].checked;
+                            alert('so ' + chckValue);
                             {% endif %}
 
                             $value_{{ form.vars.id }}.html(_html);

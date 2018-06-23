@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function add_months(dt, n)
+    {
+
+        return new Date(dt.setMonth(dt.getMonth() + n));
+    }
+
+    dt = new Date();
+    alert(add_months(dt, 10).toString());
+
+    dt = new Date(2014,10,2);
+    alert(add_months(dt, 0).toString());
+</script>
+
+</body>
+</html>

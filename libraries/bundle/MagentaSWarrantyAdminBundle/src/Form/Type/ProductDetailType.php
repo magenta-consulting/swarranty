@@ -93,18 +93,30 @@ class ProductDetailType extends AbstractType {
 			
 			/////////////// type calculated_date /////////////
 			'source_property'    => '',
-			
-			'router_id_param'  => 'id',
-			'create_route'     => [ 'route_name' => '', 'route_params' => [] ],
-			'update_route'     => [ 'route_name' => '', 'route_params' => [] ],
-			'delete_route'     => [ 'route_name' => '', 'route_params' => [] ],
-			'new_on_update'    => false,
-			'context'          => null,
-			'choice_label'     => 'name',
-			'product_property' => 'product',
-			'multiple'         => true,
+			'target_property'    => '',
+			'calculations'       => [
+				'add' => [
+					'type'  => 'form',
+					'value' => 'extendedWarrantyPeriod',
+					'when'  => [
+						'type'  => 'form',
+						'value' => 'extendedWarrantyPeriodApproved',
+						'equal' => true
+					]
+				]
+			],
+			//\\\\\\\\\\\\\ end type calculated_date \\\\\\\\\\\
+			'router_id_param'    => 'id',
+			'create_route'       => [ 'route_name' => '', 'route_params' => [] ],
+			'update_route'       => [ 'route_name' => '', 'route_params' => [] ],
+			'delete_route'       => [ 'route_name' => '', 'route_params' => [] ],
+			'new_on_update'      => false,
+			'context'            => null,
+			'choice_label'       => 'name',
+			'product_property'   => 'product',
+			'multiple'           => true,
 //			'compound' => true,
-			'expanded'         => true,
+			'expanded'           => true,
 //			'choices'    => [
 //				$c1,
 //				$c2,
@@ -112,7 +124,7 @@ class ProductDetailType extends AbstractType {
 //				$c4,
 //				$c5
 //			]
-			'provider'         => 'sonata.media.provider.image',
+			'provider'           => 'sonata.media.provider.image',
 		]);
 //		$this->dpt->configureOptions($resolver);
 	}
@@ -123,12 +135,17 @@ class ProductDetailType extends AbstractType {
 		$view->vars['product_property'] = $options['product_property'];
 		$view->vars['type']             = $options['type'];
 		$view->vars['appended_value']   = $options['appended_value'];
+		
+		///// calculated_date ///////////
+		$view->vars['source_property'] = $options['source_property'];
+		$view->vars['target_property'] = $options['target_property'];
+		$view->vars['calculations']    = $options['calculations'];
+		
 		////////// DatePicker ////////
 		$view->vars['datepicker_use_button'] = false;// $options['datepicker_use_button'];
 		$view->vars['moment_format']         = 'dd-MM-yyyy'; //$options['moment_format'];
 		$view->vars['widget']                = 'single_text';
 		$view->vars['dp_options']            = [];
-		
 		
 		////////////////////////////////////////////////////////////
 		$view->vars['router_id_param'] = $options['router_id_param'];

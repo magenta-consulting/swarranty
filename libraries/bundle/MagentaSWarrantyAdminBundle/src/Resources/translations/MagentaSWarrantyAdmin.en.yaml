@@ -117,6 +117,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
     label_full_text_search: Search All Fields
     label_near_expiry_period: Near-Expiry Period (days)

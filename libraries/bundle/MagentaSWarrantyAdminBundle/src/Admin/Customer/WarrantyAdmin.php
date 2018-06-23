@@ -342,10 +342,11 @@ class WarrantyAdmin extends BaseAdmin {
 		$formMapper->add('product.extendedWarrantyPeriod', ProductDetailType::class, [
 			'required'       => false,
 			'label'          => 'form.label_extended_warranty_period',
-			'appended_value' => 'months',
+			'appended_value' => 'month(s)',
 			'type'           => 'extended_warranty_period',
 			'class'          => null
 		]);
+		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
@@ -365,7 +366,18 @@ class WarrantyAdmin extends BaseAdmin {
 			'required'        => false,
 //			'format'   => 'dd-MM-yyyy',
 			'type'            => 'calculated_date',
-			'source_property' => 'purchaseDate'
+			'calculations'    => [
+				'add' => [
+					'type'  => 'month',
+					'value' => 'extendedWarrantyPeriod',
+					'when'  => [
+						'type'  => 'boolean',
+						'value' => 'extendedWarrantyPeriodApproved',
+						'equal' => true
+					]
+				]
+			],
+			'source_property' => 'purchaseDate',
 
 //			'datepicker_use_button' => false,
 //			'format'                => 'dd-MM-yyyy',
