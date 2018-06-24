@@ -93,11 +93,13 @@ sidebar_left:
     servicezone: Service Zones
     customer: Customers
     warranty: Warranties
+    dealer: Dealers
 
 form_tab:
     general: General
 action_button:
     label_review_submission: Review Submission
+    label_manage_case: Manage Cases
 
 form_group:
     brand: Brand

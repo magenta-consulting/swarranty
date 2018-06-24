@@ -43,11 +43,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class WarrantyAdmin extends BaseAdmin {
-	
-	const CHILDREN = [
-		WarrantyCaseAdmin::class => 'warranty',
-	];
+class WarrantyCaseAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -66,9 +62,15 @@ class WarrantyAdmin extends BaseAdmin {
 		$container = $pool->getContainer();
 		/** @var Expr $expr */
 		$expr          = $query->getQueryBuilder()->expr();
-		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
+		$warrantyAlias = $query->entityJoin([ [ 'fieldName' => 'warranty' ] ]);
 		
-		return $query->andWhere($expr->eq($customerAlias . '.organisation', $organisation->getId()));
+		/** @var QueryBuilder $qb */
+		$qb = $query->getQueryBuilder();
+		$qb->join($warrantyAlias . '.customer', 'customer')
+		   ->join('customer.organisation', 'organisation');
+		
+		
+		return $query->andWhere($expr->eq('organisation.id', $organisation->getId()));
 	}
 	
 	public function getNewInstance() {
@@ -233,7 +235,6 @@ class WarrantyAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
 					'edit'              => array(),
 					'delete'            => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )

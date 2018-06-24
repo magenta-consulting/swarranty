@@ -121,6 +121,7 @@ sonata_admin:
                 icon: '<i class="fa fa-product-hunt"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\DealerAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin
 
