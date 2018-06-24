@@ -311,6 +311,13 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected
+		$extendedWarrantyPeriodApproved = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected
 		$approved = false;
 	
 	/**
@@ -720,4 +727,17 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$this->decisionRemarks = $decisionRemarks;
 	}
 	
+	/**
+	 * @return bool
+	 */
+	public function isExtendedWarrantyPeriodApproved(): bool {
+		return $this->extendedWarrantyPeriodApproved;
+	}
+	
+	/**
+	 * @param bool $extendedWarrantyPeriodApproved
+	 */
+	public function setExtendedWarrantyPeriodApproved(bool $extendedWarrantyPeriodApproved): void {
+		$this->extendedWarrantyPeriodApproved = $extendedWarrantyPeriodApproved;
+	}
 }

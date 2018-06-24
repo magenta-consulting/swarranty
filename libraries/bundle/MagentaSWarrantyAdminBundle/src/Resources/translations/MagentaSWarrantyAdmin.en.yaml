@@ -117,6 +117,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
     label_full_text_search: Search All Fields
     label_near_expiry_period: Near-Expiry Period (days)
@@ -139,6 +140,7 @@ form:
     label_created_at: Created At
     label_warranty_submission_date: Warranty Submission Date
     label_product: Product
+    label_product_image: Product Image
     label_address: Address
     label_postal_code: Postal Code
     label_email: Email
@@ -166,7 +168,7 @@ form:
     label_subcategory: Sub-Category
     label_supplier: Supplier
     label_warranty_period: Warranty Period (months)
-    label_extended_warranty_period: Extended Warranty Period
+    label_extended_warranty_period: Extended Warranty Period (Online)
     label_default_warranty_period: Default Warranty Period
     label_dealer: Dealer
     label_role: Role

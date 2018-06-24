@@ -21,7 +21,7 @@ class Product extends Thing {
 	}
 	
 	public function generateSearchText() {
-		$subcat = empty($this->subCategory) ? 'No Sub-Category' : $this->subCategory->getName();
+		$subcat = empty($this->subCategory) ? '' : $this->subCategory->getName();
 		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
 		$brand  = empty($this->brand) ? 'No Brand' : $this->brand->getName();
 		

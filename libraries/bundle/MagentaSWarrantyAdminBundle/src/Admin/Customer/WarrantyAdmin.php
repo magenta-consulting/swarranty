@@ -298,8 +298,9 @@ class WarrantyAdmin extends BaseAdmin {
 //				'name'       => 'sonata_admin_retrieve_autocomplete_items',
 //				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
 //			],
-			'property'           => 'searchText',
-			'btn_add'            => false,
+			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
+			'property' => 'searchText',
+			'btn_add'  => false,
 //			'to_string_callback' => function(Product $entity) {
 ////				$entity->generateSearchText();
 //
@@ -324,14 +325,36 @@ class WarrantyAdmin extends BaseAdmin {
 //				return true;
 //			},
 		]);
-		$formMapper->add('product.name', ProductDetailType::class);
-		
-		$formMapper->add('purchaseDate', DatePickerType::class, [
-			'datepicker_use_button' => false,
-			'format'                => 'dd-MM-yyyy',
-			'placeholder'           => 'dd-mm-yyyy'
-		
+		$formMapper->add('product.image', ProductDetailType::class, [
+			'required'       => false,
+			'label'          => 'form.label_product_image',
+			'appended_value' => 'months',
+			'type'           => 'image',
+			'class'          => Media::class
 		]);
+		$formMapper->add('product.warrantyPeriod', ProductDetailType::class, [
+			'required'       => false,
+			'label'          => 'form.label_default_warranty_period',
+			'appended_value' => 'months',
+			'type'           => 'warranty_period',
+			'class'          => null
+		]);
+		$formMapper->add('product.extendedWarrantyPeriod', ProductDetailType::class, [
+			'required'       => false,
+			'label'          => 'form.label_extended_warranty_period',
+			'appended_value' => 'month(s)',
+			'type'           => 'extended_warranty_period',
+			'class'          => null
+		]);
+		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
+		$formMapper->add('purchaseDate', DatePickerType::class, [
+			'format'                => 'dd-MM-yyyy',
+			'placeholder'           => 'dd-mm-yyyy',
+			'datepicker_use_button' => false,
+			'required'              => false,
+			'label'                 => 'form.label_purchase_date',
+		]);
+		
 		$formMapper->add('createdAt', DatePickerType::class, [
 			'label'                 => 'form.label_warranty_submission_date',
 			'datepicker_use_button' => false,
@@ -339,6 +362,37 @@ class WarrantyAdmin extends BaseAdmin {
 			'placeholder'           => 'dd-mm-yyyy'
 		
 		]);
+		$formMapper->add('expiryDate', ProductDetailType::class, [
+			'required'        => false,
+//			'format'   => 'dd-MM-yyyy',
+			'type'            => 'calculated_date',
+			'source_property' => 'purchaseDate',
+			'calculations'    => [
+				[
+					'operation' => 'add',
+					'type'      => 'product',
+					'value'     => 'warranty_period',
+					'when'      => 'always'
+				],
+				[
+					'operation' => 'add',
+					'type'      => 'product',
+					'value'     => 'extended_warranty_period',
+					'when'      => [
+						'type'  => 'form',
+						'value' => 'extendedWarrantyPeriodApproved',
+						'equal' => true
+					]
+				]
+			]
+
+//			'datepicker_use_button' => false,
+//			'format'                => 'dd-MM-yyyy',
+//			'placeholder'           => 'dd-mm-yyyy'
+		
+		]);
+		
+		
 		$formMapper->end();
 	}
 	

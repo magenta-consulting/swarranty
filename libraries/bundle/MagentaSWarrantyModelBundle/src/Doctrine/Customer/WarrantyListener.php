@@ -49,10 +49,11 @@ class WarrantyListener {
 	
 	public function prePersistHandler(Warranty $warranty, LifecycleEventArgs $event) {
 		$this->updateInfo($warranty);
-		$expiryAt = $warranty->getCreatedAt();
-		$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));
-		$warranty->setExpiryDate($expiryAt);
-		
+		if(empty($warranty->getExpiryDate())) {
+			$expiryAt = $warranty->getPurchaseDate();
+			$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));
+			$warranty->setExpiryDate($expiryAt);
+		}
 		if( ! empty($reg = $warranty->getRegistration())) {
 			$warranty->setCustomer($reg->getCustomer());
 		}
