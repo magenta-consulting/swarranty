@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
+<p id="demo"></p>
+
 <script>
     function add_months(dt, n)
     {
@@ -13,10 +15,19 @@
     }
 
     dt = new Date();
-    alert(add_months(dt, 10).toString());
+    // alert(add_months(dt, 10).toString());
 
     dt = new Date(2014,10,2);
-    alert(add_months(dt, 0).toString());
+
+    html = add_months(dt, 0).toString();
+
+    let d = new Date();
+    d.setMonth(0);
+    d.setDate(1);
+    d.setYear(2000);
+
+    html += ' ' + d;
+    document.getElementById("demo").innerHTML = html;
 </script>
 
 </body>

@@ -94,17 +94,7 @@ class ProductDetailType extends AbstractType {
 			/////////////// type calculated_date /////////////
 			'source_property'    => '',
 			'target_property'    => '',
-			'calculations'       => [
-				'add' => [
-					'type'  => 'form',
-					'value' => 'extendedWarrantyPeriod',
-					'when'  => [
-						'type'  => 'form',
-						'value' => 'extendedWarrantyPeriodApproved',
-						'equal' => true
-					]
-				]
-			],
+			'calculations'       => [],
 			//\\\\\\\\\\\\\ end type calculated_date \\\\\\\\\\\
 			'router_id_param'    => 'id',
 			'create_route'       => [ 'route_name' => '', 'route_params' => [] ],

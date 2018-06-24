@@ -366,18 +366,25 @@ class WarrantyAdmin extends BaseAdmin {
 			'required'        => false,
 //			'format'   => 'dd-MM-yyyy',
 			'type'            => 'calculated_date',
+			'source_property' => 'purchaseDate',
 			'calculations'    => [
-				'add' => [
-					'type'  => 'month',
-					'value' => 'extendedWarrantyPeriod',
-					'when'  => [
-						'type'  => 'boolean',
+				[
+					'operation' => 'add',
+					'type'      => 'product',
+					'value'     => 'warranty_period',
+					'when'      => 'always'
+				],
+				[
+					'operation' => 'add',
+					'type'      => 'product',
+					'value'     => 'extended_warranty_period',
+					'when'      => [
+						'type'  => 'form',
 						'value' => 'extendedWarrantyPeriodApproved',
 						'equal' => true
 					]
 				]
-			],
-			'source_property' => 'purchaseDate',
+			]
 
 //			'datepicker_use_button' => false,
 //			'format'                => 'dd-MM-yyyy',

@@ -14,22 +14,16 @@
                                                      style="font-size:20px;"></i></span>
 
             {% if form.vars.type == "calculated_date" %}
-                <span id="{{ form.vars.id }}-value">{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}</span>
+
+                <span id="{{ form.vars.id }}-value">{#{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}#}</span>
                 <div class="input-group">
                     {{ block('sonata_type_date_picker_widget_html') }}
                 </div>
                 <script type="text/javascript">
-                    function add_months(dt, n)
-                    {
-
+                    window.addMonths = function (dt, n) {
+                        // n--;
                         return new Date(dt.setMonth(dt.getMonth() + n));
                     }
-
-                    dt = new Date();
-                    console.log(add_months(dt, 10).toString());
-
-                    dt = new Date(2014,10,2);
-                    console.log(add_months(dt, 0).toString());
 
                     jQuery(function ($) {
                         $('#{{ form.vars.id }}-spinner').hide();
@@ -48,8 +42,21 @@
                 $label_{{ form.vars.id }} = $('#{{ form.vars.id }}-label');
                 $value_{{ form.vars.id }} = $('#{{ form.vars.id }}-value');
                 $dtp_{{ form.vars.id }} = $('#{{ form.vars.id }}');
-
+                productAction_{{ form.vars.product_property }} = 'initiate';
                 $dtp_{{ form.vars.id }}.hide();
+
+                stringToDate = function (sourcePropertyValue) {
+                    let sourcePropertyDate = null;
+                    let sPVArray = sourcePropertyValue.split('-');
+                    if (sPVArray.length === 3) {
+
+                        sourcePropertyDate = new Date();
+                        sourcePropertyDate.setMonth(sPVArray[0]);
+                        sourcePropertyDate.setDate(sPVArray[1]);
+                        sourcePropertyDate.setYear(sPVArray[2]);
+                    }
+                    return sourcePropertyDate;
+                }
 
                 getProductDetailUrl = function (id) {
                     let url = '{{ path('admin_magenta_swarrantymodel_product_product_detail', { 'id':form.vars.id}) }}';
@@ -81,13 +88,67 @@
                             {% if form.vars.type == "image" %}
                             _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" />';
                             _html += '<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>';
+
                             {% elseif form.vars.type == "calculated_date" %}
-                            _html += '{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}';
+
+                            {% set source_property_name = form.vars.source_property|replace({'.':'__'}) %}
+                            if (productAction_{{ form.vars.product_property }} === 'update' && $('#{{ form.parent.vars.id }}_{{ source_property_name }}').val() !== '') {
+                                let sourcePropertyDate = null;
+                                let sourcePropertyValue = $('#{{ form.parent.vars.id }}_{{ source_property_name }}').val();
+                                let sPVArray = sourcePropertyValue.split('-');
+                                if (sPVArray.length === 3) {
+
+                                    sourcePropertyDate = new Date();
+                                    sourcePropertyDate.setDate(sPVArray[0]);
+                                    sourcePropertyDate.setMonth(parseInt(sPVArray[1]) - 1);
+                                    sourcePropertyDate.setYear(sPVArray[2]);
+                                    console.log('beginning', sourcePropertyDate);
+                                    {% for cal in form.vars.calculations %}
+                                        {% if cal.when !='always' %}
+                                        let chckValue = $('#{{ form.parent.vars.id }}_{{ cal.when.value }}').iCheck('update')[0].checked;
+                                        {% if(cal.when.equal) %}
+                                        if (chckValue) {
+                                            {% if cal.type == 'product' %}
+                                            sourcePropertyDate = window.addMonths(sourcePropertyDate, parseInt(data.{{ cal.value }}));
+                                            {% endif %}
+                                        } else {
+
+                                        }
+                                        {% endif %}
+                                    {% else %} // cal.when == 'always'
+                                        {% if cal.type == 'product' %}
+                                        {#console.log('always', '{{ cal.value }}', sourcePropertyDate);#}
+                                        sourcePropertyDate = window.addMonths(sourcePropertyDate, parseInt(data.{{ cal.value }}));
+                                        // console.log('always', sourcePropertyDate);
+                                        {% endif %}
+                                    {% endif %}
+                                    {% endfor %}
+                                }
+                                let finalDate = sourcePropertyDate;
+                                finalDate.getFullYear()
+                                let day = finalDate.getDate();
+                                let dayStr = '';
+                                let monthStr = '';
+                                if (day < 10) {
+                                    dayStr = '0' + day;
+                                } else {
+                                    dayStr = "" + day;
+                                }
+                                let month = finalDate.getMonth() + 1;
+                                if (month < 10) {
+                                    monthStr = '0' + month;
+                                } else {
+                                    monthStr = '' + month;
+                                }
+                                _html += dayStr + '-' + monthStr + '-' + finalDate.getFullYear();
+                                console.log('from ajax');
+                            } else {
+                                _html += '{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}';
+                                console.log('from form');
+                            }
                             {% else %}
                             _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';
                             _html += data.{{ form.vars.type }} + ' {{ form.vars.appended_value }}';
-                            let chckValue = $('#{{ form.parent.vars.id }}_{{ form.vars.calculations.add.when.value }}').iCheck('update')[0].checked;
-                            alert('so ' + chckValue);
                             {% endif %}
 
                             $value_{{ form.vars.id }}.html(_html);
@@ -147,6 +208,7 @@
                         }
 
                         if (productId_{{ form.vars.product_property }} !== $productInput_{{ form.vars.id }}.val()) {
+                            productAction_{{ form.vars.product_property }} = 'update';
                             {{ form.vars.product_property }}_status = '';
                             onProductSelection_{{ form.vars.id }}();
                         } else if ({{ form.vars.id }}_status === 'pending' || productId_{{ form.vars.id }} !== productId_{{ form.vars.product_property }}) {
