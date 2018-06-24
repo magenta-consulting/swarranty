@@ -73,7 +73,7 @@ class ProductDetailType extends AbstractType {
 				if( ! empty($options['class'])) {
 					$data = $this->registry->getRepository($options['class'])->find($model);
 				} elseif($options['type'] === 'calculated_date') {
-					return \DateTime::createFromFormat($options['format'], $data);
+					return \DateTime::createFromFormat('d-m-Y', $data);
 				}
 				
 				return $data;
@@ -121,7 +121,6 @@ class ProductDetailType extends AbstractType {
 	
 	public function buildView(FormView $view, FormInterface $form, array $options) {
 		parent::buildView($view, $form, $options);
-		
 		$view->vars['product_property'] = $options['product_property'];
 		$view->vars['type']             = $options['type'];
 		$view->vars['appended_value']   = $options['appended_value'];
@@ -133,7 +132,7 @@ class ProductDetailType extends AbstractType {
 		
 		////////// DatePicker ////////
 		$view->vars['datepicker_use_button'] = false;// $options['datepicker_use_button'];
-		$view->vars['moment_format']         = 'dd-MM-yyyy'; //$options['moment_format'];
+		$view->vars['moment_format']         = 'DD-MM-YYYY'; //$options['moment_format'];
 		$view->vars['widget']                = 'single_text';
 		$view->vars['dp_options']            = [];
 		

@@ -1,5 +1,6 @@
 {% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
 {% block product_detail_widget %}
+    {% set source_property_name = form.vars.source_property|replace({'.':'__'}) %}
     <div class="form-group" id="sonata-ba-field-container-{{ form.vars.id }}">
         {#{{ dump(form) }}#}
         <span id="{{ form.vars.id }}-label">
@@ -14,8 +15,8 @@
                                                      style="font-size:20px;"></i></span>
 
             {% if form.vars.type == "calculated_date" %}
-
-                <span id="{{ form.vars.id }}-value">{#{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}#}</span>
+                <span id="{{ form.vars.id }}-value"
+                      style="border-bottom: dashed 1px #0088cc; text-decoration: none;">{#{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}#}</span>
                 <div class="input-group">
                     {{ block('sonata_type_date_picker_widget_html') }}
                 </div>
@@ -27,7 +28,79 @@
 
                     jQuery(function ($) {
                         $('#{{ form.vars.id }}-spinner').hide();
-                        $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ form.vars.id }}').datetimepicker({{ dp_options|json_encode|raw }}).hide();
+                        $('#{{ datepicker_use_button ? 'dp_' : '' }}{{ form.vars.id }}').datetimepicker(
+                            {
+                                "pickTime": false,
+                                "pickDate": true,
+                                "useCurrent": true,
+                                "minDate": "1\/1\/2000",
+                                "maxDate": null,
+                                "showToday": true,
+                                "language": "en",
+                                "defaultDate": "",
+                                "disabledDates": [],
+                                "enabledDates": [],
+                                "icons": {
+                                    "time": "fa fa-clock-o",
+                                    "date": "fa fa-calendar",
+                                    "up": "fa fa-chevron-up",
+                                    "down": "fa fa-chevron-down"
+                                },
+                                "useStrict": false,
+                                "sideBySide": false,
+                                "daysOfWeekDisabled": [],
+                                "collapse": true,
+                                "calendarWeeks": false,
+                                "viewMode": "days",
+                                "minViewMode": "days",
+                                "useSeconds": false
+                            }
+                        ).hide();
+                        $(document).ready(function ($) {
+                            {% for cal in form.vars.calculations %}
+                            {%- if cal.when !='always' -%}
+                            if (typeof add{{ cal.when.value }}ICheckEvent_{{ form.vars.id }} == 'undefined') {
+                                add{{ cal.when.value }}ICheckEvent_{{ form.vars.id }} = true;
+                                $('#{{ form.parent.vars.id }}_{{ cal.when.value }}').on('ifChanged change', function (e) {
+                                    let $iCheck = $(this);
+                                    // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+                                    let isChecked = $(this).is(":checked");
+                                    if (isChecked) {
+
+                                    } else {
+
+                                    }
+                                    {{ form.vars.id }}_status = 'pending';
+                                    productAction_{{ form.vars.product_property }} = 'update';
+                                });
+
+
+                                $('#{{ form.parent.vars.id }}_{{ source_property_name }}').on('change', function (e) {
+                                    // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+
+                                    {{ form.vars.id }}_status = 'pending';
+                                    productAction_{{ form.vars.product_property }} = 'update';
+                                });
+
+                                $widget_{{ form.vars.id }}.on('change', function (e) {
+                                    // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+
+                                    {#{{ form.vars.id }}_status = 'pending';#}
+                                    {#productAction_{{ form.vars.product_property }} = 'update';#}
+                                    // $(this).hide();
+                                    {#$value_{{ form.vars.id }}.show();#}
+                                });
+
+                                $value_{{ form.vars.id }}.on('click', function (e) {
+                                    $(this).hide();
+                                    $widget_{{ form.vars.id }}.show();
+                                })
+                            }
+
+                            {%- endif -%}
+                            {%- endfor -%}
+                        });
+
                     });
                 </script>
             {% else %}
@@ -41,9 +114,9 @@
                 $spinner_{{ form.vars.id }} = $('#{{ form.vars.id }}-spinner');
                 $label_{{ form.vars.id }} = $('#{{ form.vars.id }}-label');
                 $value_{{ form.vars.id }} = $('#{{ form.vars.id }}-value');
-                $dtp_{{ form.vars.id }} = $('#{{ form.vars.id }}');
+                $widget_{{ form.vars.id }} = $('#{{ form.vars.id }}');
                 productAction_{{ form.vars.product_property }} = 'initiate';
-                $dtp_{{ form.vars.id }}.hide();
+                $widget_{{ form.vars.id }}.hide();
 
                 stringToDate = function (sourcePropertyValue) {
                     let sourcePropertyDate = null;
@@ -91,7 +164,6 @@
 
                             {% elseif form.vars.type == "calculated_date" %}
 
-                            {% set source_property_name = form.vars.source_property|replace({'.':'__'}) %}
                             if (productAction_{{ form.vars.product_property }} === 'update' && $('#{{ form.parent.vars.id }}_{{ source_property_name }}').val() !== '') {
                                 let sourcePropertyDate = null;
                                 let sourcePropertyValue = $('#{{ form.parent.vars.id }}_{{ source_property_name }}').val();
@@ -104,28 +176,29 @@
                                     sourcePropertyDate.setYear(sPVArray[2]);
                                     console.log('beginning', sourcePropertyDate);
                                     {% for cal in form.vars.calculations %}
-                                        {% if cal.when !='always' %}
-                                        let chckValue = $('#{{ form.parent.vars.id }}_{{ cal.when.value }}').iCheck('update')[0].checked;
-                                        {% if(cal.when.equal) %}
-                                        if (chckValue) {
-                                            {% if cal.type == 'product' %}
-                                            sourcePropertyDate = window.addMonths(sourcePropertyDate, parseInt(data.{{ cal.value }}));
-                                            {% endif %}
-                                        } else {
-
-                                        }
-                                        {% endif %}
-                                    {% else %} // cal.when == 'always'
+                                    {% if cal.when !='always' %}
+                                    let chckValue = $('#{{ form.parent.vars.id }}_{{ cal.when.value }}').iCheck('update')[0].checked;
+                                    {% if(cal.when.equal) %}
+                                    if (chckValue) {
                                         {% if cal.type == 'product' %}
-                                        {#console.log('always', '{{ cal.value }}', sourcePropertyDate);#}
                                         sourcePropertyDate = window.addMonths(sourcePropertyDate, parseInt(data.{{ cal.value }}));
-                                        // console.log('always', sourcePropertyDate);
                                         {% endif %}
+                                    } else {
+
+                                    }
+
+                                    {% endif %}
+                                    {% else %} // cal.when == 'always'
+                                    {% if cal.type == 'product' %}
+                                    {#console.log('always', '{{ cal.value }}', sourcePropertyDate);#}
+                                    sourcePropertyDate = window.addMonths(sourcePropertyDate, parseInt(data.{{ cal.value }}));
+                                    // console.log('always', sourcePropertyDate);
+                                    {% endif %}
                                     {% endif %}
                                     {% endfor %}
                                 }
                                 let finalDate = sourcePropertyDate;
-                                finalDate.getFullYear()
+
                                 let day = finalDate.getDate();
                                 let dayStr = '';
                                 let monthStr = '';
@@ -140,17 +213,18 @@
                                 } else {
                                     monthStr = '' + month;
                                 }
-                                _html += dayStr + '-' + monthStr + '-' + finalDate.getFullYear();
-                                console.log('from ajax');
+                                let finalDateStr = dayStr + '-' + monthStr + '-' + finalDate.getFullYear();
+                                _html += finalDateStr + ' <i class="fa fa-pencil"></i>';
+                                $widget_{{ form.vars.id }}.val(finalDateStr);
+                                console.log('from ajax ', $widget_{{ form.vars.id }}.val());
                             } else {
-                                _html += '{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}';
+                                _html += '{{ form.vars.value is empty?'':form.vars.value|date('d-m-Y') }}' + ' <i class="fa fa-pencil"></i>';
                                 console.log('from form');
                             }
                             {% else %}
                             _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';
                             _html += data.{{ form.vars.type }} + ' {{ form.vars.appended_value }}';
                             {% endif %}
-
                             $value_{{ form.vars.id }}.html(_html);
 
                             {% if form.vars.type == "image" %}
@@ -167,7 +241,6 @@
                             updateStatus = {{ form.vars.product_property }}_status = 'pending';
                             {{ form.vars.id }}_status = 'pending';
                         }
-
 
                         let jqxhr = $.get(getProductDetailUrl(productId), function (data) {
                                 updateStatus = {{ form.vars.product_property }}_status = 'done';
