@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders, } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Brand} from "../model/brand";
-import {apiEndPoint, apiEndPointBase, organisationPath, apiUploadWarranty} from "../../environments/environment";
+import {apiEndPoint, apiEndPointBase, organisationPath, apiEndPointMedia} from "../../environments/environment";
 import {BrandCategory} from "../model/brand-category";
 import {Product} from "../model/product";
 import {Dealer} from "../model/dealer";
@@ -167,12 +167,12 @@ export class ProductService {
         );
     }
 
-    // verification email
-    uploadWarrantyImg(params: any) {
-        let url = `${apiUploadWarranty}`;
-
-        return this.http.post(url, params, httpUploadsOptions).pipe(
-            catchError(this.handleError('uploadWarranty', []))
+    // delete image
+    deleteWarrantyImg(warId: any) {
+        let url = `${apiEndPointMedia}/media/${warId}.json`;
+        console.log('warId', warId);
+        return this.http.delete(url, warId).pipe(
+            catchError(this.handleError('deleteImage', []))
         );
     }
 

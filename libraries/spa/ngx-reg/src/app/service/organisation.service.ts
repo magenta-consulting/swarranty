@@ -37,7 +37,7 @@ export class OrganisationService {
             map((res) => {
                 //http://dev-swarranty.magentapulse.com/media-api/media/4/binaries/reference/view.json
                 let logoId = res.logo.id;
-                let logoSrc = `${apiEndPoint}${apiEndPointMedia}/media/${logoId}/binaries/reference/view.json`;
+                let logoSrc = `${apiEndPointMedia}/media/${logoId}/binaries/reference/view.json`;
                 //http://dev-swarranty.magentapulse.com/media-api/media/4/binaries/reference/view.json
                 return logoSrc;
             }),

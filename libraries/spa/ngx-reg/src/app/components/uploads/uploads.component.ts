@@ -3,9 +3,16 @@ import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {ProductService} from "../../service/product.service";
-import {apiEndPoint, apiEndPointBase, apiUploadWarranty, organisationPath} from "../../../environments/environment";
+import {apiEndPoint, 
+        apiEndPointBase, 
+        apiEndPointMedia, 
+        apiMediaUploadPath, 
+        organisationPath,
+        binariesMedia} from "../../../environments/environment";
 
-import {ImageUploadModule, FileHolder, UploadMetadata} from "angular2-image-upload";
+import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
+
+import {Helper} from "../../helper/Helper";
 
 @Component({
     selector: 'uploads',
@@ -19,14 +26,16 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     qrCodeImg: string = '';
 
     constructor(private router: ActivatedRoute,
-                private productService: ProductService) {
+                private productService: ProductService,
+                private helper: Helper
+    ) {
     }
 
     ngOnInit() {
         // 1.
         this.getDataWarranties();
 
-        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/http://' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/'+ location.protocol + '//' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
     }
 
     ngAfterViewInit() {
@@ -38,64 +47,82 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // 1. Get Data Warranties
     getDataWarranties() {
         let regId = this.router.snapshot.params['id'];
-        this.isLoading = true;
-        localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
-        if (localStorage.getItem('regId')) {
-            // let regId = parseInt(localStorage.getItem('regId'));
 
-            this.productService.getApiWarranties(regId).subscribe(res => {
+        if(!localStorage.getItem('regId')) {
+            localStorage.setItem('regId', regId);
+        } 
+        
+        this.isLoading = true;
+        // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
+        // let regId = parseInt(localStorage.getItem('regId'));
+        let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
+        this.productService.getApiWarranties(regId).subscribe(
+            res => {
                 this.isLoading = false;
                 this.prodList = res;
                 for (let prod of this.prodList) {
                     prod.uploadUrl = apiUploadWarranty + '/' + prod.id;
+
+                    // create array images
+                    prod.imageUrl = [];
+                    for (let prodImg of prod.receiptImages) {
+                        prod.imageUrl.push(apiEndPointMedia + '/media/' + prodImg.id + binariesMedia);
+                    }
                 }
-            });
-        } else {
-            this.prodList = [];
-            this.isLoading = false;
-        }
+            },
+            error => {
+                console.log('Error', error);
+                this.prodList = [];
+                this.isLoading = false;
+            },
+            () => {
+                console.log('Complete Request');
+            }
+        );
     }
 
     // 2. Event uploads
     onBeforeUpload = (metadata: UploadMetadata) => {
         // mutate the file or replace it entirely - metadata.file
-        let warId = metadata.url.substring(apiUploadWarranty.length);
-        metadata.formData = {receiptImageWarranty: warId};
-        console.log('warid is',warId);        metadata.url = apiUploadWarranty;
-
+        // console.log('metadata.url', metadata.url);
+        let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
+        let warId = metadata.url.substring(apiUploadWarranty.length+1);
+        metadata.formData = { 
+            "receiptImageWarranty" : warId,
+            "context" : "receipt_image"
+        };
+        
+        // console.log('warid is',warId);        
+        metadata.url = apiUploadWarranty;
         return metadata;
     };
 
     onUploadFinished(file: FileHolder, warId: any) {
         console.log('finished', file);
-
-        let params = {
-            'binaryContent': file.src,
-            'context': 'receipt_image',
-            'enabled': 1,
-            'receiptImageWarranty': warId,
-            'name': 'Receipt Image'
-        };
-
-        this.uploadsImg(params);
-
     }
 
     onRemoved(file: FileHolder) {
-        console.log('removed', file);
+        let v_confirm = confirm('Do you really want to remove this image ?');
+        // console.log('removed', file);
+        let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
+        let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
+        
+        if(v_confirm == true) {
+            this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+                res => {
+                    console.log('res', res);
+                },
+                error => {
+                    console.log('Error', error);
+                },
+                () => {
+                    console.log('Complete Request');
+                }
+            );
+        }
     }
 
     onUploadStateChanged(state: boolean) {
         console.log('state', state);
-    }
-
-    // 3. Upload images
-    uploadsImg(params: any) {
-
-        this.productService.uploadWarrantyImg(params).subscribe(res => {
-            console.log(res);
-            // this.isLoading = false;
-            // this.dataCustomer = res;
-        });
     }
 }

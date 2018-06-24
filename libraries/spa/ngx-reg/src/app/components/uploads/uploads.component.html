@@ -41,8 +41,9 @@
 
                                 <image-upload
                                 class="custome-upload"
-                                url="prod.uploadUrl"
+                                [url]=prod.uploadUrl
                                 partName="binaryContent"
+                                [uploadedFiles]="prod.imageUrl"
                                 [beforeUpload]="onBeforeUpload"
                                 (removed)="onRemoved($event)"
                                 (uploadFinished)="onUploadFinished($event, prod.id)"

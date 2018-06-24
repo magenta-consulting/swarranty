@@ -35,7 +35,7 @@ export class RegistrationService {
 
     // get data Registration
     getRegistration(id: string) {
-        let url = `${apiEndPoint}${apiEndPointBase}${id}`;
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${id}`;
 
         return this.http.get<Registration>(url).pipe(
             map((res) => {
