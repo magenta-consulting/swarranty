@@ -83,6 +83,17 @@ class CustomerAdmin extends BaseAdmin {
 		return $query;
 	}
 	
+	public function getPersistentParameters() {
+		$parameters = parent::getPersistentParameters();
+		if( ! $this->hasRequest()) {
+			return $parameters;
+		}
+		
+		return array_merge($parameters, array(
+			'organisation' => $this->getCurrentOrganisation()->getId()
+		));
+	}
+	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');

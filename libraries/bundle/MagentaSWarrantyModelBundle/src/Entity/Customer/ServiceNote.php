@@ -41,6 +41,13 @@ class ServiceNote {
 	}
 	
 	/**
+	 * @var CaseAppointment|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", cascade={"persist", "merge"}, inversedBy="serviceNote")
+	 * @ORM\JoinColumn(name="id_appointment", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $appointment;
+	
+	/**
 	 * @var WarrantyCase|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", cascade={"persist", "merge"}, inversedBy="serviceNotes")
 	 * @ORM\JoinColumn(name="id_case", referencedColumnName="id", onDelete="CASCADE")
@@ -99,5 +106,19 @@ class ServiceNote {
 	 */
 	public function setDescription(?string $description): void {
 		$this->description = $description;
+	}
+	
+	/**
+	 * @return CaseAppointment|null
+	 */
+	public function getAppointment(): ?CaseAppointment {
+		return $this->appointment;
+	}
+	
+	/**
+	 * @param CaseAppointment|null $appointment
+	 */
+	public function setAppointment(?CaseAppointment $appointment): void {
+		$this->appointment = $appointment;
 	}
 }

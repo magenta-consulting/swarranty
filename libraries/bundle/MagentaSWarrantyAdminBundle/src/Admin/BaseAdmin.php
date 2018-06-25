@@ -110,12 +110,11 @@ class BaseAdmin extends AbstractAdmin {
 		/** @var FieldDescription $fieldDescription */
 		foreach($this->listFieldDescriptions as $fieldDescription) {
 			switch($fieldDescription->getMappingType()) {
-//				case ClassMetadata::MANY_TO_ONE:
-//					$fieldDescription->setTemplate(
-//						'@SonataAdmin/CRUD/Association/list_many_to_one.html.twig'
-//					);
-//
-//					break;
+				case ClassMetadata::MANY_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/list_many_to_one.html.twig'
+					);
+					break;
 				case ClassMetadata::ONE_TO_ONE:
 					$fieldDescription->setTemplate(
 						'@MagentaSWarrantyAdmin/CRUD/Association/list_one_to_one.html.twig'
@@ -150,6 +149,22 @@ class BaseAdmin extends AbstractAdmin {
 //		return parent::generateUrl($name, $parameters, $absolute);
 //	}
 	
+	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
+		if(empty($parent)) {
+			if(empty($user = $this->getLoggedInUser())) {
+				return null;
+			}
+			
+			return $user->getAdminOrganisation();
+		}
+		
+		if($parent->getParent() instanceof OrganisationAdmin) {
+			return $parent->getParent()->getSubject();
+		} else {
+			return $this->getCurrentOrganisationFromAncestors($parent->getParent());
+		}
+	}
+	
 	/**
 	 * @return Organisation|null
 	 */
@@ -159,13 +174,8 @@ class BaseAdmin extends AbstractAdmin {
 	) {
 		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
-		} elseif(empty($this->getParent())) {
-			$user = $this->getLoggedInUser();
-			$org  = $user->getAdminOrganisation();
 		} else {
-			if($this->getParent() instanceof OrganisationAdmin) {
-				$org = $this->getParent()->getSubject();
-			}
+			$org = $this->getCurrentOrganisationFromAncestors($this->getParent());
 		}
 		
 		if(empty($org)) {

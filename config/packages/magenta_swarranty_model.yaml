@@ -124,6 +124,31 @@ doctrine:
                                             method: postRemoveHandler
 
                         -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\WarrantyCase"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\WarrantyCaseListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
                             class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Product\\Product"
                             listener:
                                 -

@@ -12,7 +12,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -34,7 +34,6 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
@@ -42,15 +41,14 @@ use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Validator\Constraints\Valid;
 
-class WarrantyCaseAdmin extends BaseAdmin {
+class CaseAppointmentAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -68,44 +66,46 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
 		/** @var Expr $expr */
-		$expr          = $query->getQueryBuilder()->expr();
-		$warrantyAlias = $query->entityJoin([ [ 'fieldName' => 'warranty' ] ]);
+		$expr      = $query->getQueryBuilder()->expr();
+		$caseAlias = $query->entityJoin([ [ 'fieldName' => 'case' ] ]);
 		
 		/** @var QueryBuilder $qb */
 		$qb = $query->getQueryBuilder();
-		$qb->join($warrantyAlias . '.customer', 'customer')
-		   ->join('customer.organisation', 'organisation');
+		$qb
+			->join($caseAlias . '.warranty', 'warranty')
+			->join('warranty.customer', 'customer')
+			->join('customer.organisation', 'organisation');
 		
 		
 		return $query->andWhere($expr->eq('organisation.id', $organisation->getId()));
 	}
 	
 	public function getNewInstance() {
-		/** @var WarrantyCase $object */
+		/** @var CaseAppointment $object */
 		$object = parent::getNewInstance();
-		if(empty($w = $object->getWarranty())) {
-			$object->setWarranty($w = new Warranty());
-		}
-		if(empty($w->getCustomer())) {
-			$w->setCustomer(new Customer());
-		}
-		if(empty($w->getProduct())) {
-			$w->setProduct(new Product());
-		}
+//		if(empty($w = $object->getCase()->getWarranty())) {
+//			$object->getCase()->setWarranty($w = new Warranty());
+//		}
+//		if(empty($w->getCustomer())) {
+//			$w->setCustomer(new Customer());
+//		}
+//		if(empty($w->getProduct())) {
+//			$w->setProduct(new Product());
+//		}
 		
 		return $object;
 	}
 	
 	/**
-	 * @param string       $name
-	 * @param WarrantyCase $object
+	 * @param string          $name
+	 * @param CaseAppointment $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof WarrantyCase
+		return $object instanceof CaseAppointment
 			? $object->getWarranty()->getCustomer()->getName() . ' - ' . $object->getWarranty()->getProduct()->getName()
 			: 'Warranty Case'; // shown in the breadcrumb on the create view
 	}
@@ -180,7 +180,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	public function setTemplate($name, $template) {
 		$_name = strtoupper($name);
 		if($_name === 'BASE_LIST_FIELD') {
-			$template = '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list_field.html.twig';
+			$template = '@MagentaSWarrantyAdmin/Admin/Customer/CaseAppointment/CRUD/list_field.html.twig';
 		}
 		parent::setTemplate($name, $template);
 	}
@@ -263,9 +263,9 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				'editable' => true,
 				'label'    => 'form.label_priority',
 				'choices'  => [
-					WarrantyCase::PRIORITY_LOW    => WarrantyCase::PRIORITY_LOW,
-					WarrantyCase::PRIORITY_NORMAL => WarrantyCase::PRIORITY_NORMAL,
-					WarrantyCase::PRIORITY_HIGH   => WarrantyCase::PRIORITY_HIGH
+					CaseAppointment::PRIORITY_LOW    => CaseAppointment::PRIORITY_LOW,
+					CaseAppointment::PRIORITY_NORMAL => CaseAppointment::PRIORITY_NORMAL,
+					CaseAppointment::PRIORITY_HIGH   => CaseAppointment::PRIORITY_HIGH
 				]
 			])
 			->add('warranty.product', 'product', [
@@ -294,7 +294,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
-//		$link_parameters = $this->getParentFieldDescription()->getOption('link_parameters', array());
 		$c = $this->getConfigurationPool()->getContainer();
 //		$formMapper
 //			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ]);
@@ -326,68 +325,22 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		$formMapper->end();
 		$formMapper
 			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
-		$formMapper->add('warranty', ModelAutocompleteType::class, [
-			'route'              => [
-				'name'       => 'sonata_admin_retrieve_autocomplete_items',
-				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
-			],
-//			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
-			'property'           => 'fullText',
-//			'btn_add'  => false,
-			'to_string_callback' => function(Warranty $entity) {
-//				$entity->generateSearchText();
-				
-				return $entity->getSearchText();
-			},
-			'callback'           => function(WarrantyAdmin $admin, $property, $field) {
-				
-				return true;
-			},
-		])
-		           ->add('description', CKEditorType::class, [
-			           'required' => false,
-			           'label'    => 'form.label_case_detail'
-		           ]);
-		$formMapper->end();
 		$formMapper
-			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
-		$formMapper->add('serviceZone', ModelType::class, [ 'property' => 'name' ]);
-		if(empty($this->subject->getAssignee())) {
-			$formMapper
-				->add('assignee', ModelType::class, [
-					'label'    => 'form.label_assign_technician',
-					'property' => 'person.name'
-				])
-				->add('appointmentAt', DateTimePickerType::class, [
-					'required'              => false,
-					'format'                => 'dd-MM-yyyy, H:m',
-					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
-					'datepicker_use_button' => false,
-				]);
-		} else {
-			$formMapper->add('appointments', CollectionType::class,
-				array(
-					'required'    => true,
-					'constraints' => new Valid(),
-					'label'       => 'form.label_appointments',
-//					'btn_catalogue' => 'InterviewQuestionSetAdmin'
-				), array(
-					'edit'            => 'inline',
-					'inline'          => 'table',
-					//						'sortable' => 'position',
-					'link_parameters' => $this->getPersistentParameters(),
-					'admin_code'      => CaseAppointmentAdmin::class,
-					'delete'          => null,
-				)
-			);
-		}
-		
-		
+			->add('assignee', ModelType::class, [
+				'label'    => 'form.label_assign_technician',
+				'property' => 'person.name'
+			])
+			->add('appointmentAt', DateTimePickerType::class, [
+				'required'              => false,
+				'format'                => 'dd-MM-yyyy, H:m',
+				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+				'datepicker_use_button' => false,
+			]);
 		$formMapper->end();
 	}
 	
 	/**
-	 * @param WarrantyCase $object
+	 * @param CaseAppointment $object
 	 */
 	public function preValidate($object) {
 		parent::preValidate($object);
@@ -399,7 +352,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param WarrantyCase $object
+	 * @param CaseAppointment $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
@@ -409,7 +362,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	}
 	
 	/**
-	 * @param WarrantyCase $object
+	 * @param CaseAppointment $object
 	 */
 	public function preUpdate($object) {
 		parent::preUpdate($object);
@@ -427,7 +380,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('warranty.customer.name')//			->add('locked')
+			->add('case.warranty.customer.name')//			->add('locked')
 		;
 		parent::configureDatagridFilters($filterMapper);
 	}
