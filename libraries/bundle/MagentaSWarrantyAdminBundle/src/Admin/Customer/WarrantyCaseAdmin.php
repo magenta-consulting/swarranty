@@ -155,9 +155,9 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		//        $query->andWhere()
 		
-		{
-			return $query;
-		}
+		
+		return $query;
+		
 	}
 	
 	public function getPersistentParameters() {
@@ -276,13 +276,23 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //				'editable' => true,
 				'label' => 'form.label_case_detail'
 			])
-			->add('serviceNotes', null, [ 'label' => 'form.label_service_notes' ])
-			->add('assigneeHistory', null, [ 'label' => 'form.label_assignee_history' ])
+			->add('serviceNotes', null, [
+				'label' => 'form.label_service_notes',
+				'associated_property' => 'description'
+				])
+			->add('assigneeHistory', null, [
+				'label'               => 'form.label_assignee_history',
+				'associated_property' => 'assigneeName'
+			])
 			->add('serviceZone.name', null, [ 'label' => 'form.label_service_zone' ]);
 		
 		$listMapper
 			->add('warranty.customer', 'customer', [ 'label' => 'form.label_customer' ])
-			->add('status', null, [ 'label' => 'form.label_status' ]);
+			->add('status', null, [ 'label' => 'form.label_status' ])
+			->add('appointmentAt', null, [
+				'label'  => 'form.label_appointment_at',
+				'format' => 'd-m-Y'
+			]);
 
 //		$listMapper->add('warranty.receiptImages', 'image', [
 //			'editable' => true,

@@ -29,6 +29,17 @@ file that was distributed with this source code.
                 <span>{{ value.modelNumber }}</span>
             </div>
         {% elseif  field_description.type == 'customer' %}
+            <div>{{ value.name }}</div>
+            <div>{{ value.homeAddress }}</div>
+            <div>{{ value.homePostalCode }}</div>
+            <div>
+                <div><strong>Contact: </strong></div>
+                <div>+{{ value.dialingCode }} {{ value.telephone }}</div>
+            </div>
+            <div>
+                <div><strong>Email:</strong></div>
+                <div>{{ value.email }}</div>
+            </div>
         {% else %}
             {% set route_name = field_description.options.route.name %}
             {% if not field_description.options.identifier|default(false)

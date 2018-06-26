@@ -363,7 +363,7 @@ class BaseAdmin extends AbstractAdmin {
 		
 		$organisation = $this->getCurrentOrganisation();
 		
-		if(empty($this->getParent())) { // && ! empty($organisation)
+		if( ! empty($organisation)) { // && ! empty($organisation)
 			$this->filterQueryByOrganisation($query, $organisation);
 		} else {
 			// TODO: change this so that 1 person can manage multiple organisations
