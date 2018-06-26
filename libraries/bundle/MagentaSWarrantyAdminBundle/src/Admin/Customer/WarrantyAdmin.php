@@ -234,6 +234,7 @@ class WarrantyAdmin extends BaseAdmin {
 				'actions' => array(
 					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
 					'case' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
+					'case_add' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
 					'edit'              => array(),
 					'delete'            => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )

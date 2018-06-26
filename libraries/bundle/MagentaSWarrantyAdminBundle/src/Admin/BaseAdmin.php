@@ -179,6 +179,16 @@ class BaseAdmin extends AbstractAdmin {
 		}
 		
 		if(empty($org)) {
+			$user = $this->getLoggedInUser();
+			if(empty($org = $user->getAdminOrganisation())) {
+				if( ! empty($person = $user->getPerson())) {
+					/** @var Organisation $org */
+					$org = $person->getMembers()->first();
+				}
+			}
+		}
+		
+		if(empty($org)) {
 			if($required) {
 				throw new UnauthorizedHttpException('Unauthorised access');
 			}

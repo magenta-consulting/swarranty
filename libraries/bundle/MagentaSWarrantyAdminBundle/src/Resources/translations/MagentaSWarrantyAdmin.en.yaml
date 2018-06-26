@@ -100,7 +100,7 @@ form_tab:
 action_button:
     label_review_submission: Review Submission
     label_manage_case: Manage Cases
-
+    label_add_case: Add Case
 form_group:
     case_assignment: Assignment
     case_details: Case Details

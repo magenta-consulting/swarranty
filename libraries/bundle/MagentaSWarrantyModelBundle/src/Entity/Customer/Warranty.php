@@ -26,7 +26,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMakingInterface, FullTextSearchInterface {
 	
 	public function generateSearchText() {
-		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $this->customer->getName();
+		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());
 	}
 	
 	public function generateFullText() {
