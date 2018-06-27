@@ -1,0 +1,72 @@
+.customer-care {
+    border: 2px solid blue;
+    padding: 10px;
+    margin-top: 40px;
+}
+.button-view-job {
+    padding: 20px;
+}
+.btn-group-lg>.btn, .btn-lg {
+    float: right;
+}
+.nav-tabs {
+    border: 2px solid black;
+}
+.title-nav{
+    width: 50%;
+    display: inline-block;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+.title-nav:hover, .title-nav.active {
+    background-color: #5bc0de;
+}
+a, a:hover, a:visited{
+    color: black;
+    text-decoration: underline;
+}
+tr, table {
+    width: 100%;
+}
+td {
+    width: 10%;
+}
+tr,td {
+    height: 26px;
+}
+.title-invoice {
+    font-weight: bold;
+    font-size: 16px;
+}
+table.table2, table.table3 {
+    border: 1px solid #dee2e6!important;
+    border-collapse: collapse;
+}
+.right-align {
+    text-align: right;
+    padding-right: 10px;
+}
+#header {
+    height: 120px;
+    width: 100%;
+    position: relative;
+}
+.blank-2-row {
+    width: 40%;
+    border-bottom: solid 1px #dee2e6;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    top: 83px;
+}
+.invoice-no {
+    position: absolute;
+    right: 42%;
+    top: 60px;
+}
+th.border {
+    text-align: center;
+}
+label {
+    margin-left: 5px;
+}

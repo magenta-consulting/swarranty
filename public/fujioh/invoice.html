@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap 4 Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <style>
+        .customer-care {
+            border: 2px solid blue;
+            padding: 10px;
+            margin-top: 40px;
+        }
+        .button-view-job {
+            padding: 20px;
+        }
+        .btn-group-lg>.btn, .btn-lg {
+            float: right;
+        }
+        .nav-tabs {
+            border: 2px solid black;
+        }
+        .title-nav{
+            width: 50%;
+            display: inline-block;
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+        .title-nav:hover, .title-nav.active {
+            background-color: #5bc0de;
+        }
+        a, a:hover, a:visited{
+            color: black;
+            text-decoration: underline;
+        }
+        tr, table {
+            width: 100%;
+        }
+        td {
+            width: 10%;
+        }
+        tr,td {
+            height: 26px;
+        }
+        .title-invoice {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        table.table2, table.table3 {
+            border: 1px solid #dee2e6!important;
+            border-collapse: collapse;
+        }
+        .right-align {
+            text-align: right;
+            padding-right: 10px;
+        }
+        #header {
+            height: 120px;
+            width: 100%;
+            position: relative;
+        }
+        .blank-2-row {
+            width: 40%;
+            border-bottom: solid 1px #dee2e6;
+            height: 2px;
+            position: absolute;
+            right: 0;
+            top: 83px;
+        }
+        .invoice-no {
+            position: absolute;
+            right: 42%;
+            top: 60px;
+        }
+        th.border {
+            text-align: center;
+        }
+        label {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="header">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="asset/img/logo.jpg" height="99" width="267"/>
+            </div>
+            <div class="col-md-6">
+                <span class="title-invoice invoice-no">Service Invoice No:</span>
+                <span class="blank-2-row"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <p>FUJIOH INTERNATIONAL TRADING PTE LTD. 130 Joo Seng Road #05-05 S(368357)</p>
+        </div>
+        <div class="col-md-3">
+            <p>Attached Checklist</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <p>Tel:6286 2284  Fax : 6285 3285   Co.Reg.No :199305801D GST Reg No : M2-0117513-5</p>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-6"> <input id="box1" type="checkbox" /><label for="box1"> Yes</label></div>
+                <div class="col-md-6"> <input id="box2" type="checkbox" /><label for="box1"> No</label></div>
+            </div>
+        </div>
+    </div>
+    <p>
+    <table>
+        <tr>
+            <td colspan="2">Customer:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Model No:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2">Home Contact:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Gas Style</td>
+            <td><input id="box3" type="checkbox" /><label for="box3"> TG</label></td>
+            <td><input id="box4" type="checkbox" /><label for="box4"> LPG</label></td>
+            <td><input id="box5" type="checkbox" /><label for="box5"> NG</label></td>
+        </tr>
+        <td colspan="2">Mobile Contact:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Serial No:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2">Address:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td colspan="2">Day Of Installation:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Installed by :</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td colspan="2">Warranty Card No:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Warranty:</td>
+            <td><input id="box6" type="checkbox" /><label for="box6"> Yes</label></td>
+            <td><input id="box7" type="checkbox" /><label for="box7"> No</label></td>
+        </tr>
+        <tr>
+            <td colspan="2">Receive Date:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td colspan="3" style="text-align: center">Date & Time Of Service :</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+    </table>
+    </p>
+    <p> </p>
+    <table class="table2">
+        <tr>
+            <td rowspan="2">Fault Description:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+    </table>
+    <p> </p>
+    <table class="table3">
+        <tr>
+            <td rowspan="2">Fault Anaylsis:</td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+            <td class="border-bottom"></td>
+        </tr>
+
+    </table>
+    <p class="title-invoice">Parts Replaced</p>
+    <table class="table4">
+            <thead>
+                <tr>
+                    <th colspan="4" class="border">Parts</th>
+                    <th colspan="2" class="border">Quantity</th>
+                    <th colspan="2" class="border">Amount</th>
+                    <th colspan="2" class="border">Remarks</th>
+
+                </tr>
+            </thead>
+        <tbody>
+            <tr>
+                <td colspan="4" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+            </tr>
+            <tr>
+                <td colspan="4" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+                <td colspan="2" class="border"></td>
+            </tr>
+        </tbody>
+    </table>
+    <p class="title-invoice">Billing for</p>
+    <table>
+        <tr>
+            <td colspan="2">Services/Labour:</td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td colspan="2">Transport/Inspection:</td>
+            <td class="border-bottom"></td>
+            <td></td>
+            <td>Parts :</td>
+            <td class="border-bottom"></td>
+        </tr>
+        <tr>
+            <td colspan="2">Total:</td>
+            <td class="border-bottom"></td>
+            <td colspan="3" class="right-align">Received the above amount in </td>
+            <td><input id="box8" type="checkbox" /><label for="box8"> Cash</label></td>
+            <td colspan="2" class="right-align"><input id="box9" type="checkbox" /><label for="box9"> Cheque No</label></td>
+            <td class="border-bottom"></td>
+        </tr>
+    </table>
+    <p class="title-invoice">Statement of Safe to use</p>
+    <p>I hereby confirm that the gas appliance(s) which was/were installed / serviced / repaired has/have been tested in accordance with Regulation 21 of Gas (Supply) Regulations and the work in compliance with the Gas (Supply)</p>
+    <p class="title-invoice">Regulations</p>
+    <table>
+        <tr>
+            <td colspan="6"><input id="box10" type="checkbox" /><label for="box10">Connection to the gas appliance(s) is gas-tight</label></td>
+            <td colspan="4"><input id="box11" type="checkbox" /><label for="box11">Gas appliance(s) is safe to use</label></td>
+        </tr>
+    </table>
+
+    <p class="title-invoice">Customer Acknowledgement</p>
+    <p>I comfirm that the above work/services has been completed to my satisfaction and acknowledge the following conditions :</p>
+    <p>(i) Fujioh Int'l Tdg Pte Ltd provides one (1) month warranty on service and three(3) months on parts replaced.</p>
+    <p>(ii) Fujioh Int'l Tdg Pte Ltd reserves all rights to change the above terms and conditions without prior notice.</p>
+    <table>
+        <tr>
+            <td colspan="6"><p class="title-invoice">Attended By,</p></td>
+            <td colspan="4"><p class="title-invoice">Acknowledged By,</p></td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
