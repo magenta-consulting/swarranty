@@ -25,7 +25,7 @@ import { AuthGuard } from './service/auth-guard.service';
 
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
-import {Helper} from "./helper/Helper";
+import {Helper} from "./helper/helper";
 
 @NgModule({
   declarations: [
