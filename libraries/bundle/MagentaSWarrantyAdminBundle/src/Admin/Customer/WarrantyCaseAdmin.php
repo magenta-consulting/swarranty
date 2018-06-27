@@ -166,8 +166,12 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			return $parameters;
 		}
 		
+		if(empty($org = $this->getCurrentOrganisation(true))) {
+			return $parameters;
+		}
+		
 		return array_merge($parameters, array(
-			'organisation' => $this->getCurrentOrganisation()->getId()
+			'organisation' => $org->getId()
 		));
 	}
 	

@@ -137,31 +137,28 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
-
+	
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
 //			if( ! empty($org)) {
-//			$parameters['organisation'] = $orgId;
+//				$parameters['organisation'] = $orgId;
 //			}
 //		}
-
+//
+////
 //		return parent::generateUrl($name, $parameters, $absolute);
 //	}
 	
 	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
 		if(empty($parent)) {
-			if(empty($user = $this->getLoggedInUser())) {
-				return null;
-			}
-			
-			return $user->getAdminOrganisation();
+			return null;
 		}
-		
-		if($parent->getParent() instanceof OrganisationAdmin) {
-			return $parent->getParent()->getSubject();
+		$grandpa = $parent->getParent();
+		if($grandpa instanceof OrganisationAdmin) {
+			return $grandpa->getSubject();
 		} else {
-			return $this->getCurrentOrganisationFromAncestors($parent->getParent());
+			return $this->getCurrentOrganisationFromAncestors($grandpa);
 		}
 	}
 	

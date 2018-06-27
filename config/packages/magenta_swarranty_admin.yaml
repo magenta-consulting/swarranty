@@ -115,6 +115,7 @@ sonata_admin:
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\WarrantyAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\WarrantyCaseAdmin
 
             product:
                 label: dashboard.product

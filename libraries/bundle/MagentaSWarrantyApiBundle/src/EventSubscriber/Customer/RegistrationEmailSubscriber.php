@@ -70,7 +70,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 			
 		}
 		if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
-		
+			$message = '';
 		}
 		$event->setResponse(new JsonResponse([ 'message' => $message ], 201));
 	}
