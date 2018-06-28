@@ -24,7 +24,8 @@
             {% if value is not empty and value.providerReference %}
                 <div class="pull-left" style="margin-right: 5px">
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
-                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json" class="img-polaroid media-object"/>
+                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json"
+                         class="img-polaroid media-object"/>
                 </div>
             {% else %}
                 <div class="pull-left" style="margin-right: 5px">
@@ -45,7 +46,21 @@
         {#{% endif %}#}
         {#</div>#}
         <div class="col-md-1 pull-left">
-            {{ block('form_widget') }}
+            {#{{ block('form_widget') }}#}
+            {#{{ dump(form) }}#}
+            <input type="file" id="{{ form.children.binaryContent.vars.id }}"
+                   name="{{ form.children.binaryContent.vars.full_name }}" style="display: none;"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <input class="btn btn-primary" type="button" value="Browse..."
+                   onclick="document.getElementById('{{ form.children.binaryContent.vars.id }}').click();"/>
         </div>
     </div>
 {% endblock sonata_media_type_widget %}
+
+{% block form_widget %}
+    {#<input type="file" id="{{ form.vars.id }}" name="{{ form.vars.name }}" style="display: none;"/>#}
+    {#<input class="btn btn-primary" type="button" value="Browse..." onclick="document.getElementById('{{ form.vars.id }}').click();"/>#}
+{% endblock %}

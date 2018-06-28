@@ -106,8 +106,8 @@ class CaseAppointmentAdmin extends BaseAdmin {
 	
 	public function toString($object) {
 		return $object instanceof CaseAppointment
-			? $object->getWarranty()->getCustomer()->getName() . ' - ' . $object->getWarranty()->getProduct()->getName()
-			: 'Warranty Case'; // shown in the breadcrumb on the create view
+			? $object->getCase()->getWarranty()->getCustomer()->getName() . ' - ' . $object->getCase()->getWarranty()->getProduct()->getName()
+			: 'Appointment'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {

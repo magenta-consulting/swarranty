@@ -143,11 +143,13 @@ class WarrantyAdmin extends BaseAdmin {
 				break;
 		}
 		
-		//        $query->andWhere()
-		
-		
 		if( ! empty($cid = $request->query->get('customer'))) {
 			$query->andWhere($expr->eq($customerAlias . '.id', $cid));
+		}
+		
+		if( ! empty($org = $this->getCurrentOrganisation(false))) {
+//			$qb->join($customerAlias . '.organisation', 'organisation');
+			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
 		}
 		
 		return $query;
@@ -166,7 +168,7 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+		$collection->add('detail', $this->getRouterIdParameter() . '/detail');
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {

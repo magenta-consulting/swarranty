@@ -7,6 +7,8 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearch;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +21,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Entity()
  * @ORM\Table(name="customer__case_appointment")
  */
-class CaseAppointment {
+class CaseAppointment extends FullTextSearch {
 	
 	const STATUS_NEW = 'NEW';
 	const STATUS_PENDING = 'PENDING';
@@ -36,6 +38,26 @@ class CaseAppointment {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+	}
+	
+	public function getOrganisation(): ?Organisation {
+		return $this->case->getWarranty()->getOrganisation();
+	}
+	
+	public function generateFullText() {
+		$name = $this->assignee->getPerson()->getName();
+		if(empty($this->appointmentAt)) {
+			$at = '';
+		} else {
+			$at = $this->appointmentAt->format('d-m-Y');
+		}
+		
+		$this->fullText = $name . ' - ' . $at;
+		
+	}
+	
+	public function generateSearchText() {
+		$this->searchText = $this->assignee->getPerson()->getName() . ' - ' . ((empty($this->appointmentAt)) ? '' : $this->appointmentAt->format('d-m-Y'));
 	}
 	
 	public function initiateNumber() {
@@ -59,7 +81,13 @@ class CaseAppointment {
 	}
 	
 	/**
-	 * @var Collection
+	 * @var ServiceSheet|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", mappedBy="appointment", cascade={"persist","merge"})
+	 */
+	protected $serviceSheet;
+	
+	/**
+	 * @var ServiceNote|null
 	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote", mappedBy="appointment", cascade={"persist","merge"})
 	 */
 	protected $serviceNote;
@@ -220,16 +248,16 @@ class CaseAppointment {
 	}
 	
 	/**
-	 * @return Collection
+	 * @return ServiceNote|null
 	 */
-	public function getServiceNote(): Collection {
+	public function getServiceNote(): ?ServiceNote {
 		return $this->serviceNote;
 	}
 	
 	/**
-	 * @param Collection $serviceNote
+	 * @param ServiceNote|null $serviceNote
 	 */
-	public function setServiceNote(Collection $serviceNote): void {
+	public function setServiceNote(?ServiceNote $serviceNote): void {
 		$this->serviceNote = $serviceNote;
 	}
 	
@@ -260,4 +288,20 @@ class CaseAppointment {
 	public function setVisitedAt(?\DateTime $visitedAt): void {
 		$this->visitedAt = $visitedAt;
 	}
+	
+	/**
+	 * @return ServiceSheet|null
+	 */
+	public function getServiceSheet(): ?ServiceSheet {
+		return $this->serviceSheet;
+	}
+	
+	/**
+	 * @param ServiceSheet|null $serviceSheet
+	 */
+	public function setServiceSheet(?ServiceSheet $serviceSheet): void {
+		$this->serviceSheet = $serviceSheet;
+	}
+	
+	
 }

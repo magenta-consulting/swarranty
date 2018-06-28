@@ -46,9 +46,11 @@ class WarrantyCase implements DecisionMakingInterface {
 	protected $id;
 	
 	public function __construct() {
-		$this->createdAt = new \DateTime();
-		$this->children  = new ArrayCollection();
+		$this->createdAt     = new \DateTime();
+		$this->children      = new ArrayCollection();
 		$this->appointments  = new ArrayCollection();
+		$this->serviceSheets = new ArrayCollection();
+		$this->serviceNotes  = new ArrayCollection();
 	}
 	
 	public function getDecisionStatus(): string {
@@ -198,6 +200,22 @@ class WarrantyCase implements DecisionMakingInterface {
 	public function removeAppointment(CaseAppointment $appointment) {
 		$this->appointments->removeElement($appointment);
 		$appointment->setCase(null);
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 */
+	protected $serviceSheets;
+	
+	public function addServiceSheet(ServiceSheet $s) {
+		$this->serviceSheets->add($s);
+		$s->setCase($this);
+	}
+	
+	public function removeServiceSheet(ServiceSheet $s) {
+		$this->serviceSheets->removeElement($s);
+		$s->setCase(null);
 	}
 	
 	/**
@@ -652,5 +670,19 @@ class WarrantyCase implements DecisionMakingInterface {
 	 */
 	public function setParent(?WarrantyCase $parent): void {
 		$this->parent = $parent;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getServiceSheets(): Collection {
+		return $this->serviceSheets;
+	}
+	
+	/**
+	 * @param Collection $serviceSheets
+	 */
+	public function setServiceSheets(Collection $serviceSheets): void {
+		$this->serviceSheets = $serviceSheets;
 	}
 }
