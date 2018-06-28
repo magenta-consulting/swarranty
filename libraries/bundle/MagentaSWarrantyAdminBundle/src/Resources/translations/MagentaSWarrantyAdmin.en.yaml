@@ -192,6 +192,8 @@ form:
     label_role: Role
 
 breadcrumb:
+    link_child_case_list: Child Cases
+    link_child_case_create: Add Child Case
     link_warranty_create: New Warranty
     link_organisation_list: Organisations
     link_service_zone_list: Service Zones

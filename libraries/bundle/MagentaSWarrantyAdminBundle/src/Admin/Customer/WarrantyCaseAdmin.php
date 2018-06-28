@@ -53,6 +53,10 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class WarrantyCaseAdmin extends BaseAdmin {
 	
+	const CHILDREN = [
+		WarrantyChildCaseAdmin::class => 'parent'
+	];
+	
 	protected $action;
 	
 	protected $datagridValues = array(
@@ -322,6 +326,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
+	protected function getAutocompleteRouteParameters() {
+		return [ 'organisation' => $this->getCurrentOrganisation()->getId() ];
+	}
+	
 	protected function configureFormFields(FormMapper $formMapper) {
 //		$link_parameters = $this->getParentFieldDescription()->getOption('link_parameters', array());
 		$c = $this->getConfigurationPool()->getContainer();
@@ -358,7 +366,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$formMapper->add('warranty', ModelAutocompleteType::class, [
 			'route'              => [
 				'name'       => 'sonata_admin_retrieve_autocomplete_items',
-				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
+				'parameters' => $this->getAutocompleteRouteParameters()
 			],
 //			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
 			'property'           => 'fullText',
@@ -387,6 +395,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		if(empty($this->subject->getAssignee())) {
 			$formMapper
 				->add('assignee', ModelType::class, [
+					'required'    => false,
 					'placeholder' => 'Select a Technician',
 					'label'       => 'form.label_assign_technician',
 					'property'    => 'person.name'

@@ -99,6 +99,7 @@ class WarrantyAdmin extends BaseAdmin {
 	}
 	
 	public function createQuery($context = 'list') {
+		$request = $this->getRequest();
 		/** @var ProxyQueryInterface $query */
 		$query = parent::createQuery($context);
 		if(empty($this->getParentFieldDescription())) {
@@ -107,9 +108,10 @@ class WarrantyAdmin extends BaseAdmin {
 		/** @var Expr $expr */
 		$expr = $query->expr();
 		/** @var QueryBuilder $qb */
-		$qb           = $query->getQueryBuilder();
-		$rootAlias    = $qb->getRootAliases()[0];
-		$statusFilter = $this->getRequest()->query->get('statusFilter');
+		$qb            = $query->getQueryBuilder();
+		$rootAlias     = $qb->getRootAliases()[0];
+		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
+		$statusFilter  = $this->getRequest()->query->get('statusFilter');
 		switch($statusFilter) {
 			case 'ALL':
 				break;
@@ -143,9 +145,12 @@ class WarrantyAdmin extends BaseAdmin {
 		
 		//        $query->andWhere()
 		
-		{
-			return $query;
+		
+		if( ! empty($cid = $request->query->get('customer'))) {
+			$query->andWhere($expr->eq($customerAlias . '.id', $cid));
 		}
+		
+		return $query;
 	}
 	
 	public function getPersistentParameters() {
@@ -223,8 +228,8 @@ class WarrantyAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
-					'case_add' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
+					'case'              => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
+					'case_add'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
 					'edit'              => array(),
 					'delete'            => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )

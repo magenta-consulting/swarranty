@@ -47,6 +47,7 @@ class WarrantyCase implements DecisionMakingInterface {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+		$this->children  = new ArrayCollection();
 	}
 	
 	public function getDecisionStatus(): string {
@@ -158,6 +159,29 @@ class WarrantyCase implements DecisionMakingInterface {
 	public function getId(): ?int {
 		return $this->id;
 	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="parent", cascade={"persist","merge"})
+	 */
+	protected $children;
+	
+	public function addChild(WarrantyCase $c) {
+		$this->children->add($c);
+		$c->setParent($this);
+	}
+	
+	public function removeChild(WarrantyCase $c) {
+		$this->children->removeElement($c);
+		$c->setParent(null);
+	}
+	
+	/**
+	 * @var WarrantyCase|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", cascade={"persist", "merge"}, inversedBy="children")
+	 * @ORM\JoinColumn(name="id_parent_case", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $parent;
 	
 	/**
 	 * @var Collection
@@ -601,4 +625,31 @@ class WarrantyCase implements DecisionMakingInterface {
 		$this->responded = $responded;
 	}
 	
+	/**
+	 * @return Collection
+	 */
+	public function getChildren(): Collection {
+		return $this->children;
+	}
+	
+	/**
+	 * @param Collection $children
+	 */
+	public function setChildren(Collection $children): void {
+		$this->children = $children;
+	}
+	
+	/**
+	 * @return WarrantyCase|null
+	 */
+	public function getParent(): ?WarrantyCase {
+		return $this->parent;
+	}
+	
+	/**
+	 * @param WarrantyCase|null $parent
+	 */
+	public function setParent(?WarrantyCase $parent): void {
+		$this->parent = $parent;
+	}
 }

@@ -19,10 +19,15 @@
                                  data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
                              RE-OPEN CASE
                          </button>
-                         <button type="submit" class="decision-button btn btn-info"
-                                 data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
+
+                         {% set warranty = object.warranty %}
+                         {% set customer = warranty.customer %}
+                         {% set organisation = customer.organisation %}
+
+                         <a class="decision-button btn btn-info"
+                            href="{{ path('admin_magenta_swarrantymodel_customer_warrantycase_admin_magenta_customer_warrantychildcase_create',{'organisation': organisation.id, 'id': object.id}) }}">
                              ADD SUB-CASE
-                         </button>
+                         </a>
                      </form>
                  {% endif %}
              </div>

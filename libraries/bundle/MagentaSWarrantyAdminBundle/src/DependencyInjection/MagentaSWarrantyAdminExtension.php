@@ -78,7 +78,9 @@ class MagentaSWarrantyAdminExtension extends ConfigurableExtension {
 				$def       = $container->getDefinition($class);
 				if( ! empty($children = $class::CHILDREN)) {
 					foreach($children as $child => $property) {
-						$def->addMethodCall('addChild', [ $container->getDefinition($child), $property ]);
+						if($child !== $class) {
+							$def->addMethodCall('addChild', [ $container->getDefinition($child), $property ]);
+						}
 					}
 				}
 			}
