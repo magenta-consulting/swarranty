@@ -47,7 +47,7 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	/**
-	 * deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
+	 * @deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
 	 *
 	 * @param string $name
 	 *

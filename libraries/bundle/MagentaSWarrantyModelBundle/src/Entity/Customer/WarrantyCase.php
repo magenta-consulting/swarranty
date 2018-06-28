@@ -7,6 +7,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,13 +20,17 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Entity()
  * @ORM\Table(name="customer__case")
  */
-class WarrantyCase {
+class WarrantyCase implements DecisionMakingInterface {
 	
 	const PRIORITY_LOW = 'LOW';
 	const PRIORITY_NORMAL = 'NORMAL';
 	const PRIORITY_HIGH = 'HIGH';
 	
-	const STATUS_NEW = 'NEW';
+	const DECISION_ASSIGN = 'ASSIGN';
+	const DECISION_CLOSE = 'CLOSE';
+	const DECISION_REOPEN = 'REOPEN';
+
+//	const STATUS_NEW = 'NEW'; // inherited
 	const STATUS_CLOSED = 'CLOSED';
 	const STATUS_ASSIGNED = 'ASSIGNED';
 	const STATUS_REOPENED = 'REOPENED';
@@ -42,6 +47,96 @@ class WarrantyCase {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+	}
+	
+	public function getDecisionStatus(): string {
+		return $this->status;
+	}
+	
+	public function makeDecision(string $decision) {
+		switch($decision) {
+			case self::DECISION_ASSIGN:
+				$this->markStatusAs(self::STATUS_ASSIGNED);
+				break;
+			case self::DECISION_CLOSE:
+				$this->markStatusAs(self::STATUS_CLOSED);
+				break;
+			case self::DECISION_REOPEN:
+				$this->markStatusAs(self::STATUS_REOPENED);
+				break;
+		}
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDecisionRemarks(): ?string {
+		return $this->decisionRemarks;
+	}
+	
+	/**
+	 * @param null|string $decisionRemarks
+	 */
+	public function setDecisionRemarks(?string $decisionRemarks): void {
+		$this->decisionRemarks = $decisionRemarks;
+	}
+	
+	public function markStatusAs($status) {
+		switch($status) {
+			case self::STATUS_NEW:
+				$this->open      = true;
+				$this->assigned  = false;
+				$this->responded = false;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_NEW;
+				break;
+			
+			case self::STATUS_ASSIGNED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = false;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_ASSIGNED;
+				break;
+			
+			case self::STATUS_RESPONDED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_RESPONDED;
+				break;
+			
+			case self::STATUS_COMPLETED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = true;
+				$this->closed    = false;
+				$this->status    = self::STATUS_COMPLETED;
+				break;
+			
+			case self::STATUS_REOPENED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_REOPENED;
+				break;
+			
+			case self::STATUS_CLOSED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = true;
+				$this->closed    = true;
+				$this->status    = self::STATUS_CLOSED;
+				break;
+		}
 	}
 	
 	public function initiateNumber() {
@@ -161,9 +256,46 @@ class WarrantyCase {
 	
 	/**
 	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected
+		$decisionRemarks;
+	
+	/**
+	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $priority = self::PRIORITY_NORMAL;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $responded = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $completed = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $assigned = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $closed = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $open = true;
 	
 	/**
 	 * @var string|null
@@ -397,6 +529,76 @@ class WarrantyCase {
 	 */
 	public function setAppointments(Collection $appointments): void {
 		$this->appointments = $appointments;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isCompleted(): bool {
+		return $this->completed;
+	}
+	
+	/**
+	 * @param bool $completed
+	 */
+	public function setCompleted(bool $completed): void {
+		$this->completed = $completed;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isAssigned(): bool {
+		return $this->assigned;
+	}
+	
+	/**
+	 * @param bool $assigned
+	 */
+	public function setAssigned(bool $assigned): void {
+		$this->assigned = $assigned;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isClosed(): bool {
+		return $this->closed;
+	}
+	
+	/**
+	 * @param bool $closed
+	 */
+	public function setClosed(bool $closed): void {
+		$this->closed = $closed;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isOpen(): bool {
+		return $this->open;
+	}
+	
+	/**
+	 * @param bool $open
+	 */
+	public function setOpen(bool $open): void {
+		$this->open = $open;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isResponded(): bool {
+		return $this->responded;
+	}
+	
+	/**
+	 * @param bool $responded
+	 */
+	public function setResponded(bool $responded): void {
+		$this->responded = $responded;
 	}
 	
 }

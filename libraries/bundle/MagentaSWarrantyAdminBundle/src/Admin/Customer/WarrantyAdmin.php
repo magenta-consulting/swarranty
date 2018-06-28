@@ -162,16 +162,6 @@ class WarrantyAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-	
-	}
-	
-	public function getTemplate($name) {
-		$_name = strtoupper($name);
-		if($_name === 'LIST') {
-			return '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/CRUD/list.html.twig';
-		}
-		
-		return parent::getTemplate($name);
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {

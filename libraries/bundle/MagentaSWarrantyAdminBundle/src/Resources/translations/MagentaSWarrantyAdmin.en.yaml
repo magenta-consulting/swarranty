@@ -115,6 +115,7 @@ form_group:
     warranty_records: Warranty Records
     customer_details: Customer Details
     receipt_images: Receipt Images
+    service_images: Service Images
 
 form_field:
     label_registration_fields: Registration Fields

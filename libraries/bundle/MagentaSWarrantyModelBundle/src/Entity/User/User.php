@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
@@ -81,7 +82,14 @@ class User extends AbstractUser {
 			} elseif($action === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
 				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
 			}
-			if(in_array($action, [ 'DECIDE', 'DECIDE_ALL', 'DECISION_APPROVE', 'DECISION_REJECT' ])) {
+			if(in_array($action, [
+				'DECIDE',
+				'DECIDE_ALL',
+				'DECISION_APPROVE',
+				'DECISION_REJECT',
+				'DECISION_' . WarrantyCase::DECISION_CLOSE,
+				'DECISION_' . WarrantyCase::DECISION_REOPEN
+			])) {
 				return true;
 			}
 		}
