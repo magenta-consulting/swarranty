@@ -413,7 +413,9 @@ class WarrantyAdmin extends BaseAdmin {
 		$ris = $object->getReceiptImages();
 		/** @var Media $ri */
 		foreach($ris as $m) {
-			$object->addReceiptImage($m);
+			if( ! empty($m)) {
+				$object->addReceiptImage($m);
+			}
 		}
 	}
 	
