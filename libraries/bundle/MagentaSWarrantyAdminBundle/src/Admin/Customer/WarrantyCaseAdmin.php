@@ -88,14 +88,19 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	public function getNewInstance() {
 		/** @var WarrantyCase $object */
 		$object = parent::getNewInstance();
-		if(empty($w = $object->getWarranty())) {
-			$object->setWarranty($w = new Warranty());
-		}
-		if(empty($w->getCustomer())) {
-			$w->setCustomer(new Customer());
-		}
-		if(empty($w->getProduct())) {
-			$w->setProduct(new Product());
+		$parent = $this->getParent();
+		if($parent instanceof WarrantyAdmin) {
+		
+		} else {
+			if(empty($w = $object->getWarranty())) {
+				$object->setWarranty($w = new Warranty());
+			}
+			if(empty($w->getCustomer())) {
+				$w->setCustomer(new Customer());
+			}
+			if(empty($w->getProduct())) {
+				$w->setProduct(new Product());
+			}
 		}
 		
 		return $object;
