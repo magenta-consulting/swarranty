@@ -53,7 +53,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 	
 	protected function preRenderDecision($action, $object) {
 		if($action !== 'show') {
-			return $this->redirect($this->admin->generateObjectUrl('edit', $object, [ 'action' => 'edit' ]));
+			return $this->redirect($this->admin->generateObjectUrl('edit', $object, [  ]));
 		}
 	}
 }

@@ -3,12 +3,18 @@
      {% if _navbar_title is not empty %}
          <div class="navbar-header" style="width: 100%; display: flex;">
              <div style="width:100%; display: flex; ">
+                 {% if object.decisionStatus == 'CLOSED' %}
+                     <span class="decision-status label label-primary">CLOSED</span>
+                 {% endif %}
+
                  {% if admin.hasRoute('decide') %}
                      <form action="" method="post" class="decision-form" style="width:100%; display: flex; ">
-                         <button type="submit" class="decision-button btn btn-success"
-                                 data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
-                             CLOSE CASE
-                         </button>
+                         {% if object.decisionStatus == 'CLOSED' %}
+                             <button type="submit" class="decision-button btn btn-success"
+                                     data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
+                                 CLOSE CASE
+                             </button>
+                         {% endif %}
                          <button type="submit" class="decision-button btn btn-default"
                                  data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
                              RE-OPEN CASE
