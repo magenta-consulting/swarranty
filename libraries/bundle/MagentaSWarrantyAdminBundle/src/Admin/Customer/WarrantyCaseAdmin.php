@@ -336,6 +336,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		$parent = $this->getParent();
 //		$link_parameters = $this->getParentFieldDescription()->getOption('link_parameters', array());
 		$c = $this->getConfigurationPool()->getContainer();
 //		$formMapper
@@ -368,28 +369,32 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		$formMapper->end();
 		$formMapper
 			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
-		$formMapper->add('warranty', ModelAutocompleteType::class, [
-			'route'              => [
-				'name'       => 'sonata_admin_retrieve_autocomplete_items',
-				'parameters' => $this->getAutocompleteRouteParameters()
-			],
+		
+		if( ! $parent instanceof WarrantyAdmin) {
+			$formMapper->add('warranty', ModelAutocompleteType::class, [
+				'route'              => [
+					'name'       => 'sonata_admin_retrieve_autocomplete_items',
+					'parameters' => $this->getAutocompleteRouteParameters()
+				],
 //			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
-			'property'           => 'fullText',
+				'property'           => 'fullText',
 //			'btn_add'  => false,
-			'to_string_callback' => function(Warranty $entity) {
+				'to_string_callback' => function(Warranty $entity) {
 //				$entity->generateSearchText();
-				
-				return $entity->getSearchText();
-			},
-			'callback'           => function(WarrantyAdmin $admin, $property, $field) {
-				
-				return true;
-			},
-		])
-		           ->add('description', CKEditorType::class, [
-			           'required' => false,
-			           'label'    => 'form.label_case_detail'
-		           ]);
+					
+					return $entity->getSearchText();
+				},
+				'callback'           => function(WarrantyAdmin $admin, $property, $field) {
+					
+					return true;
+				},
+			]);
+		}
+		$formMapper
+			->add('description', CKEditorType::class, [
+				'required' => false,
+				'label'    => 'form.label_case_detail'
+			]);
 		$formMapper->end();
 		$formMapper
 			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
