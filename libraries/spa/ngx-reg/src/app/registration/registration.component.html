@@ -33,7 +33,7 @@
                         <div class="input-group-prepend">
                             <span *ngIf="!isDialingCodeEditing" (click)="editDialingCode()" class="input-group-text">+{{customer.dialingCode}}</span>
                             <input #dialingCode [focus]="focusDialingCodeEM" *ngIf="isDialingCodeEditing"
-                                   style="width: 45px;" type="number" class="form-control mr-1" value="64"
+                                   style="width: 45px;" type="number" class="form-control mr-1" value="65"
                                    aria-label="Country Dialing Code"
                                    (keyup.enter)="updateDialingCode(dialingCode.value)"
                                    (blur)="updateDialingCode(dialingCode.value)">
