@@ -6,7 +6,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
@@ -26,6 +26,7 @@ import { AuthGuard } from './service/auth-guard.service';
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
 import {Helper} from "./helper/helper";
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {Helper} from "./helper/helper";
     BrowserModule,
     NgSelectModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AngularFontAwesomeModule,
 
@@ -48,6 +50,10 @@ import {Helper} from "./helper/helper";
 
     // import libs
     ImageUploadModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: "AIzaSyAN6XsSJRAUI4Iuj0Q3OdziE1D0Sou_b_c",
+      libraries: ["places"]
+    }),
 
     AppRoutingModule
 

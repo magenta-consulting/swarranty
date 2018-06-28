@@ -4,6 +4,10 @@
             <h3>Customer and Product Registration</h3>
             <section>
                 <h5>Customer Details</h5>
+                <div 
+                class="input-group mb-2">
+                    <input placeholder="Enter your address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+                </div>
                 <div *ngIf="!isPreview('customerName')">
                     <div class="input-group mb-2">
                         <input [(ngModel)]="customer.name" type="text" class="form-control" placeholder="(*) Your Full name"
