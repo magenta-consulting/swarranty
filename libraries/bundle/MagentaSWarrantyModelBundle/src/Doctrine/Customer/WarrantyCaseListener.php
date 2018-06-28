@@ -28,7 +28,6 @@ class WarrantyCaseListener {
 		$this->updateInfo($case, $event);
 		$manager = $event->getEntityManager();
 		$manager->flush();
-		
 	}
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -40,6 +39,17 @@ class WarrantyCaseListener {
 		$apmts   = $case->getAppointments();
 		$asgnee  = $case->getAssignee();
 		$apmtAt  = $case->getAppointmentAt();
+		////////////// update ParentCase - code /////////////////////
+		if(empty($pc = $case->getParent())) {
+			$case->initiateNumber();
+		} else {
+			$pc->initiateNumber();
+			$pc->addChild($case);
+			$case = $pc->getNumber() . '-' . $pc->getChildren()->count();
+		}
+		
+		////////////// update Appointment /////////////////////
+		
 		// completely New Case
 		if($apmts->count() === 0) {
 			if( ! empty($asgnee)) {
@@ -117,14 +127,6 @@ class WarrantyCaseListener {
 	
 	public function prePersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
-		if(empty($case->getExpiryDate())) {
-			$expiryAt = $case->getPurchaseDate();
-			$expiryAt->modify(sprintf("+%d months", $case->getProduct()->getWarrantyPeriod()));
-			$case->setExpiryDate($expiryAt);
-		}
-		if( ! empty($reg = $case->getRegistration())) {
-			$case->setCustomer($reg->getCustomer());
-		}
 	}
 	
 	public function postPersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {

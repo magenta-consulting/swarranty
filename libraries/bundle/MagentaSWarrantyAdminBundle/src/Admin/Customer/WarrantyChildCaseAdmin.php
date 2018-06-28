@@ -57,7 +57,7 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 	
 	protected $baseRouteName = 'admin_magenta_customer_warrantychildcase';
 	
-	protected $baseRoutePattern = '/magenta/customer-warrantychildcase';
+	protected $baseRoutePattern = 'magenta/customer-warrantychildcase';
 	
 	protected $classnameLabel = 'child_case';
 	
