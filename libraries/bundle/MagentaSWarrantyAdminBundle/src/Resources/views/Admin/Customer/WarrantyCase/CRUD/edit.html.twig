@@ -9,7 +9,7 @@
 
                  {% if admin.hasRoute('decide') %}
                      <form action="" method="post" class="decision-form" style="width:100%; display: flex; ">
-                         {% if object.decisionStatus == 'CLOSED' %}
+                         {% if object.decisionStatus != 'CLOSED' %}
                              <button type="submit" class="decision-button btn btn-success"
                                      data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
                                  CLOSE CASE
