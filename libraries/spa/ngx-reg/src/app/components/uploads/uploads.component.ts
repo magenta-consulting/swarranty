@@ -102,12 +102,10 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     onRemoved(file: FileHolder) {
-        let v_confirm = confirm('Do you really want to remove this image ?');
-        // console.log('removed', file);
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-        
-        if(v_confirm == true) {
+        // check android
+        if(navigator.userAgent.toLowerCase().indexOf("android") > -1) {
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);
@@ -119,6 +117,24 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                     console.log('Complete Request');
                 }
             );
+        } else {
+            // not android
+            let v_confirm = confirm('Do you really want to remove this image ?');
+            // console.log('removed', file);
+            
+            if(v_confirm == true) {
+                this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+                    res => {
+                        console.log('res', res);
+                    },
+                    error => {
+                        console.log('Error', error);
+                    },
+                    () => {
+                        console.log('Complete Request');
+                    }
+                );
+            }
         }
     }
 
