@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
@@ -32,13 +33,16 @@ class WarrantyCaseListener {
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
 		/** @var EntityManager $manager */
-		$manager = $event->getObjectManager();
-		$uow     = $manager->getUnitOfWork();
-		$user    = $this->container->get(UserService::class)->getUser();
-		$w       = $case->getWarranty();
-		$apmts   = $case->getAppointments();
-		$asgnee  = $case->getAssignee();
-		$apmtAt  = $case->getAppointmentAt();
+		$manager       = $event->getObjectManager();
+		$uow           = $manager->getUnitOfWork();
+		$user          = $this->container->get(UserService::class)->getUser();
+		$w             = $case->getWarranty();
+		$apmts         = $case->getAppointments();
+		$asgnee        = $case->getAssignee();
+		$apmtAt        = $case->getAppointmentAt();
+		$apmt          = null;
+		$serviceSheets = $case->getServiceSheets();
+		
 		////////////// update ParentCase - code /////////////////////
 		if(empty($pc = $case->getParent())) {
 			$case->initiateNumber();
@@ -47,26 +51,32 @@ class WarrantyCaseListener {
 			$pc->addChild($case);
 			$case = $pc->getNumber() . '-' . $pc->getChildren()->count();
 		}
-		
 		////////////// update Appointment /////////////////////
 		
-		// completely New Case
+		// completely New Case //
 		if($apmts->count() === 0) {
-			if( ! empty($asgnee)) {
+			if( ! empty($asgnee) || ! empty($apmtAt)) {
 				if(empty($case->isAssigned())) {
 					$case->markStatusAs(WarrantyCase::STATUS_ASSIGNED);
 				}
 				$apmt = new CaseAppointment();
 				$apmt->setAppointmentAt($apmtAt);
 				$case->addAppointment($apmt);
-				$asgnee->addAppointment($apmt);
+				
+				if( ! empty($asgnee)) {
+					$asgnee->addAppointment($apmt);
+				}
+				
 				if( ! empty($person = $user->getPerson())) {
 					$member = $person->getMemberOfOrganisation($case->getWarranty()->getOrganisation());
 					if( ! empty($empty)) {
 						$apmt->setCreator($member);
 						$apmt->setCreatorName($person->getName());
+					} else {
+						$apmt->setCreatorName($user->getEmail());
 					}
 				}
+				
 				$manager->persist($apmt);
 			}
 		} else {
@@ -94,6 +104,15 @@ class WarrantyCaseListener {
 				$ah->setAssigneeName($asgnee->getPerson()->getName());
 				$case->addAssigneeHistory($ah);
 				$manager->persist($ah);
+			}
+		}
+		
+		if($serviceSheets->count() > 0 && ! empty($apmt)) {
+			/** @var ServiceSheet $ss */
+			foreach($serviceSheets as $ss) {
+				$ss->setAppointment($apmt);
+				$apmt->setServiceSheet($ss);
+				$manager->persist($ss);
 			}
 		}
 	}

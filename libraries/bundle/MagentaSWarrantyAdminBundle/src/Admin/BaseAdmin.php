@@ -11,6 +11,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -137,7 +138,7 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
-	
+
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
@@ -153,6 +154,9 @@ class BaseAdmin extends AbstractAdmin {
 	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
 		if(empty($parent)) {
 			return null;
+		}
+		if($parent instanceof OrganisationAdmin) {
+			return $parent->getSubject();
 		}
 		$grandpa = $parent->getParent();
 		if($grandpa instanceof OrganisationAdmin) {
@@ -363,7 +367,7 @@ class BaseAdmin extends AbstractAdmin {
 		if($this->isAdmin()) {
 //			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
 			// admin should see everything except in embeded forms
-			if(empty($parentFD) || $parentFD->getType() !== ModelAutocompleteType::class) {
+			if( ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
 				return $query;
 			}
 		}
@@ -514,6 +518,8 @@ class BaseAdmin extends AbstractAdmin {
 	) {
 		if($object instanceof Thing) {
 			$object->setOrganisation($this->getCurrentOrganisation());
+		} elseif($object instanceof ThingChildInterface) {
+			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
 		}
 	}
 }

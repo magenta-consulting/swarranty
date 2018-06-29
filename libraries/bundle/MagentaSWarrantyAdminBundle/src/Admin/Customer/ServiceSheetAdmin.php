@@ -4,9 +4,12 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
@@ -93,6 +96,15 @@ class ServiceSheetAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
+		/** @var ProxyQuery $productQuery */
+		$apmtQuery = $this->getModelManager()->createQuery(CaseAppointment::class);
+		/** @var Expr $expr */
+		$expr = $apmtQuery->expr();
+		/** @var QueryBuilder $qb */
+		$qb     = $apmtQuery->getQueryBuilder();
+		$caseId = $this->getRequest()->query->getInt('caseId', 0);
+		$apmtQuery->andWhere($expr->eq('o.case', $caseId));
+		
 		
 		$formMapper
 			->add('images', CollectionType::class,
@@ -114,18 +126,21 @@ class ServiceSheetAdmin extends BaseAdmin {
 //					'class'         => Media::class
 				]);
 		
-		$formMapper->add('appointment', ModelType::class, [
-			'required'    => false,
-			'placeholder' => 'Select Appointment',
-			'property'    => 'searchText'
-		]);
+		if($caseId > 0) {
+			$formMapper->add('appointment', ModelType::class, [
+				'required'    => false,
+				'query'       => $apmtQuery,
+				'placeholder' => 'Select Appointment',
+				'property'    => 'searchText'
+			]);
+		}
 	}
 	
 	protected
 	function verifyDirectParent(
 		$parent
 	) {
-	
+		
 	}
 	
 	/**
@@ -135,6 +150,6 @@ class ServiceSheetAdmin extends BaseAdmin {
 	function preValidate(
 		$object
 	) {
-	
+		
 	}
 }

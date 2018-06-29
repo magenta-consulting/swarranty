@@ -190,6 +190,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			return $parameters;
 		}
 		
+		if( ! empty($this->subject) && ! empty($caseId = $this->subject->getId())) {
+			$parameters = array_merge($parameters, [ 'case' => $caseId ]);
+		}
+		
 		if(empty($org = $this->getCurrentOrganisation(true))) {
 			return $parameters;
 		}
@@ -477,6 +481,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				
 			}
 		}
+		
 		$formMapper
 			->with('form_group.service_images', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceSheets', CollectionType::class,

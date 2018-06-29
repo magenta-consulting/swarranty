@@ -19,7 +19,8 @@ class WarrantyListener {
 	}
 	
 	private function updateInfo(Warranty $warranty) {
-	
+		$warranty->generateSearchText();
+		$warranty->generateFullText();
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
