@@ -1,4 +1,17 @@
 {% extends '@SonataAdmin/standard_layout.html.twig' %}
+                {% block logo %}
+                    {% spaceless %}
+                        {% set org = currentOrganisation() %}
+                        {% if org is not empty %}
+                            <a class="logo" href="{{ path('sonata_admin_dashboard') }}">
+                                {% thumbnail org.logo, 'small' %}
+                            </a>
+                        {% else %}
+                            {{ parent() }}
+                        {% endif %}
+                    {% endspaceless %}
+                {% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
     <style>

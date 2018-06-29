@@ -3,6 +3,8 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Twig;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -19,6 +21,27 @@ class MagentaTwigExtension extends AbstractExtension {
 		return array(
 			new TwigFilter('privateMediumUrl', array( $this, 'privateMediumUrl' )),
 		);
+	}
+	
+	public function getFunctions() {
+		return array(
+			new \Twig_SimpleFunction('currentOrganisation', array( $this, 'getCurrentOrganisation' )),
+			new \Twig_SimpleFunction('organisationBySubdomain', array( $this, 'organisationBySubdomain' ))
+		
+		);
+	}
+	
+	public function getCurrentOrganisation() {
+		$repo = $this->container->get('doctrine')->getRepository(Organisation::class);
+		$user = $this->container->get(UserService::class)->getUser();
+		if(empty($org = $user->getAdminOrganisation())) {
+			if( ! empty($person = $user->getPerson())) {
+				/** @var Organisation $org */
+				$org = $person->getMembers()->first();
+			}
+		}
+		
+		return $org;
 	}
 	
 	public function privateMediumUrl($mediumId, $format = 'admin') {
