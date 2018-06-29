@@ -84,6 +84,7 @@ layout:
 
 # Admin strings
 sidebar_left:
+    servicesheet: Service Sheet
     user: System Users
     acl: Access Control List
     organisation: Organisations
@@ -93,13 +94,19 @@ sidebar_left:
     servicezone: Service Zones
     customer: Customers
     warranty: Warranties
+    dealer: Dealers
+    warrantycase: Manage Cases
 
 form_tab:
     general: General
 action_button:
     label_review_submission: Review Submission
+    label_manage_case: Manage Cases
+    label_add_case: Add Case
 
 form_group:
+    case_assignment: Assignment
+    case_details: Case Details
     brand: Brand
     service_zone: Service Zone
     warranty_details: Warranty Details
@@ -109,6 +116,7 @@ form_group:
     warranty_records: Warranty Records
     customer_details: Customer Details
     receipt_images: Receipt Images
+    service_images: Service Images
 
 form_field:
     label_registration_fields: Registration Fields
@@ -117,6 +125,18 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_appointment: Appointment
+    label_assign_technician: Assign Technician
+    label_assignee_history: Technician(s)
+    label_service_notes: Service Notes
+    label_customer: Customer
+    label_status: Status
+    label_appointment_at: Appointment Time
+    label_appointments: Appointments
+    label_service_zone: Service Zone
+    label_priority: Priority
+    label_case_detail: Case Description
+    label_warranty: Warranty
     label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
     label_full_text_search: Search All Fields
@@ -174,6 +194,8 @@ form:
     label_role: Role
 
 breadcrumb:
+    link_child_case_list: Child Cases
+    link_child_case_create: Add Child Case
     link_warranty_create: New Warranty
     link_organisation_list: Organisations
     link_service_zone_list: Service Zones
@@ -187,3 +209,5 @@ breadcrumb:
     link_a_c_role_list: ACL
     link_warranty_list: Warranties
     link_organisation_member_list: Users
+    link_warranty_case_list: Cases
+    link_warranty_case_create: New Case

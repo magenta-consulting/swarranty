@@ -10,6 +10,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandCategoryAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSubCategoryAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandSupplierAdmin;
+use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\DealerAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
@@ -45,7 +46,8 @@ class OrganisationAdmin extends BaseAdmin {
 		ProductAdmin::class            => 'organisation',
 		CustomerAdmin::class           => 'organisation',
 		BrandSupplierAdmin::class      => 'organisation',
-		OrganisationMemberAdmin::class => 'organization'
+		OrganisationMemberAdmin::class => 'organization',
+		DealerAdmin::class             => 'organisation'
 	];
 	
 	protected $action;

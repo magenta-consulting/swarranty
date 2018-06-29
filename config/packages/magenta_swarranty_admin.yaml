@@ -115,12 +115,14 @@ sonata_admin:
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\CustomerAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\WarrantyAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer\WarrantyCaseAdmin
 
             product:
                 label: dashboard.product
                 icon: '<i class="fa fa-product-hunt"></i>'
                 items:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\DealerAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\BrandAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ServiceZoneAdmin
 

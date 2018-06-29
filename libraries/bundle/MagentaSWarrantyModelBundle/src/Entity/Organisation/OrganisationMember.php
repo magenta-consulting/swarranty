@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -34,6 +35,22 @@ class OrganisationMember extends MemberModel {
 	}
 	
 	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", mappedBy="assignee", cascade={"persist","merge"},orphanRemoval=true)
+	 */
+	protected $appointments;
+	
+	public function addAppointment(CaseAppointment $appointment) {
+		$this->appointments->add($appointment);
+		$appointment->setAssignee($this);
+	}
+	
+	public function removeAppointment(CaseAppointment $appointment) {
+		$this->appointments->removeElement($appointment);
+		$appointment->setAssignee(null);
+	}
+	
+	/**
 	 * @var ArrayCollection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory", cascade={"persist", "merge"}, mappedBy="assignee")
 	 */
@@ -51,17 +68,40 @@ class OrganisationMember extends MemberModel {
 	
 	/**
 	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", mappedBy="creator", cascade={"persist","merge"})
+	 */
+	protected $createdCaseAppointments;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="creator", cascade={"persist","merge"})
+	 */
+	protected $createdCases;
+	
+	public function addCreatedCase(WarrantyCase $case) {
+		$this->createdCases->add($case);
+		$case->setCreatorName($this->getPerson()->getName());
+		$case->setCreator($this);
+	}
+	
+	public function removeCreatedCase(WarrantyCase $case) {
+		$this->createdCases->removeElement($case);
+		$case->setCreator(null);
+	}
+	
+	/**
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="assignee", cascade={"persist","merge"})
 	 */
-	protected $cases;
+	protected $assignedCases;
 	
-	public function addCase(WarrantyCase $case) {
-		$this->cases->add($case);
+	public function addAssignedCase(WarrantyCase $case) {
+		$this->assignedCases->add($case);
 		$case->setAssignee($this);
 	}
 	
-	public function removeCase(WarrantyCase $case) {
-		$this->cases->removeElement($case);
+	public function removeAssignedCase(WarrantyCase $case) {
+		$this->assignedCases->removeElement($case);
 		$case->setAssignee(null);
 	}
 	

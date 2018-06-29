@@ -1,0 +1,15 @@
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+{% block list_header %}
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'ASSIGNED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ASSIGNED'?'active':'' }}">Assigned</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'RESPONDED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'RESPONDED'?'active':'' }}">Responded</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'COMPLETED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'COMPLETED'?'active':'' }}">Completed</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'CLOSED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'CLOSED'?'active':'' }}">Closed</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
+{% endblock %}

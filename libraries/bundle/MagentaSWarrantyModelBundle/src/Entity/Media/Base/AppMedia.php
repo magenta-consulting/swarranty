@@ -2,7 +2,9 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Base;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
@@ -52,6 +54,13 @@ class AppMedia extends BaseMedia {
 	 * @ORM\JoinColumn(name="id_receipt_image_warranty", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $receiptImageWarranty;
+	
+	/**
+	 * @var ServiceSheet|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", inversedBy="images")
+	 * @ORM\JoinColumn(name="id_image_service_sheet", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $imageServiceSheet;
 	
 	/**
 	 * Get id
@@ -116,5 +125,19 @@ class AppMedia extends BaseMedia {
 	 */
 	public function setReceiptImageWarranty(?Warranty $receiptImageWarranty): void {
 		$this->receiptImageWarranty = $receiptImageWarranty;
+	}
+	
+	/**
+	 * @return ServiceSheet|null
+	 */
+	public function getImageServiceSheet(): ?ServiceSheet {
+		return $this->imageServiceSheet;
+	}
+	
+	/**
+	 * @param ServiceSheet|null $imageServiceSheet
+	 */
+	public function setImageServiceSheet(?ServiceSheet $imageServiceSheet): void {
+		$this->imageServiceSheet = $imageServiceSheet;
 	}
 }

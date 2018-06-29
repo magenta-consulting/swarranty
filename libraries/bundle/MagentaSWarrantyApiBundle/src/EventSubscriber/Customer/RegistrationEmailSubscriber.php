@@ -52,7 +52,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				->setFrom('no-reply@magenta-wellness.com')
 				->setTo($email)
 				->setBody(
-					"<h1>Anh Yeu Em</h1>",
+					"<h1>Sample Email Template</h1>",
 					'text/html'
 				)/*
 				 * If you also want to include a plaintext version of the message
@@ -69,7 +69,10 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 			$this->mailer->send($message);
 			
 		}
-		$event->setResponse(new JsonResponse(null, 204));
+		if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
+			$message = '';
+		}
+		$event->setResponse(new JsonResponse([ 'message' => $message ], 201));
 	}
 	
 }

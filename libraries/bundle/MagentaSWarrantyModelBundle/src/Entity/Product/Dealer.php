@@ -111,4 +111,32 @@ class Dealer extends Thing {
 	public function setAddress(string $address): void {
 		$this->address = $address;
 	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getWarranties(): Collection {
+		return $this->warranties;
+	}
+	
+	/**
+	 * @param Collection $warranties
+	 */
+	public function setWarranties(Collection $warranties): void {
+		$this->warranties = $warranties;
+	}
+	
+	/**
+	 * @return Organisation|null
+	 */
+	public function getOrganisation(): ?Organisation {
+		return $this->organisation;
+	}
+	
+	/**
+	 * @param Organisation|null $organisation
+	 */
+	public function setOrganisation(?Organisation $organisation): void {
+		$this->organisation = $organisation;
+	}
 }

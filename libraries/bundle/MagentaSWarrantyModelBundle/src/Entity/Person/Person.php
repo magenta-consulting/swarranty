@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
@@ -28,6 +29,17 @@ class Person extends PersonModel {
 		parent::__construct();
 		$this->members   = new ArrayCollection();
 		$this->customers = new ArrayCollection();
+	}
+	
+	public function getMemberOfOrganisation(Organisation $org) {
+		/** @var OrganisationMember $m */
+		foreach($this->members as $m) {
+			if($m->getOrganization() === $org) {
+				return $m;
+			}
+		}
+		
+		return null;
 	}
 	
 	/**

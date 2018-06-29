@@ -85,6 +85,7 @@ class ProductDetailType extends AbstractType {
 		$resolver->setDefaults([
 			// Configure your form options here
 //			'data_class'   => null, // BrandCategory::class
+			'detail_route'       => 'admin_magenta_swarrantymodel_product_product_detail',
 			'translation_domain' => 'MagentaSWarrantyAdmin',
 //			'label'              => false,
 			'type'               => null,
@@ -95,7 +96,7 @@ class ProductDetailType extends AbstractType {
 			'source_property'    => '',
 			'target_property'    => '',
 			'calculations'       => [],
-			//\\\\\\\\\\\\\ end type calculated_date \\\\\\\\\\\
+			///////////// end type calculated_date \\\\\\\\\\\
 			'router_id_param'    => 'id',
 			'create_route'       => [ 'route_name' => '', 'route_params' => [] ],
 			'update_route'       => [ 'route_name' => '', 'route_params' => [] ],
@@ -121,6 +122,7 @@ class ProductDetailType extends AbstractType {
 	
 	public function buildView(FormView $view, FormInterface $form, array $options) {
 		parent::buildView($view, $form, $options);
+		$view->vars['detail_route']     = $options['detail_route'];
 		$view->vars['product_property'] = $options['product_property'];
 		$view->vars['type']             = $options['type'];
 		$view->vars['appended_value']   = $options['appended_value'];

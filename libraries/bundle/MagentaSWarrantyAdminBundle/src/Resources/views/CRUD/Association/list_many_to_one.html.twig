@@ -1,0 +1,58 @@
+{#
+
+This file is part of the Sonata package.
+
+(c) Thomas Rabaix <thomas.rabaix@sonata-project.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+
+#}
+{% extends '@SonataAdmin/CRUD/Association/list_many_to_one.html.twig' %}
+{% block field %}
+    {% if value %}
+        {% if field_description.type == 'product' %}
+            <div>
+                <div><strong>Brand: </strong></div>
+                <span>{{ value.brand is empty?'':value.brand.name }}</span>
+            </div>
+            <div>
+                <div><strong>Cat: </strong></div>
+                <span>{{ value.category is empty?'':value.category.name }}</span>
+            </div>
+            <div>
+                <div><strong>Model Name: </strong></div>
+                <span>{{ value.name }}</span>
+            </div>
+            <div>
+                <div><strong>Model Number: </strong></div>
+                <span>{{ value.modelNumber }}</span>
+            </div>
+        {% elseif  field_description.type == 'customer' %}
+            <div>{{ value.name }}</div>
+            <div>{{ value.homeAddress }}</div>
+            <div>{{ value.homePostalCode }}</div>
+            <div>
+                <div><strong>Contact: </strong></div>
+                <div>+{{ value.dialingCode }} {{ value.telephone }}</div>
+            </div>
+            <div>
+                <div><strong>Email:</strong></div>
+                <div>{{ value.email }}</div>
+            </div>
+        {% else %}
+            {% set route_name = field_description.options.route.name %}
+            {% if not field_description.options.identifier|default(false)
+                and field_description.hasAssociationAdmin
+                and field_description.associationadmin.hasRoute(route_name)
+                and field_description.associationadmin.hasAccess(route_name, value)
+                and field_description.associationadmin.id(value) %}
+                <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, value, field_description.options.route.parameters) }}">
+                    {{ value|render_relation_element(field_description) }}
+                </a>
+            {% else %}
+                {{ value|render_relation_element(field_description) }}
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
@@ -11,6 +12,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -33,9 +35,12 @@ use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Sonata\CoreBundle\Form\Type\DateTimePickerType;
+use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -43,11 +48,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class WarrantyAdmin extends BaseAdmin {
-	
-	const CHILDREN = [
-		WarrantyCaseAdmin::class => 'warranty',
-	];
+class CaseAppointmentAdmin extends BaseAdmin {
 	
 	protected $action;
 	
@@ -65,41 +66,51 @@ class WarrantyAdmin extends BaseAdmin {
 		$request   = $this->getRequest();
 		$container = $pool->getContainer();
 		/** @var Expr $expr */
-		$expr          = $query->getQueryBuilder()->expr();
-		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
+		$expr      = $query->getQueryBuilder()->expr();
+		$caseAlias = $query->entityJoin([ [ 'fieldName' => 'case' ] ]);
 		
-		return $query->andWhere($expr->eq($customerAlias . '.organisation', $organisation->getId()));
+		/** @var QueryBuilder $qb */
+		$qb = $query->getQueryBuilder();
+		$qb
+			->join($caseAlias . '.warranty', 'warranty')
+			->join('warranty.customer', 'customer')
+			->join('customer.organisation', 'organisation');
+		
+		
+		return $query->andWhere($expr->eq('organisation.id', $organisation->getId()));
 	}
 	
 	public function getNewInstance() {
-		/** @var Warranty $object */
+		/** @var CaseAppointment $object */
 		$object = parent::getNewInstance();
-		if(empty($object->getCustomer())) {
-			$object->setCustomer(new Customer());
-		}
-		if(empty($object->getProduct())) {
-			$object->setProduct(new Product());
-		}
+//		if(empty($w = $object->getCase()->getWarranty())) {
+//			$object->getCase()->setWarranty($w = new Warranty());
+//		}
+//		if(empty($w->getCustomer())) {
+//			$w->setCustomer(new Customer());
+//		}
+//		if(empty($w->getProduct())) {
+//			$w->setProduct(new Product());
+//		}
 		
 		return $object;
 	}
 	
 	/**
-	 * @param string   $name
-	 * @param Warranty $object
+	 * @param string          $name
+	 * @param CaseAppointment $object
 	 */
 	public function isGranted($name, $object = null) {
 		return parent::isGranted($name, $object);
 	}
 	
 	public function toString($object) {
-		return $object instanceof Warranty
-			? $object->getCustomer()->getName() . ' - ' . $object->getProduct()->getName()
-			: 'Warranty'; // shown in the breadcrumb on the create view
+		return $object instanceof CaseAppointment
+			? $object->getCase()->getWarranty()->getCustomer()->getName() . ' - ' . $object->getCase()->getWarranty()->getProduct()->getName()
+			: 'Appointment'; // shown in the breadcrumb on the create view
 	}
 	
 	public function createQuery($context = 'list') {
-		$request = $this->getRequest();
 		/** @var ProxyQueryInterface $query */
 		$query = parent::createQuery($context);
 		if(empty($this->getParentFieldDescription())) {
@@ -108,10 +119,9 @@ class WarrantyAdmin extends BaseAdmin {
 		/** @var Expr $expr */
 		$expr = $query->expr();
 		/** @var QueryBuilder $qb */
-		$qb            = $query->getQueryBuilder();
-		$rootAlias     = $qb->getRootAliases()[0];
-		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
-		$statusFilter  = $this->getRequest()->query->get('statusFilter');
+		$qb           = $query->getQueryBuilder();
+		$rootAlias    = $qb->getRootAliases()[0];
+		$statusFilter = $this->getRequest()->query->get('statusFilter');
 		switch($statusFilter) {
 			case 'ALL':
 				break;
@@ -143,16 +153,11 @@ class WarrantyAdmin extends BaseAdmin {
 				break;
 		}
 		
-		if( ! empty($cid = $request->query->get('customer'))) {
-			$query->andWhere($expr->eq($customerAlias . '.id', $cid));
-		}
+		//        $query->andWhere()
 		
-		if( ! empty($org = $this->getCurrentOrganisation(false))) {
-//			$qb->join($customerAlias . '.organisation', 'organisation');
-			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
+		{
+			return $query;
 		}
-		
-		return $query;
 	}
 	
 	public function getPersistentParameters() {
@@ -168,8 +173,18 @@ class WarrantyAdmin extends BaseAdmin {
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-		$collection->add('detail', $this->getRouterIdParameter() . '/detail');
+//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
+	
 	}
+	
+	public function setTemplate($name, $template) {
+		$_name = strtoupper($name);
+		if($_name === 'BASE_LIST_FIELD') {
+			$template = '@MagentaSWarrantyAdmin/Admin/Customer/CaseAppointment/CRUD/list_field.html.twig';
+		}
+		parent::setTemplate($name, $template);
+	}
+	
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
 		$showMapper
@@ -229,11 +244,9 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case'              => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
-					'case_add'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
-					'edit'              => array(),
-					'delete'            => array(),
+//					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -246,193 +259,110 @@ class WarrantyAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
-			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
-			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
-			->add('dealer.name', null, [ 'editable' => true, 'label' => 'form.label_dealer' ])
-			->add('product.brand.name', null, [ 'editable' => true, 'label' => 'form.label_brand' ])
-			->add('product.name', null, [ 'editable' => true, 'label' => 'form.label_model_name' ])
-			->add('purchaseDate', null, [ 'editable' => true, 'label' => 'form.label_purchase_date' ])
-			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
-			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ]);
+			->add('priority', 'choice', [
+				'editable' => true,
+				'label'    => 'form.label_priority',
+				'choices'  => [
+					CaseAppointment::PRIORITY_LOW    => CaseAppointment::PRIORITY_LOW,
+					CaseAppointment::PRIORITY_NORMAL => CaseAppointment::PRIORITY_NORMAL,
+					CaseAppointment::PRIORITY_HIGH   => CaseAppointment::PRIORITY_HIGH
+				]
+			])
+			->add('warranty.product', 'product', [
+				'label'               => 'form.label_product',
+				'associated_property' => 'warranty.product.name'
+			])
+			->add('description', 'html', [
+//				'editable' => true,
+				'label' => 'form.label_case_detail'
+			])
+			->add('serviceNotes', null, [ 'label' => 'form.label_service_notes' ])
+			->add('assigneeHistory', null, [ 'label' => 'form.label_assignee_history' ])
+			->add('serviceZone.name', null, [ 'label' => 'form.label_service_zone' ]);
 		
-		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_images' ]);
+		$listMapper
+			->add('warranty.customer', 'customer', [ 'label' => 'form.label_customer' ])
+			->add('status', null, [ 'label' => 'form.label_status' ]);
+
+//		$listMapper->add('warranty.receiptImages', 'image', [
+//			'editable' => true,
+//			'label'    => 'form.label_receipt_images'
+//		])
+		;
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
-		$formMapper
-			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ]);
-		$formMapper
-			->add('receiptImages', CollectionType::class,
-				[
-					// each entry in the array will be an "media" field
-					'entry_type'    => MediaType::class,
-					'allow_add'     => true,
-					'allow_delete'  => true,
-//					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
-					// these options are passed to each "media" type
-					'entry_options' => array(
-						'new_on_update' => false,
-						'attr'          => array( 'class' => 'receipt-image' ),
-						'context'       => 'receipt_image',
-						'provider'      => 'sonata.media.provider.image'
-					),
-					
-					'label' => false,
-//					'class'         => Media::class
-				]);
-		$formMapper->end();
-		$formMapper
-			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
-		$formMapper
-			->add('customer.name', null, [ 'label' => 'form.label_name' ])
-			->add('customer.email', null, [ 'label' => 'form.label_email' ])
-			->add('customer.dialingCode', NumberType::class, [ 'label' => 'form.label_dialing_code' ])
-			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ])
-			->add('customer.homeAddress', null, [ 'required' => true, 'label' => 'form.label_address' ])
-			->add('customer.homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ]);
-		$formMapper->end();
-		$formMapper
-			->with('form_group.warranty_details', [ 'class' => 'col-md-3' ]);
-		$formMapper->add('product', ModelType::class, [
-//			'route'              => [
-//				'name'       => 'sonata_admin_retrieve_autocomplete_items',
-//				'parameters' => [ 'organisation' => $this->getCurrentOrganisation()->getId() ]
-//			],
-			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
-			'property' => 'searchText',
-			'btn_add'  => false,
-//			'to_string_callback' => function(Product $entity) {
-////				$entity->generateSearchText();
+//		$formMapper
+//			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ]);
+//		$formMapper
+//			->add('receiptImages', CollectionType::class,
+//				[
+//					// each entry in the array will be an "media" field
+//					'entry_type'    => MediaType::class,
+//					'allow_add'     => true,
+//					'allow_delete'  => true,
+////					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
+//					// these options are passed to each "media" type
+//					'entry_options' => array(
+//						'new_on_update' => false,
+//						'attr'          => array( 'class' => 'receipt-image' ),
+//						'context'       => 'receipt_image',
+//						'provider'      => 'sonata.media.provider.image'
+//					),
 //
-//				return $entity->getSearchText();
-//			},
-//			'callback'           => function(ProductAdmin $admin, $property, $field) {
-//
-////				$queryBuilder, $alias, $field, $value
-////				if( ! $value['value']) {
-////					return;
-////				}
-////
-////				/** @var Expr $expr */
-////				$expr = $queryBuilder->expr();
-////				$queryBuilder
-////					->andWhere('organisation.id = :orgId')
-//////					->andWhere($expr->orX(
-//////
-//////					))
-////					->setParameter('orgId', $this->getCurrentOrganisation()->getId());
-////
-//				return true;
-//			},
-		]);
-		$formMapper->add('product.image', ProductDetailType::class, [
-			'required'       => false,
-			'label'          => 'form.label_product_image',
-			'appended_value' => 'months',
-			'type'           => 'image',
-			'class'          => Media::class
-		]);
-		$formMapper->add('product.warrantyPeriod', ProductDetailType::class, [
-			'required'       => false,
-			'label'          => 'form.label_default_warranty_period',
-			'appended_value' => 'months',
-			'type'           => 'warranty_period',
-			'class'          => null
-		]);
-		$formMapper->add('product.extendedWarrantyPeriod', ProductDetailType::class, [
-			'required'       => false,
-			'label'          => 'form.label_extended_warranty_period',
-			'appended_value' => 'month(s)',
-			'type'           => 'extended_warranty_period',
-			'class'          => null
-		]);
-		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
-		$formMapper->add('purchaseDate', DatePickerType::class, [
-			'format'                => 'dd-MM-yyyy',
-			'placeholder'           => 'dd-mm-yyyy',
-			'datepicker_use_button' => false,
-			'required'              => false,
-			'label'                 => 'form.label_purchase_date',
-		]);
-		
-		$formMapper->add('createdAt', DatePickerType::class, [
-			'label'                 => 'form.label_warranty_submission_date',
-			'datepicker_use_button' => false,
-			'format'                => 'dd-MM-yyyy',
-			'placeholder'           => 'dd-mm-yyyy'
-		
-		]);
-		$formMapper->add('expiryDate', ProductDetailType::class, [
-			'required'        => false,
-//			'format'   => 'dd-MM-yyyy',
-			'type'            => 'calculated_date',
-			'source_property' => 'purchaseDate',
-			'calculations'    => [
-				[
-					'operation' => 'add',
-					'type'      => 'product',
-					'value'     => 'warranty_period',
-					'when'      => 'always'
-				],
-				[
-					'operation' => 'add',
-					'type'      => 'product',
-					'value'     => 'extended_warranty_period',
-					'when'      => [
-						'type'  => 'form',
-						'value' => 'extendedWarrantyPeriodApproved',
-						'equal' => true
-					]
-				]
-			]
-
-//			'datepicker_use_button' => false,
-//			'format'                => 'dd-MM-yyyy',
-//			'placeholder'           => 'dd-mm-yyyy'
-		
-		]);
-		
-		$formMapper->add('dealer', ModelType::class, [
-			'required' => false,
-			'query'    => $this->getFilterByOrganisationQueryForModel(Dealer::class),
-			'property' => 'name',
-			'btn_add'  => false,
-		]);
-		
-		
+//					'label' => false,
+////					'class'         => Media::class
+//				]);
+//		$formMapper->end();
+//		$formMapper
+//			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
+//		$formMapper
+//			->add('warranty', , [ 'label' => 'form.label_warranty' ])
+//		;
+//		$formMapper->end();
+		$formMapper
+			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
+		$formMapper
+			->add('assignee', ModelType::class, [
+				'label'    => 'form.label_assign_technician',
+				'property' => 'person.name'
+			])
+			->add('appointmentAt', DateTimePickerType::class, [
+				'required'              => false,
+				'format'                => 'dd-MM-yyyy, H:m',
+				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+				'datepicker_use_button' => false,
+			]);
 		$formMapper->end();
 	}
 	
 	/**
-	 * @param Warranty $object
+	 * @param CaseAppointment $object
 	 */
 	public function preValidate($object) {
 		parent::preValidate($object);
-		$ris = $object->getReceiptImages();
-		/** @var Media $ri */
-		foreach($ris as $m) {
-			if( ! empty($m)) {
-				$object->addReceiptImage($m);
-			}
-		}
+//		$ris = $object->getReceiptImages();
+//		/** @var Media $ri */
+//		foreach($ris as $m) {
+//			$object->addReceiptImage($m);
+//		}
 	}
 	
 	/**
-	 * @param Warranty $object
+	 * @param CaseAppointment $object
 	 */
 	public function prePersist($object) {
 		parent::prePersist($object);
-		if( ! $object->isEnabled()) {
-			$object->setEnabled(true);
-		}
+//		if( ! $object->isEnabled()) {
+//			$object->setEnabled(true);
+//		}
 	}
 	
 	/**
-	 * @param Warranty $object
+	 * @param CaseAppointment $object
 	 */
 	public function preUpdate($object) {
 		parent::preUpdate($object);
@@ -450,7 +380,7 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureDatagridFilters(DatagridMapper $filterMapper) {
 		$filterMapper
 			->add('id')
-			->add('customer.name')//			->add('locked')
+			->add('case.warranty.customer.name')//			->add('locked')
 		;
 		parent::configureDatagridFilters($filterMapper);
 	}

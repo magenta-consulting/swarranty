@@ -1,0 +1,64 @@
+{% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+ {% block tab_menu_navbar_header %}
+     {% if _navbar_title is not empty %}
+         <div class="navbar-header" style="width: 100%; display: flex;">
+             <div style="width:100%; display: flex; ">
+                 {% if object.decisionStatus == 'CLOSED' %}
+                     <span class="decision-status label label-primary">CLOSED</span>
+                 {% endif %}
+
+                 {% if admin.hasRoute('decide') %}
+                     <form action="" method="post" class="decision-form" style="width:100%; display: flex; ">
+                         {% if object.decisionStatus != 'CLOSED' %}
+                             <button type="submit" class="decision-button btn btn-success"
+                                     data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
+                                 CLOSE CASE
+                             </button>
+                         {% endif %}
+                         <button type="submit" class="decision-button btn btn-default"
+                                 data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
+                             RE-OPEN CASE
+                         </button>
+
+                         {% set warranty = object.warranty %}
+                         {% set customer = warranty.customer %}
+                         {% set organisation = customer.organisation %}
+
+                         <a class="decision-button btn btn-info"
+                            href="{{ path('admin_magenta_swarrantymodel_customer_warrantycase_admin_magenta_customer_warrantychildcase_create',{'organisation': organisation.id, 'id': object.id}) }}">
+                             ADD SUB-CASE
+                         </a>
+                     </form>
+                 {% endif %}
+             </div>
+         </div>
+     {% endif %}
+ {% endblock %}
+
+{%- block javascripts -%}
+    {{ parent() }}
+    <script>
+        (function ($) {
+            $(document).ready(function ($) {
+                $('.decision-form').on('submit', function () {
+
+                });
+
+                $("form button[type=submit]").click(function () {
+                    $(this).parents("form").attr("action", $(this).data('action'));
+                });
+
+            });
+
+        })(jQuery);
+    </script>
+{%- endblock javascripts -%}
+
+{%- block stylesheets -%}
+    {{ parent() }}
+    <style>
+        .navbar-collapse {
+            display: none;
+        }
+    </style>
+{%- endblock stylesheets -%}

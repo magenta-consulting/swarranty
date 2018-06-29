@@ -47,7 +47,7 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	/**
-	 * deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
+	 * @deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
 	 *
 	 * @param string $name
 	 *
@@ -110,12 +110,11 @@ class BaseAdmin extends AbstractAdmin {
 		/** @var FieldDescription $fieldDescription */
 		foreach($this->listFieldDescriptions as $fieldDescription) {
 			switch($fieldDescription->getMappingType()) {
-//				case ClassMetadata::MANY_TO_ONE:
-//					$fieldDescription->setTemplate(
-//						'@SonataAdmin/CRUD/Association/list_many_to_one.html.twig'
-//					);
-//
-//					break;
+				case ClassMetadata::MANY_TO_ONE:
+					$fieldDescription->setTemplate(
+						'@MagentaSWarrantyAdmin/CRUD/Association/list_many_to_one.html.twig'
+					);
+					break;
 				case ClassMetadata::ONE_TO_ONE:
 					$fieldDescription->setTemplate(
 						'@MagentaSWarrantyAdmin/CRUD/Association/list_one_to_one.html.twig'
@@ -138,17 +137,30 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
-
+	
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
 //			if( ! empty($org)) {
-//			$parameters['organisation'] = $orgId;
+//				$parameters['organisation'] = $orgId;
 //			}
 //		}
-
+//
+////
 //		return parent::generateUrl($name, $parameters, $absolute);
 //	}
+	
+	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
+		if(empty($parent)) {
+			return null;
+		}
+		$grandpa = $parent->getParent();
+		if($grandpa instanceof OrganisationAdmin) {
+			return $grandpa->getSubject();
+		} else {
+			return $this->getCurrentOrganisationFromAncestors($grandpa);
+		}
+	}
 	
 	/**
 	 * @return Organisation|null
@@ -159,12 +171,17 @@ class BaseAdmin extends AbstractAdmin {
 	) {
 		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
-		} elseif(empty($this->getParent())) {
-			$user = $this->getLoggedInUser();
-			$org  = $user->getAdminOrganisation();
 		} else {
-			if($this->getParent() instanceof OrganisationAdmin) {
-				$org = $this->getParent()->getSubject();
+			$org = $this->getCurrentOrganisationFromAncestors($this->getParent());
+		}
+		
+		if(empty($org)) {
+			$user = $this->getLoggedInUser();
+			if(empty($org = $user->getAdminOrganisation())) {
+				if( ! empty($person = $user->getPerson())) {
+					/** @var Organisation $org */
+					$org = $person->getMembers()->first();
+				}
 			}
 		}
 		
@@ -353,7 +370,7 @@ class BaseAdmin extends AbstractAdmin {
 		
 		$organisation = $this->getCurrentOrganisation();
 		
-		if(empty($this->getParent())) { // && ! empty($organisation)
+		if( ! empty($organisation)) { // && ! empty($organisation)
 			$this->filterQueryByOrganisation($query, $organisation);
 		} else {
 			// TODO: change this so that 1 person can manage multiple organisations

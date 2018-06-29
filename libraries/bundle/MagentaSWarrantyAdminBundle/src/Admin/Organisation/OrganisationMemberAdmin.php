@@ -103,7 +103,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		}
 		
 		return array_merge($parameters, array(
-			'organisation' => $this->getCurrentOrganisation()->getId()
+			'organisation' => $this->getCurrentOrganisation(false)->getId()
 		));
 	}
 	

@@ -13,6 +13,13 @@ services:
             tags:
                 - { name: doctrine.orm.entity_listener }
 
+    magenta_doctrine_entity_listener_warranty_case:
+            class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\WarrantyCaseListener
+            arguments:
+                - '@service_container'
+            tags:
+                - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_product:
             class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Product\ProductListener
             arguments:

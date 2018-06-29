@@ -7,6 +7,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,7 +20,22 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Entity()
  * @ORM\Table(name="customer__case")
  */
-class WarrantyCase {
+class WarrantyCase implements DecisionMakingInterface {
+	
+	const PRIORITY_LOW = 'LOW';
+	const PRIORITY_NORMAL = 'NORMAL';
+	const PRIORITY_HIGH = 'HIGH';
+	
+	const DECISION_ASSIGN = 'ASSIGN';
+	const DECISION_CLOSE = 'CLOSE';
+	const DECISION_REOPEN = 'REOPEN';
+
+//	const STATUS_NEW = 'NEW'; // inherited
+	const STATUS_CLOSED = 'CLOSED';
+	const STATUS_ASSIGNED = 'ASSIGNED';
+	const STATUS_REOPENED = 'REOPENED';
+	const STATUS_RESPONDED = 'RESPONDED';
+	const STATUS_COMPLETED = 'COMPLETED';
 	
 	/**
 	 * @var int|null
@@ -30,7 +46,101 @@ class WarrantyCase {
 	protected $id;
 	
 	public function __construct() {
-		$this->createdAt = new \DateTime();
+		$this->createdAt     = new \DateTime();
+		$this->children      = new ArrayCollection();
+		$this->appointments  = new ArrayCollection();
+		$this->serviceSheets = new ArrayCollection();
+		$this->serviceNotes  = new ArrayCollection();
+	}
+	
+	public function getDecisionStatus(): string {
+		return $this->status;
+	}
+	
+	public function makeDecision(string $decision) {
+		switch($decision) {
+			case self::DECISION_ASSIGN:
+				$this->markStatusAs(self::STATUS_ASSIGNED);
+				break;
+			case self::DECISION_CLOSE:
+				$this->markStatusAs(self::STATUS_CLOSED);
+				break;
+			case self::DECISION_REOPEN:
+				$this->markStatusAs(self::STATUS_REOPENED);
+				break;
+		}
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDecisionRemarks(): ?string {
+		return $this->decisionRemarks;
+	}
+	
+	/**
+	 * @param null|string $decisionRemarks
+	 */
+	public function setDecisionRemarks(?string $decisionRemarks): void {
+		$this->decisionRemarks = $decisionRemarks;
+	}
+	
+	public function markStatusAs($status) {
+		switch($status) {
+			case self::STATUS_NEW:
+				$this->open      = true;
+				$this->assigned  = false;
+				$this->responded = false;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_NEW;
+				break;
+			
+			case self::STATUS_ASSIGNED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = false;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_ASSIGNED;
+				break;
+			
+			case self::STATUS_RESPONDED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_RESPONDED;
+				break;
+			
+			case self::STATUS_COMPLETED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = true;
+				$this->closed    = false;
+				$this->status    = self::STATUS_COMPLETED;
+				break;
+			
+			case self::STATUS_REOPENED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = false;
+				$this->closed    = false;
+				$this->status    = self::STATUS_REOPENED;
+				break;
+			
+			case self::STATUS_CLOSED:
+				$this->open      = true;
+				$this->assigned  = true;
+				$this->responded = true;
+				$this->completed = true;
+				$this->closed    = true;
+				$this->status    = self::STATUS_CLOSED;
+				break;
+		}
 	}
 	
 	public function initiateNumber() {
@@ -51,6 +161,61 @@ class WarrantyCase {
 	 */
 	public function getId(): ?int {
 		return $this->id;
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", mappedBy="parent", cascade={"persist","merge"})
+	 */
+	protected $children;
+	
+	public function addChild(WarrantyCase $c) {
+		$this->children->add($c);
+		$c->setParent($this);
+	}
+	
+	public function removeChild(WarrantyCase $c) {
+		$this->children->removeElement($c);
+		$c->setParent(null);
+	}
+	
+	/**
+	 * @var WarrantyCase|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", cascade={"persist", "merge"}, inversedBy="children")
+	 * @ORM\JoinColumn(name="id_parent_case", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $parent;
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 */
+	protected $appointments;
+	
+	public function addAppointment(CaseAppointment $appointment) {
+		$this->appointments->add($appointment);
+		$appointment->setCase($this);
+	}
+	
+	public function removeAppointment(CaseAppointment $appointment) {
+		$this->appointments->removeElement($appointment);
+		$appointment->setCase(null);
+	}
+	
+	/**
+	 * @var Collection
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 */
+	protected $serviceSheets;
+	
+	public function addServiceSheet(ServiceSheet $s) {
+		$this->serviceSheets->add($s);
+		$s->setCase($this);
+	}
+	
+	public function removeServiceSheet(ServiceSheet $s) {
+		$this->serviceSheets->removeElement($s);
+		$s->setCase(null);
 	}
 	
 	/**
@@ -85,14 +250,21 @@ class WarrantyCase {
 	
 	/**
 	 * @var OrganisationMember|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", cascade={"persist", "merge"}, inversedBy="cases")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", cascade={"persist", "merge"}, inversedBy="createdCases")
+	 * @ORM\JoinColumn(name="id_creator", referencedColumnName="id", onDelete="SET NULL")
+	 */
+	protected $creator;
+	
+	/**
+	 * @var OrganisationMember|null
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", cascade={"persist", "merge"}, inversedBy="assignedCases")
 	 * @ORM\JoinColumn(name="id_assignee", referencedColumnName="id", onDelete="SET NULL")
 	 */
 	protected $assignee;
 	
 	
 	/**
-	 * @var ArrayCollection
+	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory", cascade={"persist", "merge"}, mappedBy="case")
 	 */
 	protected $assigneeHistory;
@@ -125,6 +297,60 @@ class WarrantyCase {
 	 */
 	protected $closedAt;
 	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected
+		$decisionRemarks;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $priority = self::PRIORITY_NORMAL;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $responded = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $completed = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $assigned = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $closed = false;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":true})
+	 */
+	protected $open = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $status = self::STATUS_NEW;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $creatorName;
 	
 	/**
 	 * @var string|null
@@ -251,16 +477,16 @@ class WarrantyCase {
 	}
 	
 	/**
-	 * @return ArrayCollection
+	 * @return Collection
 	 */
-	public function getAssigneeHistory(): ArrayCollection {
+	public function getAssigneeHistory(): Collection {
 		return $this->assigneeHistory;
 	}
 	
 	/**
-	 * @param ArrayCollection $assigneeHistory
+	 * @param Collection $assigneeHistory
 	 */
-	public function setAssigneeHistory(ArrayCollection $assigneeHistory): void {
+	public function setAssigneeHistory(Collection $assigneeHistory): void {
 		$this->assigneeHistory = $assigneeHistory;
 	}
 	
@@ -276,5 +502,187 @@ class WarrantyCase {
 	 */
 	public function setAppointmentAt(?\DateTime $appointmentAt): void {
 		$this->appointmentAt = $appointmentAt;
+	}
+	
+	/**
+	 * @return OrganisationMember|null
+	 */
+	public function getCreator(): ?OrganisationMember {
+		return $this->creator;
+	}
+	
+	/**
+	 * @param OrganisationMember|null $creator
+	 */
+	public function setCreator(?OrganisationMember $creator): void {
+		$this->creator = $creator;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getCreatorName(): ?string {
+		return $this->creatorName;
+	}
+	
+	/**
+	 * @param null|string $creatorName
+	 */
+	public function setCreatorName(?string $creatorName): void {
+		$this->creatorName = $creatorName;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getPriority(): ?string {
+		return $this->priority;
+	}
+	
+	/**
+	 * @param null|string $priority
+	 */
+	public function setPriority(?string $priority): void {
+		$this->priority = $priority;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getStatus(): ?string {
+		return $this->status;
+	}
+	
+	/**
+	 * @param null|string $status
+	 */
+	public function setStatus(?string $status): void {
+		$this->status = $status;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAppointments(): Collection {
+		return $this->appointments;
+	}
+	
+	/**
+	 * @param Collection $appointments
+	 */
+	public function setAppointments(Collection $appointments): void {
+		$this->appointments = $appointments;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isCompleted(): bool {
+		return $this->completed;
+	}
+	
+	/**
+	 * @param bool $completed
+	 */
+	public function setCompleted(bool $completed): void {
+		$this->completed = $completed;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isAssigned(): bool {
+		return $this->assigned;
+	}
+	
+	/**
+	 * @param bool $assigned
+	 */
+	public function setAssigned(bool $assigned): void {
+		$this->assigned = $assigned;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isClosed(): bool {
+		return $this->closed;
+	}
+	
+	/**
+	 * @param bool $closed
+	 */
+	public function setClosed(bool $closed): void {
+		$this->closed = $closed;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isOpen(): bool {
+		return $this->open;
+	}
+	
+	/**
+	 * @param bool $open
+	 */
+	public function setOpen(bool $open): void {
+		$this->open = $open;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isResponded(): bool {
+		return $this->responded;
+	}
+	
+	/**
+	 * @param bool $responded
+	 */
+	public function setResponded(bool $responded): void {
+		$this->responded = $responded;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getChildren(): Collection {
+		return $this->children;
+	}
+	
+	/**
+	 * @param Collection $children
+	 */
+	public function setChildren(Collection $children): void {
+		$this->children = $children;
+	}
+	
+	/**
+	 * @return WarrantyCase|null
+	 */
+	public function getParent(): ?WarrantyCase {
+		return $this->parent;
+	}
+	
+	/**
+	 * @param WarrantyCase|null $parent
+	 */
+	public function setParent(?WarrantyCase $parent): void {
+		$this->parent = $parent;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getServiceSheets(): Collection {
+		return $this->serviceSheets;
+	}
+	
+	/**
+	 * @param Collection $serviceSheets
+	 */
+	public function setServiceSheets(Collection $serviceSheets): void {
+		$this->serviceSheets = $serviceSheets;
 	}
 }

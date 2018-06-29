@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
@@ -17,9 +18,9 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="customer__service_note")
+ * @ORM\Table(name="customer__service_sheet")
  */
-class ServiceNote {
+class ServiceSheet {
 	
 	/**
 	 * @var int|null
@@ -31,6 +32,7 @@ class ServiceNote {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+		$this->images = new ArrayCollection();
 	}
 	
 	/**
@@ -41,15 +43,32 @@ class ServiceNote {
 	}
 	
 	/**
+	 * @var Collection|null
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media", mappedBy="imageServiceSheet", cascade={"persist","merge"},orphanRemoval=true)
+	 */
+	protected
+		$images;
+	
+	public function addImage(Media $image) {
+		$this->images->add($image);
+		$image->setImageServiceSheet($this);
+	}
+	
+	public function removeImage(Media $image) {
+		$this->images->removeElement($image);
+		$image->setImageServiceSheet(null);
+	}
+	
+	/**
 	 * @var CaseAppointment|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", cascade={"persist", "merge"}, inversedBy="serviceNote")
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", cascade={"persist", "merge"}, inversedBy="serviceSheet")
 	 * @ORM\JoinColumn(name="id_appointment", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $appointment;
 	
 	/**
 	 * @var WarrantyCase|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", cascade={"persist", "merge"}, inversedBy="serviceNotes")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase", cascade={"persist", "merge"}, inversedBy="serviceSheets")
 	 * @ORM\JoinColumn(name="id_case", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $case;
@@ -59,12 +78,6 @@ class ServiceNote {
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $createdAt;
-	
-	/**
-	 * @var string|null
-	 * @ORM\Column(type="string",nullable=true)
-	 */
-	protected $description;
 	
 	/**
 	 * @return WarrantyCase|null
@@ -95,20 +108,6 @@ class ServiceNote {
 	}
 	
 	/**
-	 * @return null|string
-	 */
-	public function getDescription(): ?string {
-		return $this->description;
-	}
-	
-	/**
-	 * @param null|string $description
-	 */
-	public function setDescription(?string $description): void {
-		$this->description = $description;
-	}
-	
-	/**
 	 * @return CaseAppointment|null
 	 */
 	public function getAppointment(): ?CaseAppointment {
@@ -120,5 +119,19 @@ class ServiceNote {
 	 */
 	public function setAppointment(?CaseAppointment $appointment): void {
 		$this->appointment = $appointment;
+	}
+	
+	/**
+	 * @return Collection|null
+	 */
+	public function getImages(): ?Collection {
+		return $this->images;
+	}
+	
+	/**
+	 * @param Collection|null $images
+	 */
+	public function setImages(?Collection $images): void {
+		$this->images = $images;
 	}
 }
