@@ -27,7 +27,7 @@ export class RegistrationService {
     }
 
     submitRegistration(regId): Observable<Registration> {
-        let url = `${apiEndPoint}${regId}`;
+        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${regId}`;
         return this.http.put<Registration>(url, {'submitted': true} as Registration, httpOptions).pipe(
             catchError(this.handleError<Registration>('submitRegistration'))
         );
@@ -42,7 +42,12 @@ export class RegistrationService {
 
     // get data Registration
     getRegistration(id: string) {
-        let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${id}`;
+        let url = null;
+        if (Number.isNaN(parseInt(id))) {
+            url = `${apiEndPoint}${id}`;
+        } else {
+            url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}/${id}`;
+        }
 
         return this.http.get<Registration>(url).pipe(
             map((res) => {

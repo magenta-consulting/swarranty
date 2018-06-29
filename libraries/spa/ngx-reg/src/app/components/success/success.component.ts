@@ -12,7 +12,7 @@ import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environme
 })
 export class SuccessComponent implements OnInit, AfterViewInit {
 
-    prodList : any = [];
+    prodList: any = [];
     isLoading: boolean = false;
 
     constructor(private productService: ProductService) {
@@ -33,9 +33,16 @@ export class SuccessComponent implements OnInit, AfterViewInit {
     getDataWarranties() {
         // let regId = this.router.snapshot.params['id'];
         this.isLoading = true;
-        if(localStorage.getItem('regId')) {
-            let regId = parseInt(localStorage.getItem('regId'));
-    
+        if (localStorage.getItem('regId')) {
+            let regId:any = localStorage.getItem('regId');
+            if (Number.isNaN(parseInt(regId))) {
+                let cutstr = '/api/registrations/';
+                console.log('regId', regId, cutstr.length);
+                regId = parseInt(regId.substring(cutstr.length));
+            } else {
+                regId = parseInt(regId);
+            }
+
             this.productService.getApiWarranties(regId).subscribe(prods => {
                 this.isLoading = false;
                 this.prodList = prods;

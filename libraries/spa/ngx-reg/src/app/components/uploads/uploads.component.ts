@@ -52,7 +52,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     submitRegistration() {
         console.log('submitting');
         let regId = this.route.snapshot.params['id'];
-        this.regService.submitRegistration(apiEndPointBase + '/registrations/' + regId).subscribe(
+        this.regService.submitRegistration(regId).subscribe(
             res => {
                 this.isLoading = false;
                 this.router.navigate(['/success']);
@@ -70,9 +70,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     getDataWarranties() {
         let regId = this.route.snapshot.params['id'];
 
-        // if (!localStorage.getItem('regId')) {
-        //     localStorage.setItem('regId', regId);
-        // }
+        if (!localStorage.getItem('regId')) {
+            localStorage.setItem('regId', regId);
+        }
 
         this.isLoading = true;
         // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
