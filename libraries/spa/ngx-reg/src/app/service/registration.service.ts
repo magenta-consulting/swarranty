@@ -26,6 +26,13 @@ export class RegistrationService {
     constructor(private http: HttpClient) {
     }
 
+    submitRegistration(regId): Observable<Registration> {
+        let url = `${apiEndPoint}${regId}`;
+        return this.http.put<Registration>(url, {'submitted': true} as Registration, httpOptions).pipe(
+            catchError(this.handleError<Registration>('submitRegistration'))
+        );
+    }
+
     postRegistration(reg: Registration): Observable<Registration> {
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}`;
         return this.http.post<Registration>(url, reg, httpOptions).pipe(

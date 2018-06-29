@@ -4,10 +4,6 @@
             <h3>Customer and Product Registration</h3>
             <section>
                 <h5>Customer Details</h5>
-                <div 
-                class="input-group mb-2">
-                    <input placeholder="Enter your address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
-                </div>
                 <div *ngIf="!isPreview('customerName')">
                     <div class="input-group mb-2">
                         <input [(ngModel)]="customer.name" type="text" class="form-control" placeholder="(*) Your Full name"
@@ -106,7 +102,7 @@
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
                 </div>
-                <div *ngIf="emailConfirm != customer.email && !typingConfirm && !typingEmail" class="alert alert-danger" role="alert">
+                <div *ngIf="customer.email !== null && emailConfirm != customer.email && !typingConfirm && !typingEmail" class="alert alert-danger" role="alert">
                     The Confirmation Email must match your Email!
                 </div>
                 <div *ngIf="!isPreview('homeAddress')" class="input-group mb-2">
@@ -114,7 +110,9 @@
                            aria-label="Your Address"
                            (keyup.enter)="updateField('homeAddress')"
                            (blur)="updateField('homeAddress')"
+                           autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [formControl]="searchControl"
                     >
+
                 </div>
                 <div *ngIf="isPreview('homeAddress')" (click)="editPreview('homeAddress')" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">

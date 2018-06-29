@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild, NgZone} from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    OnInit,
+    TemplateRef,
+    ViewChild,
+    NgZone
+} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Brand} from "../model/brand";
 import {ProductService} from "../service/product.service";
@@ -16,9 +25,9 @@ import {CustomerService} from '../service/customer.service';
 import {Registration} from '../model/registration';
 import {RegistrationService} from '../service/registration.service';
 
-import { FormControl } from '@angular/forms';
-import { } from 'googlemaps';
-import { MapsAPILoader } from '@agm/core';
+import {FormControl} from '@angular/forms';
+import {} from 'googlemaps';
+import {MapsAPILoader} from '@agm/core';
 
 @Component({
     selector: 'app-registration',
@@ -28,7 +37,7 @@ import { MapsAPILoader } from '@agm/core';
 export class RegistrationComponent implements OnInit, AfterViewInit {
     focusDialingCodeEM = new EventEmitter<boolean>();
 
-    customer: Customer = {id: null, name: null, dialingCode: 64} as Customer;
+    customer: Customer = {id: null, name: null, dialingCode: 65} as Customer;
     emailConfirm: string;
     typingEmail: false;
     typingConfirm: false;
@@ -54,13 +63,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     @ViewChild("search")
     public searchElementRef: ElementRef;
 
-    constructor(private productService: ProductService, 
-        private organisationService: OrganisationService, 
-        private customerService: CustomerService, 
-        private registrationSerice: RegistrationService, 
-        private router: Router,
-        private mapsAPILoader: MapsAPILoader,
-        private ngZone: NgZone) {
+    constructor(private productService: ProductService,
+                private organisationService: OrganisationService,
+                private customerService: CustomerService,
+                private registrationSerice: RegistrationService,
+                private router: Router,
+                private mapsAPILoader: MapsAPILoader,
+                private ngZone: NgZone) {
         let warranty: Warranty = new Warranty();
         warranty.id = null;
 
@@ -109,8 +118,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (!this.isEmailValid()) {
             return false;
         }
-        if (this.emailConfirm.trim() !== this.customer.email.trim()) {
-            return false;
+        if (typeof this.emailConfirm !== 'undefined') {
+            if (this.emailConfirm.trim() !== this.customer.email.trim()) {
+                return false;
+            }
         }
         for (let i = 0; i < this.warranties.length; i++) {
             const warranty = this.warranties[i];
@@ -237,30 +248,31 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
         //load Places Autocomplete
         this.mapsAPILoader.load().then(() => {
-        let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-            types: ["address"]
-        });
-        autocomplete.addListener("place_changed", () => {
-            this.ngZone.run(() => {
-            //get the place result
-            let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+            let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+                types: ["address"]
+            });
+            autocomplete.addListener("place_changed", () => {
+                this.ngZone.run(() => {
+                    //get the place result
+                    let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
-            //verify result
-            if (place.geometry === undefined || place.geometry === null) {
-                return;
-            }
+                    //verify result
+                    if (place.geometry === undefined || place.geometry === null) {
+                        return;
+                    }
 
-            // get address information
-            this.customer.homeAddress = place.name;
+                    // get address information
+                    this.customer.homeAddress = place.formatted_address;
 
-            //set latitude, longitude and zoom
-            this.latitude = place.geometry.location.lat();
-            this.longitude = place.geometry.location.lng();
-            this.zoom = 12;
+                    //set latitude, longitude and zoom
+                    this.latitude = place.geometry.location.lat();
+                    this.longitude = place.geometry.location.lng();
+                    this.zoom = 12;
+                });
             });
         });
-        });
     }
+
     private setCurrentPosition() {
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
