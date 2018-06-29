@@ -25,7 +25,7 @@ class Customer extends Thing {
 	
 	public function generateFullText() {
 		parent::generateFullText();
-		$this->fullText .= ' ' . sprintf('email:%s phone:%s home address:%s ', $this->email, $this->telephone, $this->homeAddress);
+		return $this->fullText .= ' ' . sprintf('email:%s phone:%s home address:%s ', $this->email, $this->telephone, $this->homeAddress);
 	}
 	
 	/**
