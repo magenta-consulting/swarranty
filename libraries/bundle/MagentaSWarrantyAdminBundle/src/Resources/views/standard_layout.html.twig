@@ -4,7 +4,7 @@
                         {% set org = currentOrganisation() %}
                         {% if org is not empty %}
                             <a class="logo" href="{{ path('sonata_admin_dashboard') }}">
-                                {% thumbnail org.logo, 'small' %}
+                                <img src="{{ org.logo.id|privateMediumUrl }}" width="200px"/>
                             </a>
                         {% else %}
                             {{ parent() }}
