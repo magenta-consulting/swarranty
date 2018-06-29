@@ -14,6 +14,9 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
     dataCustomer : any = [];
+    dataVerify: any = '';
+    verifyFail : boolean = false;
+    isClick : boolean = false;
 
     constructor(private productService: ProductService) {
     }
@@ -57,10 +60,22 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
     
             this.productService.postVerifyEmail(params)
             .subscribe(
-                data => console.log('data',data),
+                res => {
+                    if(res) {
+                        let resVerify : any = res;
+                        this.dataVerify = resVerify.message;
+
+                        // hide button click
+                        this.isClick = true;
+                    }
+                },
                 error => {
                     // var details = error.json();
                     console.log(error);
+                    this.verifyFail = true;
+                    
+                    // hide button click
+                    this.isClick = true;
                 },
                 ()  =>  console.log("Finished")
             );

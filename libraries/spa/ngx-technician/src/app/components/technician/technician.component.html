@@ -1,0 +1,121 @@
+<div class="tech-wrap tech-detail">
+    <div class="tech-blk">
+        <h4 class="tech-sub-ttl">Customer Details</h4>
+        <table>
+            <tr>
+                <td class="td-name">Full name</td>
+                <td> : Kenneth</td>
+            </tr>
+            <tr>
+                <td class="td-name">Contact no</td>
+                <td> : +65-98447559</td>
+            </tr>
+            <tr>
+                <td class="td-name">Email</td>
+                <td> : ken@email.com</td>
+            </tr>
+            <tr>
+                <td class="td-name">Address</td>
+                <td>: 24 lorong ah soo, #03-11</td>
+            </tr>
+            <tr>
+                <td class="td-name">Postal Code</td>
+                <td>: 426001 <a href="#">(Get Directions)</a></td>
+            </tr>
+        </table>
+    </div>
+    <div class="tech-blk">
+        <h4 class="tech-sub-ttl">Case Details</h4>
+        <table>
+            <tr>
+                <td class="td-name">Case no</td>
+                <td> : MC001</td>
+            </tr>
+            <tr>
+                <td class="td-name">Date Created</td>
+                <td> : 23 Feb 2018 by CS NAME</td>
+            </tr>
+            <tr>
+                <td class="td-name">Brand</td>
+                <td> : <select class="ipt-select">
+                    <option>---Please choose---</option>
+                        <option>Opt 1</option>
+                        <option>Opt 2</option>
+                        <option>Opt 3</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-name">Model Name</td>
+                <td>: <select class="ipt-select">
+                    <option>---Please choose---</option>
+                    <option>Opt 1</option>
+                    <option>Opt 2</option>
+                    <option>Opt 3</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-name">Model Number</td>
+                <td>: <select class="ipt-select">
+                    <option>---Please choose---</option>
+                    <option>Opt 1</option>
+                    <option>Opt 2</option>
+                    <option>Opt 3</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-name">Serial Number</td>
+                <td>: <input type="text" class="ipt"/></td>
+            </tr>
+            <tr>
+                <td class="td-name">Date Closed</td>
+                <td>: N.A</td>
+            </tr>
+            <tr>
+                <td class="td-name">Technician</td>
+                <td>: #Technician Name</td>
+            </tr>
+            <tr>
+                <td class="td-name">Service Zone</td>
+                <td>: #Service Zone</td>
+            </tr>
+        </table>
+    </div>
+    <div class="tech-blk">
+        <h4 class="tech-sub-ttl">Case Details</h4>
+        <p>What ever they want to write about the case when the customer called in.</p>
+        <input type="text" class="ipt full" placeholder="Add Case Detail"/>
+    </div>
+    <div class="tech-blk">
+        <h4 class="tech-sub-ttl">Service/Case Notes</h4>
+        <div class="note-list">
+            <div class="note-item">
+                <p>Issue resolved. Motor changed.</p>
+                <p>
+                    Technician Name | 28 April 2018 | <span>Delete</span>
+                </p>
+            </div>
+            <div class="note-item">
+                <p>Was unable to fix issue, motor is spoiled not power issue</p>
+                <p>
+                    Technician Name | 26 April 2018 | <span>Delete</span>
+                </p>
+            </div>
+        </div>
+        <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered"/>
+    </div>
+    <div class="tech-blk">
+        <image-upload
+        class="custome-upload"
+        (removed)="onRemoved($event)"
+        (uploadFinished)="onUploadFinished($event, 1)"
+        (uploadStateChanged)="onUploadStateChanged($event)"
+        buttonCaption="UPLOAD SERVICE INVOICE IMAGE"></image-upload>
+        <div class="text-center">
+            <button class="btn btn-green btn-mark">Mark Completed</button>
+            <button class="btn btn-primary">UPDATE INFO</button>
+        </div>
+    </div>
+</div>

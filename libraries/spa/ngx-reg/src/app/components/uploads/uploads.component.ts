@@ -12,7 +12,7 @@ import {apiEndPoint,
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
-import {Helper} from "../../helper/Helper";
+import {Helper} from "../../helper/helper";
 
 @Component({
     selector: 'uploads',

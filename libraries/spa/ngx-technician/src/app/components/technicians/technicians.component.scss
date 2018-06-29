@@ -1,0 +1,126 @@
+.tech-wrap {
+    .nav-tabs {
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 20px;
+        li {
+            width: 50%;
+            text-align: center;
+            a {
+                color: #000;
+                border-radius: 0;
+                border: none;
+                &.active {
+                    font-weight: bold;
+                    border-bottom: 1px solid #000;
+                }
+                &:hover {
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+}
+.tech-wrap {
+    .tech-item {
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+        &:last-child {
+            border-bottom: none;
+            padding-bottom: 0px;
+        }
+    }
+    .tech-ttl {
+        font-size: 24px;
+    }
+    .tech-sub-ttl {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    .tech-blk {
+        margin-bottom: 15px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        p {
+            margin-bottom: 0;
+        }
+    }
+    .td-name {
+        width: 120px;
+    }
+    table {
+        width: 100%;
+        td {
+            padding: 3px 5px;
+        }
+    }
+}
+.tech-wrap {
+    .ipt, .ipt-select {
+        border: 1px solid #ddd;
+        width: 300px;
+        outline: none;
+        padding: 0 10px;
+        height: 32px;
+        line-height: 32px;
+        &:focus {
+            border-color: #999;
+        }
+        &.full {
+            width: 100%;
+        }
+    }
+    &.tech-detail {
+        .tech-blk {
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 15px;
+            &:last-child {
+                border-bottom: none;
+            }
+            p {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+.tech-wrap {
+    &.tech-detail {
+        .note-item {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            p {
+                margin-bottom: 0;
+                &:last-child {
+                    color: #db0000;
+                    span {
+                        font-weight: bold;
+                        cursor: pointer;
+                        &:hover {
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+        }
+        .btn-upload {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        .btn-mark {
+            margin-right: 15px;
+        }
+    }
+    .status {
+        &.new {
+            color: #007bff;
+        }
+        &.resolved {
+            color: #db0000;
+        }
+        &.closed {
+            color: #28a745;
+        }
+    }
+}

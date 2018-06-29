@@ -9,7 +9,19 @@
             <p>An email has been sent to <a href="mailto:{{dataCustomer.email}}">{{dataCustomer.email}}</a> </p>
             <p>Please check your email to verify your email address and receive the Registration Confirmation.</p>
         </div>
-        <p class="note">If you have waited for over 30 seconds and have not received an email. Please check your spam or junk mailbox. If it’s still not in there, click <a href="javascript:;" (click)="resendEmail($event)">Resend </a></p>
+        <div
+        *ngIf="dataVerify != '' "
+        class="note alert alert-success">
+            {{dataVerify}}
+        </div>
+        <div
+        *ngIf="verifyFail"
+        class="note alert alert-danger">
+            Error! Pls contact admin to help via <a href="mailto: peter@magenta-wellness.com">peter@magenta-wellness.com</a>.
+        </div>
+        <p
+        *ngIf="!isClick"
+        class="note">If you have waited for over 30 seconds and have not received an email. Please check your spam or junk mailbox. If it’s still not in there, click <a href="javascript:;" (click)="resendEmail($event)">Resend </a></p>
     </div>
     <!-- Loading -->
     <div
