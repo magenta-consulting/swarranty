@@ -1,10 +1,11 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
 
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
+import {dataTechnicians} from '../../model/fakeTechnicians';
 
 @Component({
     selector: 'technician',
@@ -14,11 +15,28 @@ import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/an
 export class TechnicianComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
+    dataTech : any = '';
+    brandList: any = '';
+    modelNameList: any = '';
+    modelNumberList: any = '';
+    selectedBrand: any = '';
+    selectedModelName: any = '';
+    selectedModelNumber: any = '';
 
-    constructor() {
+    constructor(private router: ActivatedRoute) {
+        console.log('id', this.router.snapshot.params['id']);
     }
 
     ngOnInit() {
+        this.dataTech = dataTechnicians.detailTechnician;
+        this.brandList = dataTechnicians.brandList;
+        this.modelNameList = dataTechnicians.modelNameList;
+        this.modelNumberList = dataTechnicians.modelNumberList;
+
+        // declare sample model
+        this.selectedBrand = 'Fujioh';
+        this.selectedModelName = 'ARG Hood';
+        this.selectedModelNumber = 'GS99009';
     }
 
     ngAfterViewInit() {
@@ -42,5 +60,9 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
 
     onUploadStateChanged(state: boolean) {
         console.log('state', state);
+    }
+
+    onChange(event: any) {
+        console.log('event', event);
     }
 }

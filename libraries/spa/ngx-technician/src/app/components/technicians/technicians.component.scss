@@ -113,14 +113,21 @@
         }
     }
     .status {
+        background-color: #eee;
+        padding: 2px 6px;
+        border-radius: 2px;
+        color: #333;
         &.new {
-            color: #007bff;
+            background-color: #007bff;
+            color: #fff;
         }
         &.resolved {
-            color: #db0000;
+            color: #fff;
+            background-color: #db0000;
         }
         &.closed {
-            color: #28a745;
+            color: #fff;
+            background-color: #28a745;
         }
     }
 }

@@ -2,7 +2,8 @@ import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef,
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router} from "@angular/router";
 
-import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
+// import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
+import {dataTechnicians} from '../../model/fakeTechnicians';
 import * as $ from 'jquery';
 
 @Component({
@@ -13,11 +14,16 @@ import * as $ from 'jquery';
 export class TechniciansComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
+    techList : any = '';
+    techListResolved : any = '';
 
     constructor() {
     }
 
     ngOnInit() {
+        // console.log('dataTechnicians', dataTechnicians.products)
+        this.techList = dataTechnicians.products_response;
+        this.techListResolved = dataTechnicians.products_resolved;
     }
 
     ngAfterViewInit() {
