@@ -10,6 +10,9 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class MagentaTwigExtension extends AbstractExtension {
+	
+	const TYPE_PDF_DOWNLOAD_SERVICE_SHEET = 'PDF_DOWNLOAD_SERVICE_SHEET';
+	
 	/** @var ContainerInterface $container */
 	private $container;
 	
@@ -42,6 +45,11 @@ class MagentaTwigExtension extends AbstractExtension {
 		}
 		
 		return $org;
+	}
+	
+	public function downloadPdfUrl($type) {
+//		if($type === )
+		
 	}
 	
 	public function privateMediumUrl($mediumId, $format = 'admin') {

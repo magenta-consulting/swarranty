@@ -13,4 +13,7 @@
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
 
+    <a href="#"
+       class="list-action btn btn-primary">Generate Service Sheets</a>
+
 {% endblock %}

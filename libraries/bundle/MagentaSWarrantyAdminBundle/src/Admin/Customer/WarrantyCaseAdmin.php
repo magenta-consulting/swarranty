@@ -344,6 +344,20 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
+	/**
+	 * {@inheritdoc}
+	 *
+	 */
+	public function getExportFormats() {
+		return [
+			'json',
+			'xml',
+			'csv',
+			'xls',
+			'html'
+		];
+	}
+	
 	protected function getAutocompleteRouteParameters() {
 		return [ 'organisation' => $this->getCurrentOrganisation()->getId() ];
 	}

@@ -239,6 +239,9 @@
     "myclabs/php-enum": {
         "version": "1.6.1"
     },
+    "namshi/jose": {
+        "version": "7.2.3"
+    },
     "nelmio/api-doc-bundle": {
         "version": "3.0",
         "recipe": {
@@ -283,6 +286,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.3.1"
     },
     "phpoption/phpoption": {
         "version": "1.5.0"

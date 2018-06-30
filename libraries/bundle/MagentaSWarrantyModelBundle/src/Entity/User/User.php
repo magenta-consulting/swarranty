@@ -76,6 +76,9 @@ class User extends AbstractUser {
 		if($action === 'VIEW') {
 			return true;
 		}
+		if($action === 'EXPORT') {
+//			return true;
+		}
 		if($object instanceof DecisionMakingInterface) {
 			if($action === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
 				return $object->getDecisionStatus() === null;
