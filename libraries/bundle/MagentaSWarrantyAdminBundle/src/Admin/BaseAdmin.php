@@ -12,6 +12,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -367,7 +368,10 @@ class BaseAdmin extends AbstractAdmin {
 		if($this->isAdmin()) {
 //			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
 			// admin should see everything except in embeded forms
-			if( ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
+			if(in_array($this->getClass(), [
+					Organisation::class,
+					User::class
+				]) || ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
 				return $query;
 			}
 		}

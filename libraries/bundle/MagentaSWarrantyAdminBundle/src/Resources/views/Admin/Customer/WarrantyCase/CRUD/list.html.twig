@@ -12,4 +12,5 @@
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'CLOSED'?'active':'' }}">Closed</a>
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
+
 {% endblock %}

@@ -159,7 +159,7 @@
                             let _html = '';
 
                             {% if form.vars.type == "image" %}
-                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value }}" />';
+                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="' + data.id_image+ '" />';
                             _html += '<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>';
 
                             {% elseif form.vars.type == "calculated_date" %}
@@ -222,7 +222,8 @@
                                 console.log('from form');
                             }
                             {% else %}
-                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';
+                            {#_html += '<input type="hidden" name="{{ form.vars.full_name }}" value="{{ form.vars.value.id is defined?form.vars.value.id:form.vars.value }}" />';#}
+                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="' + data.{{ form.vars.type }}+ '" />';
                             _html += data.{{ form.vars.type }} + ' {{ form.vars.appended_value }}';
                             {% endif %}
                             $value_{{ form.vars.id }}.html(_html);

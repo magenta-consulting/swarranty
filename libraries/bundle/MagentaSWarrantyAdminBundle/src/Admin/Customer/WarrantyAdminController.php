@@ -62,7 +62,7 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 			'brand'        => empty($product->getBrand()) ? '' : $product->getBrand()->getName(),
 			'category'     => empty($product->getCategory()) ? '' : $product->getCategory()->getName(),
 			
-			'id'                       => $imageId,
+			'id_image'                 => $imageId,
 			'admin_format'             => $afUrl,
 			'reference_format'         => $rfUrl,
 			'warranty_period'          => $product->getWarrantyPeriod(),

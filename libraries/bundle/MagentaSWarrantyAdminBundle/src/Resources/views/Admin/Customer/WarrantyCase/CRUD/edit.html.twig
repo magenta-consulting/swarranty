@@ -8,18 +8,19 @@
                  {% endif %}
 
                  {% if admin.hasRoute('decide') %}
-                     <form action="" method="post" class="decision-form" style="width:100%; display: flex; ">
+                     <form role="form" action="/" method="post" class="decision-form" style="width:100%; display: flex; ">
                          {% if object.decisionStatus != 'CLOSED' %}
                              <button type="submit" class="decision-button btn btn-success"
                                      data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
                                  CLOSE CASE
                              </button>
                          {% endif %}
-                         <button type="submit" class="decision-button btn btn-default"
-                                 data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
-                             RE-OPEN CASE
-                         </button>
-
+                         {% if object.decisionStatus == 'CLOSED' %}
+                             <button type="submit" class="decision-button btn btn-default"
+                                     data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
+                                 RE-OPEN CASE
+                             </button>
+                         {% endif %}
                          {% set warranty = object.warranty %}
                          {% set customer = warranty.customer %}
                          {% set organisation = customer.organisation %}
@@ -44,7 +45,7 @@
 
                 });
 
-                $("form button[type=submit]").click(function () {
+                $("form.decision-form button[type=submit]").click(function () {
                     $(this).parents("form").attr("action", $(this).data('action'));
                 });
 

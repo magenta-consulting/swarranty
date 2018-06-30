@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -21,6 +22,33 @@ class WarrantyListener {
 	private function updateInfo(Warranty $warranty) {
 		$warranty->generateSearchText();
 		$warranty->generateFullText();
+		
+		$customer  = $warranty->getCustomer();
+		$cr        = $this->container->get('doctrine')->getRepository(Customer::class);
+		$customers = $cr->findBy([
+			'telephone'    => $customer->getTelephone(),
+			'dialingCode'  => $customer->getDialingCode(),
+			'organisation' => $customer->getOrganisation()
+		]);
+		
+		if($cc = count($customers) === 0) {
+			return;
+		} elseif($cc === 1) {
+			$customer->removeWarranties($warranty);
+			$customers[0]->addWarranties($warranty);
+		} else {
+			$customer->removeWarranties($warranty);
+			$customers[0]->addWarranties($warranty);
+			/** @var Customer $c */
+			foreach($customers as $c) {
+				if($c->getEmail() === $customer->getEmail()) {
+					$customer->removeWarranties($warranty);
+					$c->addWarranties($warranty);
+					
+					return;
+				}
+			}
+		}
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {

@@ -38,5 +38,7 @@ return [
     Magenta\Bundle\SWarrantyJWTBundle\MagentaSWarrantyJWTBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyApiBundle\MagentaSWarrantyApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyAdminBundle\MagentaSWarrantyAdminBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\AppPdfBundle\MagentaAppPdfBundle::class => ['all' => true, 'test' => true],
     Endroid\QrCodeBundle\EndroidQrCodeBundle::class => ['all' => true],
+    Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
 ];

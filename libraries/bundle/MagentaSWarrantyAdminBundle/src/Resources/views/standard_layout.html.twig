@@ -2,7 +2,7 @@
                 {% block logo %}
                     {% spaceless %}
                         {% set org = currentOrganisation() %}
-                        {% if org is not empty %}
+                        {% if org is not empty and org.logo is not empty %}
                             <a class="logo" href="{{ path('sonata_admin_dashboard') }}">
                                 <img src="{{ org.logo.id|privateMediumUrl }}" width="200px"/>
                             </a>

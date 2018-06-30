@@ -25,6 +25,7 @@ class Customer extends Thing {
 	
 	public function generateFullText() {
 		parent::generateFullText();
+		
 		return $this->fullText .= ' ' . sprintf('email:%s phone:%s home address:%s ', $this->email, $this->telephone, $this->homeAddress);
 	}
 	
@@ -33,6 +34,16 @@ class Customer extends Thing {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $warranties;
+	
+	public function addWarranties(Warranty $w) {
+		$this->warranties->add($w);
+		$w->setCustomer($this);
+	}
+	
+	public function removeWarranties(Warranty $w) {
+		$this->warranties->removeElement($w);
+		$w->setCustomer(null);
+	}
 	
 	/**
 	 * @var Collection
