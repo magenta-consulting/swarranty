@@ -15,7 +15,7 @@ export class SuccessComponent implements OnInit, AfterViewInit {
     prodList: any = [];
     isLoading: boolean = false;
 
-    constructor(private productService: ProductService) {
+    constructor(private productService: ProductService, private router: Router) {
     }
 
     ngOnInit() {
@@ -50,6 +50,16 @@ export class SuccessComponent implements OnInit, AfterViewInit {
         } else {
             this.prodList = [];
             this.isLoading = false;
+        }
+    }
+
+    // clear localStorage and then redirect to page registration
+    clearRegistration() {
+        let v_confirm = confirm('Do you really want to redirect to page registration ?');
+
+        if(v_confirm === true) {
+            localStorage.removeItem('regId');
+            this.router.navigate(['/registration']);
         }
     }
 

@@ -22,6 +22,9 @@
         <p
         *ngIf="!isClick"
         class="note">If you have waited for over 30 seconds and have not received an email. Please check your spam or junk mailbox. If it’s still not in there, click <a href="javascript:;" (click)="resendEmail($event)">Resend </a></p>
+        <div class="text-center cancel-wrap">
+            <button (click)="clearRegistration()" type="button" class="btn btn-secondary">Cancel</button>
+        </div>
     </div>
     <!-- Loading -->
     <div
