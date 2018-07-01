@@ -1,0 +1,38 @@
+{
+  "name": "magenta-consulting/pdf-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a Bundle Integration for the SWarranty Model.",
+  "keywords": [
+    "Symfony Pdf Bundle"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Peter Bean",
+      "email": "peterbean@beancomponent.com"
+    }
+  ],
+  "require": {
+    "knplabs/knp-snappy-bundle": "^1.5"
+  },
+  "require-dev": {
+  },
+  "suggest": {
+  },
+  "autoload": {
+    "psr-4": {
+      "Magenta\\Bundle\\AppPdfBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Magenta\\Bundle\\AppPdfBundle\\spec\\": "tests/spec/",
+      "Magenta\\Bundle\\AppPdfBundle\\Tests\\": "tests/units/"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
+  }
+}

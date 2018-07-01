@@ -197,8 +197,23 @@
     "knplabs/knp-menu-bundle": {
         "version": "v2.2.1"
     },
+    "knplabs/knp-snappy": {
+        "version": "v1.0.4"
+    },
+    "knplabs/knp-snappy-bundle": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "c81bdcf4a9d4e7b1959071457f9608631865d381"
+        }
+    },
     "kriswallsmith/buzz": {
         "version": "v0.16.1"
+    },
+    "lcobucci/jwt": {
+        "version": "3.2.2"
     },
     "lexik/jwt-authentication-bundle": {
         "version": "2.3",
@@ -271,6 +286,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpoffice/phpspreadsheet": {
+        "version": "1.3.1"
     },
     "phpoption/phpoption": {
         "version": "1.5.0"

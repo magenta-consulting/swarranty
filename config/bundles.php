@@ -21,6 +21,7 @@ return [
     Sonata\BlockBundle\SonataBlockBundle::class => ['all' => true],
     Knp\Bundle\MenuBundle\KnpMenuBundle::class => ['all' => true],
     Sonata\AdminBundle\SonataAdminBundle::class => ['all' => true],
+    Exporter\Bridge\Symfony\Bundle\SonataExporterBundle::class => ['all' => true],
     Bean\Bundle\DevToolBundle\BeanDevToolBundle::class => ['dev' => true, 'test' => true],
     Sonata\DoctrineORMAdminBundle\SonataDoctrineORMAdminBundle::class => ['all' => true],
     Sonata\EasyExtendsBundle\SonataEasyExtendsBundle::class => ['all' => true],
@@ -38,5 +39,7 @@ return [
     Magenta\Bundle\SWarrantyJWTBundle\MagentaSWarrantyJWTBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyApiBundle\MagentaSWarrantyApiBundle::class => ['all' => true, 'test' => true],
     Magenta\Bundle\SWarrantyAdminBundle\MagentaSWarrantyAdminBundle::class => ['all' => true, 'test' => true],
+    Magenta\Bundle\AppPdfBundle\MagentaAppPdfBundle::class => ['all' => true, 'test' => true],
     Endroid\QrCodeBundle\EndroidQrCodeBundle::class => ['all' => true],
+    Knp\Bundle\SnappyBundle\KnpSnappyBundle::class => ['all' => true],
 ];

@@ -23,8 +23,9 @@
                                </button>
                            {% endif %}
                            {%- block decision_buttons -%} {% endblock %}
-                           <input id="reviewer-remarks" name="decision-remarks" class="decision-remarks form-control"
-                                  placeholder="Reviewer Remarks" value="{{ object.decisionRemarks }}"/>
+                           <input {{ object.decisionRemarks is not empty?'disabled="disabled"':'' }}
+                                   id="reviewer-remarks" name="decision-remarks" class="decision-remarks form-control"
+                                   placeholder="Reviewer Remarks" value="{{ object.decisionRemarks }}"/>
                        </form>
                    {% endif %}
                </div>

@@ -5,6 +5,8 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
+
+use PhpOffice\PhpSpreadsheet\Writer\IWriter as PhpSpreadsheetIWriter;
 use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Sonata\AdminBundle\Controller\CRUDController;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -19,6 +22,26 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class BaseCRUDAdminController extends CRUDController {
+	
+	/**
+	 * Stream the file as Response.
+	 *
+	 * @param PhpSpreadsheetIWriter $writer
+	 * @param int                   $status
+	 * @param array                 $headers
+	 *
+	 * @return StreamedResponse
+	 */
+	public function createSpreadsheetStreamedResponse(PhpSpreadsheetIWriter $writer, $status = 200, $headers = array()) {
+		return new StreamedResponse(
+			function() use ($writer) {
+				$writer->save('php://output');
+			},
+			$status,
+			$headers
+		);
+	}
+	
 	
 	/**
 	 * @var BaseAdmin

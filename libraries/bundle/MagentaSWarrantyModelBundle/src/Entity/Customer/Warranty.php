@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
+use Bean\Component\Thing\Model\ThingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -24,6 +25,9 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="customer__warranty")
  */
 class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMakingInterface, FullTextSearchInterface {
+	public function getThing(): ?Thing {
+		return $this->customer;
+	}
 	
 	public function generateSearchText() {
 		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());

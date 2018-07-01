@@ -2,3 +2,6 @@ dashboard:
     customer: Manage Customers
     product: Manage Products
     system: System Configuration
+
+export_format_pdf: PDF
+export_format_html: HTML

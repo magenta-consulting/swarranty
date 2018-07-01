@@ -151,7 +151,7 @@ class WarrantyAdmin extends BaseAdmin {
 //			$qb->join($customerAlias . '.organisation', 'organisation');
 			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
 		}
-		
+		$sql = $qb->getQuery()->getSQL();
 		return $query;
 	}
 	
@@ -190,7 +190,10 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.name', null, [ 'label' => 'form.label_model_name' ])
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
-			->add('purchaseDate', null, [ 'label' => 'form.label_purchase_date', 'format' => 'd - m - Y' ])
+			->add('purchaseDate', null, [
+				'label'    => 'form.label_purchase_date',
+				'format'   => 'd - m - Y'
+			])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
 			->add('product.warrantyPeriod', null, [
 				'editable' => true,
@@ -352,10 +355,10 @@ class WarrantyAdmin extends BaseAdmin {
 		]);
 		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
+			'required' => true,
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
 			'datepicker_use_button' => false,
-			'required'              => false,
 			'label'                 => 'form.label_purchase_date',
 		]);
 		

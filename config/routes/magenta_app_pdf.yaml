@@ -1,0 +1,5 @@
+magenta_app_pdf:
+    resource: "@MagentaAppPdfBundle/Resources/config/routing/download_pdf.yaml"
+
+
+

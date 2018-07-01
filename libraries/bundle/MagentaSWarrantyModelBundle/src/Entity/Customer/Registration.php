@@ -21,6 +21,10 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  */
 class Registration implements ThingChildInterface {
 	
+	public function getThing(): ?Thing {
+		return $this->customer;
+	}
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id

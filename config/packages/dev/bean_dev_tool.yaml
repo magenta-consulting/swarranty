@@ -8,3 +8,4 @@ bean_dev_tool:
         - MagentaSWarrantyApiBundle
         - MagentaSWarrantyJWTBundle
         - MagentaSWarrantyMediaApiBundle
+        - MagentaAppPdfBundle
