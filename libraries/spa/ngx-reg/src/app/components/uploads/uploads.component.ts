@@ -127,7 +127,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
 
-<<<<<<< HEAD
         let v_confirm = false;
         // check android or ios
         if(navigator.userAgent.toLowerCase().indexOf("android") > -1 
@@ -141,9 +140,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
         // After Asking.
         if(v_confirm == true) {
-=======
-        if (v_confirm == true) {
->>>>>>> 3cd7a68c6152be0ba0b0f4eb9150cfb2e262438e
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);
