@@ -180,7 +180,10 @@ class OrganisationMemberAdmin extends BaseAdmin {
 			->with('form_group.user_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
 			->add('person.name', null, [ 'label' => 'form.label_name' ])
-			->add('person.email', null, [ 'label' => 'form.label_email' ])
+			->add('person.email', null, [
+				'required' => true,
+				'label'    => 'form.label_email'
+			])
 			->add('role', ModelType::class, [
 				'label'    => 'form.label_role',
 				'btn_add'  => false,
