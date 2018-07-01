@@ -104,8 +104,20 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     onRemoved(file: FileHolder) {
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-        // check android
-        if(navigator.userAgent.toLowerCase().indexOf("android") > -1) {
+
+        let v_confirm = false;
+        // check android or ios
+        if(navigator.userAgent.toLowerCase().indexOf("android") > -1 
+            || navigator.userAgent.toLowerCase().indexOf("ios") > -1) {
+            v_confirm = true;
+        } else {
+            // not android
+            v_confirm = confirm('Do you really want to remove this image ?');
+            // console.log('removed', file);
+        }
+
+        // After Asking.
+        if(v_confirm == true) {
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);
@@ -117,25 +129,8 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                     console.log('Complete Request');
                 }
             );
-        } else {
-            // not android
-            let v_confirm = confirm('Do you really want to remove this image ?');
-            // console.log('removed', file);
-            
-            if(v_confirm == true) {
-                this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
-                    res => {
-                        console.log('res', res);
-                    },
-                    error => {
-                        console.log('Error', error);
-                    },
-                    () => {
-                        console.log('Complete Request');
-                    }
-                );
-            }
         }
+
     }
 
     onUploadStateChanged(state: boolean) {
