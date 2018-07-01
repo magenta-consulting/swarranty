@@ -105,6 +105,7 @@ action_button:
     label_add_case: Add Case
 
 form_group:
+    user_details: User Details
     case_assignment: Assignment
     case_details: Case Details
     brand: Brand
@@ -211,3 +212,4 @@ breadcrumb:
     link_organisation_member_list: Users
     link_warranty_case_list: Cases
     link_warranty_case_create: New Case
+    link_organisation_member_create: New Organisation User
