@@ -17,6 +17,7 @@ import { FocusDirective } from './directive/focus.directive';
 // import components
 import {TechniciansComponent} from './components/technicians/technicians.component';
 import {TechnicianComponent} from './components/technician/technician.component';
+import { LoginComponent } from './components/login/login.component';
 
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
@@ -27,7 +28,8 @@ import { ImageUploadModule } from "./extensions/angular2-image-upload";
     AppComponent,
     FocusDirective,
     TechniciansComponent,
-    TechnicianComponent
+    TechnicianComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
