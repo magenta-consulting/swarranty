@@ -373,6 +373,13 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 * @ORM\Column(type="string")
 	 */
 	protected
+		$dealerName;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string")
+	 */
+	protected
 		$code;
 	
 	/**
@@ -744,5 +751,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	public function setExtendedWarrantyPeriodApproved(bool $extendedWarrantyPeriodApproved): void {
 		$this->extendedWarrantyPeriodApproved = $extendedWarrantyPeriodApproved;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDealerName(): ?string {
+		return $this->dealerName;
+	}
+	
+	/**
+	 * @param null|string $dealerName
+	 */
+	public function setDealerName(?string $dealerName): void {
+		$this->dealerName = $dealerName;
 	}
 }

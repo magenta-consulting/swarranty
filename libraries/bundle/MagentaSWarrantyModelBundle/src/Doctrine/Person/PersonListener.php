@@ -87,19 +87,19 @@ class PersonListener {
 	}
 	
 	public function preUpdateHandler(Person $person, LifecycleEventArgs $event) {
-		$this->updateInfoBeforeOperation($person, $event);
+//		$this->updateInfoBeforeOperation($person, $event);
 	}
 	
 	public function postUpdateHandler(Person $person, LifecycleEventArgs $event) {
-		$this->updateInfoAfterOperation($person, $event);
+//		$this->updateInfoAfterOperation($person, $event);
 	}
 	
 	public function prePersistHandler(Person $person, LifecycleEventArgs $event) {
-		$this->updateInfoBeforeOperation($person, $event);
+//		$this->updateInfoBeforeOperation($person, $event);
 	}
 	
 	public function postPersistHandler(Person $person, LifecycleEventArgs $event) {
-		$this->updateInfoAfterOperation($person, $event);
+//		$this->updateInfoAfterOperation($person, $event);
 	}
 	
 	public function preRemoveHandler(Person $person, LifecycleEventArgs $event) {

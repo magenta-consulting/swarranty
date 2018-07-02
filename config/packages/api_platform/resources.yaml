@@ -306,7 +306,7 @@ resources:
 #                filters: ['contactable_members.name_search_filter']
         collectionOperations:
             get:
-                filters: ['swarranty.organisation_search_filter']
+                filters: ['swarranty.organisation_search_filter', 'swarranty.id_search_filter']
 
     Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
 #        shortName: 'User'                   # optional

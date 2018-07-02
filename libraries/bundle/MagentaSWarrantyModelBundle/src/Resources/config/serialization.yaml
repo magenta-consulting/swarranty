@@ -23,6 +23,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
     attributes:
+#        id:
+#            groups: ['read_member','write_member']
         person:
             groups: ['read_member','write_member']
         organization:
@@ -74,6 +76,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
         purchaseDate:
             groups: ['read_warranty','write_warranty','read_registration_warranty']
         receiptImages:
+            groups: ['read_warranty','write_warranty','read_registration_warranty']
+        dealerName:
             groups: ['read_warranty','write_warranty','read_registration_warranty']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
@@ -132,6 +136,13 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         verified:
             groups: ['read_registration']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
+    attributes:
+        id:
+            groups: ['read_brand','write_brand']
+        name:
+            groups: ['read_brand','write_brand']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
         id:
@@ -146,11 +157,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
 #  "purchaseDate": "2018-06-14",
 #  "productSerialNumber": "S001"
 #}
-
-#Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
-#    attributes:
-#
-#            groups: ['read_brand','write_brand']
 
 
 #Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
