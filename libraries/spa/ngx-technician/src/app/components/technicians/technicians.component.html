@@ -10,214 +10,118 @@
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade in show active" id="tab-assign">
             <div class="tech-list">
-                <div class="tech-item">
-                    <div class="tech-blk">
-                        <h3 class="tech-ttl">#Customer_Name1</h3>
-                        <div class="tech-info">
-                            <div class="row">
-                                <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                    <table>
-                                        <tr>
-                                            <td class="td-name">Address</td>
-                                            <td> : Some Address Here</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Contact</td>
-                                            <td> : 9665654</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case Date</td>
-                                            <td> : 23 January 2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case no</td>
-                                            <td>: 990987 | Status: <span class="status">Responded</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Service Zone</td>
-                                            <td>: West</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                    <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Product</h4>
-                        <p>
-                            Brand: Fujioh | Model Number: GS99009 |Model Name: ARG Hood | Serial Number: DXSSI0099887-1929380
-                        </p>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Case Details:</h4>
-                        <p>
-                            Something that is said about what’s wrong with their product
-                        </p>
-                    </div>
-                    <div class="tech-blk tech-more">
-                        <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
-                    </div>
-                </div>
-                <div class="tech-item">
-                    <div class="tech-blk">
-                        <h3 class="tech-ttl">#Customer_Name2</h3>
-                        <div class="tech-info">
-                            <div class="row">
-                                <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                    <table>
-                                        <tr>
-                                            <td class="td-name">Address</td>
-                                            <td> : Some Address Here</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Contact</td>
-                                            <td> : 9665654</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case Date</td>
-                                            <td> : 23 January 2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case no</td>
-                                            <td>: 990987 | Status: <span class="status new">New</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Service Zone</td>
-                                            <td>: West</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                    <a routerLink="/technician/2" class="more btn btn-green">View Job</a>
+                <ng-container *ngFor="let case of cases">
+                    <div *ngIf="!case.completed" class="tech-item">
+                        <div class="tech-blk">
+                            <h3 class="tech-ttl">{{case.warranty.customer.name}}</h3>
+                            <div class="tech-info">
+                                <div class="row">
+                                    <div class="info-left col-md-8 col-sm-8 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <td class="td-name">Address</td>
+                                                <td>: {{case.warranty.customer.homeAddress}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Contact</td>
+                                                <td>: {{case.warranty.customer.telephone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case Date</td>
+                                                <td>: {{case.appointmentAt | date: "d MMMM y"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case no</td>
+                                                <td>: {{case.number}} | Status: <span class="status">{{case.status}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Service Zone</td>
+                                                <td>: {{case.serviceZone.name}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
+                                        <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Product</h4>
-                        <p>
-                            Brand: Fujioh | Model Number: GS99009 |Model Name: ARG Hood | Serial Number: DXSSI0099887-1929380
-                        </p>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Case Details:</h4>
-                        <p>
-                            Something that is said about what’s wrong with their product
-                        </p>
-                    </div>
-                    <div class="tech-blk tech-more">
-                        <a routerLink="/technician/2" class="more btn btn-green">View Job</a>
-                    </div>
-                </div>
-        </div>
-    </div>
-    <div class="tab-pane" id="tab-complete">
-        <div class="tech-list">
-            <div class="tech-item">
-                <div class="tech-blk">
-                    <h3 class="tech-ttl">#Customer_Name3</h3>
-                    <div class="tech-info">
-                        <div class="row">
-                            <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                <table>
-                                    <tr>
-                                        <td class="td-name">Address</td>
-                                        <td> : Some Address Here</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-name">Contact</td>
-                                        <td> : 9665654</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-name">Case Date</td>
-                                        <td> : 23 January 2018</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-name">Case no</td>
-                                        <td>: 990987 | Status: <span class="status closed">Closed</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-name">Service Zone</td>
-                                        <td>: West</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                <a routerLink="/technician/3" class="more btn btn-green">View Job</a>
-                            </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Product</h4>
+                            <p>
+                                Brand: {{case.warranty.product.brand.name}} | 
+                                Model Number: {{case.warranty.product.modelNumber}} | 
+                                Model Name: {{case.warranty.product.name}} | 
+                                Serial Number: {{case.warranty.product.productSerialNumber}}
+                            </p>
+                        </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Case Details:</h4>
+                            <div [innerHTML]="case.description"></div>
+                        </div>
+                        <div class="tech-blk tech-more">
+                            <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
                         </div>
                     </div>
-                </div>
-                <div class="tech-blk">
-                    <h4 class="tech-sub-ttl">Product</h4>
-                    <p>
-                        Brand: Fujioh | Model Number: GS99009 |Model Name: ARG Hood | Serial Number: DXSSI0099887-1929380
-                    </p>
-                </div>
-                <div class="tech-blk">
-                    <h4 class="tech-sub-ttl">Case Details:</h4>
-                    <p>
-                        Something that is said about what’s wrong with their product
-                    </p>
-                </div>
-                <div class="tech-blk tech-more">
-                    <a routerLink="/technician/3" class="more btn btn-green">View Job</a>
-                </div>
+                </ng-container>
             </div>
-            <div class="tech-item">
-                    <div class="tech-blk">
-                        <h3 class="tech-ttl">#Customer_Name4</h3>
-                        <div class="tech-info">
-                            <div class="row">
-                                <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                    <table>
-                                        <tr>
-                                            <td class="td-name">Address</td>
-                                            <td> : Some Address Here</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Contact</td>
-                                            <td> : 9665654</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case Date</td>
-                                            <td> : 23 January 2018</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case no</td>
-                                            <td>: 990987 | Status: <span class="status resolved">Resolved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Service Zone</td>
-                                            <td>: West</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                    <a routerLink="/technician/4" class="more btn btn-green">View Job</a>
+        </div>
+        <div class="tab-pane" id="tab-complete">
+            <div class="tech-list">
+                <ng-container *ngFor="let case of cases">
+                    <div *ngIf="case.completed" class="tech-item">
+                        <div class="tech-blk">
+                            <h3 class="tech-ttl">{{case.warranty.customer.name}}</h3>
+                            <div class="tech-info">
+                                <div class="row">
+                                    <div class="info-left col-md-8 col-sm-8 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <td class="td-name">Address</td>
+                                                <td>: {{case.warranty.customer.homeAddress}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Contact</td>
+                                                <td>: {{case.warranty.customer.telephone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case Date</td>
+                                                <td>: {{case.appointmentAt | date: "d MMMM y"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case no</td>
+                                                <td>: {{case.number}} | Status: <span class="status {{case.status | lowercase}}">{{case.status}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Service Zone</td>
+                                                <td>: {{case.serviceZone.name}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
+                                        <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Product</h4>
+                            <p>
+                                Brand: {{case.warranty.product.brand.name}} | 
+                                Model Number: {{case.warranty.product.modelNumber}} | 
+                                Model Name: {{case.warranty.product.name}} | 
+                                Serial Number: {{case.warranty.product.productSerialNumber}}
+                            </p>
+                        </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Case Details:</h4>
+                            <div [innerHTML]="case.description"></div>
+                        </div>
+                        <div class="tech-blk tech-more">
+                            <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
+                        </div>
                     </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Product</h4>
-                        <p>
-                            Brand: Fujioh | Model Number: GS99009 |Model Name: ARG Hood | Serial Number: DXSSI0099887-1929380
-                        </p>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Case Details:</h4>
-                        <p>
-                            Something that is said about what’s wrong with their product
-                        </p>
-                    </div>
-                    <div class="tech-blk tech-more">
-                        <a routerLink="/technician/4" class="more btn btn-green">View Job</a>
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>

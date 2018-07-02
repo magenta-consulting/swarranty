@@ -4,6 +4,9 @@ import {Router} from "@angular/router";
 
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
 import * as $ from 'jquery';
+import {MemberService} from '../../service/member.service'
+import { Member } from '../../model/member';
+import { Case } from '../../model/case';
 
 @Component({
     selector: 'technicians',
@@ -13,8 +16,12 @@ import * as $ from 'jquery';
 export class TechniciansComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
+    cases: Case[];
 
-    constructor() {
+    constructor(private memberService: MemberService) {
+        this.memberService.getMembers(1).subscribe(members => {
+            this.cases = members[0].assignedCases;
+        });
     }
 
     ngOnInit() {

@@ -58,18 +58,9 @@
 }
 .tech-wrap {
     .ipt, .ipt-select {
-        border: 1px solid #ddd;
         width: 300px;
-        outline: none;
-        padding: 0 10px;
-        height: 32px;
-        line-height: 32px;
-        &:focus {
-            border-color: #999;
-        }
-        &.full {
-            width: 100%;
-        }
+        display: inline-block;
+        vertical-align: middle;
     }
     &.tech-detail {
         .tech-blk {
