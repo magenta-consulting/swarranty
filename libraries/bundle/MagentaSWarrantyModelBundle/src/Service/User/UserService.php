@@ -1,6 +1,7 @@
 <?php
 namespace Magenta\Bundle\SWarrantyModelBundle\Service\User;
 
+use Magenta\Bundle\SWarrantyJWTBundle\Security\JWTUser;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\BaseService;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -89,7 +90,7 @@ class UserService extends BaseService
     /**
      * @param bool $throwException
      * @param string $msg
-     * @return User
+     * @return User|JWTUser
      */
     public function getUser($throwException = true, $msg = 'This user does not have access to this section.')
     {

@@ -33,11 +33,15 @@ services:
             - { name: kernel.event_subscriber }
 
 
+    swarranty.id_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { id: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
     swarranty.organisation_search_filter:
         parent: 'api_platform.doctrine.orm.search_filter'
         arguments: [ { organization: 'exact' } ]
         tags: [ 'api_platform.filter' ]
-
 
     swarranty.code_search_filter:
         parent: 'api_platform.doctrine.orm.search_filter'
