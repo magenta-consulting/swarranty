@@ -305,7 +305,8 @@ resources:
 #                route_name: 'organisation_contactable_members'
 #                filters: ['contactable_members.name_search_filter']
         collectionOperations:
-            get: ~
+            get:
+                filters: ['swarranty.organisation_search_filter']
 
     Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
 #        shortName: 'User'                   # optional

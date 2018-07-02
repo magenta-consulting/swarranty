@@ -25,7 +25,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
     attributes:
         person:
             groups: ['read_member','write_member']
-        organisation:
+        organization:
             groups: ['read_member','write_member']
         assignedCases:
             groups: ['read_member','write_member']
@@ -152,12 +152,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
 #
 #            groups: ['read_brand','write_brand']
 
-#Magenta\Bundle\CBookModelBundle\Entity\Organisation\OrganisationMember:
-#    attributes:
-#        organization:
-#            groups: ['read_organisation','write_organisation']
-#        person:
-#            groups: ['read_app_person','write_app_person']
 
 #Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
 #    attributes:
