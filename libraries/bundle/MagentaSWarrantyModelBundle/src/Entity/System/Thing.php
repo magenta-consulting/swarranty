@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 
+use Bean\Component\Thing\Model\ThingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;

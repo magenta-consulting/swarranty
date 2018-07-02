@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
@@ -15,6 +16,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
  */
 class User extends AbstractUser {
 	const ROLE_ADMIN = 'ROLE_ADMIN';
+	const ROLE_POWER_USER = 'ROLE_POWER_USER';
 	
 	/**
 	 * @var int|null
@@ -75,13 +77,24 @@ class User extends AbstractUser {
 		if($action === 'VIEW') {
 			return true;
 		}
+		if($action === 'EXPORT') {
+//			return true;
+		}
 		if($object instanceof DecisionMakingInterface) {
 			if($action === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
-				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_APPROVED;
+				return $object->getDecisionStatus() === null;
 			} elseif($action === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
-				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+//				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+				return $object->getDecisionStatus() === null;
 			}
-			if(in_array($action, [ 'DECIDE', 'DECIDE_ALL', 'DECISION_APPROVE', 'DECISION_REJECT' ])) {
+			if(in_array($action, [
+				'DECIDE',
+				'DECIDE_ALL',
+				'DECISION_APPROVE',
+				'DECISION_REJECT',
+				'DECISION_' . WarrantyCase::DECISION_CLOSE,
+				'DECISION_' . WarrantyCase::DECISION_REOPEN
+			])) {
 				return true;
 			}
 		}

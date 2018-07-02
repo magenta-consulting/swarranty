@@ -1,18 +1,19 @@
 {% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
 {% block list_header %}
-    <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">View All</a>
     <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New
-        Submissions</a>
-    <a href="{{ admin.generateUrl('list',{'statusFilter':'APPROVED'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'APPROVED'?'active':'' }}">Active
-        Warranties</a>
-    <a href="{{ admin.generateUrl('list',{'statusFilter':'NEAR-EXPIRY'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEAR-EXPIRY'?'active':'' }}">Near
-        Expiry</a>
-    <a href="{{ admin.generateUrl('list',{'statusFilter':'EXPIRED'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'EXPIRED'?'active':'' }}">Expired</a>
-    <a href="{{ admin.generateUrl('list',{'statusFilter':'REJECTED'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'REJECTED'?'active':'' }}">Rejected</a>
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'ASSIGNED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ASSIGNED'?'active':'' }}">Assigned</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'RESPONDED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'RESPONDED'?'active':'' }}">Responded</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'COMPLETED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'COMPLETED'?'active':'' }}">Completed</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'CLOSED'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'CLOSED'?'active':'' }}">Closed</a>
+    <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
+
+    <a href="#"
+       class="list-action btn btn-primary">Generate Service Sheets</a>
+
 {% endblock %}

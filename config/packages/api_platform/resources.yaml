@@ -62,6 +62,7 @@ resources:
 #                    - write_brand
 #                    - write_thing
         itemOperations:
+            put: ~
             get: ~
         collectionOperations:
             get: ~

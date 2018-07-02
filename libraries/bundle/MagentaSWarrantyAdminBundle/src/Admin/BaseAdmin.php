@@ -11,6 +11,8 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -47,7 +49,7 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	/**
-	 * deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
+	 * @deprecated since 3.34, will be dropped in 4.0. Use TemplateRegistry services instead
 	 *
 	 * @param string $name
 	 *
@@ -142,26 +144,26 @@ class BaseAdmin extends AbstractAdmin {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
 //			$org = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Organisation::class)->find($orgId);
 //			if( ! empty($org)) {
-//			$parameters['organisation'] = $orgId;
+//				$parameters['organisation'] = $orgId;
 //			}
 //		}
-
+//
+////
 //		return parent::generateUrl($name, $parameters, $absolute);
 //	}
 	
 	protected function getCurrentOrganisationFromAncestors(BaseAdmin $parent = null) {
 		if(empty($parent)) {
-			if(empty($user = $this->getLoggedInUser())) {
-				return null;
-			}
-			
-			return $user->getAdminOrganisation();
+			return null;
 		}
-		
-		if($parent->getParent() instanceof OrganisationAdmin) {
-			return $parent->getParent()->getSubject();
+		if($parent instanceof OrganisationAdmin) {
+			return $parent->getSubject();
+		}
+		$grandpa = $parent->getParent();
+		if($grandpa instanceof OrganisationAdmin) {
+			return $grandpa->getSubject();
 		} else {
-			return $this->getCurrentOrganisationFromAncestors($parent->getParent());
+			return $this->getCurrentOrganisationFromAncestors($grandpa);
 		}
 	}
 	
@@ -366,7 +368,10 @@ class BaseAdmin extends AbstractAdmin {
 		if($this->isAdmin()) {
 //			if($this->getRequest()->attributes->get('_route') !== 'sonata_admin_retrieve_autocomplete_items') {
 			// admin should see everything except in embeded forms
-			if(empty($parentFD) || $parentFD->getType() !== ModelAutocompleteType::class) {
+			if(in_array($this->getClass(), [
+					Organisation::class,
+					User::class
+				]) || ! empty($parentFD) && $parentFD->getType() !== ModelAutocompleteType::class) {
 				return $query;
 			}
 		}
@@ -517,6 +522,8 @@ class BaseAdmin extends AbstractAdmin {
 	) {
 		if($object instanceof Thing) {
 			$object->setOrganisation($this->getCurrentOrganisation());
+		} elseif($object instanceof ThingChildInterface) {
+			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
 		}
 	}
 }

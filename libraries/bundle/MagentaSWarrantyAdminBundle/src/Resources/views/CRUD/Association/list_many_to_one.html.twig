@@ -14,11 +14,11 @@ file that was distributed with this source code.
         {% if field_description.type == 'product' %}
             <div>
                 <div><strong>Brand: </strong></div>
-                <span>{{ value.brand.name }}</span>
+                <span>{{ value.brand is empty?'':value.brand.name }}</span>
             </div>
             <div>
                 <div><strong>Cat: </strong></div>
-                <span>{{ value.category.name }}</span>
+                <span>{{ value.category is empty?'':value.category.name }}</span>
             </div>
             <div>
                 <div><strong>Model Name: </strong></div>

@@ -1,0 +1,17 @@
+{% extends '@MagentaSWarrantyAdmin/CRUD/decide.html.twig' %}
+   {%- block decision_buttons -%}
+       {#{% if admin.hasAccess('decide', object) %}#}
+       <button type="submit" class="decision-button btn btn-success"
+               data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">
+           CLOSE CASE
+       </button>
+       <button type="submit" class="decision-button btn btn-default"
+               data-action="{{ admin.generateObjectUrl('decide', object,{'action':'reopen'}) }}">
+           RE-OPEN CASE
+       </button>
+       <a class="decision-button btn btn-info"
+          href="#">
+           ADD SUB-CASE
+       </a>
+       {#{% endif %}#}
+   {%- endblock -%}

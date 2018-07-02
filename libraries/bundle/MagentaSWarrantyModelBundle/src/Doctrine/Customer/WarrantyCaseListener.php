@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
@@ -24,33 +25,64 @@ class WarrantyCaseListener {
 		$this->container = $container;
 	}
 	
-	private function updateInfAfterFlush(WarrantyCase $case, $event) {
-		
+	private function updateInfAfterFlush(WarrantyCase $case, LifecycleEventArgs $event) {
+		$this->updateInfo($case, $event);
+		$manager = $event->getEntityManager();
+		$manager->flush();
+	}
+	
+	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
 		/** @var EntityManager $manager */
-		$manager = $event->getObjectManager();
-		$uow     = $manager->getUnitOfWork();
-		$user    = $this->container->get(UserService::class)->getUser();
-		$w       = $case->getWarranty();
-		$apmts   = $case->getAppointments();
-		$asgnee  = $case->getAssignee();
-		$apmtAt  = $case->getAppointmentAt();
-		// completely New Case
+		$manager       = $event->getObjectManager();
+		$uow           = $manager->getUnitOfWork();
+		$user          = $this->container->get(UserService::class)->getUser();
+		$w             = $case->getWarranty();
+		$apmts         = $case->getAppointments();
+		$asgnee        = $case->getAssignee();
+		$apmtAt        = $case->getAppointmentAt();
+		$apmt          = null;
+		$serviceSheets = $case->getServiceSheets();
+		
+		////////////// update ParentCase - code /////////////////////
+		if(empty($pc = $case->getParent())) {
+			$case->initiateNumber();
+		} else {
+			$pc->initiateNumber();
+			$pc->addChild($case);
+			$case = $pc->getNumber() . '-' . $pc->getChildren()->count();
+		}
+		////////////// update Appointment /////////////////////
+		
+		// completely New Case //
 		if($apmts->count() === 0) {
-			if( ! empty($asgnee)) {
+			if( ! empty($asgnee) || ! empty($apmtAt)) {
+				if(empty($case->isAssigned())) {
+					$case->markStatusAs(WarrantyCase::STATUS_ASSIGNED);
+				}
 				$apmt = new CaseAppointment();
 				$apmt->setAppointmentAt($apmtAt);
 				$case->addAppointment($apmt);
-				$asgnee->addAppointment($apmt);
+				
+				if( ! empty($asgnee)) {
+					$asgnee->addAppointment($apmt);
+				}
+				
 				if( ! empty($person = $user->getPerson())) {
 					$member = $person->getMemberOfOrganisation($case->getWarranty()->getOrganisation());
 					if( ! empty($empty)) {
 						$apmt->setCreator($member);
 						$apmt->setCreatorName($person->getName());
+					} else {
+						$apmt->setCreatorName($user->getEmail());
 					}
 				}
+				
 				$manager->persist($apmt);
 			}
 		} else {
+			if(empty($case->isAssigned())) {
+				$case->markStatusAs(WarrantyCase::STATUS_ASSIGNED);
+			}
 			/** @var CaseAppointment $apmt */
 			$apmt = $apmts->last();
 			$case->setAssignee($asgnee = $apmt->getAssignee());
@@ -58,20 +90,31 @@ class WarrantyCaseListener {
 			$manager->persist($asgnee);
 		}
 		
-		/** @var AssigneeHistory $lastHistory */
-		$lastHistory = $case->getAssigneeHistory()->last();
-		if(empty($lastHistory) || $lastHistory->getAssignee() !== $asgnee) {
-			$ah = new AssigneeHistory();
-			$ah->setAssignee($asgnee);
-			$ah->setCase($case);
-			$ah->setAssigneeName($asgnee->getPerson()->getName());
-			$case->addAssigneeHistory($ah);
-			$manager->persist($ah);
+		if( ! empty($asgnee)) {
+			if(empty($case->isAssigned())) {
+				$case->markStatusAs(WarrantyCase::STATUS_ASSIGNED);
+			}
+			
+			/** @var AssigneeHistory $lastHistory */
+			$lastHistory = $case->getAssigneeHistory()->last();
+			if(empty($lastHistory) || $lastHistory->getAssignee() !== $asgnee) {
+				$ah = new AssigneeHistory();
+				$ah->setAssignee($asgnee);
+				$ah->setCase($case);
+				$ah->setAssigneeName($asgnee->getPerson()->getName());
+				$case->addAssigneeHistory($ah);
+				$manager->persist($ah);
+			}
 		}
-		$manager->flush();
-	}
-	
-	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
+		
+		if($serviceSheets->count() > 0 && ! empty($apmt)) {
+			/** @var ServiceSheet $ss */
+			foreach($serviceSheets as $ss) {
+				$ss->setAppointment($apmt);
+				$apmt->setServiceSheet($ss);
+				$manager->persist($ss);
+			}
+		}
 	}
 	
 	public function preUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -98,22 +141,16 @@ class WarrantyCaseListener {
 	public function postUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 //		$this->handleAdminEmail($case);
 		$this->updateInfAfterFlush($case, $event);
+//		$manager = $event->getEntityManager();
 	}
 	
 	public function prePersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
-		if(empty($case->getExpiryDate())) {
-			$expiryAt = $case->getPurchaseDate();
-			$expiryAt->modify(sprintf("+%d months", $case->getProduct()->getWarrantyPeriod()));
-			$case->setExpiryDate($expiryAt);
-		}
-		if( ! empty($reg = $case->getRegistration())) {
-			$case->setCustomer($reg->getCustomer());
-		}
 	}
 	
 	public function postPersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfAfterFlush($case, $event);
+//		$manager = $event->getEntityManager();
 
 //		$this->handleAdminEmail($case);
 

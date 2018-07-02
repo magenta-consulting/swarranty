@@ -173,6 +173,55 @@ doctrine:
                                             type: postRemove
                                             method: postRemoveHandler
 
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Organisation\\OrganisationMember"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Organisation\\OrganisationMemberListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Person\\Person"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Person\\PersonListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
 
 security:
     encoders:
@@ -198,6 +247,13 @@ security:
 sonata_media:
     default_context: default
     contexts:
+        service_sheet:
+            providers:
+                - sonata.media.provider.image
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
         receipt_image:
             providers:
                 - sonata.media.provider.image

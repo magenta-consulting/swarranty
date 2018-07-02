@@ -33,7 +33,7 @@
                         <div class="input-group-prepend">
                             <span *ngIf="!isDialingCodeEditing" (click)="editDialingCode()" class="input-group-text">+{{customer.dialingCode}}</span>
                             <input #dialingCode [focus]="focusDialingCodeEM" *ngIf="isDialingCodeEditing"
-                                   style="width: 45px;" type="number" class="form-control mr-1" value="64"
+                                   style="width: 45px;" type="number" class="form-control mr-1" value="65"
                                    aria-label="Country Dialing Code"
                                    (keyup.enter)="updateDialingCode(dialingCode.value)"
                                    (blur)="updateDialingCode(dialingCode.value)">
@@ -102,7 +102,7 @@
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
                 </div>
-                <div *ngIf="emailConfirm != customer.email && !typingConfirm && !typingEmail" class="alert alert-danger" role="alert">
+                <div *ngIf="customer.email !== null && emailConfirm != customer.email && !typingConfirm && !typingEmail" class="alert alert-danger" role="alert">
                     The Confirmation Email must match your Email!
                 </div>
                 <div *ngIf="!isPreview('homeAddress')" class="input-group mb-2">
@@ -110,7 +110,9 @@
                            aria-label="Your Address"
                            (keyup.enter)="updateField('homeAddress')"
                            (blur)="updateField('homeAddress')"
+                           autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search [formControl]="searchControl"
                     >
+
                 </div>
                 <div *ngIf="isPreview('homeAddress')" (click)="editPreview('homeAddress')" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">

@@ -3,16 +3,19 @@ import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
 
 import {ProductService} from "../../service/product.service";
-import {apiEndPoint, 
-        apiEndPointBase, 
-        apiEndPointMedia, 
-        apiMediaUploadPath, 
-        organisationPath,
-        binariesMedia} from "../../../environments/environment";
+import {
+    apiEndPoint,
+    apiEndPointBase,
+    apiEndPointMedia,
+    apiMediaUploadPath,
+    organisationPath,
+    binariesMedia
+} from "../../../environments/environment";
 
 import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/angular2-image-upload";
 
-import {Helper} from "../../helper/Helper";
+import {Helper} from "../../helper/helper";
+import {RegistrationService} from "../../service/registration.service";
 
 @Component({
     selector: 'uploads',
@@ -25,9 +28,11 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     qrCodeImg: string = '';
 
-    constructor(private router: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
+                private router: Router,
                 private productService: ProductService,
-                private helper: Helper
+                private helper: Helper,
+                private regService: RegistrationService
     ) {
     }
 
@@ -35,7 +40,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // 1.
         this.getDataWarranties();
 
-        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/'+ location.protocol + '//' + window.location.hostname + '/upload-receipt-image/' + this.router.snapshot.params['id'] + '.png';
+        this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + location.protocol + '//' + window.location.hostname + '/upload-receipt-image/' + this.route.snapshot.params['id'] + '.png';
     }
 
     ngAfterViewInit() {
@@ -44,14 +49,31 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     /* =========================================== */
     /** Actions in this Comp */
 
+    submitRegistration() {
+        console.log('submitting');
+        let regId = this.route.snapshot.params['id'];
+        this.regService.submitRegistration(regId).subscribe(
+            res => {
+                this.isLoading = false;
+                this.router.navigate(['/success']);
+            },
+            error => {
+                console.log('Error', error);
+            },
+            () => {
+                console.log('Complete Request');
+            }
+        );
+    }
+
     // 1. Get Data Warranties
     getDataWarranties() {
-        let regId = this.router.snapshot.params['id'];
+        let regId = this.route.snapshot.params['id'];
 
-        if(!localStorage.getItem('regId')) {
+        if (!localStorage.getItem('regId')) {
             localStorage.setItem('regId', regId);
-        } 
-        
+        }
+
         this.isLoading = true;
         // localStorage.setItem('regId', apiEndPointBase + '/registrations/' + regId);
         // let regId = parseInt(localStorage.getItem('regId'));
@@ -86,12 +108,12 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // mutate the file or replace it entirely - metadata.file
         // console.log('metadata.url', metadata.url);
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
-        let warId = metadata.url.substring(apiUploadWarranty.length+1);
-        metadata.formData = { 
-            "receiptImageWarranty" : warId,
-            "context" : "receipt_image"
+        let warId = metadata.url.substring(apiUploadWarranty.length + 1);
+        metadata.formData = {
+            "receiptImageWarranty": warId,
+            "context": "receipt_image"
         };
-        
+
         // console.log('warid is',warId);        
         metadata.url = apiUploadWarranty;
         return metadata;
@@ -106,8 +128,8 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         // console.log('removed', file);
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-        
-        if(v_confirm == true) {
+
+        if (v_confirm == true) {
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);

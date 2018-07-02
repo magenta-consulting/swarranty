@@ -1,4 +1,18 @@
 services:
+    magenta_doctrine_entity_listener_person:
+        class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Person\PersonListener
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    magenta_doctrine_entity_listener_organisation_member:
+        class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Organisation\OrganisationMemberListener
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_customer:
         class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\CustomerListener
         arguments:

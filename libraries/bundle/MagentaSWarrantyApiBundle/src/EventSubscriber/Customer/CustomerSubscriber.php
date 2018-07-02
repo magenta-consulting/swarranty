@@ -49,8 +49,9 @@ class CustomerSubscriber implements EventSubscriberInterface {
 		
 		$cr        = $this->registry->getRepository(Customer::class);
 		$customers = $cr->findBy([
-			'telephone'   => $customer->getTelephone(),
-			'dialingCode' => $customer->getDialingCode()
+			'telephone'    => $customer->getTelephone(),
+			'dialingCode'  => $customer->getDialingCode(),
+			'organisation' => $customer->getOrganisation()
 		]);
 		
 		if($cc = count($customers) === 0) {
@@ -68,6 +69,7 @@ class CustomerSubscriber implements EventSubscriberInterface {
 				}
 			}
 		}
+		
 	}
 	
 }

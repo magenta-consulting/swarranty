@@ -1,0 +1,153 @@
+/* You can add global styles to this file, and also import other style files */
+.ng-dropdown-panel.ng-select-bottom {
+  left: 0%;
+}
+
+ng-select {
+  text-align: left;
+}
+
+.fa-lg {
+  font-size: 2em;
+}
+
+.fa-plus-square {
+  color: #28a745;
+}
+
+.fa-minus-square {
+  color: #dc3545;
+}
+
+.container {
+  max-width: 840px;
+}
+
+body {
+  font-size: 14px;
+  color: #000;
+  line-height: 1.6;
+}
+.btn {
+  &.btn-green {
+    color: #fff;
+    background-color: #28a745;
+    &:hover {
+      background-color: darken($color: #28a745, $amount: 10)
+    }
+  }
+}
+.tech-more {
+  display: none;
+}
+.custome-upload{
+  .img-ul-button {
+    background: #007bff !important;
+    text-transform: none !important;
+    width: 100%;
+    text-align: center !important;
+    border-radius: .25rem;
+    font-size: 16px !important;
+    box-shadow: none !important;
+  }
+  .img-ul-file-upload {
+    padding: 0 !important;
+  }
+  .img-ul-drag-box-msg,
+  .img-ul-clear {
+    display: none !important;
+  }
+  .img-ul-image {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .img-ul-image {
+    border: 1px solid #ddd;
+  }
+  .img-ul-container {
+    padding: 0 !important;
+  }
+  .img-ul-x-mark,
+  .img-ul-close {
+    width: 14px!important;
+    height: 14px!important;
+  }
+  .img-ul-close {
+    &::before, &::after {
+      height: 8px !important;
+      right: 0 !important;
+    }
+  }
+}
+
+.custome-upload.warning {
+  .img-ul-button {
+    background: #ffc107 !important;
+  }
+}
+
+// CSS RESPONSIVE
+@media (max-width: 860px) {
+  .container {
+    max-width: none;
+  }
+}
+@media (max-width: 767px) {
+  .tech-wrap {
+    .tech-info {
+      position: relative;
+      .info-right {
+        position: absolute;
+        top: -35px;
+        right: -15px;
+        width: auto;
+        z-index: 1;
+      }
+    }
+  }
+  .ipt-select, .ipt {
+    width: 95% !important;
+    &.full {
+      width: 100% !important;
+    }
+  }
+  .tech-wrap {
+    .tech-ttl {
+        font-size: 20px !important;
+    }
+  }
+  .btn {
+    font-size: 14px !important;
+  }
+  .custome-upload{
+    .img-ul-button {
+      font-size: 14px !important;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .td-name {
+    width: 100px !important;
+  }
+  .tech-wrap {
+    .tech-blk {
+      &:last-child {
+        margin-bottom: 10px !important;
+      }
+    }
+    .nav-link {
+      padding: 5px;
+      font-size: 12px;
+    }
+    .tech-info {
+      .info-right {
+        display: none;
+      }
+    }
+  }
+  .tech-more {
+    display: block;
+    text-align: center;
+  }
+}

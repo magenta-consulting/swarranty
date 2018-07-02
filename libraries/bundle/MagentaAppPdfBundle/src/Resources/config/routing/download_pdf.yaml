@@ -1,0 +1,6 @@
+magenta_app_pdf_download:
+    path:     /download-pdf/{url}/{name}
+    controller: Magenta\Bundle\AppPdfBundle\Controller\Html2PdfController::downloadFromUrlAction
+    requirements:
+        url: .+
+        name: "[\\w\\W]+"

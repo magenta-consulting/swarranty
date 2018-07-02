@@ -111,13 +111,13 @@ class Product extends Thing {
 	 * @var integer|null
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $warrantyPeriod;
+	protected $warrantyPeriod = 0;
 	
 	/**
 	 * @var integer|null
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	protected $extendedWarrantyPeriod;
+	protected $extendedWarrantyPeriod = 0;
 	
 	/**
 	 * @return Collection

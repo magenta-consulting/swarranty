@@ -5,12 +5,16 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
+
+use PhpOffice\PhpSpreadsheet\Writer\IWriter as PhpSpreadsheetIWriter;
+use Sonata\AdminBundle\Templating\TemplateRegistryInterface;
 use Symfony\Component\Form\FormView;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
@@ -18,6 +22,56 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class BaseCRUDAdminController extends CRUDController {
+	
+	/**
+	 * Stream the file as Response.
+	 *
+	 * @param PhpSpreadsheetIWriter $writer
+	 * @param int                   $status
+	 * @param array                 $headers
+	 *
+	 * @return StreamedResponse
+	 */
+	public function createSpreadsheetStreamedResponse(PhpSpreadsheetIWriter $writer, $status = 200, $headers = array()) {
+		return new StreamedResponse(
+			function() use ($writer) {
+				$writer->save('php://output');
+			},
+			$status,
+			$headers
+		);
+	}
+	
+	
+	/**
+	 * @var BaseAdmin
+	 */
+	protected $admin;
+	
+	protected $templateRegistry;
+	
+	protected function getTemplateRegistry() {
+		$this->templateRegistry = $this->container->get($this->admin->getCode() . '.template_registry');
+		if( ! $this->templateRegistry instanceof TemplateRegistryInterface) {
+			throw new \RuntimeException(sprintf(
+				'Unable to find the template registry related to the current admin (%s)',
+				$this->admin->getCode()
+			));
+		}
+		
+		return $this->templateRegistry;
+	}
+	
+	protected function getDecision($action): ?string {
+		$decision = null;
+		if($action === 'approve') {
+			$decision = DecisionMakingInterface::DECISION_APPROVE;
+		} elseif($action === 'reject') {
+			$decision = DecisionMakingInterface::DECISION_REJECT;
+		}
+		
+		return $decision;
+	}
 	
 	/**
 	 * Show action.
@@ -29,7 +83,10 @@ class BaseCRUDAdminController extends CRUDController {
 	 *
 	 * @return Response
 	 */
-	public function decideAction($id = null, $action = 'show') {
+	public
+	function decideAction(
+		$id = null, $action = 'show'
+	) {
 		$request = $this->getRequest();
 		$id      = $request->get($this->admin->getIdParameter());
 		
@@ -54,21 +111,20 @@ class BaseCRUDAdminController extends CRUDController {
 		$this->admin->setSubject($object);
 		
 		// NEXT_MAJOR: Remove this line and use commented line below it instead
-		$template = $this->admin->getTemplate('decide');
+		$template = $this->getTemplateRegistry()->getTemplate('decide');
+
 //		$template = $this->templateRegistry->getTemplate('show');
 		
 		if($request->isMethod('post')) {
-			if($action === 'approve') {
-				$decision = DecisionMakingInterface::DECISION_APPROVE;
-			} elseif($action === 'reject') {
-				$decision = DecisionMakingInterface::DECISION_REJECT;
-			}
+			$decision = $this->getDecision($action);
+			
 			$object->setDecisionRemarks($request->get('decision-remarks'));
 			$object->makeDecision($decision);
 			$this->admin->update($object);
 		}
-		if($action !== 'show') {
-			return $this->redirect($this->admin->generateObjectUrl('decide', $object, [ 'action' => 'show' ]));
+		
+		if( ! empty($res = $this->preRenderDecision($action, $object))) {
+			return $res;
 		}
 		
 		return $this->renderWithExtraParams($template, [
@@ -78,7 +134,14 @@ class BaseCRUDAdminController extends CRUDController {
 		], null);
 	}
 	
-	protected function getRefererParams() {
+	protected function preRenderDecision($action, $object) {
+		if($action !== 'show') {
+			return $this->redirect($this->admin->generateObjectUrl('decide', $object, [ 'action' => 'show' ]));
+		}
+	}
+	
+	protected
+	function getRefererParams() {
 		$request = $this->getRequest();
 		$referer = $request->headers->get('referer');
 		$baseUrl = $request->getBaseUrl();
@@ -91,7 +154,8 @@ class BaseCRUDAdminController extends CRUDController {
 //		getMatcher()
 	}
 	
-	protected function isAdmin() {
+	protected
+	function isAdmin() {
 		return $this->get(UserService::class)->getUser()->isAdmin();
 	}
 	
@@ -101,7 +165,10 @@ class BaseCRUDAdminController extends CRUDController {
 	 * @param FormView $formView
 	 * @param string   $theme
 	 */
-	protected function setFormTheme(FormView $formView, $theme) {
+	protected
+	function setFormTheme(
+		FormView $formView, $theme
+	) {
 		$twig = $this->get('twig');
 		
 		try {

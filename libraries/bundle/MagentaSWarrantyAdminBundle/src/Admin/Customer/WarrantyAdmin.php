@@ -99,6 +99,7 @@ class WarrantyAdmin extends BaseAdmin {
 	}
 	
 	public function createQuery($context = 'list') {
+		$request = $this->getRequest();
 		/** @var ProxyQueryInterface $query */
 		$query = parent::createQuery($context);
 		if(empty($this->getParentFieldDescription())) {
@@ -107,9 +108,10 @@ class WarrantyAdmin extends BaseAdmin {
 		/** @var Expr $expr */
 		$expr = $query->expr();
 		/** @var QueryBuilder $qb */
-		$qb           = $query->getQueryBuilder();
-		$rootAlias    = $qb->getRootAliases()[0];
-		$statusFilter = $this->getRequest()->query->get('statusFilter');
+		$qb            = $query->getQueryBuilder();
+		$rootAlias     = $qb->getRootAliases()[0];
+		$customerAlias = $query->entityJoin([ [ 'fieldName' => 'customer' ] ]);
+		$statusFilter  = $this->getRequest()->query->get('statusFilter');
 		switch($statusFilter) {
 			case 'ALL':
 				break;
@@ -141,11 +143,16 @@ class WarrantyAdmin extends BaseAdmin {
 				break;
 		}
 		
-		//        $query->andWhere()
-		
-		{
-			return $query;
+		if( ! empty($cid = $request->query->get('customer'))) {
+			$query->andWhere($expr->eq($customerAlias . '.id', $cid));
 		}
+		
+		if( ! empty($org = $this->getCurrentOrganisation(false))) {
+//			$qb->join($customerAlias . '.organisation', 'organisation');
+			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
+		}
+		$sql = $qb->getQuery()->getSQL();
+		return $query;
 	}
 	
 	public function getPersistentParameters() {
@@ -155,23 +162,13 @@ class WarrantyAdmin extends BaseAdmin {
 		}
 		
 		return array_merge($parameters, array(
-			'organisation' => $this->getCurrentOrganisation()->getId()
+			'organisation' => $this->getCurrentOrganisation(false)->getId()
 		));
 	}
 	
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
-//		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-	
-	}
-	
-	public function getTemplate($name) {
-		$_name = strtoupper($name);
-		if($_name === 'LIST') {
-			return '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/CRUD/list.html.twig';
-		}
-		
-		return parent::getTemplate($name);
+		$collection->add('detail', $this->getRouterIdParameter() . '/detail');
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {
@@ -193,7 +190,10 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.name', null, [ 'label' => 'form.label_model_name' ])
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
-			->add('purchaseDate', null, [ 'label' => 'form.label_purchase_date', 'format' => 'd - m - Y' ])
+			->add('purchaseDate', null, [
+				'label'    => 'form.label_purchase_date',
+				'format'   => 'd - m - Y'
+			])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
 			->add('product.warrantyPeriod', null, [
 				'editable' => true,
@@ -233,8 +233,8 @@ class WarrantyAdmin extends BaseAdmin {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
 					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
-					'case_add' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
+					'case'              => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
+					'case_add'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
 					'edit'              => array(),
 					'delete'            => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
@@ -355,10 +355,10 @@ class WarrantyAdmin extends BaseAdmin {
 		]);
 		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
+			'required' => true,
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
 			'datepicker_use_button' => false,
-			'required'              => false,
 			'label'                 => 'form.label_purchase_date',
 		]);
 		
@@ -418,7 +418,9 @@ class WarrantyAdmin extends BaseAdmin {
 		$ris = $object->getReceiptImages();
 		/** @var Media $ri */
 		foreach($ris as $m) {
-			$object->addReceiptImage($m);
+			if( ! empty($m)) {
+				$object->addReceiptImage($m);
+			}
 		}
 	}
 	
