@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import {ProductService} from "../../service/product.service";
 import {
@@ -28,11 +30,14 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     qrCodeImg: string = '';
 
+    modalRef: BsModalRef;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private productService: ProductService,
                 private helper: Helper,
-                private regService: RegistrationService
+                private regService: RegistrationService,
+                private modalService: BsModalService
     ) {
     }
 
@@ -161,11 +166,12 @@ export class UploadsComponent implements OnInit, AfterViewInit {
 
     // clear localStorage and then redirect to page registration
     clearRegistration() {
-        let v_confirm = confirm('Do you really want to redirect to page registration ?');
+        this.modalRef.hide();
+        localStorage.removeItem('regId');
+        this.router.navigate(['/registration']);
+    }
 
-        if(v_confirm === true) {
-            localStorage.removeItem('regId');
-            this.router.navigate(['/registration']);
-        }
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
     }
 }

@@ -65,8 +65,18 @@
                         Submit
                     </button>
 
-                    <button (click)="clearRegistration()" type="button" class="btn btn-secondary btn-cancel">Cancel</button>
+                    <button (click)="openModal(modalRemoveRegId)" type="button" class="btn btn-secondary btn-cancel">Cancel</button>
                 </div>
+
+                <ng-template #modalRemoveRegId>
+                    <div class="modal-body text-center">
+                        <p>Do you really want to redirect to page registration ?</p>
+                        <div class="cancel-wrap">
+                            <button (click)="clearRegistration()" type="button" class="btn btn-primary">YES</button>
+                            <button (click)="modalRef.hide()" type="button" class="btn btn-secondary btn-cancel">NO</button>
+                        </div>
+                    </div>
+                </ng-template>
             </div>
         </div>
 

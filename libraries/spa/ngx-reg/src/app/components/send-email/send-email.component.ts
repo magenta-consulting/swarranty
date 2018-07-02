@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router} from "@angular/router";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
@@ -18,8 +20,11 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
     verifyFail : boolean = false;
     isClick : boolean = false;
 
+    modalRef: BsModalRef;
+
     constructor(private productService: ProductService,
-        private router: Router) {
+        private router: Router,
+        private modalService: BsModalService) {
     }
 
     ngOnInit() {
@@ -88,11 +93,12 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
 
     // clear localStorage and then redirect to page registration
     clearRegistration() {
-        let v_confirm = confirm('Do you really want to redirect to page registration ?');
+        this.modalRef.hide();
+        localStorage.removeItem('regId');
+        this.router.navigate(['/registration']);
+    }
 
-        if(v_confirm === true) {
-            localStorage.removeItem('regId');
-            this.router.navigate(['/registration']);
-        }
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
     }
 }
