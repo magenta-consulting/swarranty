@@ -69,26 +69,3 @@ api_platform:
             mime_types: ['application/ld+json']
 
         # ...
-
-
-services:
-    swarranty.code_search_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { code: 'exact' } ]
-        tags: [ 'api_platform.filter' ]
-
-    swarranty.brand_search_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { brand: 'exact' } ]
-        tags: [ 'api_platform.filter' ]
-
-    swarranty.category_search_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { category: 'exact' } ]
-        tags: [ 'api_platform.filter' ]
-
-    swarranty.sub_category_search_filter:
-        parent: 'api_platform.doctrine.orm.search_filter'
-        arguments: [ { subCategory: 'exact' } ]
-        tags: [ 'api_platform.filter' ]
-

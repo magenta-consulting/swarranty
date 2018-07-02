@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class OrganisationController extends Controller {
+	
 	public function brandsAction(Organisation $data): Collection {
 		$brands = $data->getBrands();
 		

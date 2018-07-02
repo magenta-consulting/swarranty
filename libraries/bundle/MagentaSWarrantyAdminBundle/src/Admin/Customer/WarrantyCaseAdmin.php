@@ -137,6 +137,11 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		return parent::isGranted($name, $object);
 	}
 	
+	/**
+	 * @param WarrantyCase $object
+	 *
+	 * @return string
+	 */
 	public function toString($object) {
 		return $object instanceof WarrantyCase
 			? $object->getWarranty()->getCustomer()->getName() . ' - ' . $object->getWarranty()->getProduct()->getName()
