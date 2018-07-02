@@ -31,6 +31,26 @@ class Person extends PersonModel {
 		$this->customers = new ArrayCollection();
 	}
 	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
+	}
+	
+	/**
+	 * @param User|null $user
+	 */
+	public function setUser(?User $user): void {
+		if( ! empty($user)) {
+			$user->setPerson($this);
+			if( ! empty($this->user)) {
+				$this->user->setPerson(null);
+			}
+		}
+		$this->user = $user;
+	}
+	
 	public function getMemberOfOrganisation(Organisation $org) {
 		/** @var OrganisationMember $m */
 		foreach($this->members as $m) {
@@ -76,7 +96,7 @@ class Person extends PersonModel {
 	
 	/**
 	 * @var User|null
-	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\User\User", mappedBy="person")
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\User\User", cascade={"merge", "persist"}, mappedBy="person")
 	 */
 	protected $user;
 	
@@ -130,24 +150,10 @@ class Person extends PersonModel {
 	}
 	
 	/**
-	 * @param User|null $user
-	 */
-	public function setUser(?User $user): void {
-		$this->user = $user;
-	}
-	
-	/**
 	 * @return null|string
 	 */
 	public function getEmail(): ?string {
 		return $this->email;
-	}
-	
-	/**
-	 * @param null|string $email
-	 */
-	public function setEmail(?string $email): void {
-		$this->email = $email;
 	}
 	
 	/**

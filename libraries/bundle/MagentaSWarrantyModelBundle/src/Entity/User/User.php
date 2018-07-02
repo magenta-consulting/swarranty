@@ -16,6 +16,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
  */
 class User extends AbstractUser {
 	const ROLE_ADMIN = 'ROLE_ADMIN';
+	const ROLE_POWER_USER = 'ROLE_POWER_USER';
 	
 	/**
 	 * @var int|null

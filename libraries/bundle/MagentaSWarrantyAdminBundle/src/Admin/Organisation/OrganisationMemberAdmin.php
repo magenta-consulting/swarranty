@@ -60,6 +60,10 @@ class OrganisationMemberAdmin extends BaseAdmin {
 			$object->setPerson(new Person());
 		}
 		
+		if(empty($user = $object->getPerson()->getUser())) {
+			$object->getPerson()->setUser(new User());
+		}
+		
 		return $object;
 	}
 	
@@ -174,8 +178,10 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		/** @var ProxyQuery $productQuery */
 		$acroleQuery = $this->getFilterByOrganisationQueryForModel(ACRole::class);
 		
-		
 		$c = $this->getConfigurationPool()->getContainer();
+		
+		$passwordRequired = empty($this->subject);
+		
 		$formMapper
 			->with('form_group.user_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
@@ -183,6 +189,10 @@ class OrganisationMemberAdmin extends BaseAdmin {
 			->add('person.email', null, [
 				'required' => true,
 				'label'    => 'form.label_email'
+			])
+			->add('person.user.plainPassword', TextType::class, [
+				'label'    => 'form.label_password',
+				'required' => $passwordRequired
 			])
 			->add('role', ModelType::class, [
 				'label'    => 'form.label_role',

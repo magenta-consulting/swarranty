@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap 4 Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="asset/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item title-nav">
+                <a class="nav-link active"  href="#assigned" role="tab" data-toggle="tab">Assigned/Responded Jobs
+                </a>
+            </li>
+
+            <li class="nav-item title-nav">
+                <a class="nav-link" href="#completed" role="tab" data-toggle="tab">Completed Jobs</a>
+            </li>
+        </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active show" id="assigned">
+            <div class="customer-care">
+                <div class="customer-info row">
+                    <div class="col-md-7">
+                        <h2>#Customer_Name1</h2>
+                        <div class="row">
+                            <div class="col-5">Address</div>
+                            <div class="col-7">: Some Address Here</div>
+                        </div>
+
+                    </div>
+                    <div class="button-view-job col-md-5">
+                        <button type="button" class="btn btn-success btn-lg">View Job</button>
+                    </div>
+                </div>
+                <div class="customer-product">
+                    <h3> Product </h3>
+                    <p>Brand: Fujioh | Model Number: GS99009 |Model Name: ARG Hood | Serial Number: DXSSI0099887-1929380 </p>
+
+                </div>
+                <div class="customer-case-detail">
+                    <h3>Case Details:</h3>
+                    <p>Something that is said about what’s wrong with their product</p>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="completed">
+            ...
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
