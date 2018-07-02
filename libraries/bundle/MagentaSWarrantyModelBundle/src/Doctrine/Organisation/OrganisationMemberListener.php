@@ -62,19 +62,19 @@ class OrganisationMemberListener {
 	}
 	
 	public function preUpdateHandler(OrganisationMember $member, LifecycleEventArgs $event) {
-//		$this->updateInfoBeforeOperation($member, $event);
+		$this->updateInfoBeforeOperation($member, $event);
 	}
 	
 	public function postUpdateHandler(OrganisationMember $member, LifecycleEventArgs $event) {
-//		$this->updateInfoAfterOperation($member, $event);
+		$this->updateInfoAfterOperation($member, $event);
 	}
 	
 	public function prePersistHandler(OrganisationMember $member, LifecycleEventArgs $event) {
-//		$this->updateInfoBeforeOperation($member, $event);
+		$this->updateInfoBeforeOperation($member, $event);
 	}
 	
 	public function postPersistHandler(OrganisationMember $member, LifecycleEventArgs $event) {
-//		$this->updateInfoAfterOperation($member, $event);
+		$this->updateInfoAfterOperation($member, $event);
 	}
 	
 	public function preRemoveHandler(OrganisationMember $member, LifecycleEventArgs $event) {
