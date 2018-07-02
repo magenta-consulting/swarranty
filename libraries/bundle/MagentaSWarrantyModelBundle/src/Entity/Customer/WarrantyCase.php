@@ -46,11 +46,12 @@ class WarrantyCase implements DecisionMakingInterface {
 	protected $id;
 	
 	public function __construct() {
-		$this->createdAt     = new \DateTime();
-		$this->children      = new ArrayCollection();
-		$this->appointments  = new ArrayCollection();
-		$this->serviceSheets = new ArrayCollection();
-		$this->serviceNotes  = new ArrayCollection();
+		$this->createdAt       = new \DateTime();
+		$this->children        = new ArrayCollection();
+		$this->appointments    = new ArrayCollection();
+		$this->serviceSheets   = new ArrayCollection();
+		$this->serviceNotes    = new ArrayCollection();
+		$this->assigneeHistory = new ArrayCollection();
 	}
 	
 	public function getDecisionStatus(): string {
