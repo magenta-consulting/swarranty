@@ -136,6 +136,13 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         verified:
             groups: ['read_registration']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
+    attributes:
+        id:
+            groups: ['read_brand','write_brand']
+        name:
+            groups: ['read_brand','write_brand']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
         id:
@@ -150,11 +157,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
 #  "purchaseDate": "2018-06-14",
 #  "productSerialNumber": "S001"
 #}
-
-#Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
-#    attributes:
-#
-#            groups: ['read_brand','write_brand']
 
 
 #Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
