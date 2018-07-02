@@ -27,6 +27,14 @@ class OrganisationMember extends MemberModel {
 	 */
 	protected $id;
 	
+	public function __construct() {
+		$this->appointments            = new ArrayCollection();
+		$this->assignedCases           = new ArrayCollection();
+		$this->assigneeHistory         = new ArrayCollection();
+		$this->createdCases            = new ArrayCollection();
+		$this->createdCaseAppointments = new ArrayCollection();
+	}
+	
 	/**
 	 * @return int|null
 	 */
@@ -180,4 +188,73 @@ class OrganisationMember extends MemberModel {
 		$this->enabled = $enabled;
 	}
 	
+	/**
+	 * @return Collection
+	 */
+	public function getAppointments(): Collection {
+		return $this->appointments;
+	}
+	
+	/**
+	 * @param Collection $appointments
+	 */
+	public function setAppointments(Collection $appointments): void {
+		$this->appointments = $appointments;
+	}
+	
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getAssigneeHistory(): ArrayCollection {
+		return $this->assigneeHistory;
+	}
+	
+	/**
+	 * @param ArrayCollection $assigneeHistory
+	 */
+	public function setAssigneeHistory(ArrayCollection $assigneeHistory): void {
+		$this->assigneeHistory = $assigneeHistory;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCreatedCaseAppointments(): Collection {
+		return $this->createdCaseAppointments;
+	}
+	
+	/**
+	 * @param Collection $createdCaseAppointments
+	 */
+	public function setCreatedCaseAppointments(Collection $createdCaseAppointments): void {
+		$this->createdCaseAppointments = $createdCaseAppointments;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCreatedCases(): Collection {
+		return $this->createdCases;
+	}
+	
+	/**
+	 * @param Collection $createdCases
+	 */
+	public function setCreatedCases(Collection $createdCases): void {
+		$this->createdCases = $createdCases;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAssignedCases(): Collection {
+		return $this->assignedCases;
+	}
+	
+	/**
+	 * @param Collection $assignedCases
+	 */
+	public function setAssignedCases(Collection $assignedCases): void {
+		$this->assignedCases = $assignedCases;
+	}
 }

@@ -279,6 +279,59 @@ resources:
                 filters: ['swarranty.code_search_filter']
 #            post: ~
 
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
+#        shortName: 'User'                   # optional
+        description: 'OrganisationMember' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_case
+                    - read_service_zone
+                    - read_product
+                    - read_warranty
+                    - read_customer
+                    - read_member
+                    - read_person
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_member
+        itemOperations:
+            get: ~
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
+#        shortName: 'User'                   # optional
+        description: 'Person' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_person
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_person
+        itemOperations:
+            get: ~
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
+
+
+
+
 ###################### DTO #######################################
     Magenta\Bundle\SWarrantyApiBundle\Dto\Customer\RegistrationEmail:
 #        shortName: 'User'                   # optional

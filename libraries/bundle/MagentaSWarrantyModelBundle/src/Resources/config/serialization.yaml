@@ -21,11 +21,43 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
         fieldRequirements:
             groups: ['read_organisation','write_organisation']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
+    attributes:
+        person:
+            groups: ['read_member','write_member']
+        organisation:
+            groups: ['read_member','write_member']
+        assignedCases:
+            groups: ['read_member','write_member']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
+    attributes:
+        email:
+            groups: ['read_person','write_person']
+        name:
+            groups: ['read_person','write_person']
+        birthday:
+            groups: ['read_person','write_person']
+        user:
+            groups: ['read_person','write_person']
+        familyName:
+            groups: ['read_person','write_person']
+        givenName:
+            groups: ['read_person','write_person']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:
         modelNumber:
             groups: ['read_product','write_product']
+        name:
+            groups: ['read_product','write_product']
+        brand:
+            groups: ['read_product','write_product']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone:
+    attributes:
+        name:
+            groups: ['read_service_zone','write_service_zone']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
@@ -44,6 +76,28 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
         receiptImages:
             groups: ['read_warranty','write_warranty','read_registration_warranty']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
+    attributes:
+        id:
+            groups: ['read_case']
+        completed:
+            groups: ['read_case','write_case']
+        status:
+            groups: ['read_case','write_case']
+        number:
+            groups: ['read_case','write_case']
+        children:
+            groups: ['read_case','write_case']
+        appointmentAt:
+            groups: ['read_case','write_case']
+        warranty:
+            groups: ['read_case','write_case']
+        createdAt:
+            groups: ['read_case','write_case']
+        serviceZone:
+            groups: ['read_case','write_case']
+        description:
+            groups: ['read_case','write_case']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
@@ -61,7 +115,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
             groups: ['read_customer','write_customer']
         homePostalCode:
             groups: ['read_customer','write_customer']
-
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
     attributes:
