@@ -24,7 +24,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 class CaseAppointment extends FullTextSearch {
 	
 	const STATUS_NEW = 'NEW';
-	const STATUS_PENDING = 'PENDING';
+	const STATUS_VIEWED = 'VIEWED';
 	const STATUS_VISITED = 'VISITED';
 	const STATUS_CANCELLED = 'CANCELLED';
 	
@@ -38,6 +38,18 @@ class CaseAppointment extends FullTextSearch {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+		if(empty($this->serviceSheet)) {
+			$this->serviceSheet = $this->createServiceSheet();
+		}
+	}
+	
+	public function createServiceSheet() {
+		$ss = new ServiceSheet();
+		$ss->setAppointment($this);
+		$ss->setCase($this->case);
+		$this->case->addServiceSheet($ss);
+		
+		return $ss;
 	}
 	
 	public function getOrganisation(): ?Organisation {

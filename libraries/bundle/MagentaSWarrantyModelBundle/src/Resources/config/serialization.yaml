@@ -35,17 +35,17 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
     attributes:
         email:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         name:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         birthday:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         user:
             groups: ['read_person','write_person']
         familyName:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         givenName:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:
@@ -94,14 +94,38 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         appointmentAt:
             groups: ['read_case','write_case']
+        appointments:
+            groups: ['read_case','write_case']
         warranty:
             groups: ['read_case','write_case']
+        serviceNotes:
+            groups: ['read_case','write_case']
+        serviceSheets:
+            groups: ['read_case','write_case']
+
         createdAt:
             groups: ['read_case','write_case']
         serviceZone:
             groups: ['read_case','write_case']
         description:
             groups: ['read_case','write_case']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
+    attributes:
+        id:
+            groups: ['read_appointment','read_case_appointment','read_case_note']
+        status:
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+        serviceNote:
+            groups: ['read_appointment','write_appointment','read_case_appointment']
+        serviceSheet:
+            groups: ['read_appointment','write_appointment','read_case_appointment']
+        appointmentAt:
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+        visitedAt:
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+        assignee:
+            groups: ['read_appointment','write_appointment']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
@@ -136,6 +160,26 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         verified:
             groups: ['read_registration']
 
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
+    attributes:
+        appointment:
+            groups: ['read_service_sheet', 'write_service_sheet', 'read_case_service_sheet']
+        case:
+            groups: ['read_service_sheet', 'write_service_sheet']
+        images:
+            groups: ['read_service_sheet', 'read_case_service_sheet']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
+    attributes:
+        id:
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
+        appointment:
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
+        case:
+            groups: ['read_service_note', 'write_service_note']
+        description:
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
     attributes:
         id:
@@ -157,15 +201,4 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
 #  "purchaseDate": "2018-06-14",
 #  "productSerialNumber": "S001"
 #}
-
-
-#Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
-#    attributes:
-#        birthDate:
-#            groups: ['read_app_person','write_app_person']
-#        familyName:
-#            groups: ['read_app_person','write_app_person']
-#        givenName:
-#            groups: ['read_app_person','write_app_person']
-
 
