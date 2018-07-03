@@ -331,9 +331,8 @@ resources:
                     - write_member
         itemOperations:
             get: ~
-#            get_contactable_members:
-#                route_name: 'organisation_contactable_members'
-#                filters: ['contactable_members.name_search_filter']
+            get_member_name:
+                route_name: 'organisation_member_name'
         collectionOperations:
             get:
                 filters: ['swarranty.organisation_search_filter', 'swarranty.id_search_filter']
