@@ -124,8 +124,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
             groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
         visitedAt:
             groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
-        assignee:
-            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+#        assignee:
+#            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
