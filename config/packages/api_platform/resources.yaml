@@ -288,7 +288,7 @@ resources:
             normalization_context:
                 groups:
                     - read_case
-                    - read_appointment
+#                    - read_case_appointment has to be either case_note or case_appointment and not both
                     - read_case_note
                     - read_service_zone
                     - read_product
@@ -326,11 +326,49 @@ resources:
                     - write_service_sheet
         itemOperations:
             get: ~
-#            get_contactable_members:
-#                route_name: 'organisation_contactable_members'
-#                filters: ['contactable_members.name_search_filter']
         collectionOperations:
             get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
+#        shortName: 'User'                   # optional
+        description: 'CaseAppointment' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_appointment
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_appointment
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
+#        shortName: 'User'                   # optional
+        description: 'ServiceNote' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_service_note
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_service_note
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+            post: ~
 
     Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
 #        shortName: 'User'                   # optional

@@ -190,6 +190,7 @@ class WarrantyCase implements DecisionMakingInterface {
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 * @ORM\OrderBy({"createdAt" = "ASC"})
 	 */
 	protected $appointments;
 	
@@ -222,6 +223,7 @@ class WarrantyCase implements DecisionMakingInterface {
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 * @ORM\OrderBy({"createdAt" = "DESC"})
 	 */
 	protected $serviceNotes;
 	

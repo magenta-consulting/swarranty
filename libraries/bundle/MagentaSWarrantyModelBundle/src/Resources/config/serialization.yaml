@@ -110,15 +110,17 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
     attributes:
         id:
-            groups: ['read_appointment']
+            groups: ['read_appointment','read_case_appointment','read_case_note']
         status:
-            groups: ['read_appointment','write_appointment']
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
         serviceNote:
-            groups: ['read_appointment','write_appointment']
+            groups: ['read_appointment','write_appointment','read_case_appointment']
         serviceSheet:
             groups: ['read_appointment','write_appointment']
         appointmentAt:
-            groups: ['read_appointment','write_appointment']
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+        visitedAt:
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
