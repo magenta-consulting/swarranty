@@ -313,7 +313,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
-                    - read_person
+                    - read_person_scalar
                     - read_case
 #                    - read_case_appointment # has to be either case_note/case_service_sheet or case_appointment and not both
                     - read_case_note
@@ -420,9 +420,6 @@ resources:
 #                filters: ['contactable_members.name_search_filter']
         collectionOperations:
             get: ~
-
-
-
 
 ###################### DTO #######################################
     Magenta\Bundle\SWarrantyApiBundle\Dto\Customer\RegistrationEmail:

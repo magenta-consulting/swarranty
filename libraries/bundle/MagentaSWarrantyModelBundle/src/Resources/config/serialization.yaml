@@ -35,17 +35,17 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
     attributes:
         email:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         name:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         birthday:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         user:
             groups: ['read_person','write_person']
         familyName:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
         givenName:
-            groups: ['read_person','write_person']
+            groups: ['read_person','write_person', 'read_person_scalar']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
     attributes:
