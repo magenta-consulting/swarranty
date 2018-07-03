@@ -367,6 +367,7 @@ resources:
         itemOperations:
             get: ~
             put: ~
+            delete: ~
         collectionOperations:
             get: ~
             post: ~
