@@ -38,6 +38,32 @@ resources:
             get: ~
             post: ~
 
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
+#        shortName: 'User'                   # optional
+        description: 'WarrantyCase' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_case
+                    - read_warranty
+                    - read_product
+                    - read_brand
+            denormalization_context:
+                groups:
+                    - write_case
+                    - write_warranty
+                    - write_customer
+#                    - write_product
+#                    - write_brand
+#                    - write_thing
+        itemOperations:
+            get: ~
+            put: ~
+        collectionOperations:
+            get: ~
+
     Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
 #        shortName: 'User'                   # optional
         description: 'Reg' # optional
