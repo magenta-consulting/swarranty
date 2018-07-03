@@ -165,7 +165,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		
 		$listMapper
 			->add('person.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
-			->add('person.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
+			->add('email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('role', null, [
 				'editable'            => true,
 				'label'               => 'form.label_role',
@@ -186,7 +186,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 			->with('form_group.user_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
 			->add('person.name', null, [ 'label' => 'form.label_name' ])
-			->add('person.email', null, [
+			->add('email', null, [
 				'required' => true,
 				'label'    => 'form.label_email'
 			])

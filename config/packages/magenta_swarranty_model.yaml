@@ -205,6 +205,9 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Person\\PersonListener"
                                     event:
                                         -
+                                            type: preFlush
+                                            method: preFlushHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -
