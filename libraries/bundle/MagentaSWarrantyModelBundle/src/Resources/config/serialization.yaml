@@ -116,7 +116,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
         serviceNote:
             groups: ['read_appointment','write_appointment','read_case_appointment']
         serviceSheet:
-            groups: ['read_appointment','write_appointment']
+            groups: ['read_appointment','write_appointment','read_case_appointment']
         appointmentAt:
             groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
         visitedAt:
