@@ -1,6 +1,8 @@
 import { Warranty } from "./warranty";
 import { Registration } from "./registration";
 import { Product } from "./product";
+import { Appointment } from "./appointment";
+import { ServiceNote } from "./service-note";
 
 export class Case {
     _id: string;
@@ -14,4 +16,8 @@ export class Case {
     status: string;
     number: string;
     description: string;
+    appointments: Appointment[];
+    currentAppointment: Appointment;
+    serviceNotes: ServiceNote[];
+    serviceSheets: any[]
 }

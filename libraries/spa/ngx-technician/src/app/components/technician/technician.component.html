@@ -63,11 +63,11 @@
             </tr>
             <tr>
                 <td class="td-name">Model Number</td>
-                <td>: <input type="text" class="ipt" [value]="case.warranty.product ? case.warranty.product.modelNumber : ''"/></td>
+                <td>: <input type="text" class="ipt" [value]="case.warranty.product ? case.warranty.product.modelNumber ? case.warranty.product.modelNumber : '' : ''"/></td>
             </tr>
             <tr>
                 <td class="td-name">Serial Number</td>
-                <td>: <input type="text" class="ipt" [value]="case.warranty.product ? case.warranty.product.productSerialNumber : ''"/></td>
+                <td>: <input type="text" class="ipt" [value]="case.warranty.product ? case.warranty.product.productSerialNumber ? case.warranty.product.productSerialNumber : '' : ''"/></td>
             </tr>
             <tr>
                 <td class="td-name">Date Closed</td>
@@ -85,30 +85,35 @@
     </div>
     <div class="tech-blk">
         <h4 class="tech-sub-ttl">Case Details</h4>
-        <p>What ever they want to write about the case when the customer called in.</p>
-        <input type="text" class="ipt full" placeholder="Add Case Detail" [value]="case.description"/>
+        <!-- <p>What ever they want to write about the case when the customer called in.</p> -->
+        <!-- <input type="text" class="ipt full" placeholder="Add Case Detail" [value]="case.description"/> -->
+        <div [innerHTML]="case.description"></div>
     </div>
     <div class="tech-blk">
         <h4 class="tech-sub-ttl">Service/Case Notes</h4>
         <div class="note-list">
-            <div class="note-item">
-                <p>Issue resolved. Motor changed.</p>
+            <div *ngFor="let note of case.serviceNotes" class="note-item">
+                <div *ngIf="note == currentAppointmentNote">
+                    <input type="text" class="ipt" [(ngModel)]="note.description"/>
+                    <span (click)="updateNote()">Update</span>
+                </div>
+                <div *ngIf="note != currentAppointmentNote">
+                    <p>{{note.description}}</p>
+                </div>
                 <p>
-                    Technician Name | 28 April 2018 | <span>Delete</span>
-                </p>
-            </div>
-            <div class="note-item">
-                <p>Was unable to fix issue, motor is spoiled not power issue</p>
-                <p>
-                    Technician Name | 26 April 2018 | <span>Delete</span>
+                    Technician Name | {{note.appointment.appointmentAt | date: "d MMMM y"}} | <span (click)="deleteNote(note)">Delete</span>
                 </p>
             </div>
         </div>
-        <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered"/>
+        <div *ngIf="currentAppointmentNote == null">
+            <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered" [(ngModel)]="noteDescription" (keyup.enter)="addNote()"/>
+        </div>
     </div>
     <div class="tech-blk">
         <image-upload
         class="custome-upload"
+        [url]="uploadUrl"
+        [beforeUpload]="onBeforeUpload"
         (removed)="onRemoved($event)"
         (uploadFinished)="onUploadFinished($event, 1)"
         (uploadStateChanged)="onUploadStateChanged($event)"

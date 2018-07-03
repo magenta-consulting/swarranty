@@ -12,25 +12,19 @@ import { Case } from '../model/case';
 export class MemberService {
   membersUrl = '/organisation-members';
 
-  members: Observable<Member[]> = null;
-
   constructor(private http: HttpClient) { }
 
 
   getMembers(organisation: number): Observable<Member[]> {
-    if (this.members == null) {
-      this.members = this.http.get(`${apiEndPoint}${apiEndPointBase}${this.membersUrl}?organization=${organisation}`)
-      .pipe(
-        map(res => {
-          let members = res['hydra:member'];
-          return members;
-        }),
-        catchError((error, caught) : Observable<void> => {
-          console.log(error);
-          return caught;
-        })
-      )
-    }
-    return this.members;
+    return this.http.get(`${apiEndPoint}${apiEndPointBase}${this.membersUrl}?organization=${organisation}`).pipe(
+      map(res => {
+        let members = res['hydra:member'];
+        return members;
+      }),
+      catchError((error, caught) : Observable<void> => {
+        console.log(error);
+        return caught;
+      })
+    );
   }
 }

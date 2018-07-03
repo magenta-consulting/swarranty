@@ -21,6 +21,7 @@ import { LoginComponent } from './components/login/login.component';
 
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
+import { Helper } from './helper/helper';
 
 
 @NgModule({
@@ -47,7 +48,7 @@ import { ImageUploadModule } from "./extensions/angular2-image-upload";
     ImageUploadModule.forRoot(),
 
   ],
-  providers: [],
+  providers: [Helper],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
