@@ -98,6 +98,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         warranty:
             groups: ['read_case','write_case']
+        serviceNotes:
+            groups: ['read_case','write_case']
         createdAt:
             groups: ['read_case','write_case']
         serviceZone:
