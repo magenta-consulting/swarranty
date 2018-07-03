@@ -26,7 +26,7 @@ organisation_member_name:
     path:     /organisation-members/{id}/name
     controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Organisation\OrganisationMemberController::nameAction
     defaults:
-        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation'
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember'
         _api_item_operation_name: 'get_member_name'
 
 organisation_customers:
