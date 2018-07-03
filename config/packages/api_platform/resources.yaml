@@ -288,6 +288,7 @@ resources:
             normalization_context:
                 groups:
                     - read_case
+                    - read_appointment
                     - read_service_zone
                     - read_product
                     - read_warranty
@@ -307,6 +308,28 @@ resources:
         collectionOperations:
             get:
                 filters: ['swarranty.organisation_search_filter', 'swarranty.id_search_filter']
+
+    Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
+#        shortName: 'User'                   # optional
+        description: 'ServiceSheet' # optional
+#        iri: 'http://schema.org/User'       # optional
+        attributes:                          # optional
+            pagination_items_per_page: 25    # optional
+            normalization_context:
+                groups:
+                    - read_service_sheet
+                    - read_medium
+                    - read_thing
+            denormalization_context:
+                groups:
+                    - write_service_sheet
+        itemOperations:
+            get: ~
+#            get_contactable_members:
+#                route_name: 'organisation_contactable_members'
+#                filters: ['contactable_members.name_search_filter']
+        collectionOperations:
+            get: ~
 
     Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
 #        shortName: 'User'                   # optional

@@ -94,6 +94,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         appointmentAt:
             groups: ['read_case','write_case']
+        appointments:
+            groups: ['read_case','write_case']
         warranty:
             groups: ['read_case','write_case']
         createdAt:
@@ -102,6 +104,19 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         description:
             groups: ['read_case','write_case']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
+    attributes:
+        id:
+            groups: ['read_appointment']
+        status:
+            groups: ['read_appointment','write_appointment']
+        serviceNote:
+            groups: ['read_appointment','write_appointment']
+        serviceSheet:
+            groups: ['read_appointment','write_appointment']
+        appointmentAt:
+            groups: ['read_appointment','write_appointment']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
@@ -135,6 +150,22 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
             groups: ['read_registration','write_registration']
         verified:
             groups: ['read_registration']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
+    attributes:
+        appointment:
+            groups: ['read_service_sheet', 'write_service_sheet']
+        case:
+            groups: ['read_service_sheet', 'write_service_sheet']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
+    attributes:
+        appointment:
+            groups: ['read_service_note', 'write_service_note']
+        case:
+            groups: ['read_service_note', 'write_service_note']
+        description:
+            groups: ['read_service_note', 'write_service_note']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
     attributes:
