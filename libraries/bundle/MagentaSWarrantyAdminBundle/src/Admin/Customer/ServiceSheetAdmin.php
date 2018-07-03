@@ -102,7 +102,15 @@ class ServiceSheetAdmin extends BaseAdmin {
 		$expr = $apmtQuery->expr();
 		/** @var QueryBuilder $qb */
 		$qb     = $apmtQuery->getQueryBuilder();
-		$caseId = $this->getRequest()->query->getInt('caseId', 0);
+		$caseId = $this->getRequest()->query->getInt('case', 0);
+		if(empty($caseId)) {
+			/** @var ServiceSheet $ss */
+			if( ! empty($ss = $this->subject)) {
+				if( ! empty($case = $ss->getCase())) {
+					$caseId = $case->getId();
+				}
+			}
+		}
 		$apmtQuery->andWhere($expr->eq('o.case', $caseId));
 		
 		

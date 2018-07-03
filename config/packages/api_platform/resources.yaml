@@ -288,8 +288,9 @@ resources:
             normalization_context:
                 groups:
                     - read_case
-#                    - read_case_appointment has to be either case_note or case_appointment and not both
+#                    - read_case_appointment has to be either case_note/case_service_sheet or case_appointment and not both
                     - read_case_note
+                    - read_case_service_sheet
                     - read_service_zone
                     - read_product
                     - read_warranty

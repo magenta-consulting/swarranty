@@ -100,6 +100,9 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         serviceNotes:
             groups: ['read_case','write_case']
+        serviceSheets:
+            groups: ['read_case','write_case']
+
         createdAt:
             groups: ['read_case','write_case']
         serviceZone:
@@ -158,9 +161,11 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
     attributes:
         appointment:
-            groups: ['read_service_sheet', 'write_service_sheet']
+            groups: ['read_service_sheet', 'write_service_sheet', 'read_case_service_sheet']
         case:
             groups: ['read_service_sheet', 'write_service_sheet']
+        images:
+            groups: ['read_service_sheet', 'read_case_service_sheet']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
     attributes:
