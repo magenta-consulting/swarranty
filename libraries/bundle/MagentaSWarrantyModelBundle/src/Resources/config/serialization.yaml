@@ -162,12 +162,14 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote:
     attributes:
+        id:
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
         appointment:
-            groups: ['read_service_note', 'write_service_note']
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
         case:
             groups: ['read_service_note', 'write_service_note']
         description:
-            groups: ['read_service_note', 'write_service_note']
+            groups: ['read_service_note', 'write_service_note', 'read_case_note']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
     attributes:

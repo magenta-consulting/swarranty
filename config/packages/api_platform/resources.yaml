@@ -289,6 +289,7 @@ resources:
                 groups:
                     - read_case
                     - read_appointment
+                    - read_case_note
                     - read_service_zone
                     - read_product
                     - read_warranty
