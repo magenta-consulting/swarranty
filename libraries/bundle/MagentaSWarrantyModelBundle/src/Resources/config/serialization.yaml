@@ -124,6 +124,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
             groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
         visitedAt:
             groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
+        assignee:
+            groups: ['read_appointment','write_appointment','read_case_appointment','read_case_note']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
     attributes:
@@ -199,15 +201,4 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
 #  "purchaseDate": "2018-06-14",
 #  "productSerialNumber": "S001"
 #}
-
-
-#Magenta\Bundle\CBookModelBundle\Entity\Person\Person:
-#    attributes:
-#        birthDate:
-#            groups: ['read_app_person','write_app_person']
-#        familyName:
-#            groups: ['read_app_person','write_app_person']
-#        givenName:
-#            groups: ['read_app_person','write_app_person']
-
 
