@@ -24,16 +24,16 @@ resources:
                     - read_medium
                     - read_warranty
                     - read_product
-                    - read_brand
             denormalization_context:
                 groups:
                     - write_warranty
                     - write_customer
-#                    - write_product
+                    - write_product
 #                    - write_brand
 #                    - write_thing
         itemOperations:
             get: ~
+            put: ~
         collectionOperations:
             get: ~
             post: ~
@@ -175,11 +175,13 @@ resources:
             normalization_context:
                 groups:
                     - read_product
+                    - read_category
                     - read_brand
                     - read_thing
             denormalization_context:
                 groups:
                     - write_product
+                    - write_category
                     - write_brand
                     - write_thing
         itemOperations:
@@ -246,6 +248,7 @@ resources:
 
         collectionOperations:
             get: ~
+
 
     Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
         description: 'Media' # optional
