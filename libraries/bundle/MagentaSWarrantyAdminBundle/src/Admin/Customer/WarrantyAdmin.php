@@ -169,6 +169,7 @@ class WarrantyAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 		$collection->add('detail', $this->getRouterIdParameter() . '/detail');
+		$collection->add('transferOwnership', $this->getRouterIdParameter() . '/transfer-ownership/{customerId}');
 	}
 	
 	protected function configureShowFields(ShowMapper $showMapper) {

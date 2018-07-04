@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseCRUDAdminController;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -27,9 +28,30 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 		return parent::listAction();
 	}
 	
+	public function transferOwnershipAction($id = null, $customerId, Request $request) {
+		$id = $request->get($this->admin->getIdParameter());
+		/** @var Warranty $object */
+		$object = $this->admin->getObject($id);
+		
+		if( ! $object) {
+			throw $this->createNotFoundException(sprintf('unable to find the object with id: %s', $id));
+		}
+		$registry     = $this->getDoctrine();
+		$customerRepo = $registry->getRepository(Customer::class);
+		/** @var Customer $customer */
+		if( ! empty($customer = $customerRepo->find($customerId))) {
+			$oldC = $object->getCustomer();
+			$oldC->removeWarranties($object);
+			$customer->addWarranties($object);
+		}
+		$this->admin->getModelManager()->update($object);
+		
+		return $this->redirect($this->admin->generateObjectUrl('show', $object, [ 'action' => 'show' ]));
+	}
+	
 	public function detailAction($id = null, Request $request) {
-		$request = $this->getRequest();
-		$id      = $request->get($this->admin->getIdParameter());
+//		$request = $this->getRequest();
+		$id = $request->get($this->admin->getIdParameter());
 		/** @var Warranty $object */
 		$object = $this->admin->getObject($id);
 		

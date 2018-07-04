@@ -1,0 +1,11 @@
+{#{% if admin.hasAccess('decide', object) and admin.hasRoute('decide') %}#}
+    {% set organisation = object.organisation %}
+    {% if organisation is not empty %}
+        <a href="{{ path('admin_magenta_swarrantymodel_customer_warranty_transferOwnership',{'organisation': organisation.id,'workflow':'transfer-ownership','customerId':object.id, 'id':app.request.get('warranty')}) }}"
+           class="btn btn-sm btn-primary view_link"
+           title="{{ 'action_button.label_transfer_to_this_customer'|trans({}, 'MagentaSWarrantyAdmin') }}">
+            <i class="fa fa-exchange" aria-hidden="true"></i>
+            {{ 'action_button.label_transfer_to_this_customer'|trans({}, admin.translationDomain) }}
+        </a>
+    {% endif %}
+{#{% endif %}#}

@@ -31,7 +31,7 @@ class Customer extends Thing {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"})
 	 */
 	protected $warranties;
 	
