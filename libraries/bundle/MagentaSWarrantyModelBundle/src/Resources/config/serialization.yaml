@@ -55,6 +55,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product:
             groups: ['read_product','write_product']
         brand:
             groups: ['read_product','write_product']
+        category:
+            groups: ['read_product','write_product']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone:
     attributes:
@@ -190,6 +192,14 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand:
             groups: ['read_brand','write_brand']
         name:
             groups: ['read_brand','write_brand']
+
+Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory:
+    attributes:
+        id:
+            groups: ['read_category','write_category']
+        name:
+            groups: ['read_category','write_category']
+
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media:
     attributes:
