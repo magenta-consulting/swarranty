@@ -43,6 +43,17 @@ class CaseAppointment extends FullTextSearch {
 		}
 	}
 	
+	public function getAssigneeName() {
+		if( ! empty($assignee = $this->assignee)) {
+			$p = $assignee->getPerson();
+			if( ! empty($p)) {
+				return $p->getName();
+			}
+		}
+		
+		return '';
+	}
+	
 	public function createServiceSheet() {
 		$ss = new ServiceSheet();
 		$ss->setAppointment($this);

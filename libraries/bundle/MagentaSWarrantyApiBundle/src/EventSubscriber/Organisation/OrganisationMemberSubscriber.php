@@ -62,8 +62,8 @@ class OrganisationMemberSubscriber implements EventSubscriberInterface {
 			}
 			$userId = $_user->getId();
 			if($userId === null) {
-				$userId = 0;
 			}
+			$userId = -1;
 			
 			$request->query->set('id', $userId);
 			$queryString   = RequestParser::getQueryString($request);

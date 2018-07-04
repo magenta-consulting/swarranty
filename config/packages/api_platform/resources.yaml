@@ -316,6 +316,7 @@ resources:
                     - read_person_scalar
                     - read_case
 #                    - read_case_appointment # has to be either case_note/case_service_sheet or case_appointment and not both
+                    - read_appointment_scalar
                     - read_case_note
                     - read_case_service_sheet
                     - read_service_zone
@@ -364,6 +365,7 @@ resources:
             pagination_items_per_page: 25    # optional
             normalization_context:
                 groups:
+                    - read_appointment_scalar
                     - read_appointment
                     - read_medium
                     - read_thing
