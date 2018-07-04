@@ -327,6 +327,8 @@ resources:
                     - read_service_sheet_scalar
                     - read_service_zone
                     - read_product
+                    - read_category
+                    - read_brand
                     - read_warranty
                     - read_customer
                     - read_member
