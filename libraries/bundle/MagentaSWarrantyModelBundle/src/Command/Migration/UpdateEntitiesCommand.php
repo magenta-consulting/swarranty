@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Command\Migration;
 
 use Doctrine\ORM\EntityManager;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -60,6 +61,15 @@ EOT
 					foreach($objects as $object) {
 						$object->generateSearchText();
 						$object->generateFullText();
+						$em->persist($object);
+					}
+				}
+				if($class === CaseAppointment::class) {
+					$repo    = $this->registry->getRepository($class);
+					$objects = $repo->findAll();
+					$output->writeln(sprintf('>>>>> Re-generate %s for full-text search', $class));
+					/** @var CaseAppointment $object */
+					foreach($objects as $object) {
 						$em->persist($object);
 					}
 				}
