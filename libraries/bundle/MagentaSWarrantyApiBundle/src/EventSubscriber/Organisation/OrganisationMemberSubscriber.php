@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyJWTBundle\Security\JWTUser;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Psr\Container\ContainerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class OrganisationMemberSubscriber implements EventSubscriberInterface {
 	
@@ -51,15 +53,24 @@ class OrganisationMemberSubscriber implements EventSubscriberInterface {
 //			$rs = $this->recruiterService;
 			$orgRepo = $this->registry->getRepository(Organisation::class);
 			/** @var JWTUser $user */
-			$user    = $this->userService->getUser();
+			$user     = $this->userService->getUser();
+			$userRepo = $this->registry->getRepository(User::class);
+			/** @var User $_user */
+			$_user = $userRepo->findOneBy([ 'username' => $user->getUsername() ]);
+			if(empty($_user)) {
+				throw new AccessDeniedException($user->getUsername() . ' is not found');
+			}
+			$userId = $_user->getId();
+			if($userId === null) {
+			}
+			$userId = -1;
 			
-//			$request->query->set('recruiter', $rs->getUsername());
+			$request->query->set('id', $userId);
+			$queryString   = RequestParser::getQueryString($request);
+			$filters       = $queryString ? RequestParser::parseRequestParams($queryString) : null;
+			$filters['id'] = $userId;
+			$request->attributes->set('_api_filters', $filters);
 //
-//			$queryString          = RequestParser::getQueryString($request);
-//			$filters              = $queryString ? RequestParser::parseRequestParams($queryString) : null;
-//			$filters['recruiter'] = $rs->getUsername();
-//			$request->attributes->set('_api_filters', $filters);
-
 //			var_dump($request->attributes);exit();
 		}
 		

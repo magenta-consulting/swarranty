@@ -31,6 +31,55 @@ class Person extends PersonModel {
 		$this->customers = new ArrayCollection();
 	}
 	
+	public function copyScalarPropertiesFrom(Person $person) {
+		$vars = get_object_vars($this);
+		foreach($vars as $prop => $value) {
+			$setter = 'set' . ucfirst($prop);
+			$getter = 'get' . ucfirst($prop);
+			if(empty($value) && method_exists($person, $setter)) {
+				if( ! method_exists($person, $getter)) {
+					$getter = 'is' . ucfirst($prop);
+				}
+				if(method_exists($person, $setter)) {
+					$getterValue = $person->$getter();
+					if(is_scalar($getterValue)) {
+						$this->$setter($getterValue);
+					}
+				}
+			}
+		}
+//		$m_person->setEmail($email);
+//		$m_person->setFamilyName($person->getFamilyName());
+//		$m_person->setGivenName($person->getGivenName());
+//		$m_person->setName($person->getName());
+//		$m_person->setEnabled(true);
+//		$m_person->setHomeAddress($person->getHomeAddress());
+//		$m_person->setTelephone($person->getTelephone());
+//		$m_person->setBirthDate($person->getBirthDate());
+//		$m_person->setDescription($person->getDescription());
+	}
+	
+	public function initiateUser() {
+		if(empty($this->user)) {
+			$this->user = new User();
+		}
+		$this->user->setEnabled(true);
+		
+		$this->user->addRole(User::ROLE_POWER_USER);
+		$this->user->setUsername($this->email);
+		$this->user->setEmail($this->email);
+		if(empty($this->user->getPlainPassword()) && empty($this->user->getPassword())) {
+			$this->user->setPlainPassword($this->email);
+		}
+		$this->user->setPerson($this);
+		
+		return $this->user;
+	}
+	
+	public function isSystemUser() {
+		return ! ($this->user === null || empty($this->user->getId()));
+	}
+	
 	/**
 	 * @param null|string $email
 	 */
@@ -44,7 +93,7 @@ class Person extends PersonModel {
 	public function setUser(?User $user): void {
 		if( ! empty($user)) {
 			$user->setPerson($this);
-			if( ! empty($this->user)) {
+			if( ! empty($this->user) && $this->user->getId() !== $user->getId()) {
 				$this->user->setPerson(null);
 			}
 		}
@@ -64,7 +113,7 @@ class Person extends PersonModel {
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="person", cascade={"persist","merge"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember", mappedBy="person", cascade={"persist","merge"})
 	 */
 	protected $members;
 	

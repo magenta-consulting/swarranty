@@ -33,6 +33,7 @@ class OrganisationMember extends MemberModel {
 		$this->assigneeHistory         = new ArrayCollection();
 		$this->createdCases            = new ArrayCollection();
 		$this->createdCaseAppointments = new ArrayCollection();
+		$this->createdAt               = new \DateTime();
 	}
 	
 	/**
@@ -135,6 +136,18 @@ class OrganisationMember extends MemberModel {
 	protected $role;
 	
 	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $updatedAt;
+	
+	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean")
 	 */
@@ -145,6 +158,12 @@ class OrganisationMember extends MemberModel {
 	 * @ORM\Column(type="boolean")
 	 */
 	protected $contactable = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $email;
 	
 	/**
 	 * @return bool
@@ -256,5 +275,47 @@ class OrganisationMember extends MemberModel {
 	 */
 	public function setAssignedCases(Collection $assignedCases): void {
 		$this->assignedCases = $assignedCases;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getCreatedAt(): ?\DateTime {
+		return $this->createdAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $createdAt
+	 */
+	public function setCreatedAt(?\DateTime $createdAt): void {
+		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getUpdatedAt(): ?\DateTime {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $updatedAt
+	 */
+	public function setUpdatedAt(?\DateTime $updatedAt): void {
+		$this->updatedAt = $updatedAt;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmail(): ?string {
+		return $this->email;
+	}
+	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
 	}
 }

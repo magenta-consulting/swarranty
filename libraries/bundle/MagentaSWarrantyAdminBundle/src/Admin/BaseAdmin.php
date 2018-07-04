@@ -526,4 +526,11 @@ class BaseAdmin extends AbstractAdmin {
 			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
 		}
 	}
+	
+	public function preUpdate($object) {
+		parent::preUpdate($object);
+		if(method_exists($object, 'setUpdatedAt')) {
+			$object->setUpdatedAt(new \DateTime());
+		}
+	}
 }

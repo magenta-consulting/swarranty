@@ -10,6 +10,14 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    magenta_swarranty_api.customer.organisation_member_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Organisation\OrganisationMemberSubscriber
+        arguments:
+            - '@Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
     magenta_swarranty_api.customer.customer_subscriber:
         class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\CustomerSubscriber
         arguments:
