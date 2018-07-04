@@ -126,6 +126,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_visited_at: Visit Time
     label_appointment: Appointment
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)

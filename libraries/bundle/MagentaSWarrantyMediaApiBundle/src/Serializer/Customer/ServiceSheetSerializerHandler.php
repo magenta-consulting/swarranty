@@ -3,7 +3,7 @@ namespace Magenta\Bundle\SWarrantyMediaApiBundle\Serializer\Customer;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Sonata\CoreBundle\Serializer\BaseSerializerHandler;
 use JMS\Serializer\Context;
@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 /**
  * @author Sylvain Deloux <sylvain.deloux@ekino.com>
  */
-class WarrantySerializerHandler
+class ServiceSheetSerializerHandler
 	implements SerializerHandlerInterface {
 	/**
 	 * @var ObjectRepository
@@ -32,7 +32,7 @@ class WarrantySerializerHandler
 	 * @param RegistryInterface $registry
 	 */
 	public function __construct(RegistryInterface $registry) {
-		$this->repo = $registry->getRepository(Warranty::class);
+		$this->repo = $registry->getRepository(ServiceSheet::class);
 	}
 	
 	public static function getSubscribingMethods() {
@@ -66,7 +66,7 @@ class WarrantySerializerHandler
 	 * @return int|null
 	 */
 	public function serializeObjectToId(VisitorInterface $visitor, $data, array $type, Context $context) {
-		if($data instanceof Warranty) {
+		if($data instanceof ServiceSheet) {
 			return $visitor->visitInteger($data->getId(), $type, $context);
 		}
 	}
@@ -86,6 +86,6 @@ class WarrantySerializerHandler
 	 * {@inheritdoc}
 	 */
 	public static function getType() {
-		return 'magenta_customer_warranty_id';
+		return 'magenta_customer_service_sheet_id';
 	}
-} //magenta_customer_service_sheet_id
+}

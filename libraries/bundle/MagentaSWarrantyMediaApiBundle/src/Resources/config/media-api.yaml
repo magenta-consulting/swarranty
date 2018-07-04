@@ -41,6 +41,10 @@ services:
         tags: ["jms_serializer.subscribing_handler"]
         arguments: ["@doctrine"]
 
+    magenta_serializer_handler.customer.service_sheet:
+        class: Magenta\Bundle\SWarrantyMediaApiBundle\Serializer\Customer\ServiceSheetSerializerHandler
+        tags: ["jms_serializer.subscribing_handler"]
+        arguments: ["@doctrine"]
 
     magenta_media_api.form.type.media:
         class: Magenta\Bundle\SWarrantyMediaApiBundle\Form\Type\ApiMediaType
