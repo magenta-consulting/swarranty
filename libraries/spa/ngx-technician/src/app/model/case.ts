@@ -3,6 +3,7 @@ import { Registration } from "./registration";
 import { Product } from "./product";
 import { Appointment } from "./appointment";
 import { ServiceNote } from "./service-note";
+import { ServiceSheet } from "./service-sheet";
 
 export class Case {
     _id: string;
@@ -19,5 +20,5 @@ export class Case {
     appointments: Appointment[];
     currentAppointment: Appointment;
     serviceNotes: ServiceNote[];
-    serviceSheets: any[]
+    serviceSheets: ServiceSheet[];
 }

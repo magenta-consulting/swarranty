@@ -75,7 +75,7 @@
             </tr>
             <tr>
                 <td class="td-name">Technician</td>
-                <td>: #Technician Name</td>
+                <td>: {{currentServiceSheet.appointment.assigneeName}}</td>
             </tr>
             <tr>
                 <td class="td-name">Service Zone</td>
@@ -94,14 +94,35 @@
         <div class="note-list">
             <div *ngFor="let note of case.serviceNotes" class="note-item">
                 <div *ngIf="note == currentAppointmentNote">
-                    <input type="text" class="ipt" [(ngModel)]="note.description"/>
-                    <span (click)="updateNote()">Update</span>
+                    <!-- <input type="text" class="ipt" [(ngModel)]="note.description"/>
+                    <span (click)="updateNote()">Update</span> -->
+                    <div *ngIf="isEditingDescription">
+                        <div class="input-group mb-2">
+                            <input [(ngModel)]="note.description" type="text" class="form-control" placeholder="Description"
+                                aria-label="Description"
+                                (keyup.enter)="updateNote()"
+                                (blur)="isEditingDescription = false">
+                        </div>
+                    </div>
+                    <div *ngIf="!isEditingDescription" (click)="isEditingDescription = true">
+                        <div class="input-group mb-2 preview-container">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Description </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{note.description}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div *ngIf="note != currentAppointmentNote">
                     <p>{{note.description}}</p>
                 </div>
                 <p>
-                    Technician Name | {{note.appointment.appointmentAt | date: "d MMMM y"}} | <span (click)="deleteNote(note)">Delete</span>
+                    {{note.appointment.assigneeName}} | {{note.appointment.appointmentAt | date: "d MMMM y"}} | <span (click)="deleteNote(note)">Delete</span>
                 </p>
             </div>
         </div>
@@ -112,7 +133,9 @@
     <div class="tech-blk">
         <image-upload
         class="custome-upload"
+        partName="binaryContent"
         [url]="uploadUrl"
+        [uploadedFiles]="imageUrls"
         [beforeUpload]="onBeforeUpload"
         (removed)="onRemoved($event)"
         (uploadFinished)="onUploadFinished($event, 1)"

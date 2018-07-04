@@ -16,6 +16,7 @@ import { ProductService } from '../../service/product.service';
 import { Helper } from "../../helper/helper";
 import { ServiceNote } from '../../model/service-note';
 import { NoteService } from "../../service/note.service";
+import { ServiceSheet } from '../../model/service-sheet';
 
 @Component({
     selector: 'technician',
@@ -30,7 +31,10 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     case: Case = null;
     uploadUrl: string = apiEndPointMedia + apiMediaUploadPath;
     currentAppointmentNote: ServiceNote;
+    currentServiceSheet: ServiceSheet;
     noteDescription: string;
+    isEditingDescription: boolean = false;
+    imageUrls: string[] = [];
 
     constructor(
         private memberService: MemberService, 
@@ -57,6 +61,14 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
                 if (note.appointment.appointmentAt == this.case.appointmentAt) {
                     this.currentAppointmentNote = note;
                 }
+            });
+            this.case.serviceSheets.forEach(sheet => {
+                if (sheet.appointment.appointmentAt == this.case.appointmentAt) {
+                    this.currentServiceSheet = sheet;
+                }
+            });
+            this.currentServiceSheet.images.forEach(img => {
+                this.imageUrls.push(apiEndPointMedia + '/media/' + img.id + binariesMedia)
             });
             productService.getBrands().subscribe(brands => this.case.warranty.brands = brands);
             this.selectBrand(null, this.case.warranty);
@@ -88,7 +100,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         let warId = metadata.url.substring(apiUploadWarranty.length + 1);
         metadata.formData = {
-            "imageServiceSheet": this.case.serviceSheets,
+            "imageServiceSheet": this.currentServiceSheet.id,
             "context": "receipt_image"
         };
 
@@ -181,7 +193,8 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             id: this.currentAppointmentNote.id
         }
         this.noteService.update(note).subscribe(res => {
-            console.log(res)
+            console.log(res);
+            this.isEditingDescription = false
         })
     }
 

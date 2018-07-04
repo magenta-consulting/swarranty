@@ -13,7 +13,7 @@ import {AuthenticationGuard} from './authentication.guard';
 const routes: Routes = [
     { path: '', redirectTo: 'technicians', pathMatch: 'full' },
     { path: 'technicians', component:  TechniciansComponent, canActivate: [AuthenticationGuard]},
-    { path: 'technician/:id', component:  TechnicianComponent},
+    { path: 'technician/:id', component:  TechnicianComponent, canActivate: [AuthenticationGuard]},
     { path: 'login', component:  LoginComponent},
 ];
 
