@@ -110,7 +110,7 @@
         &.resolved {
             color: #db0000;
         }
-        &.closed {
+        &.closed, &.completed, &.complete {
             color: #28a745;
         }
     }

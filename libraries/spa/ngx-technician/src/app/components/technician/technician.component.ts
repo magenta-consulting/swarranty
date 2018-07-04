@@ -17,6 +17,8 @@ import { Helper } from "../../helper/helper";
 import { ServiceNote } from '../../model/service-note';
 import { NoteService } from "../../service/note.service";
 import { ServiceSheet } from '../../model/service-sheet';
+import { CaseService } from "../../service/case.service";
+import { WarrantyService } from "../../service/warranty.service";
 
 @Component({
     selector: 'technician',
@@ -33,13 +35,16 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     currentAppointmentNote: ServiceNote;
     currentServiceSheet: ServiceSheet;
     noteDescription: string;
-    isEditingDescription: boolean = false;
     imageUrls: string[] = [];
+    isEditing: boolean[] = [];
+    isSaving: boolean[] = [];
 
     constructor(
         private memberService: MemberService, 
         private productService: ProductService,
         private noteService: NoteService,
+        private caseService: CaseService,
+        private warrantyService: WarrantyService,
         private route: ActivatedRoute,
         private helper: Helper
     ) {
@@ -48,33 +53,42 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             this.cases.forEach(element => {
                 if (element.id == this.id) {
                     this.case = element;
-                    this.case.warranty.selectedBrand = (this.case.warranty.product as Product).brand;
-                    this.case.warranty.selectedBrand.id = this.case.warranty.selectedBrand["@id"];
                 }
             });
-            this.case.appointments.forEach(appointment => {
-                if (appointment.appointmentAt == this.case.appointmentAt) {
-                    this.case.currentAppointment = appointment;
-                }
-            });
-            this.case.serviceNotes.forEach(note => {
-                if (note.appointment.appointmentAt == this.case.appointmentAt) {
-                    this.currentAppointmentNote = note;
-                }
-            });
-            this.case.serviceSheets.forEach(sheet => {
-                if (sheet.appointment.appointmentAt == this.case.appointmentAt) {
-                    this.currentServiceSheet = sheet;
-                }
-            });
-            this.currentServiceSheet.images.forEach(img => {
-                this.imageUrls.push(apiEndPointMedia + '/media/' + img.id + binariesMedia)
-            });
-            productService.getBrands().subscribe(brands => this.case.warranty.brands = brands);
-            this.selectBrand(null, this.case.warranty);
-            this.selectCategory(null, this.case.warranty);
-
+            this.findCurrentAppointment();
+            this.loadProductList();
             console.log(this.case);
+        });
+    }
+
+    loadProductList() {
+        this.case.warranty.selectedBrand = this.case.warranty.product['brand'];
+        this.case.warranty.selectedBrand.id = this.case.warranty.selectedBrand["@id"];
+        this.case.warranty.selectedCategory = this.case.warranty.product['category'];
+        this.case.warranty.selectedCategory.id = this.case.warranty.selectedCategory["@id"];
+        this.productService.getBrands().subscribe(brands => this.case.warranty.brands = brands);
+        this.selectBrand(null, this.case.warranty);
+        this.selectCategory(null, this.case.warranty);
+    }
+
+    findCurrentAppointment() {
+        this.case.appointments.forEach(appointment => {
+            if (appointment.appointmentAt == this.case.appointmentAt) {
+                this.case.currentAppointment = appointment;
+            }
+        });
+        this.case.serviceNotes.forEach(note => {
+            if (note.appointment.appointmentAt == this.case.appointmentAt) {
+                this.currentAppointmentNote = note;
+            }
+        });
+        this.case.serviceSheets.forEach(sheet => {
+            if (sheet.appointment.appointmentAt == this.case.appointmentAt) {
+                this.currentServiceSheet = sheet;
+            }
+        });
+        this.currentServiceSheet.images.forEach(img => {
+            this.imageUrls.push(apiEndPointMedia + '/media/' + img.id + binariesMedia)
         });
     }
 
@@ -95,8 +109,6 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     /** Actions in this Comp */
     // 1. Event uploads
     onBeforeUpload = (metadata: UploadMetadata) => {
-        // mutate the file or replace it entirely - metadata.file
-        // console.log('metadata.url', metadata.url);
         let apiUploadWarranty = apiEndPointMedia + apiMediaUploadPath;
         let warId = metadata.url.substring(apiUploadWarranty.length + 1);
         metadata.formData = {
@@ -104,7 +116,6 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             "context": "receipt_image"
         };
 
-        // console.log('warid is',warId);        
         metadata.url = apiUploadWarranty;
         return metadata;
     };
@@ -114,26 +125,22 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     }
 
     onRemoved(file: FileHolder) {
-        // let v_confirm = confirm('Do you really want to remove this image ?');
-        // console.log('removed', file);
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
         if (imgId == null) {
             return;
         }
-        // if (v_confirm == true) {
-            this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
-                res => {
-                    console.log('res', res);
-                },
-                error => {
-                    console.log('Error', error);
-                },
-                () => {
-                    console.log('Complete Request');
-                }
-            );
-        // }
+        this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+            res => {
+                console.log('res', res);
+            },
+            error => {
+                console.log('Error', error);
+            },
+            () => {
+                console.log('Complete Request');
+            }
+        );
     }
 
     onUploadStateChanged(state: boolean) {
@@ -155,14 +162,13 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             this.productService.getCategories(brand.id).subscribe(cats => {
                 warranty.categories = cats;
                 warranty.isCategoryHidden = false;
-                warranty.selectedCategory = null;
             });
         }
     }
 
     selectCategory(e, warranty: Warranty): void {
         if (warranty.selectedCategory == null) {
-            // warranty.product = null;
+            warranty.product = null;
             return;
         }
         if (warranty.selectedCategory.id !== null) {
@@ -177,8 +183,16 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         }
     }
 
+    selectProduct(e, warranty: Warranty): void {
+        this.isSaving['product'] = true;
+        this.warrantyService.updateWarrantyProduct(warranty).subscribe(res => {
+            this.isSaving['product'] = false;
+            this.case.warranty.product = res.product;
+        })
+    }
+
     deleteNote(note: ServiceNote) {
-        this.noteService.delete(note.id).subscribe((res) => console.log(res));
+        this.noteService.delete(note.id).subscribe((res) => {});
         if (note == this.currentAppointmentNote) {
             this.currentAppointmentNote = null;
         }
@@ -186,6 +200,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     }
 
     updateNote() {
+        this.isSaving['note'] = true;
         let note = {
             appointment: `/api/case-appointments/${this.case.currentAppointment.id}`,
             case: `/api/warranty-cases/${this.case.id}`,
@@ -193,24 +208,43 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             id: this.currentAppointmentNote.id
         }
         this.noteService.update(note).subscribe(res => {
-            console.log(res);
-            this.isEditingDescription = false
+            this.isEditing['description'] = false
+            this.isSaving['note'] = false;
         })
     }
 
     addNote() {
+        this.isSaving['note'] = true;
         let note = {
             appointment: `/api/case-appointments/${this.case.currentAppointment.id}`,
             case: `/api/warranty-cases/${this.case.id}`,
             description: this.noteDescription
         }
-        console.log(note);
         this.noteService.add(note).subscribe(res => {
             this.currentAppointmentNote = new ServiceNote();
             this.currentAppointmentNote.appointment = this.case.currentAppointment;
             this.currentAppointmentNote.description = this.noteDescription;
             this.currentAppointmentNote.id = res['id'];
             this.case.serviceNotes.push(this.currentAppointmentNote);
+            this.isSaving['note'] = false;
+        });
+    }
+
+    updateSerialNumber() {
+        this.isSaving['serial'] = true;
+        this.warrantyService.updateWarrantyProductSerialNumber(this.case.warranty).subscribe(res => {
+            this.case.warranty.productSerialNumber = res.productSerialNumber;
+            this.isSaving['serial'] = false;
+            this.isEditing['serial'] = false;
+        })
+    }
+
+    markCompleted() {
+        this.isSaving['status'] = true;
+        this.caseService.markCompleted(this.case).subscribe(res => {
+            this.case.completed = res.completed;
+            this.case.status = res.status;
+            this.isSaving['status'] = false;
         });
     }
 }
