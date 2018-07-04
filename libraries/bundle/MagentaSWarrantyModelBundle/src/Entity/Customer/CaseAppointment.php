@@ -58,7 +58,9 @@ class CaseAppointment extends FullTextSearch {
 		$ss = new ServiceSheet();
 		$ss->setAppointment($this);
 		$ss->setCase($this->case);
-		$this->case->addServiceSheet($ss);
+		if( ! empty($this->case)) {
+			$this->case->addServiceSheet($ss);
+		}
 		
 		return $ss;
 	}
