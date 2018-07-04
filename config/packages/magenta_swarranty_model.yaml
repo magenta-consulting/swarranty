@@ -250,6 +250,18 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+                filters:
+
+                    # An array of filters
+                    organisation_member_filter:
+                        class:                'Magenta\Bundle\SWarrantyModelBundle\Doctrine\Organisation\OrganisationMemberFilter' # Required
+                        enabled:              false
+
+                        # An array of parameters
+                        parameters:
+
+                            # example
+                            foo_param:              bar_value
 
 security:
     encoders:
