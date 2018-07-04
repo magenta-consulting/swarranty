@@ -70,7 +70,10 @@ EOT
 					$output->writeln(sprintf('>>>>> Re-generate %s for full-text search', $class));
 					/** @var CaseAppointment $object */
 					foreach($objects as $object) {
-						$em->persist($object);
+						if(empty($object->getServiceSheet())) {
+							$object->setServiceSheet($object->createServiceSheet());
+						}
+						$em->persist($object->getServiceSheet());
 					}
 				}
 			} else {
