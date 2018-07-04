@@ -62,13 +62,17 @@ class OrganisationMemberSubscriber implements EventSubscriberInterface {
 			}
 			$userId = $_user->getId();
 			if($userId === null) {
+				$userId = '-1';
+			} else {
+				$userId = '' . $userId;
 			}
-			$userId = -1;
+//
+//			$request->query->set('id', $userId);
+			$queryString = RequestParser::getQueryString($request);
+			$filters     = $queryString ? RequestParser::parseRequestParams($queryString) : null;
+			$idFilter    = [ 'id' => $userId ];
+			$filters     = null === $filters ? $idFilter : array_merge($filters, [ $idFilter ]);
 			
-			$request->query->set('id', $userId);
-			$queryString   = RequestParser::getQueryString($request);
-			$filters       = $queryString ? RequestParser::parseRequestParams($queryString) : null;
-			$filters['id'] = $userId;
 			$request->attributes->set('_api_filters', $filters);
 //
 //			var_dump($request->attributes);exit();

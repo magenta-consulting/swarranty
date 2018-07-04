@@ -341,7 +341,7 @@ class BaseAdmin extends AbstractAdmin {
 			return $isGranted;
 		}
 		
-		return $user->isGranted($name, $object);
+		return $user->isGranted($name, $object, $this->getClass());
 
 //		return parent::isGranted($name, $object);
 	}
