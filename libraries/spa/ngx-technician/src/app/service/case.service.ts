@@ -3,6 +3,9 @@ import { Case } from "../model/case";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { apiEndPoint, apiEndPointBase } from '../../environments/environment'
 import { map, catchError } from "rxjs/operators";
+import { Observable } from 'rxjs';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +16,11 @@ export class CaseService {
   token = localStorage.getItem('token');
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private modal: BsModalService
   ) { }
 
-  markCompleted(aCase: Case) {
+  markCompleted(aCase: Case): Observable<Case> {
     return this.http.put(`${this.url}/${aCase.id}`, {
       completed: true,
       status: "COMPLETED"
@@ -26,10 +30,10 @@ export class CaseService {
         'Authorization': `Bearer ${this.token}`
       })
     }).pipe(
-      map(res => res as Case),
-      catchError((error, caught) => {
-        console.log(error);
-        return caught;
+      map(res => res as any),
+      catchError((error, caught): Observable<void> => {
+        let modal = this.modal.show(LoginModalComponent);
+        return;
       })
     )
   }

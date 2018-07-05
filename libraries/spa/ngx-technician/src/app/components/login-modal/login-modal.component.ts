@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-login-modal',
+  templateUrl: './login-modal.component.html',
+  styleUrls: ['./login-modal.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginModalComponent implements OnInit {
   email: string;
   password: string;
   message: string;
@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private http: HttpClient, 
     private router: Router,
+    private _bsModalRef: BsModalRef
   ) { }
 
   ngOnInit() {
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit {
     .subscribe(res => {
       localStorage.setItem('token', res.token);
       localStorage.setItem('refresh_token', res.refresh_token);
-      this.router.navigateByUrl('technicians');
+      this.router.navigateByUrl('/');
+      this._bsModalRef!.hide();
     }, error => {
       this.message = 'Invalid email or password!';
       this.loading = false;

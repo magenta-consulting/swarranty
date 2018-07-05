@@ -4,6 +4,9 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { apiEndPoint, apiEndPointBase } from '../../environments/environment'
 import { map, catchError } from "rxjs/operators";
 import { Product } from '../model/product';
+import { Observable } from 'rxjs';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +18,11 @@ export class WarrantyService {
 
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private modal: BsModalService
   ) { }
 
-  updateWarrantyProduct(warranty: Warranty) {
+  updateWarrantyProduct(warranty: Warranty): Observable<Warranty> {
     return this.http.put(`${this.url}/${warranty.id}`, {
       product: (warranty.product as Product).id
     }, {
@@ -27,15 +31,15 @@ export class WarrantyService {
         'Authorization': `Bearer ${this.token}`
       })
     }).pipe(
-      map(res => res as Warranty),
-      catchError((error, caught) => {
-        console.log(error);
-        return caught;
+      map(res => res as any),
+      catchError((error, caught): Observable<void> => {
+        let modal = this.modal.show(LoginModalComponent);
+        return;
       })
     )
   }
 
-  updateWarrantyProductSerialNumber(warranty: Warranty) {
+  updateWarrantyProductSerialNumber(warranty: Warranty): Observable<Warranty> {
     return this.http.put(`${this.url}/${warranty.id}`, {
       productSerialNumber: warranty.productSerialNumber
     }, {
@@ -44,10 +48,10 @@ export class WarrantyService {
         'Authorization': `Bearer ${this.token}`
       })
     }).pipe(
-      map(res => res as Warranty),
-      catchError((error, caught) => {
-        console.log(error);
-        return caught;
+      map(res => res as any),
+      catchError((error, caught): Observable<void> => {
+        let modal = this.modal.show(LoginModalComponent);
+        return;
       })
     )
   }

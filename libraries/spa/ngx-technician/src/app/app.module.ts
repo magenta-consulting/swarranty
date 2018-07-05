@@ -22,6 +22,7 @@ import { LoginComponent } from './components/login/login.component';
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
 import { Helper } from './helper/helper';
+import { LoginModalComponent } from './components/login-modal/login-modal.component';
 
 
 @NgModule({
@@ -30,7 +31,11 @@ import { Helper } from './helper/helper';
     FocusDirective,
     TechniciansComponent,
     TechnicianComponent,
-    LoginComponent
+    LoginComponent,
+    LoginModalComponent
+  ],
+  entryComponents: [
+    LoginModalComponent
   ],
   imports: [
     BrowserModule,
