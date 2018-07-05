@@ -222,7 +222,6 @@ class OrganisationMemberAdmin extends BaseAdmin {
 					$manager->persist($u);
 					$manager->flush($u);
 				}
-				
 			}
 		}
 		$object->setOrganization($this->getCurrentOrganisation());
