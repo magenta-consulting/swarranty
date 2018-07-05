@@ -80,9 +80,9 @@ class WarrantyCaseListener {
 			$apmt = $apmts->last();
 			$case->setAssignee($asgnee = $apmt->getAssignee());
 			$case->setAppointmentAt($apmt->getAppointmentAt());
-			if( ! empty($asgnee)) {
+//			if( ! empty($asgnee)) {
 				$manager->persist($asgnee);
-			}
+//			}
 		}
 		
 		if( ! empty($asgnee)) {

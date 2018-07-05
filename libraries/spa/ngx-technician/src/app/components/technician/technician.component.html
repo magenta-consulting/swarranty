@@ -36,11 +36,10 @@
                 <td> : {{case.createdAt | date: "d MMM y"}} by {{case.warranty.customer.name}}</td>
             </tr>
             <tr>
-                <td class="td-name">Brand</td>
-                <td> : 
+                <td colspan="2">
                     <div *ngIf="isEditing['product']" style="display: inline-block">
                         <div class="input-group">
-                            <ng-select class="ipt-select" (change)="selectBrand($event,case.warranty)" [items]="case.warranty.brands" 
+                            <ng-select class="ipt-select" (change)="selectBrand($event,case.warranty)" [items]="case.warranty.brands"
                                 bindLabel="name" placeholder="(*) Product Brand" [(ngModel)]="case.warranty.selectedBrand">
                             </ng-select>
                         </div>
@@ -61,10 +60,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="td-name">Category</td>
-                <td>: 
+              <td colspan="2">
                     <div *ngIf="isEditing['product']" style="display: inline-block">
-                        <div class="input-group">                        
+                        <div class="input-group">
                             <ng-select class="ipt-select" (change)="selectCategory($event,case.warranty)" [items]="case.warranty.categories"
                                 bindLabel="name" placeholder="(*) Product Category"
                                 [(ngModel)]="case.warranty.selectedCategory">
@@ -87,8 +85,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="td-name">Model Name</td>
-                <td>: 
+              <td colspan="2">
                     <div *ngIf="isEditing['product']" style="display: inline-block">
                         <div class="input-group">
                             <ng-select class="ipt-select" placeholder="(*) Model Name"
@@ -118,11 +115,10 @@
                 <td>: {{ case.warranty.product?.modelNumber ? case.warranty.product?.modelNumber : '' }}</td>
             </tr>
             <tr>
-                <td class="td-name">Serial Number</td>
-                <td>: 
+                <td colspan="2">
                     <div *ngIf="isEditing['serial']" style="display: inline-block">
                         <div class="input-group">
-                            <input type="text" class="ipt" [(ngModel)]="case.warranty.productSerialNumber" 
+                            <input type="text" class="ipt" [(ngModel)]="case.warranty.productSerialNumber"
                                 (keyup.enter)="updateSerialNumber()" (blur)="updateSerialNumber()"/>
                             <div *ngIf="isSaving['serial']">Saving...</div>
                         </div>
@@ -184,7 +180,7 @@
                                 <span class="input-group-text">Description </span>
                             </div>
                             <div class="form-control preview-text">
-                                <span>{{note.description}}</span>
+                                <span [innerHTML]="note.description"></span>
                             </div>
                             <div class="input-group-append">
                                 <span class="input-group-text"><fa name="edit"></fa></span>
@@ -202,7 +198,7 @@
         </div>
         <div *ngIf="currentAppointmentNote == null">
             <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered" [(ngModel)]="noteDescription" (keyup.enter)="addNote()"/>
-            <div *ngIf="isSaving['note']">Saving...</div>            
+            <div *ngIf="isSaving['note']">Saving...</div>
         </div>
     </div>
     <div class="tech-blk">
