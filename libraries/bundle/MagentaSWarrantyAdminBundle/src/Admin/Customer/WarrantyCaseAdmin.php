@@ -10,6 +10,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
@@ -137,6 +138,11 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		return parent::isGranted($name, $object);
 	}
 	
+	/**
+	 * @param WarrantyCase $object
+	 *
+	 * @return string
+	 */
 	public function toString($object) {
 		return $object instanceof WarrantyCase
 			? $object->getWarranty()->getCustomer()->getName() . ' - ' . $object->getWarranty()->getProduct()->getName()
@@ -366,12 +372,36 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$parent = $this->getParent();
 //		$link_parameters = $this->getParentFieldDescription()->getOption('link_parameters', array());
 		$c = $this->getConfigurationPool()->getContainer();
+		
+		$formMapper
+			->with('form_group.service_images', [ 'class' => 'col-md-6' ]);
+		$formMapper->add('serviceSheets', CollectionType::class,
+			array(
+				'required'    => false,
+				'constraints' => new Valid(),
+				'label'       => false,
+//					'btn_catalogue' => 'InterviewQuestionSetAdmin'
+			), array(
+				'edit'            => 'inline',
+				'inline'          => 'table',
+				//						'sortable' => 'position',
+				'link_parameters' => $this->getPersistentParameters(),
+				'admin_code'      => ServiceSheetAdmin::class,
+				'delete'          => null,
+			)
+		);
+		$formMapper->end();
+		
+		
 		if( ! $this->isAppendFormElement()) {
-			$formMapper
-				->with('form_group.case_details', [ 'class' => 'col-md-3' ]);
-			
-			if( ! $parent instanceof WarrantyAdmin) {
+			if( true || ! $parent instanceof WarrantyAdmin) {
+				$formMapper
+					->with('form_group.warranty_details', [ 'class' => 'col-md-6' ]);
+				
+//				$formMapper
+//					->with('form_group.select_warranty', [ 'class' => 'col-md-12' ]);
 				$formMapper->add('warranty', ModelAutocompleteType::class, [
+					'label'              => false,
 					'route'              => [
 						'name'       => 'sonata_admin_retrieve_autocomplete_items',
 						'parameters' => $this->getAutocompleteRouteParameters()
@@ -389,7 +419,9 @@ class WarrantyCaseAdmin extends BaseAdmin {
 						return true;
 					},
 				]);
-				
+//				$formMapper->end();
+//				$formMapper
+//					->with('form_group.product_details', [ 'class' => 'col-md-6' ]);
 				$formMapper->add('warranty.product.image', ProductDetailType::class, [
 					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
 					'product_property' => 'warranty',
@@ -423,28 +455,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'type'             => 'model_number',
 					'class'            => null
 				]);
-			} else {
-			
-			}
-			
-			if( ! empty($this->getSubject())) {
-//			$formMapper->add('creator', null, [
-//					'required' => false,
-//					'label'    => 'form.label_case_detail'
-//				]);
-			}
-			
-			$formMapper
-				->add('description', CKEditorType::class, [
-					'required' => false,
-					'label'    => 'form.label_case_detail'
-				]);
-			$formMapper->end();
-			
-			
-			if( ! $parent instanceof WarrantyAdmin) {
-				$formMapper
-					->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
+				
+//				$formMapper->end();
+//				$formMapper
+//					->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
 				$formMapper->add('warranty.customer.name', ProductDetailType::class, [
 					'product_property' => 'warranty',
 					'required'         => false,
@@ -490,38 +504,27 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'type'             => 'customer_postal',
 //			'class'          => null
 				]);
-				$formMapper->end();
+//				$formMapper->end();
 				
+//				$formMapper
+//					->with('form_group.customer_notes', [ 'class' => 'col-md-6' ]);
+				
+				$formMapper
+					->add('description', CKEditorType::class, [
+						'required' => false,
+						'label'    => 'form.label_case_detail'
+					]);
+//				$formMapper->end();
+			} else {
+	
 				
 			}
 		}
+
 		
-		$formMapper
-			->with('form_group.service_images', [ 'class' => 'col-md-6' ]);
-		$formMapper->add('serviceSheets', CollectionType::class,
-			array(
-				'required'    => false,
-				'constraints' => new Valid(),
-				'label'       => false,
-//					'btn_catalogue' => 'InterviewQuestionSetAdmin'
-			), array(
-				'edit'            => 'inline',
-				'inline'          => 'table',
-				//						'sortable' => 'position',
-				'link_parameters' => $this->getPersistentParameters(),
-				'admin_code'      => ServiceSheetAdmin::class,
-				'delete'          => null,
-			)
-		);
 		
-		$formMapper->end();
-		
-		if($this->isAppendFormElement()) {
-			return;
-		}
-		
-		$formMapper
-			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
+//		$formMapper
+//			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceZone', ModelType::class, [
 			'placeholder' => 'Select a Zone',
 			'property'    => 'name'
@@ -532,7 +535,8 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'required'    => false,
 					'placeholder' => 'Select a Technician',
 					'label'       => 'form.label_assign_technician',
-					'property'    => 'person.name'
+					'property'    => 'person.name',
+					'btn_add'     => false
 				])
 				->add('appointmentAt', DateTimePickerType::class, [
 					'required'              => false,
@@ -557,10 +561,22 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				)
 			);
 		}
-		
-		
+		$formMapper->add('serviceNotes', CollectionType::class,
+			array(
+				'required'    => false,
+				'constraints' => new Valid(),
+//				'label'       => false,
+//					'btn_catalogue' => 'InterviewQuestionSetAdmin'
+			), array(
+				'edit'            => 'inline',
+				'inline'          => 'table',
+				//						'sortable' => 'position',
+				'link_parameters' => $this->getPersistentParameters(),
+				'admin_code'      => ServiceNoteAdmin::class,
+				'delete'          => null,
+			)
+		);
 		$formMapper->end();
-		
 	}
 	
 	/**
@@ -568,6 +584,15 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	 */
 	public function preValidate($object) {
 		parent::preValidate($object);
+		$apmts = $object->getAppointments();
+		
+		/** @var CaseAppointment $apmt */
+		foreach($apmts as $apmt) {
+			if( ! empty($apmt)) {
+				$object->addAppointment($apmt);
+			}
+		}
+		
 		$sss = $object->getServiceSheets();
 		/** @var ServiceSheet $ss */
 		foreach($sss as $ss) {

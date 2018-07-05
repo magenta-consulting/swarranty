@@ -58,18 +58,9 @@
 }
 .tech-wrap {
     .ipt, .ipt-select {
-        border: 1px solid #ddd;
         width: 300px;
-        outline: none;
-        padding: 0 10px;
-        height: 32px;
-        line-height: 32px;
-        &:focus {
-            border-color: #999;
-        }
-        &.full {
-            width: 100%;
-        }
+        display: inline-block;
+        vertical-align: middle;
     }
     &.tech-detail {
         .tech-blk {
@@ -113,21 +104,14 @@
         }
     }
     .status {
-        background-color: #eee;
-        padding: 2px 6px;
-        border-radius: 2px;
-        color: #333;
         &.new {
-            background-color: #007bff;
-            color: #fff;
+            color: #007bff;
         }
         &.resolved {
-            color: #fff;
-            background-color: #db0000;
+            color: #db0000;
         }
-        &.closed {
-            color: #fff;
-            background-color: #28a745;
+        &.closed, &.completed, &.complete {
+            color: #28a745;
         }
     }
 }

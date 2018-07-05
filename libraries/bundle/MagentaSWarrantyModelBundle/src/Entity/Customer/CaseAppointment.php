@@ -24,7 +24,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 class CaseAppointment extends FullTextSearch {
 	
 	const STATUS_NEW = 'NEW';
-	const STATUS_PENDING = 'PENDING';
+	const STATUS_VIEWED = 'VIEWED';
 	const STATUS_VISITED = 'VISITED';
 	const STATUS_CANCELLED = 'CANCELLED';
 	
@@ -38,6 +38,43 @@ class CaseAppointment extends FullTextSearch {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
+		if(empty($this->serviceSheet)) {
+			$this->serviceSheet = $this->createServiceSheet();
+		}
+	}
+	
+	/**
+	 * @param OrganisationMember|null $creator
+	 */
+	public function setCreator(?OrganisationMember $creator): void {
+		$this->creator = $creator;
+		if( ! empty($creator)) {
+			if( ! empty($p = $creator->getPerson())) {
+				$this->creatorName = $p->getName();
+			}
+		}
+	}
+	
+	public function getAssigneeName() {
+		if( ! empty($assignee = $this->assignee)) {
+			$p = $assignee->getPerson();
+			if( ! empty($p)) {
+				return $p->getName();
+			}
+		}
+		
+		return '';
+	}
+	
+	public function createServiceSheet() {
+		$ss = new ServiceSheet();
+		$ss->setAppointment($this);
+		$ss->setCase($this->case);
+		if( ! empty($this->case)) {
+			$this->case->addServiceSheet($ss);
+		}
+		
+		return $ss;
 	}
 	
 	public function getOrganisation(): ?Organisation {
@@ -210,13 +247,6 @@ class CaseAppointment extends FullTextSearch {
 	 */
 	public function getCreator(): ?OrganisationMember {
 		return $this->creator;
-	}
-	
-	/**
-	 * @param OrganisationMember|null $creator
-	 */
-	public function setCreator(?OrganisationMember $creator): void {
-		$this->creator = $creator;
 	}
 	
 	/**

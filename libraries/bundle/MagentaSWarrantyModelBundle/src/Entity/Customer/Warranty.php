@@ -61,10 +61,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	function __construct() {
 		$this->cases         = new ArrayCollection();
 		$this->receiptImages = new ArrayCollection();
-		
-		$this->createdAt = new \DateTime();
-		$this->code      = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
-		
+		$this->createdAt     = new \DateTime();
+		$this->code          = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
+		$this->initiateNumber();
 	}
 	
 	public
@@ -367,6 +366,13 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	protected
 		$extendedWarrantyPeriod;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected
+		$dealerName;
 	
 	/**
 	 * @var string|null
@@ -744,5 +750,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	public function setExtendedWarrantyPeriodApproved(bool $extendedWarrantyPeriodApproved): void {
 		$this->extendedWarrantyPeriodApproved = $extendedWarrantyPeriodApproved;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDealerName(): ?string {
+		return $this->dealerName;
+	}
+	
+	/**
+	 * @param null|string $dealerName
+	 */
+	public function setDealerName(?string $dealerName): void {
+		$this->dealerName = $dealerName;
 	}
 }

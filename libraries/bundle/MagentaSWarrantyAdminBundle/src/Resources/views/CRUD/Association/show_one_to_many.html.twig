@@ -26,13 +26,12 @@
                                     |
                                     {{ element.product.modelNumber }}
                                     |
-                                    {{ element.expiryDate|date('d/mY') }}
+                                    {{ element.expiryDate|date('d - m - Y') }}
                                     |
                                     {{ element.number }}
 
                                 </a>
-                                |
-                                <a class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
+                                <a href="{{ path('admin_magenta_swarrantymodel_customer_warranty_customer_warrantycase_create',{'organisation': element.customer.organisation.id,'id':element.id}) }}" class="btn btn-primary" style="margin-bottom: 7px;">Create New Case</a>
                             {% endif %}
                         </li>
                     {% else %}

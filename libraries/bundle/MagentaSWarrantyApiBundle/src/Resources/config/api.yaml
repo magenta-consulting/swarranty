@@ -10,6 +10,14 @@ services:
         resource: '../../Controller'
         tags: ['controller.service_arguments']
 
+    magenta_swarranty_api.customer.organisation_member_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Organisation\OrganisationMemberSubscriber
+        arguments:
+            - '@Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
     magenta_swarranty_api.customer.customer_subscriber:
         class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\CustomerSubscriber
         arguments:
@@ -31,3 +39,35 @@ services:
             - '@swiftmailer.mailer'
         tags:
             - { name: kernel.event_subscriber }
+
+
+    swarranty.id_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { id: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.organisation_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { organization: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.code_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { code: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.brand_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { brand: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.category_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { category: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+
+    swarranty.sub_category_search_filter:
+        parent: 'api_platform.doctrine.orm.search_filter'
+        arguments: [ { subCategory: 'exact' } ]
+        tags: [ 'api_platform.filter' ]
+

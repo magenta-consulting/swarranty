@@ -15,6 +15,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @ORM\Table(name="access__role")
  */
 class ACRole extends Thing {
+	
 	/**
 	 * @var int|null
 	 * @ORM\Id

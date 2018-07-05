@@ -99,12 +99,18 @@ sidebar_left:
 
 form_tab:
     general: General
+
 action_button:
     label_review_submission: Review Submission
     label_manage_case: Manage Cases
     label_add_case: Add Case
+    label_transfer_ownership: Transfer Ownership
+    label_transfer_to_this_customer: Transfer to this Customer
 
 form_group:
+    select_warranty: Select a Warranty
+    customer_notes: Customer Notes
+    product_details: Product Details
     user_details: User Details
     case_assignment: Assignment
     case_details: Case Details
@@ -118,6 +124,7 @@ form_group:
     customer_details: Customer Details
     receipt_images: Receipt Images
     service_images: Service Images
+    service_notes: Service Notes
 
 form_field:
     label_registration_fields: Registration Fields
@@ -126,6 +133,8 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_description: Description
+    label_visited_at: Visit Time
     label_appointment: Appointment
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)

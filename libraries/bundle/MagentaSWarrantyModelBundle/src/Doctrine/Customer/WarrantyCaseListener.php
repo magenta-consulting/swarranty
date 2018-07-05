@@ -25,18 +25,11 @@ class WarrantyCaseListener {
 		$this->container = $container;
 	}
 	
-	private function updateInfAfterFlush(WarrantyCase $case, LifecycleEventArgs $event) {
+	private function updateInfAfterOperation(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
 		$manager = $event->getEntityManager();
-		$manager->flush();
-	}
-	
-	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
-		/** @var EntityManager $manager */
-		$manager       = $event->getObjectManager();
-		$uow           = $manager->getUnitOfWork();
 		$user          = $this->container->get(UserService::class)->getUser();
-		$w             = $case->getWarranty();
+		
 		$apmts         = $case->getAppointments();
 		$asgnee        = $case->getAssignee();
 		$apmtAt        = $case->getAppointmentAt();
@@ -115,6 +108,15 @@ class WarrantyCaseListener {
 				$manager->persist($ss);
 			}
 		}
+		$manager->flush();
+	}
+	
+	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
+		/** @var EntityManager $manager */
+		$manager       = $event->getObjectManager();
+		$uow           = $manager->getUnitOfWork();
+		$w             = $case->getWarranty();
+	
 	}
 	
 	public function preUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -140,7 +142,7 @@ class WarrantyCaseListener {
 	
 	public function postUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 //		$this->handleAdminEmail($case);
-		$this->updateInfAfterFlush($case, $event);
+		$this->updateInfAfterOperation($case, $event);
 //		$manager = $event->getEntityManager();
 	}
 	
@@ -149,7 +151,7 @@ class WarrantyCaseListener {
 	}
 	
 	public function postPersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
-		$this->updateInfAfterFlush($case, $event);
+		$this->updateInfAfterOperation($case, $event);
 //		$manager = $event->getEntityManager();
 
 //		$this->handleAdminEmail($case);

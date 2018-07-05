@@ -24,10 +24,10 @@ doctrine:
                     entities:
 #                    Will not work for Mere Interfaces
                         -
-                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\FullTextSearchInterface"
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\FullTextSearch"
                             listener:
                                 -
-                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\FullTextSearchInterfaceListener"
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\FullTextSearchListener"
                                     event:
                                         -
                                             type: postPersist
@@ -78,6 +78,31 @@ doctrine:
                             listener:
                                 -
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\CustomerListener"
+                                    event:
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
+
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\CaseAppointment"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\CaseAppointmentListener"
                                     event:
                                         -
                                             type: postPersist
@@ -205,6 +230,9 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Person\\PersonListener"
                                     event:
                                         -
+                                            type: preFlush
+                                            method: preFlushHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -
@@ -222,6 +250,18 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+                filters:
+
+                    # An array of filters
+                    organisation_member_filter:
+                        class:                'Magenta\Bundle\SWarrantyModelBundle\Doctrine\Organisation\OrganisationMemberFilter' # Required
+                        enabled:              false
+
+                        # An array of parameters
+                        parameters:
+
+                            # example
+                            foo_param:              bar_value
 
 security:
     encoders:

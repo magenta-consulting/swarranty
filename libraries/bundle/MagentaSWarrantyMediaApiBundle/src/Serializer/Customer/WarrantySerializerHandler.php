@@ -88,4 +88,4 @@ class WarrantySerializerHandler
 	public static function getType() {
 		return 'magenta_customer_warranty_id';
 	}
-}
+} //magenta_customer_service_sheet_id

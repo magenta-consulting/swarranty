@@ -46,11 +46,12 @@ class WarrantyCase implements DecisionMakingInterface {
 	protected $id;
 	
 	public function __construct() {
-		$this->createdAt     = new \DateTime();
-		$this->children      = new ArrayCollection();
-		$this->appointments  = new ArrayCollection();
-		$this->serviceSheets = new ArrayCollection();
-		$this->serviceNotes  = new ArrayCollection();
+		$this->createdAt       = new \DateTime();
+		$this->children        = new ArrayCollection();
+		$this->appointments    = new ArrayCollection();
+		$this->serviceSheets   = new ArrayCollection();
+		$this->serviceNotes    = new ArrayCollection();
+		$this->assigneeHistory = new ArrayCollection();
 	}
 	
 	public function getDecisionStatus(): string {
@@ -189,6 +190,7 @@ class WarrantyCase implements DecisionMakingInterface {
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 * @ORM\OrderBy({"appointmentAt" = "ASC"})
 	 */
 	protected $appointments;
 	
@@ -221,6 +223,7 @@ class WarrantyCase implements DecisionMakingInterface {
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote", mappedBy="case", cascade={"persist","merge"},orphanRemoval=true)
+	 * @ORM\OrderBy({"createdAt" = "DESC"})
 	 */
 	protected $serviceNotes;
 	

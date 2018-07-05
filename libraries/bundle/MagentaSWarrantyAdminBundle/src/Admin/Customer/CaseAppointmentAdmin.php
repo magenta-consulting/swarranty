@@ -10,11 +10,14 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\CaseModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
@@ -295,40 +298,28 @@ class CaseAppointmentAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
-//		$formMapper
-//			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ]);
-//		$formMapper
-//			->add('receiptImages', CollectionType::class,
-//				[
-//					// each entry in the array will be an "media" field
-//					'entry_type'    => MediaType::class,
-//					'allow_add'     => true,
-//					'allow_delete'  => true,
-////					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
-//					// these options are passed to each "media" type
-//					'entry_options' => array(
-//						'new_on_update' => false,
-//						'attr'          => array( 'class' => 'receipt-image' ),
-//						'context'       => 'receipt_image',
-//						'provider'      => 'sonata.media.provider.image'
-//					),
-//
-//					'label' => false,
-////					'class'         => Media::class
-//				]);
-//		$formMapper->end();
-//		$formMapper
-//			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
-//		$formMapper
-//			->add('warranty', , [ 'label' => 'form.label_warranty' ])
-//		;
-//		$formMapper->end();
+		/** @var ProxyQuery $productQuery */
+		$canReceiveCaseMemberQuery = $this->getFilterByOrganisationQueryForModel(OrganisationMember::class);
+		/** @var Expr $expr */
+		$expr = $canReceiveCaseMemberQuery->expr();
+		/** @var QueryBuilder $crcmqb */
+		$crcmqb = $canReceiveCaseMemberQuery->getQueryBuilder();
+		$crcmqb->join('o.role', 'role');
+		$crcmqb->join('role.entries', 'entries');
+		$crcmqb->join('entries.module', 'module');
+		$crcmqb->andWhere($expr->andX(
+			$expr->like('entries.permission', $expr->literal(ACEntry::PERMISSION_RECEIVE)),
+			$expr->isInstanceOf('module', CaseModule::class)
+		));
+		
 		$formMapper
 			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
 			->add('assignee', ModelType::class, [
 				'label'    => 'form.label_assign_technician',
-				'property' => 'person.name'
+				'property' => 'person.name',
+				'btn_add'  => false,
+				'query'    => $canReceiveCaseMemberQuery
 			])
 			->add('appointmentAt', DateTimePickerType::class, [
 				'required'              => false,
@@ -336,6 +327,13 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 				'datepicker_use_button' => false,
 			]);
+		
+		$formMapper->add('visitedAt', DateTimePickerType::class, [
+			'required'              => false,
+			'format'                => 'dd-MM-yyyy, H:m',
+			'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+			'datepicker_use_button' => false,
+		]);
 		$formMapper->end();
 	}
 	

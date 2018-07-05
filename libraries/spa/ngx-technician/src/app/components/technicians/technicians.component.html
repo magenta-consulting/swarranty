@@ -9,147 +9,119 @@
     </ul>
     <div class="tab-content" id="myTabContent">
         <div class="tab-pane fade in show active" id="tab-assign">
-            <div
-            *ngIf="techList != ''"
-            class="tech-list">
-                <div
-                *ngFor="let prod of techList; index as i;"
-                class="tech-item">
-                    <div class="tech-blk">
-                        <h3 class="tech-ttl">{{prod.name}}</h3>
-                        <div class="tech-info">
-                            <div class="row">
-                                <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                    <table>
-                                        <tr>
-                                            <td class="td-name">Address</td>
-                                            <td> : {{prod.data_address.address}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Contact</td>
-                                            <td> : {{prod.data_address.contact}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case Date</td>
-                                            <td> : {{prod.data_address.case_date}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case no</td>
-                                            <td>: {{prod.data_address.case_no}} | Status:
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 1"
-                                                class="status new">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 2"
-                                                class="status">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 3"
-                                                class="status resolved">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 4"
-                                                class="status closed">{{prod.data_address.status}}</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Service Zone</td>
-                                            <td>: {{prod.data_address.service_zone}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                    <a routerLink="/technician/{{prod.id}}" class="more btn btn-green">View Job</a>
+            <div class="tech-list">
+                <ng-container *ngFor="let case of cases">
+                    <div *ngIf="!case.completed" class="tech-item">
+                        <div class="tech-blk">
+                            <h3 class="tech-ttl">{{case.warranty.customer.name}}</h3>
+                            <div class="tech-info">
+                                <div class="row">
+                                    <div class="info-left col-md-8 col-sm-8 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <td class="td-name">Address</td>
+                                                <td>: {{case.warranty.customer.homeAddress}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Contact</td>
+                                                <td>: {{case.warranty.customer.telephone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case Date</td>
+                                                <td>: {{case.appointmentAt | date: "d MMMM y"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case no</td>
+                                                <td>: {{case.number}} | Status: <span class="status">{{case.status}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Service Zone</td>
+                                                <td>: {{case.serviceZone.name}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
+                                        <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Product</h4>
+                            <p>
+                                Brand: {{case.warranty.product.brand.name}} | 
+                                Model Number: {{case.warranty.product.modelNumber}} | 
+                                Model Name: {{case.warranty.product.name}} | 
+                                Serial Number: {{case.warranty.productSerialNumber}}
+                            </p>
+                        </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Case Details:</h4>
+                            <div [innerHTML]="case.description"></div>
+                        </div>
+                        <div class="tech-blk tech-more">
+                            <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
+                        </div>
                     </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Product</h4>
-                        <p>
-                            Brand: {{prod.product.brand}} | Model Number: {{prod.product.model_number}} | Model Name: {{prod.product.model_name}} | Serial Number: {{prod.product.serial_number}}
-                        </p>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Case Details:</h4>
-                        <p>
-                            {{prod.case_details}}
-                        </p>
-                    </div>
-                    <div class="tech-blk tech-more">
-                        <a routerLink="/technician/{{prod.id}}" class="more btn btn-green">View Job</a>
-                    </div>
-                </div>
+                </ng-container>
+            </div>
         </div>
-    </div>
-    <div class="tab-pane" id="tab-complete">
-        <div
-            *ngIf="techListResolved != ''"
-            class="tech-list">
-                <div
-                *ngFor="let prod of techListResolved; index as i;"
-                class="tech-item">
-                    <div class="tech-blk">
-                        <h3 class="tech-ttl">{{prod.name}}</h3>
-                        <div class="tech-info">
-                            <div class="row">
-                                <div class="info-left col-md-8 col-sm-8 col-xs-12">
-                                    <table>
-                                        <tr>
-                                            <td class="td-name">Address</td>
-                                            <td> : {{prod.data_address.address}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Contact</td>
-                                            <td> : {{prod.data_address.contact}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case Date</td>
-                                            <td> : {{prod.data_address.case_date}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Case no</td>
-                                            <td>: {{prod.data_address.case_no}} | Status:
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 1"
-                                                class="status new">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 2"
-                                                class="status">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 3"
-                                                class="status resolved">{{prod.data_address.status}}</span>
-                                                <span
-                                                *ngIf="prod.data_address.status_type == 4"
-                                                class="status closed">{{prod.data_address.status}}</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="td-name">Service Zone</td>
-                                            <td>: {{prod.data_address.service_zone}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                    <a routerLink="/technician/{{prod.id}}" class="more btn btn-green">View Job</a>
+        <div class="tab-pane" id="tab-complete">
+            <div class="tech-list">
+                <ng-container *ngFor="let case of cases">
+                    <div *ngIf="case.completed" class="tech-item">
+                        <div class="tech-blk">
+                            <h3 class="tech-ttl">{{case.warranty.customer.name}}</h3>
+                            <div class="tech-info">
+                                <div class="row">
+                                    <div class="info-left col-md-8 col-sm-8 col-xs-12">
+                                        <table>
+                                            <tr>
+                                                <td class="td-name">Address</td>
+                                                <td>: {{case.warranty.customer.homeAddress}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Contact</td>
+                                                <td>: {{case.warranty.customer.telephone}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case Date</td>
+                                                <td>: {{case.appointmentAt | date: "d MMMM y"}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Case no</td>
+                                                <td>: {{case.number}} | Status: <span class="status {{case.status | lowercase}}">{{case.status}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-name">Service Zone</td>
+                                                <td>: {{case.serviceZone.name}}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
+                                        <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Product</h4>
+                            <p>
+                                Brand: {{case.warranty.product.brand.name}} | 
+                                Model Number: {{case.warranty.product.modelNumber}} | 
+                                Model Name: {{case.warranty.product.name}} | 
+                                Serial Number: {{case.warranty.productSerialNumber}}
+                            </p>
+                        </div>
+                        <div class="tech-blk">
+                            <h4 class="tech-sub-ttl">Case Details:</h4>
+                            <div [innerHTML]="case.description"></div>
+                        </div>
+                        <div class="tech-blk tech-more">
+                            <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
+                        </div>
                     </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Product</h4>
-                        <p>
-                            Brand: {{prod.product.brand}} | Model Number: {{prod.product.model_number}} | Model Name: {{prod.product.model_name}} | Serial Number: {{prod.product.serial_number}}
-                        </p>
-                    </div>
-                    <div class="tech-blk">
-                        <h4 class="tech-sub-ttl">Case Details:</h4>
-                        <p>
-                            {{prod.case_details}}
-                        </p>
-                    </div>
-                    <div class="tech-blk tech-more">
-                        <a routerLink="/technician/{{prod.id}}" class="more btn btn-green">View Job</a>
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
     </div>

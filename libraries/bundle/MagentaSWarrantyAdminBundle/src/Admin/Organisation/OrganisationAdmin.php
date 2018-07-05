@@ -68,34 +68,6 @@ class OrganisationAdmin extends BaseAdmin {
 		return $object;
 	}
 	
-	/**
-	 * @param string       $name
-	 * @param Organisation $object
-	 */
-	public function isGranted($name, $object = null) {
-		$container = $this->getConfigurationPool()->getContainer();
-		$isAdmin   = $container->get('security.authorization_checker')->isGranted('ROLE_ADMIN');
-//        $pos = $container->get(OrganisationService::class)->getPosition();
-		if(in_array($name, [ 'CREATE', 'LIST' ])) {
-			return $this->isAdmin();
-		}
-		if($name === 'EDIT') {
-			if($isAdmin) {
-				return true;
-			}
-			if( ! empty($object) && $object->getId() === $container->get(OrganisationService::class)->getOrganisation()->getId()) {
-				return true;
-			}
-			
-			return false;
-		}
-//        if (empty($isAdmin)) {
-//            return false;
-//        }
-		
-		return parent::isGranted($name, $object);
-	}
-	
 	public function toString($object) {
 		return $object instanceof Organisation
 			? $object->getName()

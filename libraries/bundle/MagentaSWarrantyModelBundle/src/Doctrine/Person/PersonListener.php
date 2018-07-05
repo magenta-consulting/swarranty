@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Doctrine\Person;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -24,49 +25,6 @@ class PersonListener {
 		$this->updateInfo($person, $event);
 		$manager  = $event->getEntityManager();
 		$registry = $this->container->get('doctrine');
-		
-		$email = $person->getEmail();
-		
-		if( ! empty($pu = $person->getUser()) && ! empty($pu->getId()) && $pu->getEmail() !== $person->getEmail()) {
-			$pu->setEmail($email);
-			$manager->persist($pu);
-		}
-		
-		if(empty($user = $pu = $person->getUser()) || empty($pu->getId())) {
-			$userRepo = $registry->getRepository(User::class);
-			/** @var User $user */
-			if(empty($user = $userRepo->findOneBy([ 'email' => $email ]))) {
-				$user = new User();
-				$user->setEnabled(true);
-				$user->addRole(User::ROLE_POWER_USER);
-				$user->setUsername($email);
-				$user->setEmail($email);
-				if(empty($pu)) {
-					$up = 'new-user';
-				} else {
-					$up = $pu->getPlainPassword();
-				}
-				$person->setUser($user);
-				$user->setPerson($person);
-				$user->setPlainPassword($up);
-				$manager->persist($user);
-				$manager->persist($person);
-			} else {
-				$person->setUser($user);
-				$user->setPerson($person);
-				$manager->persist($user);
-				$manager->persist($person);
-			}
-			if( ! empty($pu)) {
-				$pu->setPerson(null);
-				$manager->persist($pu);
-			}
-		}
-		if(empty($user->getUsername())) {
-			$user->setUsername($email);
-		}
-		
-		$manager->flush();
 	}
 	
 	private function updateInfo(Person $person, LifecycleEventArgs $event) {
@@ -80,8 +38,14 @@ class PersonListener {
 		
 		$personRepo = $registry->getRepository(Person::class);
 		
-		$uow   = $manager->getUnitOfWork();
-		$email = $person->getEmail();
+		$uow = $manager->getUnitOfWork();
+		
+	}
+	
+	public function preFlushHandler(Person $person, PreFlushEventArgs $event) {
+		$manager  = $event->getEntityManager();
+		$registry = $this->container->get('doctrine');
+		$email    = $person->getEmail();
 		
 		
 	}
@@ -96,10 +60,49 @@ class PersonListener {
 	
 	public function prePersistHandler(Person $person, LifecycleEventArgs $event) {
 		$this->updateInfoBeforeOperation($person, $event);
+		
 	}
 	
 	public function postPersistHandler(Person $person, LifecycleEventArgs $event) {
 		$this->updateInfoAfterOperation($person, $event);
+		/** @var EntityManager $manager */
+		$manager    = $event->getObjectManager();
+		$registry   = $this->container->get('doctrine');
+		$personRepo = $registry->getRepository(Person::class);
+		$userRepo   = $registry->getRepository(User::class);
+		$email      = $person->getEmail();
+		$uow        = $manager->getUnitOfWork();
+		$personCS = $uow->getEntityChangeSet($person);
+		if( ! $person->isSystemUser()) {
+			// person null - user null
+			if(empty($pu = $person->getUser())) {
+				$pu = $person->initiateUser();
+				$manager->persist($pu);
+				$manager->flush($pu);
+			} else {
+				$uow->computeChangeSet($manager->getClassMetadata(User::class), $pu);
+				$pu = $person->initiateUser();
+				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $pu);
+			}
+			
+			
+			/** @var User $user */
+			$user = $userRepo->findOneBy([ 'email' => $email ]);
+			if( ! empty($user)) {
+				$pu->setPerson(null);
+				$manager->detach($pu);
+				$person->setUser($user);
+//				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Person::class), $person);
+				$manager->persist($user);
+//				$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $user);
+			}
+		} else {
+			$pu = $person->getUser();
+			$pu->addRole(User::ROLE_POWER_USER);
+			$pu->setEmail($email);
+			$manager->persist($pu);
+//			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(User::class), $pu);
+		}
 	}
 	
 	public function preRemoveHandler(Person $person, LifecycleEventArgs $event) {

@@ -27,6 +27,15 @@ class OrganisationMember extends MemberModel {
 	 */
 	protected $id;
 	
+	public function __construct() {
+		$this->appointments            = new ArrayCollection();
+		$this->assignedCases           = new ArrayCollection();
+		$this->assigneeHistory         = new ArrayCollection();
+		$this->createdCases            = new ArrayCollection();
+		$this->createdCaseAppointments = new ArrayCollection();
+		$this->createdAt               = new \DateTime();
+	}
+	
 	/**
 	 * @return int|null
 	 */
@@ -127,6 +136,18 @@ class OrganisationMember extends MemberModel {
 	protected $role;
 	
 	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $createdAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $updatedAt;
+	
+	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean")
 	 */
@@ -137,6 +158,12 @@ class OrganisationMember extends MemberModel {
 	 * @ORM\Column(type="boolean")
 	 */
 	protected $contactable = true;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $email;
 	
 	/**
 	 * @return bool
@@ -180,4 +207,115 @@ class OrganisationMember extends MemberModel {
 		$this->enabled = $enabled;
 	}
 	
+	/**
+	 * @return Collection
+	 */
+	public function getAppointments(): Collection {
+		return $this->appointments;
+	}
+	
+	/**
+	 * @param Collection $appointments
+	 */
+	public function setAppointments(Collection $appointments): void {
+		$this->appointments = $appointments;
+	}
+	
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getAssigneeHistory(): ArrayCollection {
+		return $this->assigneeHistory;
+	}
+	
+	/**
+	 * @param ArrayCollection $assigneeHistory
+	 */
+	public function setAssigneeHistory(ArrayCollection $assigneeHistory): void {
+		$this->assigneeHistory = $assigneeHistory;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCreatedCaseAppointments(): Collection {
+		return $this->createdCaseAppointments;
+	}
+	
+	/**
+	 * @param Collection $createdCaseAppointments
+	 */
+	public function setCreatedCaseAppointments(Collection $createdCaseAppointments): void {
+		$this->createdCaseAppointments = $createdCaseAppointments;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getCreatedCases(): Collection {
+		return $this->createdCases;
+	}
+	
+	/**
+	 * @param Collection $createdCases
+	 */
+	public function setCreatedCases(Collection $createdCases): void {
+		$this->createdCases = $createdCases;
+	}
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAssignedCases(): Collection {
+		return $this->assignedCases;
+	}
+	
+	/**
+	 * @param Collection $assignedCases
+	 */
+	public function setAssignedCases(Collection $assignedCases): void {
+		$this->assignedCases = $assignedCases;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getCreatedAt(): ?\DateTime {
+		return $this->createdAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $createdAt
+	 */
+	public function setCreatedAt(?\DateTime $createdAt): void {
+		$this->createdAt = $createdAt;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getUpdatedAt(): ?\DateTime {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $updatedAt
+	 */
+	public function setUpdatedAt(?\DateTime $updatedAt): void {
+		$this->updatedAt = $updatedAt;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmail(): ?string {
+		return $this->email;
+	}
+	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
+	}
 }

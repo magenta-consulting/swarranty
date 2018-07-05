@@ -1,0 +1,37 @@
+import { Injectable, Input } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { apiEndPoint, apiEndPointBase } from '../../environments/environment'
+import {catchError, map, tap} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Member } from '../model/member';
+import { Case } from '../model/case';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class MemberService {
+  token: string;
+
+  membersUrl = '/organisation-members';
+
+  constructor(private http: HttpClient) { }
+
+  getMembers(organisation: number): Observable<Member[]> {
+    this.token = localStorage.getItem('token');
+    return this.http.get(`${apiEndPoint}${apiEndPointBase}${this.membersUrl}?organization=${organisation}`, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${this.token}`
+      })
+    })
+    .pipe(
+      map(res => {
+        let members = res['hydra:member'];
+        return members;
+      }),
+      catchError((error, caught) : Observable<void> => {
+        console.log(error);
+        return caught;
+      })
+    );
+  }
+}

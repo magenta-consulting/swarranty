@@ -1,26 +1,26 @@
-<div class="tech-wrap tech-detail">
+<div *ngIf="case != null" class="tech-wrap tech-detail">
     <div class="tech-blk">
         <h4 class="tech-sub-ttl">Customer Details</h4>
         <table>
             <tr>
                 <td class="td-name">Full name</td>
-                <td> : {{dataTech.customer.fullname}}</td>
+                <td> : {{case.warranty.customer.name}}</td>
             </tr>
             <tr>
                 <td class="td-name">Contact no</td>
-                <td> : {{dataTech.customer.contact_no}}</td>
+                <td> : +{{case.warranty.customer.dialingCode}}-{{case.warranty.customer.telephone}}</td>
             </tr>
             <tr>
                 <td class="td-name">Email</td>
-                <td> : {{dataTech.customer.email}}</td>
+                <td> : {{case.warranty.customer.email}}</td>
             </tr>
             <tr>
                 <td class="td-name">Address</td>
-                <td>: {{dataTech.customer.address}}</td>
+                <td>: {{case.warranty.customer.homeAddress}}</td>
             </tr>
             <tr>
                 <td class="td-name">Postal Code</td>
-                <td>: {{dataTech.customer.postal_code}} <a href="#">(Get Directions)</a></td>
+                <td>: {{case.warranty.customer.homePostalCode}} <a href="#">(Get Directions)</a></td>
             </tr>
         </table>
     </div>
@@ -29,91 +29,197 @@
         <table>
             <tr>
                 <td class="td-name">Case no</td>
-                <td> : {{dataTech.case_details.case_no}}</td>
+                <td> : {{case.number}}</td>
             </tr>
             <tr>
                 <td class="td-name">Date Created</td>
-                <td> : {{dataTech.case_details.date_created}}</td>
+                <td> : {{case.createdAt | date: "d MMM y"}} by {{case.warranty.customer.name}}</td>
             </tr>
             <tr>
                 <td class="td-name">Brand</td>
-                <td> : <select class="ipt-select"
-                    (ngModelChange)="onChange($event)"
-                    [(ngModel)]="selectedBrand">
-                    <option>---Please choose---</option>
-                    <option *ngFor="let model of brandList" [value]="model.value">{{model.name}}</option>
-                    </select>
+                <td> : 
+                    <div *ngIf="isEditing['product']" style="display: inline-block">
+                        <div class="input-group">
+                            <ng-select class="ipt-select" (change)="selectBrand($event,case.warranty)" [items]="case.warranty.brands" 
+                                bindLabel="name" placeholder="(*) Product Brand" [(ngModel)]="case.warranty.selectedBrand">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div *ngIf="!isEditing['product']" (click)="isEditing['product'] = true" style="display: inline-block;">
+                        <div class="input-group preview-container" style="width: 300px">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Product Brand </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{case.warranty.selectedBrand?.name}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-name">Category</td>
+                <td>: 
+                    <div *ngIf="isEditing['product']" style="display: inline-block">
+                        <div class="input-group">                        
+                            <ng-select class="ipt-select" (change)="selectCategory($event,case.warranty)" [items]="case.warranty.categories"
+                                bindLabel="name" placeholder="(*) Product Category"
+                                [(ngModel)]="case.warranty.selectedCategory">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div *ngIf="!isEditing['product']" (click)="isEditing['product'] = true" style="display: inline-block;">
+                        <div class="input-group preview-container" style="width: 300px">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Product Category </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{case.warranty.selectedCategory?.name}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="td-name">Model Name</td>
-                <td>: <select class="ipt-select"
-                    (ngModelChange)="onChange($event)"
-                    [(ngModel)]="selectedModelName">
-                    <option>---Please choose---</option>
-                    <option *ngFor="let model of modelNameList" [value]="model.value">{{model.name}}</option>
-                    </select>
+                <td>: 
+                    <div *ngIf="isEditing['product']" style="display: inline-block">
+                        <div class="input-group">
+                            <ng-select class="ipt-select" placeholder="(*) Model Name"
+                                [items]="case.warranty.products" bindLabel="name" [(ngModel)]="case.warranty.product"
+                                (change)="selectProduct($event,case.warranty)" (blur)="isEditing['product']=false">
+                            </ng-select>
+                            <div *ngIf="isSaving['product']">Saving...</div>
+                        </div>
+                    </div>
+                    <div *ngIf="!isEditing['product']" (click)="isEditing['product'] = true" style="display: inline-block;">
+                        <div class="input-group preview-container" style="width: 300px">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Model Name </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{case.warranty.product?.name}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td class="td-name">Model Number</td>
-                <td>: <select class="ipt-select"
-                    (ngModelChange)="onChange($event)"
-                    [(ngModel)]="selectedModelNumber">
-                    <option>---Please choose---</option>
-                    <option *ngFor="let model of modelNumberList" [value]="model.value">{{model.name}}</option>
-                    </select>
-                </td>
+                <td>: {{ case.warranty.product?.modelNumber ? case.warranty.product?.modelNumber : '' }}</td>
             </tr>
             <tr>
                 <td class="td-name">Serial Number</td>
-                <td>: <input type="text" class="ipt" value="{{dataTech.case_details.serial_number}}"/></td>
+                <td>: 
+                    <div *ngIf="isEditing['serial']" style="display: inline-block">
+                        <div class="input-group">
+                            <input type="text" class="ipt" [(ngModel)]="case.warranty.productSerialNumber" 
+                                (keyup.enter)="updateSerialNumber()" (blur)="updateSerialNumber()"/>
+                            <div *ngIf="isSaving['serial']">Saving...</div>
+                        </div>
+                    </div>
+                    <div *ngIf="!isEditing['serial']" (click)="isEditing['serial'] = true" style="display: inline-block;">
+                        <div class="input-group preview-container" style="width: 300px">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Serial Number </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{case.warranty.productSerialNumber}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td class="td-name">Date Closed</td>
-                <td>: {{dataTech.case_details.date_closed}}</td>
+                <td>: N.A</td>
             </tr>
             <tr>
                 <td class="td-name">Technician</td>
-                <td>: {{dataTech.case_details.technician}}</td>
+                <td>: {{currentServiceSheet.appointment.assigneeName}}</td>
             </tr>
             <tr>
                 <td class="td-name">Service Zone</td>
-                <td>: {{dataTech.case_details.service_zone}}</td>
+                <td>: {{case.serviceZone.name}}</td>
             </tr>
         </table>
     </div>
     <div class="tech-blk">
         <h4 class="tech-sub-ttl">Case Details</h4>
-        <p>What ever they want to write about the case when the customer called in.</p>
-        <input type="text" class="ipt full" placeholder="Add Case Detail"/>
+        <!-- <p>What ever they want to write about the case when the customer called in.</p> -->
+        <!-- <input type="text" class="ipt full" placeholder="Add Case Detail" [value]="case.description"/> -->
+        <div [innerHTML]="case.description"></div>
     </div>
-    <div
-    *ngIf="dataTech.case_notes"
-    class="tech-blk">
+    <div class="tech-blk">
         <h4 class="tech-sub-ttl">Service/Case Notes</h4>
         <div class="note-list">
-            <div
-            *ngFor="let note of dataTech.case_notes; index as i;"
-            class="note-item">
-                <p>{{note.desc}}</p>
+            <div *ngFor="let note of case.serviceNotes" class="note-item">
+                <div *ngIf="note == currentAppointmentNote">
+                    <!-- <input type="text" class="ipt" [(ngModel)]="note.description"/>
+                    <span (click)="updateNote()">Update</span> -->
+                    <div *ngIf="isEditing['description']">
+                        <div class="input-group mb-2">
+                            <input [(ngModel)]="note.description" type="text" class="form-control" placeholder="Description"
+                                aria-label="Description"
+                                (keyup.enter)="updateNote()"
+                                (blur)="isEditing['description'] = false">
+                                <div *ngIf="isSaving['note']">Saving...</div>
+                            </div>
+                    </div>
+                    <div *ngIf="!isEditing['description']" (click)="isEditing['description'] = true">
+                        <div class="input-group mb-2 preview-container">
+                            <div class="input-group-prepend preview-label">
+                                <span class="input-group-text">Description </span>
+                            </div>
+                            <div class="form-control preview-text">
+                                <span>{{note.description}}</span>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><fa name="edit"></fa></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="note != currentAppointmentNote">
+                    <p>{{note.description}}</p>
+                </div>
                 <p>
-                    {{note.name}} | {{note.date}} | <span>Delete</span>
+                    {{note.appointment.assigneeName}} | {{note.appointment.appointmentAt | date: "d MMMM y"}} | <span (click)="deleteNote(note)">Delete</span>
                 </p>
             </div>
         </div>
-        <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered"/>
+        <div *ngIf="currentAppointmentNote == null">
+            <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered" [(ngModel)]="noteDescription" (keyup.enter)="addNote()"/>
+            <div *ngIf="isSaving['note']">Saving...</div>            
+        </div>
     </div>
     <div class="tech-blk">
         <image-upload
         class="custome-upload"
+        partName="binaryContent"
+        [url]="uploadUrl"
+        [uploadedFiles]="imageUrls"
+        [beforeUpload]="onBeforeUpload"
         (removed)="onRemoved($event)"
         (uploadFinished)="onUploadFinished($event, 1)"
         (uploadStateChanged)="onUploadStateChanged($event)"
         buttonCaption="UPLOAD SERVICE INVOICE IMAGE"></image-upload>
         <div class="text-center">
-            <button class="btn btn-green btn-mark">Mark Completed</button>
-            <button class="btn btn-primary">UPDATE INFO</button>
+            <button *ngIf="!case.completed" class="btn btn-green btn-mark" (click)="markCompleted()">Mark Completed</button>
+            <span *ngIf="isSaving['status']">Saving...</span>
+            <button *ngIf="case.completed" class="btn btn-green btn-mark" (click)="markCompleted()" disabled>Completed</button>
         </div>
     </div>
 </div>

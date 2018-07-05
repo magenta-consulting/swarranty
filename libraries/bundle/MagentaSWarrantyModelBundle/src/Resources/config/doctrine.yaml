@@ -20,6 +20,13 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
 
+    magenta_doctrine_entity_listener_appointment:
+        class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\CaseAppointmentListener
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_warranty:
             class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\WarrantyListener
             arguments:
@@ -41,8 +48,8 @@ services:
             tags:
                 - { name: doctrine.orm.entity_listener }
 
-    magenta_doctrine_entity_listener_full_text_search_interface:
-            class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\System\FullTextSearchInterfaceListener
+    magenta_doctrine_entity_listener_full_text_search:
+            class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\System\FullTextSearchListener
             arguments:
                 - '@service_container'
             tags:

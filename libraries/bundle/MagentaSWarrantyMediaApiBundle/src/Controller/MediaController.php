@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyMediaApiBundle\Controller;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityRepository;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
@@ -77,7 +78,8 @@ class MediaController extends SonataMediaController {
 			}
 			
 			$this->populateOwnerFields($media, [
-				'receiptImageWarranty' => Warranty::class
+				'receiptImageWarranty' => Warranty::class,
+				'imageServiceSheet' => ServiceSheet::class,
 			], $request);
 			
 			$this->mediaManager->save($media);

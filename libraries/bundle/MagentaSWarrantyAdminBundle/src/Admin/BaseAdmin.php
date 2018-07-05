@@ -341,7 +341,7 @@ class BaseAdmin extends AbstractAdmin {
 			return $isGranted;
 		}
 		
-		return $user->isGranted($name, $object);
+		return $user->isGranted($name, $object, $this->getClass());
 
 //		return parent::isGranted($name, $object);
 	}
@@ -353,8 +353,12 @@ class BaseAdmin extends AbstractAdmin {
 		/** @var ProxyQuery $productQuery */
 		$brandQuery = $this->getModelManager()->createQuery($class);
 		/** @var Expr $expr */
-		$expr = $brandQuery->expr();
-		$brandQuery->andWhere($expr->eq('o.organisation', $this->getCurrentOrganisation()->getId()));
+		$expr         = $brandQuery->expr();
+		$orgFieldName = 'organisation';
+		if($class === OrganisationMember::class) {
+			$orgFieldName = 'organization';
+		}
+		$brandQuery->andWhere($expr->eq('o.' . $orgFieldName, $this->getCurrentOrganisation()->getId()));
 		
 		return $brandQuery;
 	}
@@ -524,6 +528,13 @@ class BaseAdmin extends AbstractAdmin {
 			$object->setOrganisation($this->getCurrentOrganisation());
 		} elseif($object instanceof ThingChildInterface) {
 			$object->getThing()->setOrganisation($this->getCurrentOrganisation());
+		}
+	}
+	
+	public function preUpdate($object) {
+		parent::preUpdate($object);
+		if(method_exists($object, 'setUpdatedAt')) {
+			$object->setUpdatedAt(new \DateTime());
 		}
 	}
 }

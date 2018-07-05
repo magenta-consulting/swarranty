@@ -89,6 +89,17 @@ class CustomerAdmin extends BaseAdmin {
 			return $parameters;
 		}
 		
+		$request = $this->getRequest();
+		
+		if($request->get('workflow') === 'transfer-ownership') {
+			if( ! empty($wid = $request->get('warranty'))) {
+				$parameters = array_merge($parameters, [
+					'workflow' => 'transfer-ownership',
+					'warranty' => $wid
+				]);
+			}
+		}
+		
 		if(empty($org = $this->getCurrentOrganisation(false))) {
 			return $parameters;
 		}
@@ -131,18 +142,24 @@ class CustomerAdmin extends BaseAdmin {
 	 * {@inheritdoc}
 	 */
 	protected function configureListFields(ListMapper $listMapper) {
-		$listMapper->add('_action', 'actions', [
-				'actions' => array(
-					'show'   => array(),
-					'edit'   => array(),
-					'delete' => array(),
+		$actions = [];
+		$request = $this->getRequest();
+		if($request->get('workflow') === 'transfer-ownership') {
+			$actions = [ 'transfer_warranty_ownership' => [ 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Customer/Action/list__action__transfer_warranty_ownership.html.twig' ] ];
+		}
+		$actions = array_merge($actions, array(
+			'show'   => array(),
+			'edit'   => array(),
+			'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
 //                    'view_description' => array('template' => '::admin/product/description.html.twig')
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
-				),
+		));
+		$listMapper->add('_action', 'actions', [
+				'actions' => $actions,
 				'label'   => 'form.label_action'
 			]
 		);

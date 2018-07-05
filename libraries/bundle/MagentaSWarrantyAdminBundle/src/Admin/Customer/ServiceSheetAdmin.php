@@ -102,9 +102,16 @@ class ServiceSheetAdmin extends BaseAdmin {
 		$expr = $apmtQuery->expr();
 		/** @var QueryBuilder $qb */
 		$qb     = $apmtQuery->getQueryBuilder();
-		$caseId = $this->getRequest()->query->getInt('caseId', 0);
+		$caseId = $this->getRequest()->query->getInt('case', 0);
+		if(empty($caseId)) {
+			/** @var ServiceSheet $ss */
+			if( ! empty($ss = $this->subject)) {
+				if( ! empty($case = $ss->getCase())) {
+					$caseId = $case->getId();
+				}
+			}
+		}
 		$apmtQuery->andWhere($expr->eq('o.case', $caseId));
-		
 		
 		$formMapper
 			->add('images', CollectionType::class,
@@ -122,7 +129,7 @@ class ServiceSheetAdmin extends BaseAdmin {
 						'provider'      => 'sonata.media.provider.image'
 					),
 					
-					'label' => false,
+					'label' => 'form.label_image',
 //					'class'         => Media::class
 				]);
 		
@@ -131,7 +138,9 @@ class ServiceSheetAdmin extends BaseAdmin {
 				'required'    => false,
 				'query'       => $apmtQuery,
 				'placeholder' => 'Select Appointment',
-				'property'    => 'searchText'
+				'property'    => 'searchText',
+				'btn_add'     => false
+			
 			]);
 		}
 	}
