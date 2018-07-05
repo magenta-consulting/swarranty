@@ -218,9 +218,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 					$u->setPlainPassword(null);
 				}
 				if( ! empty($u->getPlainPassword()) && ! empty($u->getId())) {
-					$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
-					$manager->persist($u);
-					$manager->flush($u);
+//					$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
 				}
 			}
 		}

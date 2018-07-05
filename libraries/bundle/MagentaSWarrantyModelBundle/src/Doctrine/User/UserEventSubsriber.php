@@ -10,11 +10,13 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Doctrine\User;
 
+use Bean\Component\Organization\Model\OrganizationMember;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\UserInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Util\User\CanonicalFieldsUpdater;
@@ -68,6 +70,19 @@ class UserEventSubsriber implements EventSubscriber {
 			$this->updateUserFields($object);
 			$this->recomputeChangeSet($args->getObjectManager(), $object);
 		}
+		
+		//////// MODIF 001 ///////
+		if($object instanceof OrganizationMember) {
+			/** @var Person $person */
+			if( ! empty($person = $object->getPerson())) {
+				if( ! empty($user = $person->getUser()) && ! empty($user->getPlainPassword())) {
+					$this->updateUserFields($user);
+					$this->recomputeChangeSet($args->getObjectManager(), $user);
+					$args->getObjectManager()->persist($user);
+				}
+			}
+		}
+		//////// END MODIF 001 ///////
 	}
 	
 	/**
