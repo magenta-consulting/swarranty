@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import {ProductService} from "../../service/product.service";
 import {
@@ -28,11 +30,14 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     isLoading: boolean = false;
     qrCodeImg: string = '';
 
+    modalRef: BsModalRef;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private productService: ProductService,
                 private helper: Helper,
-                private regService: RegistrationService
+                private regService: RegistrationService,
+                private modalService: BsModalService
     ) {
     }
 
@@ -124,12 +129,22 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     onRemoved(file: FileHolder) {
-        let v_confirm = confirm('Do you really want to remove this image ?');
-        // console.log('removed', file);
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
 
-        if (v_confirm == true) {
+        let v_confirm = false;
+        // check android or ios
+        if(navigator.userAgent.toLowerCase().indexOf("android") > -1 
+            || navigator.userAgent.toLowerCase().indexOf("ios") > -1) {
+            v_confirm = true;
+        } else {
+            // not android
+            v_confirm = confirm('Do you really want to remove this image ?');
+            // console.log('removed', file);
+        }
+
+        // After Asking.
+        if(v_confirm == true) {
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);
@@ -142,9 +157,21 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                 }
             );
         }
+
     }
 
     onUploadStateChanged(state: boolean) {
         console.log('state', state);
+    }
+
+    // clear localStorage and then redirect to page registration
+    clearRegistration() {
+        this.modalRef.hide();
+        localStorage.removeItem('regId');
+        this.router.navigate(['/registration']);
+    }
+
+    openModal(template: TemplateRef<any>) {
+        this.modalRef = this.modalService.show(template);
     }
 }
