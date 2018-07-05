@@ -35,8 +35,18 @@ class CaseAppointmentListener {
 		$uow     = $manager->getUnitOfWork();
 		$case    = $apmt->getCase();
 		$w       = $case->getWarranty();
-		$ss = $apmt->getServiceSheet();
+		$ss      = $apmt->getServiceSheet();
 		$case->addServiceSheet($ss);
+		
+		$org  = $w->getOrganisation();
+		$user = $this->container->get(UserService::class)->getUser();
+		if(empty($p = $user->getPerson())) {
+			return;
+		}
+		if(empty($m = $p->getMemberOfOrganisation($org))) {
+			return;
+		};
+		$apmt->setCreator($m);
 	}
 	
 	public function preUpdateHandler(CaseAppointment $apmt, LifecycleEventArgs $event) {

@@ -104,6 +104,8 @@ action_button:
     label_review_submission: Review Submission
     label_manage_case: Manage Cases
     label_add_case: Add Case
+    label_transfer_ownership: Transfer Ownership
+    label_transfer_to_this_customer: Transfer to this Customer
 
 form_group:
     select_warranty: Select a Warranty

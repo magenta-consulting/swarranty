@@ -61,10 +61,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	function __construct() {
 		$this->cases         = new ArrayCollection();
 		$this->receiptImages = new ArrayCollection();
-		
-		$this->createdAt = new \DateTime();
-		$this->code      = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
-		
+		$this->createdAt     = new \DateTime();
+		$this->code          = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
+		$this->initiateNumber();
 	}
 	
 	public

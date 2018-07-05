@@ -53,22 +53,40 @@ class OrganisationMemberSubscriber implements EventSubscriberInterface {
 //			$rs = $this->recruiterService;
 			$orgRepo = $this->registry->getRepository(Organisation::class);
 			/** @var JWTUser $user */
-			$user     = $this->userService->getUser();
+			$user = $this->userService->getUser();
+			if(in_array(User::ROLE_ADMIN, $user->getRoles())) {
+				return;
+			}
 			$userRepo = $this->registry->getRepository(User::class);
 			/** @var User $_user */
 			$_user = $userRepo->findOneBy([ 'username' => $user->getUsername() ]);
 			if(empty($_user)) {
 				throw new AccessDeniedException($user->getUsername() . ' is not found');
 			}
-			$userId = $_user->getId();
-			if($userId === null) {
+			if(empty($orgId = $request->query->getInt('organization', 0))) {
+				throw new AccessDeniedException('No Organisation specified');
 			}
-			$userId = -1;
+			$org = $orgRepo->find($orgId);
+			if(empty($org)) {
+				throw new AccessDeniedException('Unknown Organisation');
+			}
+			$person = $_user->getPerson();
+			if(empty($person)) {
+				throw new AccessDeniedException('Your account does not have any profile');
+			}
+			$mem = $person->getMemberOfOrganisation($org);
 			
-			$request->query->set('id', $userId);
-			$queryString   = RequestParser::getQueryString($request);
-			$filters       = $queryString ? RequestParser::parseRequestParams($queryString) : null;
-			$filters['id'] = $userId;
+			if(empty($mem)) {
+				throw new AccessDeniedException('No membership found for this organisation');
+			}
+			
+			$memId = $mem->getId() . '';
+//
+//			$request->query->set('id', $memId);
+			$queryString = RequestParser::getQueryString($request);
+			$filters     = $queryString ? RequestParser::parseRequestParams($queryString) : null;
+			$idFilter    = [ 'id' => $memId ];
+			$filters     = null === $filters ? $idFilter : array_merge($filters, $idFilter);
 			$request->attributes->set('_api_filters', $filters);
 //
 //			var_dump($request->attributes);exit();

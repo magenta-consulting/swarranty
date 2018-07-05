@@ -54,7 +54,12 @@ class User extends AbstractUser {
 		return strtoupper($code);
 	}
 	
-	public function isGranted($action = 'ALL', $object = null) {
+	public function isGranted($action = 'ALL', $object = null, $class = null) {
+		switch($class) {
+			case Organisation::class:
+				return $this->isAdmin();
+				break;
+		}
 		if($object instanceof Thing) {
 		
 		} elseif($object instanceof ThingChildInterface) {

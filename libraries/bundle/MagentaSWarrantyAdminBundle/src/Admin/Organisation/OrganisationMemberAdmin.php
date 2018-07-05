@@ -210,6 +210,21 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		$object
 	) {
 		parent::preValidate($object);
+		/** @var Person $p */
+		if( ! empty($p = $object->getPerson())) {
+			$u = $p->getUser();
+			if( ! empty($u)) {
+				if($p->getEmail() !== $object->getEmail()) {
+					$u->setPlainPassword(null);
+				}
+				if( ! empty($u->getPlainPassword())) {
+					$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
+					$manager->persist($u);
+					$manager->flush($u);
+				}
+				
+			}
+		}
 		$object->setOrganization($this->getCurrentOrganisation());
 	}
 	

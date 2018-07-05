@@ -24,10 +24,10 @@ doctrine:
                     entities:
 #                    Will not work for Mere Interfaces
                         -
-                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\FullTextSearchInterface"
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\FullTextSearch"
                             listener:
                                 -
-                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\FullTextSearchInterfaceListener"
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\FullTextSearchListener"
                                     event:
                                         -
                                             type: postPersist
