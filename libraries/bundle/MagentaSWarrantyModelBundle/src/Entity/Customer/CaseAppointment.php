@@ -43,6 +43,18 @@ class CaseAppointment extends FullTextSearch {
 		}
 	}
 	
+	/**
+	 * @param OrganisationMember|null $creator
+	 */
+	public function setCreator(?OrganisationMember $creator): void {
+		$this->creator = $creator;
+		if( ! empty($creator)) {
+			if( ! empty($p = $creator->getPerson())) {
+				$this->creatorName = $p->getName();
+			}
+		}
+	}
+	
 	public function getAssigneeName() {
 		if( ! empty($assignee = $this->assignee)) {
 			$p = $assignee->getPerson();
@@ -235,13 +247,6 @@ class CaseAppointment extends FullTextSearch {
 	 */
 	public function getCreator(): ?OrganisationMember {
 		return $this->creator;
-	}
-	
-	/**
-	 * @param OrganisationMember|null $creator
-	 */
-	public function setCreator(?OrganisationMember $creator): void {
-		$this->creator = $creator;
 	}
 	
 	/**

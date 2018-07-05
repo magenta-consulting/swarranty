@@ -353,8 +353,12 @@ class BaseAdmin extends AbstractAdmin {
 		/** @var ProxyQuery $productQuery */
 		$brandQuery = $this->getModelManager()->createQuery($class);
 		/** @var Expr $expr */
-		$expr = $brandQuery->expr();
-		$brandQuery->andWhere($expr->eq('o.organisation', $this->getCurrentOrganisation()->getId()));
+		$expr         = $brandQuery->expr();
+		$orgFieldName = 'organisation';
+		if($class === OrganisationMember::class) {
+			$orgFieldName = 'organization';
+		}
+		$brandQuery->andWhere($expr->eq('o.' . $orgFieldName, $this->getCurrentOrganisation()->getId()));
 		
 		return $brandQuery;
 	}

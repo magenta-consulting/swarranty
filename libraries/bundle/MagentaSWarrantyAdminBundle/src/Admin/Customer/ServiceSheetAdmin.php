@@ -138,7 +138,9 @@ class ServiceSheetAdmin extends BaseAdmin {
 				'required'    => false,
 				'query'       => $apmtQuery,
 				'placeholder' => 'Select Appointment',
-				'property'    => 'searchText'
+				'property'    => 'searchText',
+				'btn_add'     => false
+			
 			]);
 		}
 	}

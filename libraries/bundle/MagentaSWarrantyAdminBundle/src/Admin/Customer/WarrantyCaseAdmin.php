@@ -10,6 +10,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ManyToManyThingType;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
@@ -540,7 +541,8 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'required'    => false,
 					'placeholder' => 'Select a Technician',
 					'label'       => 'form.label_assign_technician',
-					'property'    => 'person.name'
+					'property'    => 'person.name',
+					'btn_add'     => false
 				])
 				->add('appointmentAt', DateTimePickerType::class, [
 					'required'              => false,
@@ -588,6 +590,15 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	 */
 	public function preValidate($object) {
 		parent::preValidate($object);
+		$apmts = $object->getAppointments();
+		
+		/** @var CaseAppointment $apmt */
+		foreach($apmts as $apmt) {
+			if( ! empty($apmt)) {
+				$object->addAppointment($apmt);
+			}
+		}
+		
 		$sss = $object->getServiceSheets();
 		/** @var ServiceSheet $ss */
 		foreach($sss as $ss) {

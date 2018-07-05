@@ -6,7 +6,7 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class FullTextSearchInterfaceListener {
+class FullTextSearchListener {
 	/**
 	 * @var ContainerInterface
 	 */
