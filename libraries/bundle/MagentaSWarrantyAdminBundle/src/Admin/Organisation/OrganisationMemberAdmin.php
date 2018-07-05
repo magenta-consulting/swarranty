@@ -214,7 +214,7 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		if( ! empty($p = $object->getPerson())) {
 			$u = $p->getUser();
 			if( ! empty($u)) {
-				if($p->getEmail() !== $object->getEmail()) {
+				if( ! empty($p->getEmail()) && $p->getEmail() !== $object->getEmail()) {
 					$u->setPlainPassword(null);
 				}
 				if( ! empty($u->getPlainPassword())) {
