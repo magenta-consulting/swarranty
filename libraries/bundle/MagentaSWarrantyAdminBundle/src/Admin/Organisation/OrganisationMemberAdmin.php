@@ -214,15 +214,12 @@ class OrganisationMemberAdmin extends BaseAdmin {
 		if( ! empty($p = $object->getPerson())) {
 			$u = $p->getUser();
 			if( ! empty($u)) {
-				if($p->getEmail() !== $object->getEmail()) {
+				if( ! empty($p->getEmail()) && $p->getEmail() !== $object->getEmail()) {
 					$u->setPlainPassword(null);
 				}
-				if( ! empty($u->getPlainPassword())) {
-					$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
-					$manager->persist($u);
-					$manager->flush($u);
+				if( ! empty($u->getPlainPassword()) && ! empty($u->getId())) {
+//					$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
 				}
-				
 			}
 		}
 		$object->setOrganization($this->getCurrentOrganisation());

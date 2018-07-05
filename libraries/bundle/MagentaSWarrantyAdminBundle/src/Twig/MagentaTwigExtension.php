@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Twig;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Extension\AbstractExtension;
@@ -39,8 +40,11 @@ class MagentaTwigExtension extends AbstractExtension {
 		$user = $this->container->get(UserService::class)->getUser();
 		if(empty($org = $user->getAdminOrganisation())) {
 			if( ! empty($person = $user->getPerson())) {
-				/** @var Organisation $org */
-				$org = $person->getMembers()->first();
+				/** @var OrganisationMember $m */
+				$m = $person->getMembers()->first();
+				if( ! empty($m)) {
+					return $m->getOrganization();
+				}
 			}
 		}
 		
