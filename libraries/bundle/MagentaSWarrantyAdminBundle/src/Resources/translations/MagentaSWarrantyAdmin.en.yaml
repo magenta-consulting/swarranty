@@ -117,6 +117,7 @@ form_group:
     brand: Brand
     service_zone: Service Zone
     warranty_details: Warranty Details
+    selected_warranty: Selected Warranty
     categories: Manage Associated Categories
     subcategories: Manage Associated Sub-Categories
     suppliers: Manage Associated Suppliers
