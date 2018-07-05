@@ -71,7 +71,7 @@ class OrganisationMemberSubscriber implements EventSubscriberInterface {
 			$queryString = RequestParser::getQueryString($request);
 			$filters     = $queryString ? RequestParser::parseRequestParams($queryString) : null;
 			$idFilter    = [ 'id' => $userId ];
-			$filters     = null === $filters ? $idFilter : array_merge($filters, [ $idFilter ]);
+			$filters     = null === $filters ? $idFilter : array_merge($filters, $idFilter);
 			
 			$request->attributes->set('_api_filters', $filters);
 //
