@@ -28,7 +28,7 @@ class WarrantyCaseListener {
 	private function updateInfAfterOperation(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
 		$manager = $event->getEntityManager();
-		$user          = $this->container->get(UserService::class)->getUser();
+		$user    = $this->container->get(UserService::class)->getUser();
 		
 		$apmts         = $case->getAppointments();
 		$asgnee        = $case->getAssignee();
@@ -80,7 +80,9 @@ class WarrantyCaseListener {
 			$apmt = $apmts->last();
 			$case->setAssignee($asgnee = $apmt->getAssignee());
 			$case->setAppointmentAt($apmt->getAppointmentAt());
-			$manager->persist($asgnee);
+			if( ! empty($asgnee)) {
+				$manager->persist($asgnee);
+			}
 		}
 		
 		if( ! empty($asgnee)) {
@@ -113,10 +115,10 @@ class WarrantyCaseListener {
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
 		/** @var EntityManager $manager */
-		$manager       = $event->getObjectManager();
-		$uow           = $manager->getUnitOfWork();
-		$w             = $case->getWarranty();
-	
+		$manager = $event->getObjectManager();
+		$uow     = $manager->getUnitOfWork();
+		$w       = $case->getWarranty();
+		
 	}
 	
 	public function preUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
