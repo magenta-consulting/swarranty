@@ -72,6 +72,14 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		'_sort_by'    => 'updatedAt',
 	);
 	
+	public function configure() {
+		parent::configure();
+		$this->setTemplate('edit', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/edit.html.twig');
+		$this->setTemplate('list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
+		$this->setTemplate('decide', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/decide.html.twig');
+		
+	}
+	
 	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
 		$pool      = $this->getConfigurationPool();
 		$request   = $this->getRequest();
@@ -456,7 +464,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'type'             => 'model_number',
 					'class'            => null
 				]);
-
+				
 				$formMapper->end();
 				$formMapper
 					->with('form_group.customer_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
@@ -506,7 +514,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //			'class'          => null
 				]);
 				$formMapper->end();
-
+				
 				$formMapper
 					->with('form_group.customer_notes', [ 'class' => 'col-md-6 col-md-offset-6' ]);
 				
@@ -521,8 +529,8 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				
 			}
 		}
-
-
+		
+		
 		$formMapper
 			->with('form_group.case_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
 		$formMapper->add('serviceZone', ModelType::class, [

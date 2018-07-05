@@ -138,33 +138,6 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 		return $d;
 	}
 	
-	public
-	function editAction(
-		$id = null
-	) {
-		$template = '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/edit.html.twig';
-		
-		$this->admin->setTemplate('edit', $template);
-		
-		return parent::editAction($id);
-	}
-	
-	public
-	function listAction() {
-		$this->admin->setTemplate('list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
-		
-		return parent::listAction();
-	}
-	
-	public
-	function decideAction(
-		$id = null, $action = 'show'
-	) {
-		$this->admin->setTemplate('decide', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/decide.html.twig');
-		
-		return parent::decideAction($id, $action);
-	}
-	
 	protected
 	function preRenderDecision(
 		$action, $object
