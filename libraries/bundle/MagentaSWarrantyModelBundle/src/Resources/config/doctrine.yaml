@@ -13,6 +13,13 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
 
+    magenta_doctrine_entity_listener_service_note:
+        class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\ServiceNoteListener
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
     magenta_doctrine_entity_listener_customer:
         class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer\CustomerListener
         arguments:
