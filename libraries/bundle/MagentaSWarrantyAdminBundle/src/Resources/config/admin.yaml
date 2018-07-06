@@ -23,6 +23,7 @@ services:
         tags: ['controller.service_arguments']
 
 
+
     magenta_swarranty.admin.security.handler.role:
         class: '%sonata.admin.security.handler.role.class%'
         public: false
