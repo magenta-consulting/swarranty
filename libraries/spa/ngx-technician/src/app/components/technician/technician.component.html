@@ -215,7 +215,8 @@
         <div class="text-center">
             <button *ngIf="!case.completed" class="btn btn-green btn-mark" (click)="markCompleted()">Mark Completed</button>
             <span *ngIf="isSaving['status']">Saving...</span>
-            <button *ngIf="case.completed" class="btn btn-green btn-mark" (click)="markCompleted()" disabled>Completed</button>
+            <!-- <button *ngIf="case.completed" class="btn btn-green btn-mark" (click)="markCompleted()" disabled>Completed</button> -->
+            <button class="btn btn-primary btn-mark" routerLink="/technicians">Back</button>
         </div>
     </div>
 </div>
