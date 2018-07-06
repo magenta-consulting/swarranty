@@ -87,10 +87,10 @@ class User extends AbstractUser {
 		}
 		if($object instanceof DecisionMakingInterface) {
 			if($action === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
-				return $object->getDecisionStatus() === null;
+				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
 			} elseif($action === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
 //				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
-				return $object->getDecisionStatus() === null;
+				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
 			}
 			if(in_array($action, [
 				'DECIDE',
