@@ -5,7 +5,7 @@
                <div style="width:100%; display: flex; ">
                    {% if object.decisionStatus == 'APPROVED' %}
                        <span class="decision-status label label-success">APPROVED</span>
-                   {% else if  object.decisionStatus == 'REJECTED' %}
+                   {% elseif  object.decisionStatus == 'REJECTED' %}
                        <span class="decision-status label label-danger">REJECTED</span>
                    {% endif %}
                    {% if admin.hasRoute('decide') %}
