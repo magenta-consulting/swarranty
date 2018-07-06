@@ -75,6 +75,10 @@ resetting:
             Regards,
             the Team.
 
+filter:
+    label_id: Id
+    label_name: Name
+
 # Global strings
 layout:
     logout: 'Log out'
@@ -84,6 +88,7 @@ layout:
 
 # Admin strings
 sidebar_left:
+    caseappointment: Customer Appointment
     servicesheet: Service Sheet
     user: System Users
     acl: Access Control List
@@ -134,12 +139,14 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_product_serial_number: Product Serial Number
     label_description: Description
     label_visited_at: Visit Time
     label_appointment: Appointment
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)
     label_service_notes: Service Notes
+    label_service_note: Service Note
     label_customer: Customer
     label_status: Status
     label_appointment_at: Appointment Time

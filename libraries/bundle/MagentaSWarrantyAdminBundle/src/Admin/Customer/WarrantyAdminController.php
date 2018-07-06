@@ -61,7 +61,9 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 		$customer = $object->getCustomer();
 		$product  = $object->getProduct();
 		$image    = $product->getImage();
-		
+		if(empty($psn = $object->getProductSerialNumber())) {
+			$psn = '';
+		}
 		if(empty($image)) {
 			$imageId = null;
 			$afUrl   = $rfUrl = '/bundles/sonatamedia/grey.png';
@@ -76,13 +78,13 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 			'customer_phone' => '+' . $customer->getDialingCode() . ' ' . $customer->getTelephone(),
 			'customer_email' => $customer->getEmail(),
 			
-			'customer_address' => $customer->getHomeAddress(),
-			'customer_postal'  => $customer->getHomePostalCode(),
-			
-			'model_name'   => $product->getName(),
-			'model_number' => $product->getModelNumber(),
-			'brand'        => empty($product->getBrand()) ? '' : $product->getBrand()->getName(),
-			'category'     => empty($product->getCategory()) ? '' : $product->getCategory()->getName(),
+			'customer_address'      => $customer->getHomeAddress(),
+			'customer_postal'       => $customer->getHomePostalCode(),
+			'product_serial_number' => $psn,
+			'model_name'            => $product->getName(),
+			'model_number'          => $product->getModelNumber(),
+			'brand'                 => empty($product->getBrand()) ? '' : $product->getBrand()->getName(),
+			'category'              => empty($product->getCategory()) ? '' : $product->getCategory()->getName(),
 			
 			'id_image'                 => $imageId,
 			'admin_format'             => $afUrl,
