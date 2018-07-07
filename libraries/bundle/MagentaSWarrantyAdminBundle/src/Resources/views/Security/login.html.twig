@@ -24,7 +24,19 @@
                         <div class="alert alert-danger">{{ error.message|trans({}, 'MagentaSWarrantyAdmin') }}</div>
                     {% endif %}
                 {% endblock %}
-                <p class="login-box-msg">{{ 'security.login.title_user_authentication'|trans({}, 'MagentaSWarrantyAdmin') }}</p>
+
+                <p class="login-box-msg">
+                    {% spaceless %}
+                        {% if true %}
+                            <a class="logo" href="{{ path('sonata_admin_dashboard') }}">
+                                <img src="{{ 4|privateMediumUrl }}" width="150px"/>
+                            </a>
+                        {% else %}
+                            {{ 'security.login.title_user_authentication'|trans({}, 'MagentaSWarrantyAdmin') }}
+                        {% endif %}
+                    {% endspaceless %}
+                </p>
+
                 <form action="{{ path("magenta_user_security_check") }}" method="post" role="form">
                     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
 
