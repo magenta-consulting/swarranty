@@ -130,9 +130,9 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 			
 			$source = $this->admin->getDataSourceIterator();
 			$cases  = [];
-			/** @var WarrantyCase $case */
+			/** @var array of WarrantyCase $case */
 			foreach($source as $case) {
-				$cases[] = $case->getId();
+				$cases[] = $case['id'];
 			}
 			
 			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [
