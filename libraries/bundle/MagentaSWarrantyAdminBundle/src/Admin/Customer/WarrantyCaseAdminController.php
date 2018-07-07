@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseCRUDAdminController;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
@@ -125,15 +126,19 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //			$response->headers->set('Cache-Control', 'maxage=1');
 //
 //			$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
-			$d              = new \DateTime();
+			$d = new \DateTime();
+			
+			$source = $this->admin->getDataSourceIterator();
+			$cases  = [];
+			/** @var WarrantyCase $case */
+			foreach($source as $case) {
+				$cases[] = $case->getId();
+			}
+			
 			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [
-				'name'  => 'service_sheets_' . $d->format('d-m-Y'),
-				'cases' => [
-					1,
-					2
-				]
+				'cases' => $cases
 			], RouterInterface::ABSOLUTE_URL);
-			$response       = new RedirectResponse($c->getParameter('PDF_API_BASE_URL') . $c->getParameter('PDF_DOWNLOAD_PREFIX') . $htmlDisplayUrl);
+			$response       = new RedirectResponse($c->getParameter('PDF_API_BASE_URL') . $c->getParameter('PDF_DOWNLOAD_PREFIX') . str_replace('?', '%3F', $htmlDisplayUrl) . '/' . 'service-sheets_' . $d->format('d-m-Y'));
 			
 			return $response;
 		}
