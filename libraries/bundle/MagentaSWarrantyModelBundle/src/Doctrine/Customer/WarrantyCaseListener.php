@@ -36,7 +36,7 @@ class WarrantyCaseListener {
 		$manager = $event->getObjectManager();
 		$uow     = $manager->getUnitOfWork();
 		$w       = $case->getWarranty();
-		$user    = $this->container->get(UserService::class)->getUser();
+		$user    = $this->container->get(UserService::class)->getUser(false);
 		
 		$apmts         = $case->getAppointments();
 		$asgnee        = $case->getAssignee();
@@ -68,7 +68,7 @@ class WarrantyCaseListener {
 					$asgnee->addAppointment($apmt);
 				}
 				
-				if( ! empty($person = $user->getPerson())) {
+				if( ! empty($user) && ! empty($person = $user->getPerson())) {
 					$member = $person->getMemberOfOrganisation($case->getWarranty()->getOrganisation());
 					if( ! empty($empty)) {
 						$apmt->setCreator($member);

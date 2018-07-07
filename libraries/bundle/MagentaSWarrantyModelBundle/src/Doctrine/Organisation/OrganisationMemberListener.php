@@ -62,7 +62,6 @@ class OrganisationMemberListener {
 		$personRepo = $registry->getRepository(Person::class);
 		
 		$uow  = $manager->getUnitOfWork();
-		$user = $this->container->get(UserService::class)->getUser();
 		/** @var Person $person */
 		$person = $member->getPerson();
 		$email  = $member->getEmail();
