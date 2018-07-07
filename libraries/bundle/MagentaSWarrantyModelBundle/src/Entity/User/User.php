@@ -105,7 +105,7 @@ class User extends AbstractUser {
 			return true;
 		}
 		if($permission === 'EXPORT') {
-//			return true;
+			return false;
 		}
 		
 		if($object instanceof DecisionMakingInterface) {

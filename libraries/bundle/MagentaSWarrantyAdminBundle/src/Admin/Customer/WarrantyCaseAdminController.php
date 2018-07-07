@@ -43,7 +43,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //		$this->admin->checkAccess('export');
 		$format = $request->get('format');
 		
-		$adminExporter = $this->get('sonata.admin.admin_exporter');
+		$adminExporter        = $this->get('sonata.admin.admin_exporter');
 		$allowedExportFormats = $adminExporter->getAvailableFormats($this->admin);
 //		$filename             = $adminExporter->getExportFilename($this->admin, $format);
 //		$exporter             = $this->get('sonata.exporter.exporter');
@@ -125,7 +125,9 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //			$response->headers->set('Cache-Control', 'maxage=1');
 //
 //			$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+			$d              = new \DateTime();
 			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [
+				'name'  => 'service_sheets_' . $d->format('d-m-Y'),
 				'cases' => [
 					1,
 					2
