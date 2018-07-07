@@ -314,6 +314,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
+			->add('number', null, [ 'label' => 'form.label_number' ])
 			->add('priority', 'choice', [
 				'editable' => true,
 				'label'    => 'form.label_priority',
@@ -406,7 +407,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			)
 		);
 		$formMapper->end();
-		
 		
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {

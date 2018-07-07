@@ -139,6 +139,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_number: Number
     label_product_serial_number: Product Serial Number
     label_description: Description
     label_visited_at: Visit Time
@@ -157,7 +158,7 @@ form:
     label_warranty: Warranty
     label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
-    label_full_text_search: Search All Fields
+    label_full_text_search: Search
     label_near_expiry_period: Near-Expiry Period (days)
     label_field_requirements: Required fields
     group_name: 'Group name'

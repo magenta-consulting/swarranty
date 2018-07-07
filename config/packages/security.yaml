@@ -21,6 +21,7 @@ security:
                 check_path:     /admin/login_check
                 failure_path:   null
                 default_target_path: /admin/dashboard
+                success_handler: magenta_admin_login_success_handler
             logout:
                 path:           /admin/logout
                 success_handler: magenta_admin_logout_handler
