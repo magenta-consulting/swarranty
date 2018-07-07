@@ -62,8 +62,8 @@ EOT
 						$object->generateSearchText();
 						$object->generateFullText();
 						$em->persist($object);
-						$output->writeln('Flushing object ' . $object->getFullText());
-						$em->flush($object);
+//						$output->writeln('Flushing object ' . $object->getFullText());
+//						$em->flush($object);
 						
 					}
 				}
