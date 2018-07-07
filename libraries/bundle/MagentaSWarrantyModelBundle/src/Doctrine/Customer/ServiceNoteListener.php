@@ -9,6 +9,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -66,6 +67,14 @@ class ServiceNoteListener {
 	
 	public function prePersistHandler(ServiceNote $note, LifecycleEventArgs $event) {
 		$this->updateInfo($note, $event);
+		$c = $note->getCase();
+		if($c->getStatus() === WarrantyCase::STATUS_ASSIGNED) {
+			$c->markStatusAs(WarrantyCase::STATUS_RESPONDED);
+		} elseif($c->getStatus() === WarrantyCase::STATUS_NEW) {
+			if( ! empty($c->getAssignee())) {
+				$c->markStatusAs(WarrantyCase::STATUS_RESPONDED);
+			}
+		}
 	}
 	
 	public function postPersistHandler(ServiceNote $note, LifecycleEventArgs $event) {

@@ -15,8 +15,34 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+
+        {# SKIN #}
+
+        .skin-red-light .main-header .navbar .nav > li > a:hover {
+            color: #f6f6f6;
+            background-color: #dd4b39;
+        }
+
+        .nav > li > a:hover, .nav > li > a:active, .nav > li > a:focus, .skin-red-light .main-header .navbar .sidebar-toggle:hover, .skin-red-light .main-header li.user-header {
+            background-color: #dd4b39;
+        }
+
+        .skin-red-light .main-header .logo, .skin-red-light .main-header .navbar, .skin-red-light .main-header .navbar .nav > li > a, .skin-red-light .main-header .navbar .nav > li > a, .skin-red-light .breadcrumb > .active, .skin-red-light .main-header .navbar .sidebar-toggle, .skin-red-light .main-header .navbar .nav > li > a:active, .skin-red-light .main-header .navbar .nav > li > a:focus, .skin-red-light .main-header .navbar .nav .open > a, .skin-red-light .main-header .navbar .nav .open > a:hover, .skin-red-light .main-header .navbar .nav .open > a:focus, .skin-red-light .main-header .navbar .nav > .active > a {
+            color: #454545;
+        }
+
+        .skin-red-light .main-header .logo, .skin-red-light .main-header .navbar, .skin-red-light .main-header .logo, .skin-red-light .main-header .logo:hover {
+            background-color: #ffffff;
+        }
+
+        {# END SKIN #}
+
         .sonata-ba-form form .row .col-md-12 .row {
             /*display: flex;*/
+        }
+
+        .logo img {
+            max-width: 200px;
         }
 
         .decision-status {

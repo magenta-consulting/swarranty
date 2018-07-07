@@ -1,0 +1,23 @@
+{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .dropdown.sonata-actions, .control-label i {
+            display: none;
+        }
+
+        /* Hide the List Filter Button */
+        form.sonata-filter-form .row .col-sm-3.text-center {
+            display: none;
+        }
+
+        .box-footer .pull-left {
+            display: none;
+        }
+    </style>
+{% endblock %}
+{% block list_footer %}
+    <div class="magenta-admin-footer">
+        {{ parent() }}
+    </div>
+{% endblock %}

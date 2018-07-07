@@ -12,11 +12,13 @@ use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\WarrantyModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -84,18 +86,31 @@ class WarrantyAdmin extends BaseAdmin {
 		return $object;
 	}
 	
-	/**
-	 * @param string   $name
-	 * @param Warranty $object
-	 */
-	public function isGranted($name, $object = null) {
-		return parent::isGranted($name, $object);
-	}
-	
 	public function toString($object) {
 		return $object instanceof Warranty
 			? $object->getCustomer()->getName() . ' - ' . $object->getProduct()->getName()
 			: 'Warranty'; // shown in the breadcrumb on the create view
+	}
+	
+	protected function getAccess() {
+		return array_merge(parent::getAccess(), [
+			'create-case' => 'CREATE_CASE',
+			'list-cases'  => 'LIST_CASES'
+		]);
+	}
+	
+	public function isGranted(
+		$name, $object = null
+	) {
+		if(in_array($name, [ WarrantyModule::PERMISSION_CREATE_CASE, WarrantyModule::PERMISSION_LIST_CASES ])) {
+			$org = $this->getCurrentOrganisation();
+			$sys = $org->getSystem();
+			$mod = $sys->getModuleByCode(WarrantyModule::MODULE_CODE);
+			
+			return $mod->isUserGranted($this->getLoggedInUser(), $name, $object);
+		}
+		
+		return parent::isGranted($name, $object);
 	}
 	
 	public function createQuery($context = 'list') {
@@ -152,6 +167,7 @@ class WarrantyAdmin extends BaseAdmin {
 			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
 		}
 		$sql = $qb->getQuery()->getSQL();
+		
 		return $query;
 	}
 	
@@ -192,8 +208,8 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
 			->add('purchaseDate', null, [
-				'label'    => 'form.label_purchase_date',
-				'format'   => 'd - m - Y'
+				'label'  => 'form.label_purchase_date',
+				'format' => 'd - m - Y'
 			])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
 			->add('product.warrantyPeriod', null, [
@@ -233,13 +249,13 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case'              => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
-					'case_add'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
-					'transfer_ownership'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__transfer_ownership.html.twig' ),
+					'review_submission'  => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
+					'case'               => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
+					'case_add'           => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
+					'transfer_ownership' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__transfer_ownership.html.twig' ),
 					
-					'edit'              => array(),
-					'delete'            => array(),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -358,7 +374,7 @@ class WarrantyAdmin extends BaseAdmin {
 		]);
 		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
-			'required' => true,
+			'required'              => true,
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
 			'datepicker_use_button' => false,

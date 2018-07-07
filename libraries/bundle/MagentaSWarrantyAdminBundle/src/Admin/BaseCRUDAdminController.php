@@ -119,8 +119,10 @@ class BaseCRUDAdminController extends CRUDController {
 			$decision = $this->getDecision($action);
 			
 			$object->setDecisionRemarks($request->get('decision-remarks'));
-			$object->makeDecision($decision);
-			$this->admin->update($object);
+			if( ! empty($decision)) {
+				$object->makeDecision($decision);
+				$this->admin->update($object);
+			}
 		}
 		
 		if( ! empty($res = $this->preRenderDecision($action, $object))) {

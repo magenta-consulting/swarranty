@@ -1,5 +1,8 @@
 <?php
+
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl;
+
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 interface ACModuleInterface {
 	
@@ -8,4 +11,8 @@ interface ACModuleInterface {
 	public function getModuleCode(): string;
 	
 	public function getSupportedModuleActions(): array;
+	
+	public function isClassSupported(string $class): bool;
+	
+	public function isUserGranted(User $user, $permission, $object): ?bool;
 }

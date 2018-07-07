@@ -5,8 +5,11 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\ThingChildInterface;
 
@@ -54,45 +57,65 @@ class User extends AbstractUser {
 		return strtoupper($code);
 	}
 	
-	public function isGranted($action = 'ALL', $object = null, $class = null) {
+	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null) {
+		if( ! empty($member)) {
+			/** @var Organisation $org */
+			$org    = $member->getOrganization();
+			$system = $org->getSystem();
+			
+			$modules = $system->getModules();
+			
+			/** @var SystemModule $module */
+			foreach($modules as $module) {
+				if($module->isUserGranted($this, $permission, $object)) {
+					return true;
+				}
+			}
+		}
+		
 		switch($class) {
 			case Organisation::class:
 				return $this->isAdmin();
 				break;
 		}
-		if($object instanceof Thing) {
 		
+		if($object instanceof Thing) {
+			$org = $object->getOrganisation();
+			if($this->adminOrganisation === $org) {
+				return true;
+			}
 		} elseif($object instanceof ThingChildInterface) {
 		
 		}
 		
-		$action = strtoupper($action);
-		if($action === 'LIST') {
+		$permission = strtoupper($permission);
+		if($permission === 'LIST') {
 			return true;
 		}
-		if($action === 'DELETE') {
+		if($permission === 'DELETE') {
 			return true;
 		}
-		if($action === 'EDIT') {
+		if($permission === 'EDIT') {
 			return true;
 		}
-		if($action === 'CREATE') {
+		if($permission === 'CREATE') {
 			return true;
 		}
-		if($action === 'VIEW') {
+		if($permission === 'VIEW') {
 			return true;
 		}
-		if($action === 'EXPORT') {
+		if($permission === 'EXPORT') {
 //			return true;
 		}
+		
 		if($object instanceof DecisionMakingInterface) {
-			if($action === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
+			if($permission === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
 				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
-			} elseif($action === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
+			} elseif($permission === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
 //				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
 				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
 			}
-			if(in_array($action, [
+			if(in_array($permission, [
 				'DECIDE',
 				'DECIDE_ALL',
 				'DECISION_APPROVE',

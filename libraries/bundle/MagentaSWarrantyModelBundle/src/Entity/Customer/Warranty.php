@@ -94,9 +94,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		switch($status) {
 			case DecisionMakingInterface::STATUS_NEW:
 				$this->new      = true;
-				$this->enabled  = false;
 				$this->approved = null;
 				$this->rejected = null;
+				$this->enabled  = false;
 				break;
 			case DecisionMakingInterface::STATUS_APPROVED:
 				$this->new      = false;

@@ -1,4 +1,5 @@
-{% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
+{% extends '@MagentaSWarrantyAdmin/CRUD/list.html.twig' %}
+
 {% block list_header %}
     <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New</a>
