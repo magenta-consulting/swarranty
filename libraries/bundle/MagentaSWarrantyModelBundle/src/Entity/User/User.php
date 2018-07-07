@@ -58,6 +58,10 @@ class User extends AbstractUser {
 	}
 	
 	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null) {
+		if($permission === 'EXPORT') {
+			return false;
+		}
+		
 		if( ! empty($member)) {
 			/** @var Organisation $org */
 			$org    = $member->getOrganization();
@@ -103,9 +107,6 @@ class User extends AbstractUser {
 		}
 		if($permission === 'VIEW') {
 			return true;
-		}
-		if($permission === 'EXPORT') {
-			return false;
 		}
 		
 		if($object instanceof DecisionMakingInterface) {
