@@ -2,6 +2,12 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        /* export button */
+        form button.btn.btn-default.dropdown-toggle {
+            display: none;
+        }
+
+        /* end export btn */
         nav .nav.navbar-right.btn-group {
             display: none;
         }
@@ -15,13 +21,13 @@
             display: none;
         }
 
-        .box-footer .pull-left .checkbox{
+        .box-footer .pull-left .checkbox {
             display: none;
         }
     </style>
 {% endblock %}
-{% block list_footer %}
-    <div class="magenta-admin-footer">
-        {{ parent() }}
-    </div>
-{% endblock %}
+{#{% block list_footer %}#}
+    {#<div class="magenta-admin-footer">#}
+        {#{{ parent() }}#}
+    {#</div>#}
+{#{% endblock %}#}

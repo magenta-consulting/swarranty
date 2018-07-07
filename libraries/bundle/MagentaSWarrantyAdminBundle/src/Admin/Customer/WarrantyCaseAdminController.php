@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\FormView;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,6 +34,11 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 	 * @throws \RuntimeException     If the export format is invalid
 	 */
 	public function exportAction(Request $request) {
+		/**
+		 * @var ContainerInterface $c
+		 */
+		$c = $this->container;
+
 //		$this->admin->checkAccess('export');
 		$format = $request->get('format');
 		
@@ -118,7 +124,8 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //			$response->headers->set('Cache-Control', 'maxage=1');
 //
 //			$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
-			$response = new Response('<h1>anh yeu em Hoang Anh a</h1>');
+			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [ 'cases' => [ 1, 2 ] ]);
+			$response       = new RedirectResponse($c->getParameter('PDF_API_BASE_URL') . $c->getParameter('PDF_DOWNLOAD_PREFIX') . $htmlDisplayUrl);
 			
 			return $response;
 		}

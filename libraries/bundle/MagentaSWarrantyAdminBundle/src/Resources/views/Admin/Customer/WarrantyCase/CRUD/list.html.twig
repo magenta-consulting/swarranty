@@ -14,7 +14,7 @@
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
 
-    <a href="#"
-       class="list-action btn btn-primary">Generate Service Sheets</a>
-
+    <a href="{{ admin.generateUrl('export', admin.modelmanager.paginationparameters(admin.datagrid, 0) + {'format' : 'html'}) }}"
+       class="list-action btn btn-primary"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+        Generate Service Sheets</a>
 {% endblock %}
