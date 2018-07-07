@@ -62,6 +62,9 @@ EOT
 						$object->generateSearchText();
 						$object->generateFullText();
 						$em->persist($object);
+						$output->writeln('Flushing object ' . $object->getFullText());
+						$em->flush($object);
+						
 					}
 				}
 //				if($class === CaseAppointment::class) {
@@ -80,7 +83,7 @@ EOT
 				$output->writeln($class . ' is Abstract');
 			}
 		}
-		$output->writeln('Flushing data...');
+		$output->writeln('Flushing ALL data...');
 		$em->flush();
 		$output->writeln('DONE');
 	}
