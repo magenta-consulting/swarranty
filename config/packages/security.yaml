@@ -23,6 +23,7 @@ security:
                 default_target_path: /admin/dashboard
             logout:
                 path:           /admin/logout
+                success_handler: magenta_admin_logout_handler
             anonymous:          true
             switch_user:        true
 
