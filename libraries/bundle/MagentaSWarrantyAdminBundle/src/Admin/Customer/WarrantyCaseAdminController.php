@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyPath;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
@@ -42,7 +43,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //		$this->admin->checkAccess('export');
 		$format = $request->get('format');
 		
-		$adminExporter        = $this->get('sonata.admin.admin_exporter');
+		$adminExporter = $this->get('sonata.admin.admin_exporter');
 		$allowedExportFormats = $adminExporter->getAvailableFormats($this->admin);
 //		$filename             = $adminExporter->getExportFilename($this->admin, $format);
 //		$exporter             = $this->get('sonata.exporter.exporter');
@@ -124,7 +125,12 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 //			$response->headers->set('Cache-Control', 'maxage=1');
 //
 //			$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
-			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [ 'cases' => [ 1, 2 ] ]);
+			$htmlDisplayUrl = $c->get('router')->generate('service_sheet', [
+				'cases' => [
+					1,
+					2
+				]
+			], RouterInterface::ABSOLUTE_URL);
 			$response       = new RedirectResponse($c->getParameter('PDF_API_BASE_URL') . $c->getParameter('PDF_DOWNLOAD_PREFIX') . $htmlDisplayUrl);
 			
 			return $response;
