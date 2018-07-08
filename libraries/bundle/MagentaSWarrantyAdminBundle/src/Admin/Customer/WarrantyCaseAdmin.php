@@ -483,7 +483,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				$formMapper->end();
 
 				$formMapper
-					->with('form_group.customer_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
+					->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
 				$formMapper->add('warranty.customer.name', ProductDetailType::class, [
 					'product_property' => 'warranty',
 					'required'         => false,
