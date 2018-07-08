@@ -4,5 +4,7 @@ dashboard:
     system: System Configuration
 message_delete_confirmation: Are you sure you want to delete "%object%" ?
 
+link_action_cancel: Cancel
+
 export_format_pdf: PDF
 export_format_html: HTML
