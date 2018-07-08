@@ -411,32 +411,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {
 				$formMapper
-					->with('form_group.selected_warranty', [ 'class' => 'col-md-6' ]);
-
-//				$formMapper
-//					->with('form_group.select_warranty', [ 'class' => 'col-md-12' ]);
-				$formMapper->add('warranty', ModelAutocompleteType::class, [
-					'required'           => true,
-					'label'              => false,
-					'route'              => [
-						'name'       => 'sonata_admin_retrieve_autocomplete_items',
-						'parameters' => $this->getAutocompleteRouteParameters()
-					],
-//			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
-					'property'           => 'fullText',
-//			'btn_add'  => false,
-					'to_string_callback' => function(Warranty $entity) {
-//				$entity->generateSearchText();
-						
-						return $entity->getSearchText();
-					},
-					'callback'           => function(WarrantyAdmin $admin, $property, $field) {
-						
-						return true;
-					},
-				]);
-				$formMapper->end();
-				$formMapper
 					->with('form_group.product_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
 				$formMapper->add('warranty.product.image', ProductDetailType::class, [
 					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
@@ -480,6 +454,34 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'class'            => null
 				]);
 				$formMapper->end();
+				
+				$formMapper
+					->with('form_group.selected_warranty', [ 'class' => 'col-md-6' ]);
+
+//				$formMapper
+//					->with('form_group.select_warranty', [ 'class' => 'col-md-12' ]);
+				$formMapper->add('warranty', ModelAutocompleteType::class, [
+					'required'           => true,
+					'label'              => false,
+					'route'              => [
+						'name'       => 'sonata_admin_retrieve_autocomplete_items',
+						'parameters' => $this->getAutocompleteRouteParameters()
+					],
+//			'query'    => $this->getFilterByOrganisationQueryForModel(Product::class),
+					'property'           => 'fullText',
+//			'btn_add'  => false,
+					'to_string_callback' => function(Warranty $entity) {
+//				$entity->generateSearchText();
+						
+						return $entity->getSearchText();
+					},
+					'callback'           => function(WarrantyAdmin $admin, $property, $field) {
+						
+						return true;
+					},
+				]);
+				$formMapper->end();
+
 				$formMapper
 					->with('form_group.customer_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
 				$formMapper->add('warranty.customer.name', ProductDetailType::class, [
