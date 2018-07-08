@@ -411,7 +411,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {
 				$formMapper
-					->with('form_group.product_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
+					->with('form_group.product_details', [ 'class' => 'col-md-6' ]);
 				$formMapper->add('warranty.product.image', ProductDetailType::class, [
 					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
 					'product_property' => 'warranty',
@@ -532,7 +532,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				$formMapper->end();
 				
 				$formMapper
-					->with('form_group.case_details', [ 'class' => 'col-md-6 col-md-offset-6' ]);
+					->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
 				
 				$formMapper
 					->add('description', CKEditorType::class, [
@@ -548,7 +548,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		
 		$formMapper
-			->with('form_group.case_assignment', [ 'class' => 'col-md-6 col-md-offset-6' ]);
+			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceZone', ModelType::class, [
 			'btn_add'     => false,
 			'placeholder' => 'Select a Zone',
