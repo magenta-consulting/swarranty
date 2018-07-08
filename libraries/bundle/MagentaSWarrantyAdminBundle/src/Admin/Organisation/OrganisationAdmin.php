@@ -154,8 +154,12 @@ class OrganisationAdmin extends BaseAdmin {
 				'choices'            => [ 'form_field.label_registration_fields' => Organisation::FIELD_REGISTRATION ],
 				'translation_domain' => $this->translationDomain
 			));
-		$formMapper->add('tos', CKEditorType::class);
-		$formMapper->add('dataPolicy', CKEditorType::class);
+		$formMapper->add('tos', CKEditorType::class,[
+			'config' => array('toolbar' => 'full'),
+		]);
+		$formMapper->add('dataPolicy', CKEditorType::class,[
+			'config' => array('toolbar' => 'full'),
+		]);
 //			->add('adminFamilyName')
 //			->add('adminGivenName')
 //			->add('adminPassword', TextType::class, [
