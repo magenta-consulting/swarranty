@@ -4,13 +4,14 @@ import { Product } from "./product";
 import { Appointment } from "./appointment";
 import { ServiceNote } from "./service-note";
 import { ServiceSheet } from "./service-sheet";
+import {ServiceZone} from "./service-zone";
 
 export class Case {
     _id: string;
     id: number;
     children: Case[];
     warranty: Warranty;
-    serviceZone: {};
+    serviceZone: ServiceZone;
     createdAt: Date;
     appointmentAt: Date;
     completed: boolean;

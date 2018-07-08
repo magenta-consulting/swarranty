@@ -27,8 +27,8 @@ class WarrantyCaseListener {
 	
 	private function updateInfAfterOperation(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
-
-//		$manager->flush();
+		$manager = $event->getEntityManager();
+		$manager->flush();
 	}
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -79,6 +79,7 @@ class WarrantyCaseListener {
 				}
 				
 				$manager->persist($apmt);
+//				$uow->recomputeSingleEntityChangeSet($case);
 			}
 		} else {
 			if(empty($case->isAssigned())) {
@@ -121,8 +122,12 @@ class WarrantyCaseListener {
 		
 	}
 	
+	public function updateInfBeforeOperation(WarrantyCase $case, LifecycleEventArgs $event) {
+	
+	}
+	
 	public function preUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
-		$this->updateInfo($case, $event);
+		$this->updateInfBeforeOperation($case, $event);
 //		if( ! empty($case->getRegNo())) {
 //			$case->setRegNo(strtoupper($case->getRegNo()));
 //		}
@@ -149,7 +154,7 @@ class WarrantyCaseListener {
 	}
 	
 	public function prePersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
-		$this->updateInfo($case, $event);
+		$this->updateInfBeforeOperation($case, $event);
 	}
 	
 	public function postPersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {

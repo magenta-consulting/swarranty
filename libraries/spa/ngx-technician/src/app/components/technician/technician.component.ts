@@ -53,6 +53,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             this.cases.forEach(element => {
                 if (element.id == this.id) {
                     this.case = element;
+                    console.log(element);
                 }
             });
             this.findCurrentAppointment();

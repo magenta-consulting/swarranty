@@ -296,7 +296,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 		/** @var CaseAppointment $subject */
 		$subject = $this->getSubject();
 		
-		if(empty($subject->getServiceNote())) {
+		if( ! empty($subject) && empty($subject->getServiceNote())) {
 			$subject->setServiceNote($sn = new ServiceNote());
 			$sn->setAppointment($subject);
 		}
@@ -315,7 +315,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 			$expr->like('entries.permission', $expr->literal(ACEntry::PERMISSION_RECEIVE)),
 			$expr->isInstanceOf('module', CaseModule::class)
 		));
-		
+
 //		$formMapper
 //			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
@@ -325,7 +325,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'btn_add'  => false,
 				'query'    => $canReceiveCaseMemberQuery
 			])
-			->add('serviceNote.description',null,['label'=>'form.label_service_note'])
+			->add('serviceNote.description', null, [ 'label' => 'form.label_service_note' ])
 			->add('appointmentAt', DateTimePickerType::class, [
 				'required'              => false,
 				'format'                => 'dd-MM-yyyy, H:m',
