@@ -390,6 +390,51 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$c = $this->getConfigurationPool()->getContainer();
 		
 		$formMapper
+			->with('form_group.product_details', [ 'class' => 'col-md-6' ]);
+		$formMapper->add('warranty.product.image', ProductDetailType::class, [
+			'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
+			'product_property' => 'warranty',
+			'required'         => false,
+			'label'            => 'form.label_product_image',
+			'appended_value'   => 'months',
+			'type'             => 'image',
+			'class'            => Media::class
+		]);
+		$formMapper->add('warranty.product.brand.name', ProductDetailType::class, [
+			'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
+			'product_property' => 'warranty',
+			'required'         => false,
+			'label'            => 'form.label_brand',
+			'type'             => 'brand',
+			'class'            => null
+		]);
+		$formMapper->add('warranty.product.name', ProductDetailType::class, [
+			'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
+			'product_property' => 'warranty',
+			'required'         => false,
+			'label'            => 'form.label_model_name',
+			'type'             => 'model_name',
+			'class'            => null
+		]);
+		$formMapper->add('warranty.product.modelNumber', ProductDetailType::class, [
+			'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
+			'product_property' => 'warranty',
+			'required'         => false,
+			'label'            => 'form.label_model_number',
+			'type'             => 'model_number',
+			'class'            => null
+		]);
+		$formMapper->add('warranty.productSerialNumber', ProductDetailType::class, [
+			'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
+			'product_property' => 'warranty',
+			'required'         => false,
+			'label'            => 'form.label_product_serial_number',
+			'type'             => 'product_serial_number',
+			'class'            => null
+		]);
+		$formMapper->end();
+		
+		$formMapper
 			->with('form_group.service_images', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceSheets', CollectionType::class,
 			array(
@@ -410,50 +455,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {
-				$formMapper
-					->with('form_group.product_details', [ 'class' => 'col-md-6' ]);
-				$formMapper->add('warranty.product.image', ProductDetailType::class, [
-					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
-					'product_property' => 'warranty',
-					'required'         => false,
-					'label'            => 'form.label_product_image',
-					'appended_value'   => 'months',
-					'type'             => 'image',
-					'class'            => Media::class
-				]);
-				$formMapper->add('warranty.product.brand.name', ProductDetailType::class, [
-					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
-					'product_property' => 'warranty',
-					'required'         => false,
-					'label'            => 'form.label_brand',
-					'type'             => 'brand',
-					'class'            => null
-				]);
-				$formMapper->add('warranty.product.name', ProductDetailType::class, [
-					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
-					'product_property' => 'warranty',
-					'required'         => false,
-					'label'            => 'form.label_model_name',
-					'type'             => 'model_name',
-					'class'            => null
-				]);
-				$formMapper->add('warranty.product.modelNumber', ProductDetailType::class, [
-					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
-					'product_property' => 'warranty',
-					'required'         => false,
-					'label'            => 'form.label_model_number',
-					'type'             => 'model_number',
-					'class'            => null
-				]);
-				$formMapper->add('warranty.productSerialNumber', ProductDetailType::class, [
-					'detail_route'     => 'admin_magenta_swarrantymodel_customer_warranty_detail',
-					'product_property' => 'warranty',
-					'required'         => false,
-					'label'            => 'form.label_product_serial_number',
-					'type'             => 'product_serial_number',
-					'class'            => null
-				]);
-				$formMapper->end();
 				
 				$formMapper
 					->with('form_group.selected_warranty', [ 'class' => 'col-md-6' ]);
