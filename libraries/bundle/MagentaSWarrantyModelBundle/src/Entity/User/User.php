@@ -62,6 +62,25 @@ class User extends AbstractUser {
 			return false;
 		}
 		
+		if($object instanceof DecisionMakingInterface) {
+			if($permission === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
+				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
+			} elseif($permission === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
+//				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
+			}
+			if(in_array($permission, [
+				'DECIDE',
+				'DECIDE_ALL',
+				'DECISION_APPROVE',
+				'DECISION_REJECT',
+				'DECISION_' . WarrantyCase::DECISION_CLOSE,
+				'DECISION_' . WarrantyCase::DECISION_REOPEN
+			])) {
+				return true;
+			}
+		}
+		
 		if( ! empty($member)) {
 			/** @var Organisation $org */
 			$org    = $member->getOrganization();
@@ -107,25 +126,6 @@ class User extends AbstractUser {
 		}
 		if($permission === 'VIEW') {
 			return true;
-		}
-		
-		if($object instanceof DecisionMakingInterface) {
-			if($permission === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
-				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
-			} elseif($permission === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
-//				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
-				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
-			}
-			if(in_array($permission, [
-				'DECIDE',
-				'DECIDE_ALL',
-				'DECISION_APPROVE',
-				'DECISION_REJECT',
-				'DECISION_' . WarrantyCase::DECISION_CLOSE,
-				'DECISION_' . WarrantyCase::DECISION_REOPEN
-			])) {
-				return true;
-			}
 		}
 		
 		return false;
