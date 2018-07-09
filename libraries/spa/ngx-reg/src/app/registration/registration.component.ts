@@ -148,7 +148,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     rw.product = w.selectedProduct.id;
                     rw.purchaseDate = w.purchaseDate;
                     rw.productSerialNumber = w.productSerialNumber;
-                    rw.dealerName = w.selectedDealer;
+                    rw.dealerName = w.selectedDealer.id;
                     reg.warranties.push(rw);
                 }
                 this.registrationSerice.postRegistration(reg).subscribe(reg => {
