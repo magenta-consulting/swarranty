@@ -107,7 +107,7 @@ class WarrantyAdmin extends BaseAdmin {
 			$sys = $org->getSystem();
 			$mod = $sys->getModuleByCode(WarrantyModule::MODULE_CODE);
 			
-			return $mod->isUserGranted($this->getLoggedInUser(), $name, $object);
+			return $mod->isUserGranted($this->getCurrentOrganisationMember(), $name, $object, $this->getClass());
 		}
 		
 		return parent::isGranted($name, $object);
