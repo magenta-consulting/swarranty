@@ -84,7 +84,13 @@ class User extends AbstractUser {
 			}
 		}
 		if( ! empty($org)) {
-			if($this->getAdminOrganisation() === $org) {
+			switch($class) {
+				case Organisation::class:
+					return $this->isAdmin();
+					break;
+			}
+			
+			if($this->adminOrganisation === $org) {
 				return true;
 			}
 		}
@@ -118,21 +124,6 @@ class User extends AbstractUser {
 					return true;
 				}
 			}
-		}
-		
-		switch($class) {
-			case Organisation::class:
-				return $this->isAdmin();
-				break;
-		}
-		
-		if($object instanceof Thing) {
-			$org = $object->getOrganisation();
-			if($this->adminOrganisation === $org) {
-				return true;
-			}
-		} elseif($object instanceof ThingChildInterface) {
-		
 		}
 		
 		return false;
