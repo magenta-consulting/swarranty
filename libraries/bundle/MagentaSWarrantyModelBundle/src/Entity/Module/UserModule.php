@@ -16,7 +16,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  */
 class UserModule extends SystemModule implements ACModuleInterface {
 	
-	public function isUserGranted(OrganisationMember $member, $permission, $object, $class): ?bool {
+	public function isUserGranted(OrganisationMember $member= null, $permission, $object, $class): ?bool {
 		if( ! $this->isClassSupported($class)) {
 			return null;
 		}

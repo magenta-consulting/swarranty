@@ -168,7 +168,8 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	protected function getCurrentOrganisationMember($required = false) {
-		$person = $this->getLoggedInUser()->getPerson();
+		$user = $this->getLoggedInUser();
+		$person = $user->getPerson();
 		if(empty($person)) {
 			return null;
 		}
@@ -356,7 +357,7 @@ class BaseAdmin extends AbstractAdmin {
 			return $isGranted;
 		}
 		
-		return $user->isGranted($name, $object, $this->getClass(), $member, $org);
+		return $user->isGrantgetCurrentOrganisationMembered($name, $object, $this->getClass(), $member, $org);
 
 //		return parent::isGranted($name, $object);
 	}

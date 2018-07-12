@@ -20,7 +20,7 @@ class WarrantyModule extends SystemModule implements ACModuleInterface {
 	const PERMISSION_CREATE_CASE = ACEntry::PERMISSION_CREATE . '_CASE';
 	const PERMISSION_LIST_CASES = ACEntry::PERMISSION_LIST . '_CASES';
 	
-	public function isUserGranted(OrganisationMember $member, $permission, $object, $class): ?bool {
+	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {
 		/** @var Warranty $w */
 		$w = $object;
 		if( ! $this->isClassSupported($class)) {

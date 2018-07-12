@@ -32,7 +32,11 @@ abstract class SystemModule implements ACModuleInterface {
 		$this->acEntries = new ArrayCollection();
 	}
 	
-	public function isUserGranted(OrganisationMember $member, $permission, $object, $class): ?bool {
+	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {
+		if(empty($member)) {
+			return false;
+		}
+		
 		return $this->isGranted($permission, $member->getRole());
 	}
 	
