@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\User;
 
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
@@ -57,7 +58,9 @@ class User extends AbstractUser {
 		return strtoupper($code);
 	}
 	
-	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null) {
+	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null, Organisation $org) {
+		$permission = strtoupper($permission);
+		
 		if($permission === 'EXPORT') {
 			return false;
 		}
@@ -80,8 +83,29 @@ class User extends AbstractUser {
 				return true;
 			}
 		}
-		
+		if( ! empty($org)) {
+			if($this->getAdminOrganisation() === $org) {
+				return true;
+			}
+		}
 		if( ! empty($member)) {
+			$_permission = $permission;
+			if($permission === 'LIST') {
+				$_permission = ACEntry::PERMISSION_READ;
+			}
+			if($permission === 'DELETE') {
+				$_permission = ACEntry::PERMISSION_DELETE;
+			}
+			if($permission === 'EDIT') {
+				$_permission = ACEntry::PERMISSION_UPDATE;
+			}
+			if($permission === 'CREATE') {
+				$_permission = ACEntry::PERMISSION_CREATE;
+			}
+			if($permission === 'VIEW') {
+				$_permission = ACEntry::PERMISSION_READ;
+			}
+			
 			/** @var Organisation $org */
 			$org    = $member->getOrganization();
 			$system = $org->getSystem();
@@ -90,7 +114,7 @@ class User extends AbstractUser {
 			
 			/** @var SystemModule $module */
 			foreach($modules as $module) {
-				if($module->isUserGranted($this, $permission, $object)) {
+				if($module->isUserGranted($member, $_permission, $object, $class)) {
 					return true;
 				}
 			}
@@ -109,23 +133,6 @@ class User extends AbstractUser {
 			}
 		} elseif($object instanceof ThingChildInterface) {
 		
-		}
-		
-		$permission = strtoupper($permission);
-		if($permission === 'LIST') {
-			return true;
-		}
-		if($permission === 'DELETE') {
-			return true;
-		}
-		if($permission === 'EDIT') {
-			return true;
-		}
-		if($permission === 'CREATE') {
-			return true;
-		}
-		if($permission === 'VIEW') {
-			return true;
 		}
 		
 		return false;

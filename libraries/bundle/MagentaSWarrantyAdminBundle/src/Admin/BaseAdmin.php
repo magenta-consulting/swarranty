@@ -344,16 +344,19 @@ class BaseAdmin extends AbstractAdmin {
 			
 		}
 		
+		$org    = $this->getCurrentOrganisation(false);
+		$member = $this->getCurrentOrganisationMember(false);
 		if(is_array($name)) {
 			$isGranted = true;
 			foreach($name as $action) {
-				$isGranted &= $user->isGranted($action, $object);
+				$_isGranted = $user->isGranted($action, $object, $this->getClass(), $member, $org);
+				$isGranted  = $isGranted && $_isGranted;
 			}
 			
 			return $isGranted;
 		}
 		
-		return $user->isGranted($name, $object, $this->getClass(), $this->getCurrentOrganisationMember(false));
+		return $user->isGranted($name, $object, $this->getClass(), $member, $org);
 
 //		return parent::isGranted($name, $object);
 	}

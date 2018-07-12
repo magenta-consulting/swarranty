@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
@@ -19,10 +20,10 @@ class WarrantyModule extends SystemModule implements ACModuleInterface {
 	const PERMISSION_CREATE_CASE = ACEntry::PERMISSION_CREATE . '_CASE';
 	const PERMISSION_LIST_CASES = ACEntry::PERMISSION_LIST . '_CASES';
 	
-	public function isUserGranted(User $user, $permission, $object): ?bool {
+	public function isUserGranted(OrganisationMember $member, $permission, $object, $class): ?bool {
 		/** @var Warranty $w */
 		$w = $object;
-		if( ! $this->isClassSupported(get_class($object))) {
+		if( ! $this->isClassSupported($class)) {
 			return null;
 		}
 		
@@ -30,7 +31,7 @@ class WarrantyModule extends SystemModule implements ACModuleInterface {
 			return $w->isEnabled();
 		}
 		
-		return true;
+		return parent::isUserGranted($member, $permission, $object, $class);
 	}
 	
 	public function isClassSupported(string $class): bool {

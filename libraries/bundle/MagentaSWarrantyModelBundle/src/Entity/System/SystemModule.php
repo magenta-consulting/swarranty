@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
  * @ORM\Entity
@@ -26,9 +28,12 @@ abstract class SystemModule implements ACModuleInterface {
 	 */
 	protected $id;
 	
-	
 	function __construct() {
 		$this->acEntries = new ArrayCollection();
+	}
+	
+	public function isUserGranted(OrganisationMember $member, $permission, $object, $class): ?bool {
+		return $this->isGranted($permission, $member->getRole());
 	}
 	
 	public function isGranted($permission, ACRole $role) {
