@@ -192,14 +192,11 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	public
 	function initiateNumber() {
 		if(empty($this->number)) {
-			$now          = new \DateTime();
-			$this->number = User::generateCharacterCode();
-			if( ! empty($this->purchaseDate)) {
-				$this->number .= '-' . $this->purchaseDate->format('my');
-			} else {
-				$this->number .= '-' . 'XXXX';
+			if( ! empty($this->id)) {
+				$now          = new \DateTime();
+				$this->number = $now->format('ym');
+				$this->number .= '-' . User::generateCharacterCode('' . $this->id);
 			}
-			$this->number .= '-' . $now->format('my');
 		}
 	}
 	

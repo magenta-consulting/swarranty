@@ -132,6 +132,12 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\WarrantyListener"
                                     event:
                                         -
+                                            type:  preFlush
+                                            method: preFlushHandler
+                                        -
+                                            type: postLoad
+                                            method: postLoadHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -
@@ -149,6 +155,7 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+
 
                         -
                             class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\Customer\\WarrantyCase"

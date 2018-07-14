@@ -3,6 +3,8 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Doctrine\Customer;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostFlushEventArgs;
+use Doctrine\ORM\Event\PreFlushEventArgs;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
@@ -101,4 +103,19 @@ class WarrantyListener {
 	public function postRemoveHandler(Warranty $warranty, LifecycleEventArgs $event) {
 	}
 	
+	public function preFlushHandler(Warranty $warranty, PreFlushEventArgs $event) {
+		$manager  = $event->getEntityManager();
+		$registry = $this->container->get('doctrine');
+		
+	}
+	
+	public function postLoadHandler(Warranty $warranty, LifecycleEventArgs $args) {
+		if(empty($warranty->getNumber())) {
+			$warranty->initiateNumber();
+			$manager = $args->getEntityManager();
+			$manager->persist($warranty);
+			$manager->flush($warranty);
+		}
+		
+	}
 }

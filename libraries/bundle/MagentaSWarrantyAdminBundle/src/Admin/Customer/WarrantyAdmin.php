@@ -59,7 +59,7 @@ class WarrantyAdmin extends BaseAdmin {
 		// reverse order (default = 'ASC')
 		'_sort_order' => 'DESC',
 		// name of the ordered field (default = the model's id field, if any)
-		'_sort_by'    => 'updatedAt',
+		'_sort_by'    => 'id',
 	);
 	
 	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
@@ -268,6 +268,7 @@ class WarrantyAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
+			->add('number', null, [ 'label' => 'form.label_number' ])
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])

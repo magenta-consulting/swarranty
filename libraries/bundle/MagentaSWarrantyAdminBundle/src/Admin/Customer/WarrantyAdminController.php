@@ -72,6 +72,14 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 			$afUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId());
 			$rfUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId(), 'reference');
 		}
+		$wp = $product->getWarrantyPeriod();
+		if(empty($wp)) {
+			$wp = '';
+		}
+		$ewp = $product->getExtendedWarrantyPeriod();
+		if(empty($ewp)) {
+			$ewp = '';
+		}
 		
 		return new JsonResponse([
 			'customer_name'  => $customer->getName(),
@@ -89,8 +97,8 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 			'id_image'                 => $imageId,
 			'admin_format'             => $afUrl,
 			'reference_format'         => $rfUrl,
-			'warranty_period'          => $product->getWarrantyPeriod(),
-			'extended_warranty_period' => $product->getExtendedWarrantyPeriod()
+			'warranty_period'          => $wp,
+			'extended_warranty_period' => $ewp
 		]);
 	}
 }

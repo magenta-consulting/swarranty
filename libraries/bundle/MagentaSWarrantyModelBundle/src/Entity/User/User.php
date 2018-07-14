@@ -58,7 +58,7 @@ class User extends AbstractUser {
 		return strtoupper($code);
 	}
 	
-	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null, Organisation $org) {
+	public function isGranted($permission = 'ALL', $object = null, $class = null, OrganisationMember $member = null, Organisation $org = null) {
 		$permission = strtoupper($permission);
 		
 		if($permission === 'EXPORT') {
