@@ -368,6 +368,12 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
+	protected $description;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
 	protected
 		$dealerName;
 	
@@ -761,5 +767,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	public function setDealerName(?string $dealerName): void {
 		$this->dealerName = $dealerName;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDescription(): ?string {
+		return $this->description;
+	}
+	
+	/**
+	 * @param null|string $description
+	 */
+	public function setDescription(?string $description): void {
+		$this->description = $description;
 	}
 }

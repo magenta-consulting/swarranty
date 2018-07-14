@@ -139,6 +139,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_notes: Notes
     label_number: Number
     label_product_serial_number: Product Serial Number
     label_description: Description

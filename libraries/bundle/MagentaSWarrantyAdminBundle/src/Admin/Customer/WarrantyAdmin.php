@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
@@ -224,6 +225,7 @@ class WarrantyAdmin extends BaseAdmin {
 		$showMapper
 			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ])
 			->add('receiptImages', 'image', [ 'label' => 'form.label_reference_number' ])
+			->add('description', CKEditorType::class, [ 'label' => 'form.label_notes' ])
 			->end();
 		
 		$showMapper->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
