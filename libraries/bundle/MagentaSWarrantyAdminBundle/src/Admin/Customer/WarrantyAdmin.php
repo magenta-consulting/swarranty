@@ -225,7 +225,6 @@ class WarrantyAdmin extends BaseAdmin {
 		$showMapper
 			->with('form_group.receipt_images', [ 'class' => 'col-md-6' ])
 			->add('receiptImages', 'image', [ 'label' => 'form.label_reference_number' ])
-			->add('description', CKEditorType::class, [ 'label' => 'form.label_notes' ])
 			->end();
 		
 		$showMapper->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
@@ -309,6 +308,9 @@ class WarrantyAdmin extends BaseAdmin {
 					'label' => false,
 //					'class'         => Media::class
 				]);
+		
+		$formMapper->add('description', CKEditorType::class, [ 'label' => 'form.label_notes' ]);
+
 		$formMapper->end();
 		$formMapper
 			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
