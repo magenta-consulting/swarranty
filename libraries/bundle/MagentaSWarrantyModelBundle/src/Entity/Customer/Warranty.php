@@ -40,12 +40,24 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$product  = $this->product;
 		$mName    = $mNumber = $pCat = $pSubCat = $pBrand = '';
 		$cName    = $cEmail = $cHAddress = $cPhone = $cHPostal = '';
+		
 		if( ! empty($product)) {
 			$mName   = $product->getName();
 			$mNumber = $product->getModelNumber();
 		}
 		
-		return $this->fullText = $this->customer->generateFullText() . ' ' . $this->product->generateFullText();
+		if(empty($this->customer)) {
+			$cft = '';
+		} else {
+			$cft = $this->customer->generateFullText();
+		}
+		if(empty($this->product)) {
+			$pft = '';
+		} else {
+			$pft = $this->product->generateFullText();
+		}
+		
+		return $this->fullText = 'number: ' . $this->number . ' ' . $cft . ' ' . $pft;
 	}
 	
 	/**
@@ -195,7 +207,7 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 			if( ! empty($this->id)) {
 				$now          = new \DateTime();
 				$this->number = $now->format('ym');
-				$this->number .= '-' . User::generateCharacterCode('' . $this->id);
+				$this->number .= '-' . User::generateCharacterCode('' . $this->id, 5);
 			}
 		}
 	}

@@ -88,6 +88,7 @@ layout:
 
 # Admin strings
 sidebar_left:
+    messagetemplate: Communication Template
     caseappointment: Customer Appointment
     servicesheet: Service Sheet
     user: System Users
@@ -139,6 +140,8 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_subject: Subject
+    label_content: Content
     label_notes: Notes
     label_number: Number
     label_product_serial_number: Product Serial Number

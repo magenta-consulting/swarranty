@@ -81,7 +81,7 @@ class WarrantyListener {
 	public function prePersistHandler(Warranty $warranty, LifecycleEventArgs $event) {
 		$this->updateInfo($warranty);
 		if(empty($warranty->getExpiryDate())) {
-			$expiryAt = $warranty->getPurchaseDate();
+			$expiryAt = clone $warranty->getPurchaseDate();
 			$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));
 			$warranty->setExpiryDate($expiryAt);
 		}
@@ -112,6 +112,8 @@ class WarrantyListener {
 	public function postLoadHandler(Warranty $warranty, LifecycleEventArgs $args) {
 		if(empty($warranty->getNumber())) {
 			$warranty->initiateNumber();
+			$warranty->generateSearchText();
+			$warranty->generateFullText();
 			$manager = $args->getEntityManager();
 			$manager->persist($warranty);
 			$manager->flush($warranty);

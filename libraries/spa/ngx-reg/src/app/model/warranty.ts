@@ -12,7 +12,7 @@ export class Warranty {
     customer: Customer|string;
     productSerialNumber: string;
     purchaseDate: Date;
-    dealerName: Dealer|string;
+    dealer: Dealer;
 
 
     isCategoryHidden = true;

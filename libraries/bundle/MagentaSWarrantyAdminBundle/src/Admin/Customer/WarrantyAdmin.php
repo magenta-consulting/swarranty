@@ -309,8 +309,11 @@ class WarrantyAdmin extends BaseAdmin {
 //					'class'         => Media::class
 				]);
 		
-		$formMapper->add('description', CKEditorType::class, [ 'label' => 'form.label_notes' ]);
-
+		$formMapper->add('description', CKEditorType::class, [
+			'required' => false,
+			'label'    => 'form.label_notes'
+		]);
+		
 		$formMapper->end();
 		$formMapper
 			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
