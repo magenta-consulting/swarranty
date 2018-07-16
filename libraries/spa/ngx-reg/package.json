@@ -48,6 +48,7 @@
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
     "moment": "^2.22.2",
+    "ng2-completer": "^2.0.8",
     "protractor": "~5.3.0",
     "rxjs-compat": "^6.2.1",
     "ts-node": "~5.0.1",

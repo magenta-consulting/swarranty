@@ -28,6 +28,7 @@ import {RegistrationService} from '../service/registration.service';
 import {FormControl} from '@angular/forms';
 import {} from 'googlemaps';
 import {MapsAPILoader} from '@agm/core';
+import { CompleterService, CompleterData } from 'ng2-completer';
 
 @Component({
     selector: 'app-registration',
@@ -60,6 +61,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     public searchControl: FormControl;
     public zoom: number;
 
+    protected dataDealers: CompleterData;
+
     @ViewChild("search")
     public searchElementRef: ElementRef;
 
@@ -69,13 +72,17 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 private registrationSerice: RegistrationService,
                 private router: Router,
                 private mapsAPILoader: MapsAPILoader,
-                private ngZone: NgZone) {
+                private ngZone: NgZone,
+                private completerService: CompleterService) {
         let warranty: Warranty = new Warranty();
         warranty.id = null;
 
         this.warranties.push(warranty);
         productService.getBrands().subscribe(brands => warranty.brands = brands);
-        productService.getDealers().subscribe(d => warranty.dealers = d);
+        productService.getDealers().subscribe(d => {
+            warranty.dealers = d;
+            this.dataDealers = completerService.local(warranty.dealers, 'id', 'name');
+        });
         organisationService.getOrganisation().subscribe(organisation => this.organisation = organisation);
     }
 
@@ -148,9 +155,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     rw.product = w.selectedProduct.id;
                     rw.purchaseDate = w.purchaseDate;
                     rw.productSerialNumber = w.productSerialNumber;
-                    rw.dealerName = w.selectedDealer.id;
+                    rw.dealerName = w.selectedDealer;
                     reg.warranties.push(rw);
                 }
+                
                 this.registrationSerice.postRegistration(reg).subscribe(reg => {
                     localStorage.setItem('regId', reg['@id']);
                     let regId = reg['@id'];
@@ -194,7 +202,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
         this.warranties.push(warranty);
         this.productService.getBrands().subscribe(brands => warranty.brands = brands);
-        this.productService.getDealers().subscribe(d => warranty.dealers = d);
+        this.productService.getDealers().subscribe(d => {
+            warranty.dealers = d;
+            this.dataDealers = this.completerService.local(warranty.dealers, 'id', 'name');
+        });
     }
 
     selectBrand(e, warranty: Warranty): void {

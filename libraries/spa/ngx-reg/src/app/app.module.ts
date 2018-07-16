@@ -22,6 +22,7 @@ import {SuccessComponent} from "./components/success/success.component";
 
 // import services
 import { AuthGuard } from './service/auth-guard.service';
+import { Ng2CompleterModule } from "ng2-completer";
 
 // import libs
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
@@ -54,6 +55,7 @@ import { AgmCoreModule } from '@agm/core';
       apiKey: "AIzaSyAN6XsSJRAUI4Iuj0Q3OdziE1D0Sou_b_c",
       libraries: ["places"]
     }),
+    Ng2CompleterModule,
 
     AppRoutingModule
 

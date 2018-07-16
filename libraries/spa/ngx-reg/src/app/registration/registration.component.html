@@ -271,19 +271,24 @@
                     </div>
                 </div>
                 <div *ngIf="!isPreview('dealerName'+i)" class="input-group mb-2">
-                    <ng-select class="mb-2" [items]="warranty.dealers"
+                    <!-- <ng-select class="mb-2" [items]="warranty.dealers"
                                 bindLabel="name"
                                 placeholder="Dealer's Name"
                                 [(ngModel)]="warranty.selectedDealer"
                                 (blur)="updateField('dealerName'+i)">
-                    </ng-select>
+                    </ng-select> -->
+                    <ng2-completer class="ng2-ipt"
+                    placeholder="Dealer's Name"
+                    [(ngModel)]="warranty.selectedDealer"
+                    [datasource]="dataDealers"
+                    [minSearchLength]="0"></ng2-completer>
                 </div>
                 <div *ngIf="isPreview('dealerName'+i)" (click)="editPreview('dealerName'+i)" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
                         <span class="input-group-text">Dealer's Name </span>
                     </div>
                     <div class="form-control preview-text">
-                        <span>{{warranty.selectedDealer.name}}</span>
+                        <span>{{warranty.selectedDealer}}</span>
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
