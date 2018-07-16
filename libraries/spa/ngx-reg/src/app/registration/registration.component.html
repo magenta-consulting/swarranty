@@ -277,10 +277,11 @@
                                 [(ngModel)]="warranty.selectedDealer"
                                 (blur)="updateField('dealerName'+i)">
                     </ng-select> -->
-                    <ng2-completer class="ng2-ipt"
+                    <ng2-completer class="ng2-ipt mb-2"
                     placeholder="Dealer's Name"
                     [(ngModel)]="warranty.selectedDealer"
                     [datasource]="dataDealers"
+                    inputClass="form-control"
                     [minSearchLength]="0"></ng2-completer>
                 </div>
                 <div *ngIf="isPreview('dealerName'+i)" (click)="editPreview('dealerName'+i)" class="input-group mb-2 preview-container">
