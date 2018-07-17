@@ -25,6 +25,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    magenta_swarranty_api.customer.registration_subscriber:
+        class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\RegistrationSubscriber
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_subscriber }
+
     magenta_swarranty_api.customer.newsletter_subscription_subscriber:
         class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\NewsletterSubscriptionSubscriber
         arguments:
