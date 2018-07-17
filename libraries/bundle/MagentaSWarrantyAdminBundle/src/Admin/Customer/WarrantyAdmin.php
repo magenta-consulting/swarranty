@@ -235,7 +235,7 @@ class WarrantyAdmin extends BaseAdmin {
 		           ->add('customer.homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 		           ->end()
 		           ->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
-		           ->add('customer.warranties', null, [
+		           ->add('customer.warranties', 'warranty', [
 			           'label'               => false,
 			           'associated_property' => 'id'
 //				'template'            => '@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_many.html.twig'

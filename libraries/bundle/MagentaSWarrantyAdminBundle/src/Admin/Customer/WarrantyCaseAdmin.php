@@ -51,6 +51,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\Valid;
@@ -179,7 +180,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal(WarrantyCase::STATUS_ASSIGNED)));
 				break;
 			case 'RESPONDED':
-				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal(WarrantyCase::STATUS_ASSIGNED)));
+				$query->andWhere($expr->like($rootAlias . '.status', $expr->literal(WarrantyCase::STATUS_RESPONDED)));
 				break;
 			case 'COMPLETED':
 //				$query->andWhere($expr->lt($rootAlias . '.expiryDate', ':today'))
@@ -345,9 +346,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$listMapper
 			->add('warranty.customer', 'customer', [ 'label' => 'form.label_customer' ])
 			->add('status', null, [ 'label' => 'form.label_status' ])
-			->add('appointmentAt', null, [
-				'label'  => 'form.label_appointment_at',
-				'format' => 'd-m-Y'
+			->add('appointmentAt', 'appointment_time', [
+				'label'    => 'form.label_appointment_time',
+				'format'   => 'd-m-Y H:i',
+				'template' => '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list_field.html.twig'
 			]);
 
 //		$listMapper->add('warranty.receiptImages', 'image', [
@@ -482,7 +484,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					},
 				]);
 				$formMapper->end();
-
+				
 				$formMapper
 					->with('form_group.customer_details', [ 'class' => 'col-md-6' ]);
 				$formMapper->add('warranty.customer.name', ProductDetailType::class, [
@@ -569,6 +571,12 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'format'                => 'dd-MM-yyyy, H:m',
 					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 					'datepicker_use_button' => false,
+				])
+				->add('appointmentTo', TimeType::class, [
+					'required' => false,
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 				]);
 		} else {
 			$formMapper->add('appointments', CollectionType::class,

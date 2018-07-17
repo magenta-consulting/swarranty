@@ -21,7 +21,7 @@ class WarrantyListener {
 		$this->container = $container;
 	}
 	
-	private function updateInfo(Warranty $warranty) {
+	private function updateInfo(Warranty $warranty, LifecycleEventArgs $event) {
 		$warranty->generateSearchText();
 		$warranty->generateFullText();
 		
@@ -37,15 +37,18 @@ class WarrantyListener {
 			return;
 		} elseif($cc === 1) {
 			$customer->removeWarranties($warranty);
-			$customers[0]->addWarranties($warranty);
+//			$customers[0]->addWarranties($warranty);
+			$warranty->setCustomer($customers[0]);
 		} else {
 			$customer->removeWarranties($warranty);
-			$customers[0]->addWarranties($warranty);
+//			$customers[0]->addWarranties($warranty);
+			$warranty->setCustomer($customers[0]);
 			/** @var Customer $c */
 			foreach($customers as $c) {
 				if($c->getEmail() === $customer->getEmail()) {
 					$customer->removeWarranties($warranty);
-					$c->addWarranties($warranty);
+//					$c->addWarranties($warranty);
+					$warranty->setCustomer($c);
 					
 					return;
 				}
@@ -54,7 +57,7 @@ class WarrantyListener {
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
-		$this->updateInfo($warranty);
+		$this->updateInfo($warranty, $event);
 //		if( ! empty($warranty->getRegNo())) {
 //			$warranty->setRegNo(strtoupper($warranty->getRegNo()));
 //		}
@@ -79,7 +82,7 @@ class WarrantyListener {
 	}
 	
 	public function prePersistHandler(Warranty $warranty, LifecycleEventArgs $event) {
-		$this->updateInfo($warranty);
+		$this->updateInfo($warranty, $event);
 		if(empty($warranty->getExpiryDate())) {
 			$expiryAt = clone $warranty->getPurchaseDate();
 			$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));

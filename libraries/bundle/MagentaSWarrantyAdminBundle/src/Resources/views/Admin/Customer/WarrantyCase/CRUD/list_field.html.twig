@@ -1,1 +1,31 @@
 {% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+            {%- block field %}
+                {% if field_description.type == 'appointment_time' %}
+                    {%- if value is empty -%}
+
+                    {%- elseif field_description.options.format is defined -%}
+                        {% set timezone = field_description.options.timezone is defined ? field_description.options.timezone : null %}
+                        {% set value = value|date(field_description.options.format, timezone) %}
+                    {%- elseif field_description.options.timezone is defined -%}
+                        {% set value = value|date(null, field_description.options.timezone) %}
+                    {%- else -%}
+                        {% set value =  value|date %}
+                    {%- endif -%}
+                    {%- if value is not empty -%}
+                        {% set value = value ~ ' - ' ~ object.appointmentTo|date('H:i') %}
+                    {% else %}
+                        {% set value = '' %}
+                    {% endif %}
+                {% endif %}
+                {% spaceless %}
+                    {% if field_description.options.collapse is defined %}
+                        {% set collapse = field_description.options.collapse %}
+                        <div class="sonata-readmore"
+                             data-readmore-height="{{ collapse.height|default(40) }}"
+                             data-readmore-more="{{ collapse.more|default('read_more')|trans({}, 'SonataAdminBundle') }}"
+                             data-readmore-less="{{ collapse.less|default('read_less')|trans({}, 'SonataAdminBundle') }}">{{ value }}</div>
+                    {% else %}
+                        {{ value }}
+                    {% endif %}
+                {% endspaceless %}
+            {% endblock -%}

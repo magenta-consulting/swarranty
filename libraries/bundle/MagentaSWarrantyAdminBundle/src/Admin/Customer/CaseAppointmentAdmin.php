@@ -331,7 +331,14 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'format'                => 'dd-MM-yyyy, H:m',
 				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 				'datepicker_use_button' => false,
+			])
+			->add('appointmentTo', TimeType::class, [
+				'required' => false,
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 			]);
+			
 		
 		$formMapper->add('visitedAt', DateTimePickerType::class, [
 			'required'              => false,

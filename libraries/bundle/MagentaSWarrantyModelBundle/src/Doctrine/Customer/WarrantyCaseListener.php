@@ -41,6 +41,7 @@ class WarrantyCaseListener {
 		$apmts         = $case->getAppointments();
 		$asgnee        = $case->getAssignee();
 		$apmtAt        = $case->getAppointmentAt();
+		$apmtTo        = $case->getAppointmentTo();
 		$apmt          = null;
 		$serviceSheets = $case->getServiceSheets();
 		
@@ -62,6 +63,7 @@ class WarrantyCaseListener {
 				}
 				$apmt = new CaseAppointment();
 				$apmt->setAppointmentAt($apmtAt);
+				$apmt->setAppointmentTo($apmtTo);
 				$case->addAppointment($apmt);
 				
 				if( ! empty($asgnee)) {
@@ -89,6 +91,7 @@ class WarrantyCaseListener {
 			$apmt = $apmts->last();
 			$case->setAssignee($asgnee = $apmt->getAssignee());
 			$case->setAppointmentAt($apmt->getAppointmentAt());
+			$case->setAppointmentTo($apmt->getAppointmentTo());
 //			if( ! empty($asgnee)) {
 			$manager->persist($asgnee);
 //			}
