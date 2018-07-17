@@ -21,7 +21,7 @@ class WarrantyListener {
 		$this->container = $container;
 	}
 	
-	private function updateInfo(Warranty $warranty, LifecycleEventArgs $event) {
+	private function updateInfoAfterOperation(Warranty $warranty, LifecycleEventArgs $event) {
 		$warranty->generateSearchText();
 		$warranty->generateFullText();
 		$manager   = $event->getEntityManager();
@@ -61,7 +61,7 @@ class WarrantyListener {
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
-		$this->updateInfo($warranty, $event);
+	
 //		if( ! empty($warranty->getRegNo())) {
 //			$warranty->setRegNo(strtoupper($warranty->getRegNo()));
 //		}
@@ -82,11 +82,10 @@ class WarrantyListener {
 	}
 	
 	public function postUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
-//		$this->handleAdminEmail($warranty);
+		$this->updateInfoAfterOperation($warranty, $event);
 	}
 	
 	public function prePersistHandler(Warranty $warranty, LifecycleEventArgs $event) {
-		$this->updateInfo($warranty, $event);
 		if(empty($warranty->getExpiryDate())) {
 			$expiryAt = clone $warranty->getPurchaseDate();
 			$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));
@@ -98,8 +97,7 @@ class WarrantyListener {
 	}
 	
 	public function postPersistHandler(Warranty $warranty, LifecycleEventArgs $event) {
-//		$this->handleAdminEmail($warranty);
-
+		$this->updateInfoAfterOperation($warranty, $event);
 //        $receivers = $this->container->getParameter('mhs_mail_receivers');
 //        $this->container->get('sylius.email_sender')->send('channel_partner_new_order', $receivers, array('movie' => 'NEW POSITION', 'user' => 'NEW POSITION'));
 	}
