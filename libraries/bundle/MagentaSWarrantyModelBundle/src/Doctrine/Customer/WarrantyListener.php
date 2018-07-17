@@ -24,7 +24,8 @@ class WarrantyListener {
 	private function updateInfo(Warranty $warranty, LifecycleEventArgs $event) {
 		$warranty->generateSearchText();
 		$warranty->generateFullText();
-		
+		$manager   = $event->getEntityManager();
+		$uow       = $manager->getUnitOfWork();
 		$customer  = $warranty->getCustomer();
 		$cr        = $this->container->get('doctrine')->getRepository(Customer::class);
 		$customers = $cr->findBy([
@@ -39,16 +40,19 @@ class WarrantyListener {
 			$customer->removeWarranties($warranty);
 //			$customers[0]->addWarranties($warranty);
 			$warranty->setCustomer($customers[0]);
+			$uow->recomputeSingleEntityChangeSet($warranty);
 		} else {
 			$customer->removeWarranties($warranty);
 //			$customers[0]->addWarranties($warranty);
 			$warranty->setCustomer($customers[0]);
+			$uow->recomputeSingleEntityChangeSet($warranty);
 			/** @var Customer $c */
 			foreach($customers as $c) {
 				if($c->getEmail() === $customer->getEmail()) {
 					$customer->removeWarranties($warranty);
 //					$c->addWarranties($warranty);
 					$warranty->setCustomer($c);
+					$uow->recomputeSingleEntityChangeSet($warranty);
 					
 					return;
 				}
