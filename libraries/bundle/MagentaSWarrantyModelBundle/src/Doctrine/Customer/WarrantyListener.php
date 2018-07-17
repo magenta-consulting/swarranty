@@ -117,11 +117,11 @@ class WarrantyListener {
 	public function postLoadHandler(Warranty $warranty, LifecycleEventArgs $args) {
 		if(empty($warranty->getNumber())) {
 			$warranty->initiateNumber();
-			$manager = $args->getEntityManager();
-			$manager->persist($warranty);
-			$manager->flush($warranty);
 			$warranty->generateSearchText();
 			$warranty->generateFullText();
+			$manager = $args->getEntityManager();
+//			$manager->persist($warranty);
+//			$manager->flush($warranty);
 			$manager->persist($warranty);
 			$manager->flush($warranty);
 		}

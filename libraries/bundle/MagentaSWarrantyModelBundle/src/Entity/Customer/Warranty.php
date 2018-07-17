@@ -273,8 +273,8 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	
 	/**
 	 * @var Product|null
-	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", cascade={"persist", "merge"}, inversedBy="warranties")
-	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", cascade={"persist", "merge"}, inversedBy="warranties", fetch="EAGER")
+	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected
 		$product;
