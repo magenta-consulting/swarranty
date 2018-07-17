@@ -30,7 +30,12 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	}
 	
 	public function generateSearchText() {
-		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());
+		$customerInfo = '';
+		if( ! empty($this->customer)) {
+			$customerInfo = $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());
+		}
+		
+		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $customerInfo;
 	}
 	
 	public function generateFullText() {
