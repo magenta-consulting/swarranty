@@ -61,7 +61,7 @@ class WarrantyListener {
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
-	
+
 //		if( ! empty($warranty->getRegNo())) {
 //			$warranty->setRegNo(strtoupper($warranty->getRegNo()));
 //		}
@@ -117,9 +117,11 @@ class WarrantyListener {
 	public function postLoadHandler(Warranty $warranty, LifecycleEventArgs $args) {
 		if(empty($warranty->getNumber())) {
 			$warranty->initiateNumber();
+			$manager = $args->getEntityManager();
+			$manager->persist($warranty);
+			$manager->flush($warranty);
 			$warranty->generateSearchText();
 			$warranty->generateFullText();
-			$manager = $args->getEntityManager();
 			$manager->persist($warranty);
 			$manager->flush($warranty);
 		}
