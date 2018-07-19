@@ -110,7 +110,6 @@ var ImageUploadComponent = (function () {
         this.fileCounter += filesToUploadNum;
         this.showFileTooLargeMessage = false;
         this.uploadFiles(files, filesToUploadNum);
-        console.log('file index', this.files);
     };
     ImageUploadComponent.prototype.onResponse = function (response, fileHolder) {
         fileHolder.serverResponse = { status: response.status, response: response };
