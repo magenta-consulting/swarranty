@@ -33,7 +33,7 @@
             </tr>
             <tr>
                 <td class="td-name">Date Created</td>
-                <td> : {{case.createdAt | date: "d MMM y"}} by {{case.warranty.customer.name}}</td>
+                <td> : {{case.createdAt | date: 'dd - MM - y'}} by {{case.warranty.customer.name}}</td>
             </tr>
             <ng-container *ngIf="!case.completed">
                 <tr>
@@ -173,6 +173,10 @@
             <tr>
                 <td class="td-name">Service Zone</td>
                 <td>: {{case.serviceZone.name}}</td>
+            </tr>
+            <tr>
+                <td class="td-name">Appointment</td>
+                <td>: {{case.appointmentAt | date: 'dd - MM - y, HH:mm'}}</td>
             </tr>
         </table>
     </div>
