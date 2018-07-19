@@ -62,25 +62,28 @@ EOT
 						$object->generateSearchText();
 						$object->generateFullText();
 						$em->persist($object);
+						$output->writeln('Flushing object ' . $object->getFullText());
+						$em->flush($object);
+						
 					}
 				}
-				if($class === CaseAppointment::class) {
-					$repo    = $this->registry->getRepository($class);
-					$objects = $repo->findAll();
-					$output->writeln(sprintf('>>>>> Re-generate %s for full-text search', $class));
-					/** @var CaseAppointment $object */
-					foreach($objects as $object) {
-						if(empty($object->getServiceSheet())) {
-							$object->setServiceSheet($object->createServiceSheet());
-						}
-						$em->persist($object->getServiceSheet());
-					}
-				}
+//				if($class === CaseAppointment::class) {
+//					$repo    = $this->registry->getRepository($class);
+//					$objects = $repo->findAll();
+//					$output->writeln(sprintf('>>>>> Re-generate %s for full-text search', $class));
+//					/** @var CaseAppointment $object */
+//					foreach($objects as $object) {
+//						if(empty($object->getServiceSheet())) {
+//							$object->setServiceSheet($object->createServiceSheet());
+//						}
+//						$em->persist($object->getServiceSheet());
+//					}
+//				}
 			} else {
 				$output->writeln($class . ' is Abstract');
 			}
 		}
-		$output->writeln('Flushing data...');
+		$output->writeln('Flushing ALL data...');
 		$em->flush();
 		$output->writeln('DONE');
 	}

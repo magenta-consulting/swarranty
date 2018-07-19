@@ -61,7 +61,9 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 		$customer = $object->getCustomer();
 		$product  = $object->getProduct();
 		$image    = $product->getImage();
-		
+		if(empty($psn = $object->getProductSerialNumber())) {
+			$psn = '';
+		}
 		if(empty($image)) {
 			$imageId = null;
 			$afUrl   = $rfUrl = '/bundles/sonatamedia/grey.png';
@@ -70,25 +72,33 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 			$afUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId());
 			$rfUrl   = $this->get('sonata.media.manager.media')->generatePrivateUrl($image->getId(), 'reference');
 		}
+		$wp = $product->getWarrantyPeriod();
+		if(empty($wp)) {
+			$wp = '';
+		}
+		$ewp = $product->getExtendedWarrantyPeriod();
+		if(empty($ewp)) {
+			$ewp = '';
+		}
 		
 		return new JsonResponse([
 			'customer_name'  => $customer->getName(),
 			'customer_phone' => '+' . $customer->getDialingCode() . ' ' . $customer->getTelephone(),
 			'customer_email' => $customer->getEmail(),
 			
-			'customer_address' => $customer->getHomeAddress(),
-			'customer_postal'  => $customer->getHomePostalCode(),
-			
-			'model_name'   => $product->getName(),
-			'model_number' => $product->getModelNumber(),
-			'brand'        => empty($product->getBrand()) ? '' : $product->getBrand()->getName(),
-			'category'     => empty($product->getCategory()) ? '' : $product->getCategory()->getName(),
+			'customer_address'      => $customer->getHomeAddress(),
+			'customer_postal'       => $customer->getHomePostalCode(),
+			'product_serial_number' => $psn,
+			'model_name'            => $product->getName(),
+			'model_number'          => $product->getModelNumber(),
+			'brand'                 => empty($product->getBrand()) ? '' : $product->getBrand()->getName(),
+			'category'              => empty($product->getCategory()) ? '' : $product->getCategory()->getName(),
 			
 			'id_image'                 => $imageId,
 			'admin_format'             => $afUrl,
 			'reference_format'         => $rfUrl,
-			'warranty_period'          => $product->getWarrantyPeriod(),
-			'extended_warranty_period' => $product->getExtendedWarrantyPeriod()
+			'warranty_period'          => $wp,
+			'extended_warranty_period' => $ewp
 		]);
 	}
 }

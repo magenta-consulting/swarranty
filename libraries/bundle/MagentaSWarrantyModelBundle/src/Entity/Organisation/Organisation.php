@@ -155,14 +155,14 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $tos;
 	
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $dataPolicy;
 	

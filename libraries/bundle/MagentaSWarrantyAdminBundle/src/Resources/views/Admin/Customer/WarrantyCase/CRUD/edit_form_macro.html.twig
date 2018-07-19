@@ -1,0 +1,65 @@
+{% macro render_groups(admin, form, groups, has_tab) %}
+    <div class="row">
+
+    {% for code in groups if admin.formgroups[code] is defined %}
+        {% set form_group = admin.formgroups[code] %}
+
+        {% if loop.index <= 2 %}
+            {% if loop.index == 1 %}
+                <div class="{{ form_group.class|default('col-md-3') }}">
+            {% endif %}
+            <div class="{{ form_group.box_class }}">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        {{ form_group.label|trans({}, form_group.translation_domain ?: admin.translationDomain) }}
+                    </h4>
+                </div>
+                <div class="box-body">
+                    <div class="sonata-ba-collapsed-fields">
+                        {% if form_group.description %}
+                            <p>{{ form_group.description|trans({}, form_group.translation_domain ?: admin.translationDomain) }}</p>
+                        {% endif %}
+
+                        {% for field_name in form_group.fields if form[field_name] is defined %}
+                            {{ form_row(form[field_name]) }}
+                        {% else %}
+                            <em>{{ 'message_form_group_empty'|trans({}, 'SonataAdminBundle') }}</em>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% if loop.index == 2 %}
+                </div>
+                <div class="{{ form_group.class|default('col-md-9') }}">
+            {% endif %}
+        {% else %}
+            <div class="{{ form_group.box_class }}">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        {{ form_group.label|trans({}, form_group.translation_domain ?: admin.translationDomain) }}
+                    </h4>
+                </div>
+                <div class="box-body">
+                    <div class="sonata-ba-collapsed-fields">
+                        {% if form_group.description %}
+                            <p>{{ form_group.description|trans({}, form_group.translation_domain ?: admin.translationDomain) }}</p>
+                        {% endif %}
+
+                        {% for field_name in form_group.fields if form[field_name] is defined %}
+                            {{ form_row(form[field_name]) }}
+                        {% else %}
+                            <em>{{ 'message_form_group_empty'|trans({}, 'SonataAdminBundle') }}</em>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if groups|length == 1 %}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if groups|length > 1 %}
+        </div>
+    {% endif %}
+    </div>
+{% endmacro %}

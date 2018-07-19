@@ -51,4 +51,43 @@ class MessageTemplate extends Thing {
 	 */
 	protected $organisation;
 	
+	/**
+	 * @var string|null
+	 * @ORM\Column(name="subject",type="string",nullable=true)
+	 */
+	protected $subject;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(name="content",type="string",nullable=true)
+	 */
+	protected $content;
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSubject(): ?string {
+		return $this->subject;
+	}
+	
+	/**
+	 * @param null|string $subject
+	 */
+	public function setSubject(?string $subject): void {
+		$this->subject = $subject;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getContent(): ?string {
+		return $this->content;
+	}
+	
+	/**
+	 * @param null|string $content
+	 */
+	public function setContent(?string $content): void {
+		$this->content = $content;
+	}
 }

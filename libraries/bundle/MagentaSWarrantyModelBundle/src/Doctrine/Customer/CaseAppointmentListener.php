@@ -39,7 +39,10 @@ class CaseAppointmentListener {
 		$case->addServiceSheet($ss);
 		
 		$org  = $w->getOrganisation();
-		$user = $this->container->get(UserService::class)->getUser();
+		$user = $this->container->get(UserService::class)->getUser(false);
+		if(empty($user)) {
+			return;
+		}
 		if(empty($p = $user->getPerson())) {
 			return;
 		}

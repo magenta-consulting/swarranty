@@ -11,6 +11,32 @@ file that was distributed with this source code.
 
 {% extends '@SonataAdmin/CRUD/Association/list_one_to_many.html.twig' %}
 
+{% block field %}
+    {%- if field_description.type == 'image' or field_description.type == 'serviceNotes' %}
+        {% spaceless %}
+            {% set route_name = field_description.options.route.name %}
+            {% if field_description.hasassociationadmin and field_description.associationadmin.hasRoute(route_name) %}
+                {% for element in value %}
+                    {%- if field_description.associationadmin.hasAccess(route_name, element) -%}
+                        {{ block('relation_link') }}
+                    {%- else -%}
+                        {{ block('relation_value') }}
+                    {%- endif -%}
+                    {#{% if not loop.last %}, {% endif %}#}
+                {% endfor %}
+            {% else %}
+                {% for element in value %}
+                    {{ block('relation_value') }}
+                    {#{% if not loop.last %}, {% endif %}#}
+                {% endfor %}
+            {% endif %}
+        {% endspaceless %}
+
+    {% else %}
+        {{- parent() -}}
+    {% endif %}
+{% endblock %}
+
 {%- block relation_link -%}
     {% if field_description.type == 'image' %}
         {% spaceless %}
@@ -18,6 +44,17 @@ file that was distributed with this source code.
                 {{- block('relation_value') -}}
             </a>
         {% endspaceless %}
+    {% elseif field_description.type == 'serviceNotes' %}
+        {% if element.description is not empty %}
+            <p>
+                {{ element.description }}
+            </p>
+            <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+            {% if element.appointment is not empty %}
+                <br/><code>{{ element.appointment.assigneeName }}</code>
+            {% endif %}
+            <hr/>
+        {% endif %}
     {% else %}
         {{- parent() -}}
     {% endif %}
@@ -40,8 +77,18 @@ file that was distributed with this source code.
                 <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"
                      width="75"/>
             {% endif %}
-
         {% endspaceless %}
+    {% elseif field_description.type == 'serviceNotes' %}
+        {% if element.description is not empty %}
+            <p>
+                {{ element.description }}
+            </p>
+            <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+            {% if element.appointment is not empty %}
+                <br/><code>{{ element.appointment.assigneeName }}</code>
+            {% endif %}
+            <hr/>
+        {% endif %}
     {% else %}
         {{ parent() }}
     {% endif %}

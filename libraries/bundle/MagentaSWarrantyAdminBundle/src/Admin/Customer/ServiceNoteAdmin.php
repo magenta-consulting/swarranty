@@ -31,6 +31,7 @@ use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -112,7 +113,7 @@ class ServiceNoteAdmin extends BaseAdmin {
 		}
 		
 		$apmtQuery->andWhere($expr->eq('o.case', $caseId));
-		$formMapper->add('description', CKEditorType::class);
+		$formMapper->add('description', TextType::class);
 		if($caseId > 0) {
 			$formMapper->add('appointment', ModelType::class, [
 				'required'    => false,

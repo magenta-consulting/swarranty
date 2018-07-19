@@ -2,8 +2,9 @@ knp_snappy:
     pdf:
         enabled:    true
         binary:     '%env(WKHTMLTOPDF_PATH)%'
-#        options:    [{name: 'load-error-handling', value: 'ignore'}]
-    image:
-        enabled:    true
-        binary:     '%env(WKHTMLTOIMAGE_PATH)%'
-        options:    []
+        options:    [{name: 'disable-javascript', value: true}]
+#         {name: 'load-error-handling', value: 'skip'}
+#    image:
+#        enabled:    true
+#        binary:     '%env(WKHTMLTOIMAGE_PATH)%'
+#        options:    []

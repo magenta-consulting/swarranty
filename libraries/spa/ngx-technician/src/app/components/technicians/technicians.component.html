@@ -60,7 +60,7 @@
                             <div [innerHTML]="case.description"></div>
                         </div>
                         <div class="tech-blk tech-more">
-                            <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
+                            <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
                         </div>
                     </div>
                 </ng-container>
@@ -99,7 +99,7 @@
                                         </table>
                                     </div>
                                     <div class="info-right col-md-4 col-sm-4 col-xs-12 text-right">
-                                        <a routerLink="/technician/1" class="more btn btn-green">View Job</a>
+                                        <a routerLink="/technician/{{case.id}}" class="more btn btn-green">View Job</a>
                                     </div>
                                 </div>
                             </div>

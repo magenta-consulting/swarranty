@@ -2,6 +2,10 @@ magenta_user:
     resource: "@MagentaSWarrantyAdminBundle/Resources/config/routing/all.xml"
     prefix: /admin
 
+magenta_custom_routes:
+    resource: "@MagentaSWarrantyAdminBundle/Resources/config/routing/front_routes.yaml"
+
+
 #fos_user_security:
 #    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
 #fos_user_resetting:

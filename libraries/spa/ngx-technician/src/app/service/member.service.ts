@@ -5,6 +5,8 @@ import {catchError, map, tap} from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Member } from '../model/member';
 import { Case } from '../model/case';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,10 @@ export class MemberService {
 
   membersUrl = '/organisation-members';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private modal: BsModalService
+  ) { }
 
   getMembers(organisation: number): Observable<Member[]> {
     this.token = localStorage.getItem('token');
@@ -29,8 +34,8 @@ export class MemberService {
         return members;
       }),
       catchError((error, caught) : Observable<void> => {
-        console.log(error);
-        return caught;
+        let modal = this.modal.show(LoginModalComponent);
+        return;
       })
     );
   }

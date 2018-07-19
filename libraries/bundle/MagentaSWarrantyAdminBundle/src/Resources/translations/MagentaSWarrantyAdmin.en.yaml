@@ -75,6 +75,10 @@ resetting:
             Regards,
             the Team.
 
+filter:
+    label_id: Id
+    label_name: Name
+
 # Global strings
 layout:
     logout: 'Log out'
@@ -84,6 +88,8 @@ layout:
 
 # Admin strings
 sidebar_left:
+    messagetemplate: Communication Template
+    caseappointment: Customer Appointment
     servicesheet: Service Sheet
     user: System Users
     acl: Access Control List
@@ -117,6 +123,7 @@ form_group:
     brand: Brand
     service_zone: Service Zone
     warranty_details: Warranty Details
+    selected_warranty: Selected Warranty
     categories: Manage Associated Categories
     subcategories: Manage Associated Sub-Categories
     suppliers: Manage Associated Suppliers
@@ -133,15 +140,23 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_subject: Subject
+    label_content: Content
+    label_notes: Notes
+    label_number: Number
+    label_product_serial_number: Product Serial Number
     label_description: Description
     label_visited_at: Visit Time
     label_appointment: Appointment
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)
     label_service_notes: Service Notes
+    label_service_note: Service Note
     label_customer: Customer
     label_status: Status
-    label_appointment_at: Appointment Time
+    label_appointment_time: Appointment Time
+    label_appointment_at: Appointment Time (From)
+    label_appointment_to: Appointment Time (To)
     label_appointments: Appointments
     label_service_zone: Service Zone
     label_priority: Priority
@@ -149,7 +164,7 @@ form:
     label_warranty: Warranty
     label_extended_warranty_period_approved: Approve Extension
     label_reference_number: Reference Number
-    label_full_text_search: Search All Fields
+    label_full_text_search: Search
     label_near_expiry_period: Near-Expiry Period (days)
     label_field_requirements: Required fields
     group_name: 'Group name'

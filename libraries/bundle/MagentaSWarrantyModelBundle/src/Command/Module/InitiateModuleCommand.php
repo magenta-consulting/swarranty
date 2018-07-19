@@ -94,17 +94,21 @@ EOT
 		$modules = $repo->findAll();
 		
 		if( ! empty($system)) {
-			$this->entityManager->remove($system);
+//			$this->entityManager->remove($system);
+		} else {
+			$system = new System();
+			$system->setId('magenta.swarranty');
+			$this->entityManager->persist($system);
+			
 		}
+		$mods = [];
 		/** @var SystemModule $module */
 		foreach($modules as $module) {
-			$this->entityManager->remove($module);
+//			$this->entityManager->remove($module);
+			$mods[] = $module->getModuleCode();
 		}
-		
-		$this->entityManager->flush();
-		$system = new System();
-		$system->setId('magenta.swarranty');
-		$this->entityManager->persist($system);
+
+//		$this->entityManager->flush();
 		
 		$user = new UserModule();
 		$user->setSystem($system);
@@ -130,21 +134,37 @@ EOT
 		$systemC = new SystemConfigModule();
 		$systemC->setSystem($system);
 		
-		$this->entityManager->persist($user);
-		$this->entityManager->persist($product);
-		$this->entityManager->persist($w);
-		$this->entityManager->persist($ct);
-		$this->entityManager->persist($dealer);
-		$this->entityManager->persist($case);
-		$this->entityManager->persist($ct);
-//		$this->entityManager->persist($systemC);
+		if( ! in_array($user->getModuleCode(), $mods)) {
+			$this->entityManager->persist($user);
+		}
+		if( ! in_array($product->getModuleCode(), $mods)) {
+			$this->entityManager->persist($product);
+		}
+		if( ! in_array($w->getModuleCode(), $mods)) {
+			$this->entityManager->persist($w);
+		}
+		if( ! in_array($ct->getModuleCode(), $mods)) {
+			$this->entityManager->persist($ct);
+		}
+		if( ! in_array($dealer->getModuleCode(), $mods)) {
+			$this->entityManager->persist($dealer);
+		}
+		if( ! in_array($case->getModuleCode(), $mods)) {
+			$this->entityManager->persist($case);
+		}
+		if( ! in_array($customer->getModuleCode(), $mods)) {
+			$this->entityManager->persist($customer);
+		}
+		if( ! in_array($systemC->getModuleCode(), $mods)) {
+			$this->entityManager->persist($systemC);
+		}
 		
 		foreach($organisations as $org) {
-			$role = new ACRole();
-			$role->setOrganisation($org);
-			$role->setName('Technician');
-			$this->entityManager->persist($role);
-			$this->entityManager->flush();
+//			$role = new ACRole();
+//			$role->setOrganisation($org);
+//			$role->setName('Technician');
+//			$this->entityManager->persist($role);
 		}
+		$this->entityManager->flush();
 	}
 }

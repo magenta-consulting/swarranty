@@ -1,4 +1,5 @@
 {% extends '@SonataAdmin/CRUD/base_edit.html.twig' %}
+{# to make decision / decide in form page #}
  {% block tab_menu_navbar_header %}
      {% if _navbar_title is not empty %}
          <div class="navbar-header" style="width: 100%; display: flex;">
@@ -7,7 +8,7 @@
                      <span class="decision-status label label-primary">CLOSED</span>
                  {% endif %}
 
-                 {% if admin.hasRoute('decide') %}
+                 {% if admin.hasRoute('decide') and object.id is not empty %}
                      <form role="form" action="/" method="post" class="decision-form" style="width:100%; display: flex; ">
                          {% if object.decisionStatus != 'CLOSED' %}
                              <button type="submit" class="decision-button btn btn-success"
@@ -63,3 +64,11 @@
         }
     </style>
 {%- endblock stylesheets -%}
+
+{# To customise form group display #}
+
+{% use '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/edit_form.html.twig' with form as myForm %}
+
+{% block form %}
+    {{ block('myForm') }}
+{% endblock %}

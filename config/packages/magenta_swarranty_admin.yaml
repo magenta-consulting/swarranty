@@ -97,6 +97,8 @@ sonata_admin:
     templates:
         layout: '@MagentaSWarrantyAdmin/standard_layout.html.twig'
         user_block: '@MagentaSWarrantyAdmin/Core/user_block.html.twig'
+        list: '@MagentaSWarrantyAdmin/CRUD/list.html.twig'
+        delete: '@MagentaSWarrantyAdmin/CRUD/delete.html.twig'
 
     assets:
         extra_stylesheets:
@@ -134,6 +136,7 @@ sonata_admin:
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationAdmin
                     - Magenta\Bundle\SWarrantyAdminBundle\Admin\Organisation\OrganisationMemberAdmin
+                    - Magenta\Bundle\SWarrantyAdminBundle\Admin\Messaging\MessageTemplateAdmin
 #                    - Sonata\MediaBundle\Admin\ORM\MediaAdmin
                     - sonata.media.admin.media
 #                    - sonata.user.admin.group

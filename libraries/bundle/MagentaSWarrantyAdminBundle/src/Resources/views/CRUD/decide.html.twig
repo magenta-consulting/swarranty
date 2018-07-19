@@ -23,9 +23,13 @@
                                </button>
                            {% endif %}
                            {%- block decision_buttons -%} {% endblock %}
-                           <input {{ object.decisionRemarks is not empty?'disabled="disabled"':'' }}
-                                   id="reviewer-remarks" name="decision-remarks" class="decision-remarks form-control"
-                                   placeholder="Reviewer Remarks" value="{{ object.decisionRemarks }}"/>
+                           {% if object.status is not empty and object.status == 'NEW' %}
+                               <input id="reviewer-remarks" name="decision-remarks"
+                                      class="decision-remarks form-control"
+                                      placeholder="Reviewer Remarks" value="{{ object.decisionRemarks }}"/>
+                           {% elseif object.status == 'REJECTED' %}
+
+                           {% endif %}
                        </form>
                    {% endif %}
                </div>

@@ -67,6 +67,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
     attributes:
         id:
             groups: ['read_warranty', 'read_registration_warranty']
+        number:
+            groups: ['read_warranty','write_warranty','read_registration_warranty']
         customer:
             groups: ['read_warranty','write_warranty']
         registration:

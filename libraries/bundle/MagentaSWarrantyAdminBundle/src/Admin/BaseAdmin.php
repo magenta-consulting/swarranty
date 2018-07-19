@@ -139,6 +139,15 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getExportFormats() {
+		return [
+			'xls'
+		];
+	}
 
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
@@ -167,6 +176,16 @@ class BaseAdmin extends AbstractAdmin {
 		}
 	}
 	
+	protected function getCurrentOrganisationMember($required = false) {
+		$user   = $this->getLoggedInUser();
+		$person = $user->getPerson();
+		if(empty($person)) {
+			return null;
+		}
+		
+		return $person->getMemberOfOrganisation($this->getCurrentOrganisation());
+	}
+	
 	/**
 	 * @return Organisation|null
 	 */
@@ -184,8 +203,11 @@ class BaseAdmin extends AbstractAdmin {
 			$user = $this->getLoggedInUser();
 			if(empty($org = $user->getAdminOrganisation())) {
 				if( ! empty($person = $user->getPerson())) {
-					/** @var Organisation $org */
-					$org = $person->getMembers()->first();
+					/** @var OrganisationMember $m */
+					$m = $person->getMembers()->first();
+					if( ! empty($m)) {
+						$org = $m->getOrganization();
+					}
 				}
 			}
 		}
@@ -332,16 +354,19 @@ class BaseAdmin extends AbstractAdmin {
 			
 		}
 		
+		$org    = $this->getCurrentOrganisation(false);
+		$member = $this->getCurrentOrganisationMember(false);
 		if(is_array($name)) {
 			$isGranted = true;
 			foreach($name as $action) {
-				$isGranted &= $user->isGranted($action, $object);
+				$_isGranted = $user->isGranted($action, $object, $this->getClass(), $member, $org);
+				$isGranted  = $isGranted && $_isGranted;
 			}
 			
 			return $isGranted;
 		}
 		
-		return $user->isGranted($name, $object, $this->getClass());
+		return $user->isGranted($name, $object, $this->getClass(), $member, $org);
 
 //		return parent::isGranted($name, $object);
 	}

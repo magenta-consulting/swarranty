@@ -1,0 +1,12 @@
+<div class="container">
+    <form class="form-signin" action="#">
+        <h2 class="form-signin-heading">Login</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input name="email" [(ngModel)]="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input name="password" [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <p *ngIf="!loading" class="text-danger">{{message}}</p>
+        <button *ngIf="!loading" class="btn btn-primary btn-block" type="submit" (click)="login()">Log in</button>
+        <button *ngIf="loading" class="btn btn-primary btn-block" type="submit" (click)="login()" disabled>Loading...</button>
+    </form>
+</div>

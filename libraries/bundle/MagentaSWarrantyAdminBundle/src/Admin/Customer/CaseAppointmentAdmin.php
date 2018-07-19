@@ -12,6 +12,7 @@ use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\MediaCollectionType;
 use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
@@ -48,6 +49,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -86,15 +88,10 @@ class CaseAppointmentAdmin extends BaseAdmin {
 	public function getNewInstance() {
 		/** @var CaseAppointment $object */
 		$object = parent::getNewInstance();
-//		if(empty($w = $object->getCase()->getWarranty())) {
-//			$object->getCase()->setWarranty($w = new Warranty());
-//		}
-//		if(empty($w->getCustomer())) {
-//			$w->setCustomer(new Customer());
-//		}
-//		if(empty($w->getProduct())) {
-//			$w->setProduct(new Product());
-//		}
+		if(empty($sn = $object->getServiceNote())) {
+			$object->setServiceNote($sn = new ServiceNote());
+			$sn->setAppointment($object);
+		}
 		
 		return $object;
 	}
@@ -297,6 +294,14 @@ class CaseAppointmentAdmin extends BaseAdmin {
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
+		/** @var CaseAppointment $subject */
+		$subject = $this->getSubject();
+		
+		if( ! empty($subject) && empty($subject->getServiceNote())) {
+			$subject->setServiceNote($sn = new ServiceNote());
+			$sn->setAppointment($subject);
+		}
+		
 		$c = $this->getConfigurationPool()->getContainer();
 		/** @var ProxyQuery $productQuery */
 		$canReceiveCaseMemberQuery = $this->getFilterByOrganisationQueryForModel(OrganisationMember::class);
@@ -311,9 +316,9 @@ class CaseAppointmentAdmin extends BaseAdmin {
 			$expr->like('entries.permission', $expr->literal(ACEntry::PERMISSION_RECEIVE)),
 			$expr->isInstanceOf('module', CaseModule::class)
 		));
-		
-		$formMapper
-			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
+
+//		$formMapper
+//			->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
 		$formMapper
 			->add('assignee', ModelType::class, [
 				'label'    => 'form.label_assign_technician',
@@ -321,12 +326,20 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'btn_add'  => false,
 				'query'    => $canReceiveCaseMemberQuery
 			])
+			->add('serviceNote.description', null, [ 'label' => 'form.label_service_note' ])
 			->add('appointmentAt', DateTimePickerType::class, [
 				'required'              => false,
 				'format'                => 'dd-MM-yyyy, H:m',
 				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 				'datepicker_use_button' => false,
+			])
+			->add('appointmentTo', TimeType::class, [
+				'required' => false,
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 			]);
+			
 		
 		$formMapper->add('visitedAt', DateTimePickerType::class, [
 			'required'              => false,
@@ -334,7 +347,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 			'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 			'datepicker_use_button' => false,
 		]);
-		$formMapper->end();
+//		$formMapper->end();
 	}
 	
 	/**

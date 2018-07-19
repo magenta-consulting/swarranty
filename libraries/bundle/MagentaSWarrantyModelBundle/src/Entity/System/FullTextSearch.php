@@ -20,7 +20,7 @@ abstract class FullTextSearch implements FullTextSearchInterface, OrganisationAw
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string", nullable=true)
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $fullText;
 	

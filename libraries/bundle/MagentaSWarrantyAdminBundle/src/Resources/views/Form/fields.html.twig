@@ -1,4 +1,18 @@
 {% extends '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig' %}
+
+{% block sonata_type_collection_widget %}
+    {% if form.vars.name == 'appointments' %}
+        {% include '@MagentaSWarrantyAdmin/CRUD/Association/edit_one_to_many.html.twig' %}
+    {% else %}
+        {% if sonata_admin.field_description.mappingtype == constant('Doctrine\\ORM\\Mapping\\ClassMetadataInfo::ONE_TO_MANY') %}
+            {{ block('sonata_admin_orm_one_to_many_widget') }}
+        {% elseif sonata_admin.field_description.mappingtype == constant('Doctrine\\ORM\\Mapping\\ClassMetadataInfo::MANY_TO_MANY') %}
+            {{ block('sonata_admin_orm_many_to_many_widget') }}
+        {% else %}
+            INVALID MODE : {{ id }} - type : sonata_type_collection - mapping : {{ sonata_admin.field_description.mappingtype }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
 {% block product_detail_widget %}
     {% set source_property_name = form.vars.source_property|replace({'.':'__'}) %}
     <div class="form-group" id="sonata-ba-field-container-{{ form.vars.id }}">
@@ -159,7 +173,7 @@
                             let _html = '';
 
                             {% if form.vars.type == "image" %}
-                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="' + data.id_image+ '" />';
+                            _html += '<input type="hidden" name="{{ form.vars.full_name }}" value="' + data.id_image + '" />';
                             _html += '<img style="display: none;" class="loading_{{ form.vars.id }}" src="' + data.admin_format + '" height="120"/>';
 
                             {% elseif form.vars.type == "calculated_date" %}

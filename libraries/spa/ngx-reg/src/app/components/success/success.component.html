@@ -1,19 +1,22 @@
 <div class="success-wrap">
     <div class="text-center">
-        <h3>REGISTRATION SUCCESSFUL</h3>
+        <h3>SUCCESSFULLY SUBMITTED</h3>
         <p class="note">A copy of this product registration will be sent to your email for your reference.             </p>
         <div class="success-list"
         *ngIf="!isLoading">
-            <div *ngIf="prodList.length != 0">
+            <div *ngIf="prodList.length > 0">
                 <div
-                *ngFor="let prod of prodList; index as i;"
+                *ngFor="let warranty of prodList; index as i;"
                 class="success-item">
-                    <p>Warranty Registration ID: {{prod.id}}</p>
-                    <p>Date of Registration: {{prod.purchaseDate | date:'dd MMM yyyy'}}</p>
+                    <p>Warranty Registration ID: {{warranty.number}}</p>
+                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>
                     <p>Warranty Expiry: 31 Dec 2019</p>
-                    <p>Product Category: {{prod.product.name}}</p>
-                    <p>Model Name: {{prod.product.modelNumber}}</p>
-                    <p>Serial Number: {{prod.productSerialNumber}}</p>
+                    <p>Product Category: {{warranty.product.name}}</p>
+                    <p>Model Name: {{warranty.product.modelNumber}}</p>
+                    <p>Serial Number: {{warranty.productSerialNumber}}</p>
+                </div>
+                <div>
+                    All hoods have a default motor warranty period of 3 years.
                 </div>
             </div>
             <div

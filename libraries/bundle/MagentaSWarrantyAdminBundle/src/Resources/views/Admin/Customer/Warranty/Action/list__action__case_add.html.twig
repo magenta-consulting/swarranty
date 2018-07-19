@@ -1,13 +1,13 @@
-{#{% if admin.hasAccess('decide', object) and admin.hasRoute('decide') %}#}
-{% set customer = object.customer %}
-{% if customer is not empty %}
-    {% set organisation = customer.organisation %}
-    {% if organisation is not empty %}
-        <a href="{{ path('admin_magenta_swarrantymodel_customer_warranty_customer_warrantycase_create',{'organisation': organisation.id,'id':object.id}) }}"
-           class="btn btn-sm btn-primary view_link"
-           title="{{ 'action_button.label_add_case'|trans({}, 'MagentaSWarrantyAdmin') }}">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            {{ 'action_button.label_add_case'|trans({}, admin.translationDomain) }}
-        </a>
-    {% endif %}{% endif %}
-{#{% endif %}#}
+{% if admin.hasAccess('create-case', object) %}
+    {% set customer = object.customer %}
+    {% if customer is not empty %}
+        {% set organisation = customer.organisation %}
+        {% if organisation is not empty %}
+            <a href="{{ path('admin_magenta_swarrantymodel_customer_warranty_customer_warrantycase_create',{'organisation': organisation.id,'id':object.id}) }}"
+               class="btn btn-sm btn-success view_link"
+               title="{{ 'action_button.label_add_case'|trans({}, 'MagentaSWarrantyAdmin') }}">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                {{ 'action_button.label_add_case'|trans({}, admin.translationDomain) }}
+            </a>
+        {% endif %}{% endif %}
+{% endif %}

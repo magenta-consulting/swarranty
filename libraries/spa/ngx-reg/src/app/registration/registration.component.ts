@@ -42,7 +42,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     emailConfirm: string;
     typingEmail: false;
     typingConfirm: false;
-    isAgreedToTermsAndPolicy: false;
+    isAgreedToTermsAndPolicy = false;
+    processing = false;
 
     warranties: Warranty[] = [];
 
@@ -144,6 +145,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
     submit() {
         if (this.isFormPreview) {
+            this.processing = true;
             // Confirmed
             this.customerService.postCustomer(this.customer).subscribe(customer => {
                 let reg = new Registration();
@@ -155,7 +157,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     rw.product = w.selectedProduct.id;
                     rw.purchaseDate = w.purchaseDate;
                     rw.productSerialNumber = w.productSerialNumber;
-                    rw.dealerName = w.selectedDealer;
+                    rw.dealer = w.selectedDealer;
                     reg.warranties.push(rw);
                 }
                 
@@ -172,6 +174,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         } else {
             if (this.isOk()) {
                 this.isFormPreview = true;
+            } else {
+                this.processing = false;
             }
             this.checkingError = true;
         }

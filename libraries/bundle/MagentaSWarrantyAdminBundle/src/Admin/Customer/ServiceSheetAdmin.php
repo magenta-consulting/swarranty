@@ -134,14 +134,14 @@ class ServiceSheetAdmin extends BaseAdmin {
 				]);
 		
 		if($caseId > 0) {
-			$formMapper->add('appointment', ModelType::class, [
-				'required'    => false,
-				'query'       => $apmtQuery,
-				'placeholder' => 'Select Appointment',
-				'property'    => 'searchText',
-				'btn_add'     => false
-			
-			]);
+//			$formMapper->add('appointment', ModelType::class, [
+//				'required'    => false,
+//				'query'       => $apmtQuery,
+//				'placeholder' => 'Select Appointment',
+//				'property'    => 'searchText',
+//				'btn_add'     => false
+//
+//			]);
 		}
 	}
 	

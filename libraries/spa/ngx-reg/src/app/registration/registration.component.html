@@ -242,7 +242,7 @@
                             <span class="input-group-text">Purchase Date </span>
                         </div>
                         <div class="form-control preview-text">
-                            <span>{{warranty.purchaseDate}}</span>
+                            <span>{{warranty.purchaseDate|date}}</span>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text"><fa name="edit"></fa></span>
@@ -289,7 +289,7 @@
                         <span class="input-group-text">Dealer's Name </span>
                     </div>
                     <div class="form-control preview-text">
-                        <span>{{warranty.selectedDealer}}</span>
+                        <span>{{warranty.selectedDealer.name}}</span>
                     </div>
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
@@ -320,7 +320,7 @@
             <section>
                 <div class="input-group mb-2">
                     <button *ngIf="!isFormPreview" (click)="submit()" type="button" class="btn btn-primary form-control">REGISTER</button>
-                    <button *ngIf="isFormPreview" (click)="submit()" type="button" class="btn btn-danger form-control" [disabled]="!isOk()">CONFIRM</button>
+                    <button *ngIf="isFormPreview" (click)="submit()" type="button" class="btn btn-danger form-control" [disabled]="!isOk() || processing">CONFIRM</button>
                 </div>
             </section>
         </div>
@@ -337,8 +337,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                {{modalContent}}
+            <div class="modal-body" [innerHtml]="modalContent">
             </div>
         </div>
     </div>

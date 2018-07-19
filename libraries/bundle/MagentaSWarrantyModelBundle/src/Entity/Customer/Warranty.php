@@ -30,7 +30,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	}
 	
 	public function generateSearchText() {
-		$this->searchText = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber()) . ' < ' . $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());
+		$customerInfo = '';
+		$productInfo  = '';
+		$customer     = $this->customer;
+		$product      = $this->product;
+		if( ! empty($product)) {
+			// last but not least
+		}
+		if( ! empty($this->customer) && ! empty($this->product)) {
+			$customerInfo     = $this->customer->getName() . sprintf(' (%s)', $this->customer->getTelephone());
+			$productInfo      = $this->product->getName() . sprintf(' (%s)', $this->product->getModelNumber());
+			$this->searchText = $productInfo . ' < ' . $customerInfo;
+		}
+		
 	}
 	
 	public function generateFullText() {
@@ -40,12 +52,24 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$product  = $this->product;
 		$mName    = $mNumber = $pCat = $pSubCat = $pBrand = '';
 		$cName    = $cEmail = $cHAddress = $cPhone = $cHPostal = '';
+		
 		if( ! empty($product)) {
 			$mName   = $product->getName();
 			$mNumber = $product->getModelNumber();
 		}
 		
-		return $this->fullText = $this->customer->generateFullText() . ' ' . $this->product->generateFullText();
+		if(empty($this->customer)) {
+			$cft = '';
+		} else {
+			$cft = $this->customer->generateFullText();
+		}
+		if(empty($this->product)) {
+			$pft = '';
+		} else {
+			$pft = $this->product->generateFullText();
+		}
+		
+		return $this->fullText = 'number: ' . $this->number . ' ' . $cft . ' ' . $pft;
 	}
 	
 	/**
@@ -94,9 +118,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		switch($status) {
 			case DecisionMakingInterface::STATUS_NEW:
 				$this->new      = true;
-				$this->enabled  = false;
 				$this->approved = null;
 				$this->rejected = null;
+				$this->enabled  = false;
 				break;
 			case DecisionMakingInterface::STATUS_APPROVED:
 				$this->new      = false;
@@ -192,14 +216,11 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	public
 	function initiateNumber() {
 		if(empty($this->number)) {
-			$now          = new \DateTime();
-			$this->number = User::generateCharacterCode();
-			if( ! empty($this->purchaseDate)) {
-				$this->number .= '-' . $this->purchaseDate->format('my');
-			} else {
-				$this->number .= '-' . 'XXXX';
+			if( ! empty($this->id)) {
+				$now          = new \DateTime();
+				$this->number = $now->format('ym');
+				$this->number .= '-' . User::generateCharacterCode('' . $this->id, 5);
 			}
-			$this->number .= '-' . $now->format('my');
 		}
 	}
 	
@@ -253,7 +274,7 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	/**
 	 * @var Product|null
 	 * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product", cascade={"persist", "merge"}, inversedBy="warranties")
-	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="SET NULL")
+	 * @ORM\JoinColumn(name="id_product", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected
 		$product;
@@ -366,6 +387,12 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	protected
 		$extendedWarrantyPeriod;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $description;
 	
 	/**
 	 * @var string|null
@@ -764,5 +791,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	public function setDealerName(?string $dealerName): void {
 		$this->dealerName = $dealerName;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getDescription(): ?string {
+		return $this->description;
+	}
+	
+	/**
+	 * @param null|string $description
+	 */
+	public function setDescription(?string $description): void {
+		$this->description = $description;
 	}
 }

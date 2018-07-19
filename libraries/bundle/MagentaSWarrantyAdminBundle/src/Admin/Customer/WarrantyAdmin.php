@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Doctrine\ORM\EntityRepository;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\AccessControl\ACLAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\Product\ProductAdmin;
@@ -12,11 +13,13 @@ use Magenta\Bundle\SWarrantyAdminBundle\Form\Type\ProductDetailType;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\WarrantyModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Doctrine\ORM\Query\Expr;
@@ -57,7 +60,7 @@ class WarrantyAdmin extends BaseAdmin {
 		// reverse order (default = 'ASC')
 		'_sort_order' => 'DESC',
 		// name of the ordered field (default = the model's id field, if any)
-		'_sort_by'    => 'updatedAt',
+		'_sort_by'    => 'id',
 	);
 	
 	protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation) {
@@ -84,18 +87,31 @@ class WarrantyAdmin extends BaseAdmin {
 		return $object;
 	}
 	
-	/**
-	 * @param string   $name
-	 * @param Warranty $object
-	 */
-	public function isGranted($name, $object = null) {
-		return parent::isGranted($name, $object);
-	}
-	
 	public function toString($object) {
 		return $object instanceof Warranty
 			? $object->getCustomer()->getName() . ' - ' . $object->getProduct()->getName()
 			: 'Warranty'; // shown in the breadcrumb on the create view
+	}
+	
+	protected function getAccess() {
+		return array_merge(parent::getAccess(), [
+			'create-case' => 'CREATE_CASE',
+			'list-cases'  => 'LIST_CASES'
+		]);
+	}
+	
+	public function isGranted(
+		$name, $object = null
+	) {
+		if(in_array($name, [ WarrantyModule::PERMISSION_CREATE_CASE, WarrantyModule::PERMISSION_LIST_CASES ])) {
+			$org = $this->getCurrentOrganisation();
+			$sys = $org->getSystem();
+			$mod = $sys->getModuleByCode(WarrantyModule::MODULE_CODE);
+			
+			return $mod->isUserGranted($this->getCurrentOrganisationMember(), $name, $object, $this->getClass());
+		}
+		
+		return parent::isGranted($name, $object);
 	}
 	
 	public function createQuery($context = 'list') {
@@ -152,6 +168,7 @@ class WarrantyAdmin extends BaseAdmin {
 			$query->andWhere($expr->eq($customerAlias . '.organisation', $org->getId()));
 		}
 		$sql = $qb->getQuery()->getSQL();
+		
 		return $query;
 	}
 	
@@ -192,8 +209,8 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
 			->add('purchaseDate', null, [
-				'label'    => 'form.label_purchase_date',
-				'format'   => 'd - m - Y'
+				'label'  => 'form.label_purchase_date',
+				'format' => 'd - m - Y'
 			])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
 			->add('product.warrantyPeriod', null, [
@@ -218,7 +235,7 @@ class WarrantyAdmin extends BaseAdmin {
 		           ->add('customer.homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 		           ->end()
 		           ->with('form_group.warranty_records', [ 'class' => 'col-md-6' ])
-		           ->add('customer.warranties', null, [
+		           ->add('customer.warranties', 'warranty', [
 			           'label'               => false,
 			           'associated_property' => 'id'
 //				'template'            => '@MagentaSWarrantyAdmin/CRUD/Association/show_one_to_many.html.twig'
@@ -233,13 +250,13 @@ class WarrantyAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'review_submission' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
-					'case'              => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
-					'case_add'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
-					'transfer_ownership'          => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__transfer_ownership.html.twig' ),
+					'review_submission'  => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__review_submission.html.twig' ),
+					'case'               => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case.html.twig' ),
+					'case_add'           => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__case_add.html.twig' ),
+					'transfer_ownership' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/Action/list__action__transfer_ownership.html.twig' ),
 					
-					'edit'              => array(),
-					'delete'            => array(),
+					'edit'   => array(),
+					'delete' => array(),
 //					'send_evoucher' => array( 'template' => '::admin/employer/employee/list__action_send_evoucher.html.twig' )
 
 //                ,
@@ -252,15 +269,16 @@ class WarrantyAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
+			->add('number', null, [ 'label' => 'form.label_number' ])
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
-			->add('dealer.name', null, [ 'editable' => true, 'label' => 'form.label_dealer' ])
-			->add('product.brand.name', null, [ 'editable' => true, 'label' => 'form.label_brand' ])
-			->add('product.name', null, [ 'editable' => true, 'label' => 'form.label_model_name' ])
-			->add('purchaseDate', null, [ 'editable' => true, 'label' => 'form.label_purchase_date' ])
-			->add('createdAt', null, [ 'editable' => true, 'label' => 'form.label_submission_date' ])
-			->add('expiryDate', null, [ 'editable' => true, 'label' => 'form.label_expiry_date' ]);
+			->add('dealer.name', null, [ 'editable' => false, 'label' => 'form.label_dealer' ])
+			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])
+			->add('product.name', null, [ 'editable' => false, 'label' => 'form.label_model_name' ])
+			->add('purchaseDate', 'date', [ 'editable' => false, 'label' => 'form.label_purchase_date' ])
+			->add('createdAt', 'date', [ 'editable' => false, 'label' => 'form.label_submission_date' ])
+			->add('expiryDate', 'date', [ 'editable' => false, 'label' => 'form.label_expiry_date' ]);
 		
 		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_images' ]);
 
@@ -290,6 +308,12 @@ class WarrantyAdmin extends BaseAdmin {
 					'label' => false,
 //					'class'         => Media::class
 				]);
+		
+		$formMapper->add('description', CKEditorType::class, [
+			'required' => false,
+			'label'    => 'form.label_notes'
+		]);
+		
 		$formMapper->end();
 		$formMapper
 			->with('form_group.customer_details', [ 'class' => 'col-md-3' ]);
@@ -358,7 +382,7 @@ class WarrantyAdmin extends BaseAdmin {
 		]);
 		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
-			'required' => true,
+			'required'              => true,
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
 			'datepicker_use_button' => false,

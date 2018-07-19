@@ -1,0 +1,3 @@
+service_sheet:
+    path:     /service-sheet
+    controller: Magenta\Bundle\SWarrantyAdminBundle\Controller\ServiceSheetController::indexAction

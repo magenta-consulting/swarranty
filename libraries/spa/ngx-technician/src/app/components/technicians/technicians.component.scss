@@ -1,3 +1,14 @@
+.preview-label span {
+  white-space: normal;
+}
+.preview-label{
+    flex: 0 0 91px;
+}
+.preview-text{
+  display: flex;
+  align-items: center;
+}
+
 .tech-wrap {
     .nav-tabs {
         border-bottom: 1px solid #ddd;

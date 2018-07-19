@@ -19,6 +19,10 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
     cases: Case[];
 
     constructor(private memberService: MemberService) {
+        this.fetchMembers();
+    }
+
+    fetchMembers() {
         this.memberService.getMembers(1).subscribe(members => {
             this.cases = members[0].assignedCases;
         });

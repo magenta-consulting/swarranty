@@ -38,6 +38,19 @@ class MediaController extends SonataMediaController {
 	/** @var RegistryInterface */
 	private $registry;
 	
+	/**
+	 * @param int $id
+	 * We should report this
+	 *
+	 * @return View|mixed
+	 */
+	public function deleteMediumAction($id) {
+		$data = parent::deleteMediumAction($id);
+		$view = FOSRestView::create($data);
+		
+		return $view;
+	}
+	
 	private function populateOwnerFields(Media $media, array $fields, Request $request) {
 		foreach($fields as $field => $class) {
 			$id = $request->get($field);
@@ -79,7 +92,7 @@ class MediaController extends SonataMediaController {
 			
 			$this->populateOwnerFields($media, [
 				'receiptImageWarranty' => Warranty::class,
-				'imageServiceSheet' => ServiceSheet::class,
+				'imageServiceSheet'    => ServiceSheet::class,
 			], $request);
 			
 			$this->mediaManager->save($media);
