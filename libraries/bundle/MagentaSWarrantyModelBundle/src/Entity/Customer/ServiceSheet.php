@@ -32,7 +32,17 @@ class ServiceSheet {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
-		$this->images = new ArrayCollection();
+		$this->images    = new ArrayCollection();
+	}
+	
+	public
+	function initiateNumber() {
+		if(empty($this->number) && ! empty($this->case) && ! empty($apmt = $this->appointment) && ! empty($assignee = $apmt->getAssignee())) {
+			$now          = new \DateTime();
+			$this->number = User::generateCharacterCode();
+			$this->number .= $this->case->getNumber() . '-' . $now->format('dmy');
+			$this->number .= '-' . $assignee->getId();
+		}
 	}
 	
 	/**
@@ -72,6 +82,13 @@ class ServiceSheet {
 	 * @ORM\JoinColumn(name="id_case", referencedColumnName="id", onDelete="CASCADE")
 	 */
 	protected $case;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected
+		$number;
 	
 	/**
 	 * @var \DateTime
@@ -133,5 +150,19 @@ class ServiceSheet {
 	 */
 	public function setImages(?Collection $images): void {
 		$this->images = $images;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getNumber(): ?string {
+		return $this->number;
+	}
+	
+	/**
+	 * @param null|string $number
+	 */
+	public function setNumber(?string $number): void {
+		$this->number = $number;
 	}
 }
