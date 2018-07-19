@@ -124,14 +124,17 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         return metadata;
     };
 
-    onUploadFinished(file: FileHolder, warId: any) {
+    onUploadFinished(file: FileHolder) {
         console.log('finished', file);
+
+        // 1.
+        // this.getDataWarranties();
     }
 
-    onRemoved(file: FileHolder) {
+    onRemoved(file: FileHolder, serverResponse) {
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-
+        
         let v_confirm = false;
         // check android or ios
         if(navigator.userAgent.toLowerCase().indexOf("android") > -1 
