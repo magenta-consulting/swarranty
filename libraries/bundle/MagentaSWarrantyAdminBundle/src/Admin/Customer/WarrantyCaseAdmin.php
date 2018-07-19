@@ -360,7 +360,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
-	
+
 //	/**
 //	 * {@inheritdoc}
 //	 *
@@ -578,9 +578,9 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		} else {
 			$formMapper->add('appointments', CollectionType::class,
 				array(
-					'required'    => true,
-					'constraints' => new Valid(),
-					'label'       => 'form.label_appointments',
+					'required'      => true,
+					'constraints'   => new Valid(),
+					'label'         => 'form.label_appointments',
 					'btn_catalogue' => 'CustomerCaseAppointmentAdmin'
 				), array(
 					'edit'            => 'inline',
@@ -613,11 +613,18 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	 */
 	public function preValidate($object) {
 		parent::preValidate($object);
-		$apmts = $object->getAppointments();
-		
+		$apmts   = $object->getAppointments();
+		$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
 		/** @var CaseAppointment $apmt */
 		foreach($apmts as $apmt) {
 			if( ! empty($apmt)) {
+				$note = $apmt->getServiceNote();
+				if( ! empty($note) && empty($note->getDescription())) {
+					$apmt->setServiceNote(null);
+					$note->setAppointment(null);
+					$manager->remove($note);
+					$manager->flush($note);
+				}
 				$object->addAppointment($apmt);
 			}
 		}
