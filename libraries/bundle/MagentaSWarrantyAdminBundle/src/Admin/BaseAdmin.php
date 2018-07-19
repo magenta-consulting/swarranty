@@ -139,6 +139,15 @@ class BaseAdmin extends AbstractAdmin {
 		
 		return;
 	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getExportFormats() {
+		return [
+			'xls'
+		];
+	}
 
 //	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 //		if( ! empty($orgId = $this->getRequest()->query->getInt('organisation', 0))) {
@@ -168,7 +177,7 @@ class BaseAdmin extends AbstractAdmin {
 	}
 	
 	protected function getCurrentOrganisationMember($required = false) {
-		$user = $this->getLoggedInUser();
+		$user   = $this->getLoggedInUser();
 		$person = $user->getPerson();
 		if(empty($person)) {
 			return null;

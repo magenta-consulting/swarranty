@@ -333,7 +333,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //				'editable' => true,
 				'label' => 'form.label_case_detail'
 			])
-			->add('serviceNotes', null, [
+			->add('serviceNotes', 'serviceNotes', [
 				'label'               => 'form.label_service_notes',
 				'associated_property' => 'description'
 			])
@@ -361,19 +361,16 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	
-	/**
-	 * {@inheritdoc}
-	 *
-	 */
-	public function getExportFormats() {
-		return [
-			'json',
-			'xml',
-			'csv',
-			'xls',
-			'html'
-		];
-	}
+//	/**
+//	 * {@inheritdoc}
+//	 *
+//	 */
+//	public function getExportFormats() {
+//		return [
+//			'xlsx',
+////			'html'
+//		];
+//	}
 	
 	protected function getAutocompleteRouteParameters() {
 		/** @var WarrantyCase $case */
@@ -584,7 +581,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'required'    => true,
 					'constraints' => new Valid(),
 					'label'       => 'form.label_appointments',
-//					'btn_catalogue'appendFormFieldElementAction => 'InterviewQuestionSetAdmin'
+					'btn_catalogue' => 'CustomerCaseAppointmentAdmin'
 				), array(
 					'edit'            => 'inline',
 //					'inline'          => 'table',

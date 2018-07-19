@@ -11,7 +11,11 @@ input::-webkit-inner-spin-button {
 }
 
 .preview-label {
-  flex: 0 0 85px;
+  flex: 0 0 101px;
+}
+
+.preview-label .input-group-text {
+  width: 101px;
 }
 
 .preview-text {

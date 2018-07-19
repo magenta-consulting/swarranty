@@ -18,6 +18,15 @@ file that was distributed with this source code.
                 {{- block('relation_value') -}}
             </a>
         {% endspaceless %}
+    {% elseif field_description.type == 'serviceNotes' %}
+        <p>
+            {{ element.description }}
+        </p>
+        <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+        {% if element.appointment is not empty %}
+            <br/><code>{{ element.appointment.assigneeName }}</code>
+        {% endif %}
+        <hr/>
     {% else %}
         {{- parent() -}}
     {% endif %}
@@ -40,8 +49,16 @@ file that was distributed with this source code.
                 <img src="{{ field_description.associationadmin.getUrlsafeIdentifier(element)|privateMediumUrl }}"
                      width="75"/>
             {% endif %}
-
         {% endspaceless %}
+    {% elseif field_description.type == 'serviceNotes' %}
+        <p>
+            {{ element.description }}
+        </p>
+        <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+        {% if element.appointment is not empty %}
+            <br/><code>{{ element.appointment.assigneeName }}</code>
+        {% endif %}
+        <hr/>
     {% else %}
         {{ parent() }}
     {% endif %}

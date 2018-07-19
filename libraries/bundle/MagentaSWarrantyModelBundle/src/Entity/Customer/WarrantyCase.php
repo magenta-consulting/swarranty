@@ -373,6 +373,13 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$createdAt;
 	
 	/**
+	 * @var \DateTime
+	 * @ORM\Column(type="datetime")
+	 */
+	protected
+		$updatedAt;
+	
+	/**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
@@ -898,4 +905,17 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->appointmentTo = $appointmentTo;
 	}
 	
+	/**
+	 * @return \DateTime
+	 */
+	public function getUpdatedAt(): \DateTime {
+		return $this->updatedAt;
+	}
+	
+	/**
+	 * @param \DateTime $updatedAt
+	 */
+	public function setUpdatedAt(\DateTime $updatedAt): void {
+		$this->updatedAt = $updatedAt;
+	}
 }

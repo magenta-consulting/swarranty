@@ -180,6 +180,7 @@ class CustomerAdmin extends BaseAdmin {
 		$formMapper
 			->add('name', null, [ 'label' => 'form.label_name' ])
 			->add('email', null, [ 'label' => 'form.label_email' ])
+			->add('dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
 			->add('telephone', null, [ 'label' => 'form.label_telephone' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
 //			->add('person.familyName',null,['label' => 'form.label_family_name' ])

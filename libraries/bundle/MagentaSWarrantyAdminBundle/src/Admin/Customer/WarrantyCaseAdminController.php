@@ -45,7 +45,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 		$format = $request->get('format');
 		
 		$adminExporter        = $this->get('sonata.admin.admin_exporter');
-		$allowedExportFormats = $adminExporter->getAvailableFormats($this->admin);
+		$allowedExportFormats = array_merge($adminExporter->getAvailableFormats($this->admin), [ 'html' ]);
 //		$filename             = $adminExporter->getExportFilename($this->admin, $format);
 //		$exporter             = $this->get('sonata.exporter.exporter');
 		
@@ -69,63 +69,6 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 		);
 		
 		if($format === 'html') {
-//			$spreadsheet = new Spreadsheet();
-//			$sheet       = $spreadsheet->getActiveSheet();
-//			$sheet->setCellValue('A1', 'Hello World !');
-//
-//			$writer   = new Xlsx($spreadsheet);
-//			$filename = 'service-sheet.xlsx';
-
-//			// ask the service for a Excel5
-//			$phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
-//
-//			$phpExcelObject->getProperties()->setCreator("Solution")
-//			               ->setLastModifiedBy("Solution")
-//			               ->setTitle("Download - Raw Data")
-//			               ->setSubject("Employee Report - Raw Data")
-//			               ->setDescription("Raw Data")
-//			               ->setKeywords("office 2005 openxml php")
-//			               ->setCategory("Raw Data Download");
-//
-//			$phpExcelObject->setActiveSheetIndex(0);
-//			$activeSheet = $phpExcelObject->getActiveSheet();
-//
-//			$activeSheet->setCellValue('A1', "First Name")
-//			            ->setCellValue('B1', "Last Name")
-//			            ->setCellValue('C1', "DOB")
-//			            ->setCellValue('D1', "Gender")
-//			            ->setCellValue('E1', "NRIC/FIN")
-//			            ->setCellValue('F1', "SchemeID")
-//			            ->setCellValue('G1', "Employer")
-//			            ->setCellValue('H1', "Biz Registration No");
-//
-//			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-//			$phpExcelObject->setActiveSheetIndex(0);
-//			$activeSheet = $phpExcelObject->getActiveSheet();
-//			$sWriter = new SpreadsheetWriter($activeSheet);
-//			$sWriter->goFirstColumn();
-//			$sWriter->goFirstRow();
-//
-//			$source = $this->admin->getDataSourceIterator();
-//			foreach ($source as $data) {
-//				$sWriter->goDown();
-//				$sWriter->goFirstColumn();
-//				foreach ($data as $value) {
-//					$sWriter->writeCell($value);
-//					$sWriter->goRight();
-//				}
-//			}
-//
-//			// create the writer
-//			$writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
-			
-			// create the response
-//			$response = $this->createSpreadsheetStreamedResponse($writer);
-//			$response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-//			$response->headers->set('Pragma', 'public');
-//			$response->headers->set('Cache-Control', 'maxage=1');
-//
-//			$response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
 			$d = new \DateTime();
 			
 			$source = $this->admin->getDataSourceIterator();
