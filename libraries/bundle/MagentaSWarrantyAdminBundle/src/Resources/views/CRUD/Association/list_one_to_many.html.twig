@@ -45,7 +45,7 @@ file that was distributed with this source code.
             </a>
         {% endspaceless %}
     {% elseif field_description.type == 'serviceNotes' %}
-        {% if element.description not empty %}
+        {% if element.description is not empty %}
             <p>
                 {{ element.description }}
             </p>
@@ -79,7 +79,7 @@ file that was distributed with this source code.
             {% endif %}
         {% endspaceless %}
     {% elseif field_description.type == 'serviceNotes' %}
-        {% if element.description not empty %}
+        {% if element.description is not empty %}
             <p>
                 {{ element.description }}
             </p>
