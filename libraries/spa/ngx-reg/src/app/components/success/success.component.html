@@ -4,7 +4,7 @@
         <p class="note">A copy of this product registration will be sent to your email for your reference.             </p>
         <div class="success-list"
         *ngIf="!isLoading">
-            <div *ngIf="prodList.length != 0">
+            <div *ngIf="prodList.length > 0">
                 <div
                 *ngFor="let warranty of prodList; index as i;"
                 class="success-item">
@@ -14,6 +14,9 @@
                     <p>Product Category: {{warranty.product.name}}</p>
                     <p>Model Name: {{warranty.product.modelNumber}}</p>
                     <p>Serial Number: {{warranty.productSerialNumber}}</p>
+                </div>
+                <div>
+                    All hoods have a default motor warranty period of 3 years
                 </div>
             </div>
             <div
