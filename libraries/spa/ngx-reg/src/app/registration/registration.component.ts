@@ -28,7 +28,7 @@ import {RegistrationService} from '../service/registration.service';
 import {FormControl} from '@angular/forms';
 import {} from 'googlemaps';
 import {MapsAPILoader} from '@agm/core';
-import { CompleterService, CompleterData } from 'ng2-completer';
+import {CompleterService, CompleterData} from 'ng2-completer';
 
 @Component({
     selector: 'app-registration',
@@ -160,7 +160,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     rw.dealer = w.selectedDealer;
                     reg.warranties.push(rw);
                 }
-                
+
                 this.registrationSerice.postRegistration(reg).subscribe(reg => {
                     localStorage.setItem('regId', reg['@id']);
                     let regId = reg['@id'];
@@ -243,7 +243,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (type == 1) {
             this.modalTitle = 'Terms and Conditions';
             this.modalContent = this.organisation.tos;
-        } else {
+        } else if (type == 2) {
             this.modalTitle = 'Data Protection Policy';
             this.modalContent = this.organisation.dataPolicy;
         }

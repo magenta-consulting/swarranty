@@ -12,6 +12,10 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation:
     attributes:
         name:
             groups: ['read_organisation','write_organisation']
+        psnLocationUrl:
+            groups: ['read_organisation','write_organisation']
+        psnLocationInstruction:
+            groups: ['read_organisation','write_organisation']
         tos:
             groups: ['read_organisation','write_organisation']
         dataPolicy:

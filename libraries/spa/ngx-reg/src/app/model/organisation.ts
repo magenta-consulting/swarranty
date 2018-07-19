@@ -10,5 +10,6 @@ export class Organisation {
     logo: any;
     tos: string;
     dataPolicy: string;
-
+    psnLocationUrl: string;
+    psnLocationInstruction: string;
 }

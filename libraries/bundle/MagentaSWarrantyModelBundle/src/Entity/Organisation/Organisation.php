@@ -159,6 +159,17 @@ class Organisation extends OrganizationModel {
 	 */
 	protected $tos;
 	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $psnLocationUrl;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $psnLocationInstruction;
 	
 	/**
 	 * @var string|null
@@ -467,5 +478,33 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setMessageTemplates(Collection $messageTemplates): void {
 		$this->messageTemplates = $messageTemplates;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getPsnLocationInstruction(): ?string {
+		return $this->psnLocationInstruction;
+	}
+	
+	/**
+	 * @param null|string $psnLocationInstruction
+	 */
+	public function setPsnLocationInstruction(?string $psnLocationInstruction): void {
+		$this->psnLocationInstruction = $psnLocationInstruction;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getPsnLocationUrl(): ?string {
+		return $this->psnLocationUrl;
+	}
+	
+	/**
+	 * @param null|string $psnLocationUrl
+	 */
+	public function setPsnLocationUrl(?string $psnLocationUrl): void {
+		$this->psnLocationUrl = $psnLocationUrl;
 	}
 }
