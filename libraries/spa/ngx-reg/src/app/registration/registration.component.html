@@ -254,10 +254,11 @@
                 </div>
                 <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-2">
                     <input [(ngModel)]="warranty.productSerialNumber" type="text" class="form-control"
-                           placeholder="Product Serial Number"
+                           placeholder="(*) Product Serial Number"
                            aria-label="Product Serial Number"
                            (keyup.enter)="updateField('productSerialNumber'+i)"
                            (blur)="updateField('productSerialNumber'+i)">
+                    <div>How do I find</div>
                 </div>
                 <div *ngIf="isPreview('productSerialNumber'+i)" (click)="editPreview('productSerialNumber'+i)" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
@@ -269,6 +270,9 @@
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
+                </div>
+                <div *ngIf="checkingError && warranty.productSerialNumber == null" class="alert alert-danger" role="alert">
+                    This field is required
                 </div>
                 <div *ngIf="!isPreview('dealerName'+i)" class="input-group mb-2">
                     <ng-select class="mb-2" [items]="warranty.dealers"
