@@ -12,7 +12,7 @@ file that was distributed with this source code.
 {% extends '@SonataAdmin/CRUD/Association/list_one_to_many.html.twig' %}
 
 {% block field %}
-    {%-if field_description.type == 'image' or field_description.type == 'serviceNotes' %}
+    {%- if field_description.type == 'image' or field_description.type == 'serviceNotes' %}
         {% spaceless %}
             {% set route_name = field_description.options.route.name %}
             {% if field_description.hasassociationadmin and field_description.associationadmin.hasRoute(route_name) %}
@@ -45,14 +45,16 @@ file that was distributed with this source code.
             </a>
         {% endspaceless %}
     {% elseif field_description.type == 'serviceNotes' %}
-        <p>
-            {{ element.description }}
-        </p>
-        <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
-        {% if element.appointment is not empty %}
-            <br/><code>{{ element.appointment.assigneeName }}</code>
+        {% if element.description not empty %}
+            <p>
+                {{ element.description }}
+            </p>
+            <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+            {% if element.appointment is not empty %}
+                <br/><code>{{ element.appointment.assigneeName }}</code>
+            {% endif %}
+            <hr/>
         {% endif %}
-        <hr/>
     {% else %}
         {{- parent() -}}
     {% endif %}
@@ -77,14 +79,16 @@ file that was distributed with this source code.
             {% endif %}
         {% endspaceless %}
     {% elseif field_description.type == 'serviceNotes' %}
-        <p>
-            {{ element.description }}
-        </p>
-        <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
-        {% if element.appointment is not empty %}
-            <br/><code>{{ element.appointment.assigneeName }}</code>
+        {% if element.description not empty %}
+            <p>
+                {{ element.description }}
+            </p>
+            <code>{{ element.createdAt|date('d-m-Y H:i') }}</code>
+            {% if element.appointment is not empty %}
+                <br/><code>{{ element.appointment.assigneeName }}</code>
+            {% endif %}
+            <hr/>
         {% endif %}
-        <hr/>
     {% else %}
         {{ parent() }}
     {% endif %}
