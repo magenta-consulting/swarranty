@@ -275,12 +275,18 @@
                     This field is required
                 </div>
                 <div *ngIf="!isPreview('dealerName'+i)" class="input-group mb-2">
-                    <ng-select class="mb-2" [items]="warranty.dealers"
+                    <!-- <ng-select class="mb-2" [items]="warranty.dealers"
                                 bindLabel="name"
                                 placeholder="Dealer's Name"
                                 [(ngModel)]="warranty.selectedDealer"
                                 (blur)="updateField('dealerName'+i)">
-                    </ng-select>
+                    </ng-select> -->
+                    <ng2-completer class="ng2-ipt mb-2"
+                    placeholder="Dealer's Name"
+                    [(ngModel)]="warranty.selectedDealer"
+                    [datasource]="dataDealers"
+                    inputClass="form-control"
+                    [minSearchLength]="0"></ng2-completer>
                 </div>
                 <div *ngIf="isPreview('dealerName'+i)" (click)="editPreview('dealerName'+i)" class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">

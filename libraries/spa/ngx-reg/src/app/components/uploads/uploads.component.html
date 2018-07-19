@@ -46,7 +46,7 @@
                                         [uploadedFiles]="prod.imageUrl"
                                         [beforeUpload]="onBeforeUpload"
                                         (removed)="onRemoved($event)"
-                                        (uploadFinished)="onUploadFinished($event, prod.id)"
+                                        (uploadFinished)="onUploadFinished($event)"
                                         (uploadStateChanged)="onUploadStateChanged($event)"
                                         buttonCaption="Upload a Picture Now"></image-upload>
                             </div>
