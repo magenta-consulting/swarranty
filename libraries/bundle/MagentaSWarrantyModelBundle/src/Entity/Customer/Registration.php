@@ -62,6 +62,7 @@ class Registration implements ThingChildInterface {
 		} else {
 			$domain = $protocol . $domain;
 		}
+		
 		$emailVerUrl = $domain . '/front/verify-email?token=' . $this->customer->initiateEmailVerificationToken();
 		$emailVerUrl .= '&amp;reg=' . $this->id;
 		$bc          = str_replace('{verification_url}', $emailVerUrl, $bc);
@@ -74,7 +75,9 @@ class Registration implements ThingChildInterface {
 		$mt     = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_COPY);
 		$bc     = $mt->getContent();
 		$system = $org->getSystem();
+		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
 		
+		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
 	/**

@@ -134,6 +134,7 @@ form_group:
     service_notes: Service Notes
 
 form_field:
+    label_warranty_approved_notif_template: Notification When Warranty Approved
     label_registration_email_verification_template: Registration Email Verification
     label_registration_copy_template: Registration Copy
     label_registration_fields: Registration Fields

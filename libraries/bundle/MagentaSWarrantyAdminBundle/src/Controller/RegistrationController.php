@@ -31,7 +31,8 @@ class RegistrationController extends Controller {
 			throw new UnauthorizedHttpException('Invalid Reg ID');
 		}
 		$regRepo = $this->getDoctrine()->getRepository(Registration::class);
-		$reg     = $regRepo->find($regId);
+		/** @var Registration $reg */
+		$reg = $regRepo->find($regId);
 		if(empty($reg)) {
 			throw new UnauthorizedHttpException('Reg ID not found');
 		}

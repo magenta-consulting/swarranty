@@ -336,6 +336,12 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
+	protected $warrantyApprovalNotified;
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
 	protected
 		$extendedWarrantyPeriodApproved = false;
 	
@@ -806,5 +812,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 */
 	public function setDescription(?string $description): void {
 		$this->description = $description;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isWarrantyApprovalNotified(): bool {
+		return $this->warrantyApprovalNotified;
+	}
+	
+	/**
+	 * @param bool $warrantyApprovalNotified
+	 */
+	public function setWarrantyApprovalNotified(bool $warrantyApprovalNotified): void {
+		$this->warrantyApprovalNotified = $warrantyApprovalNotified;
 	}
 }

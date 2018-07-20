@@ -47,14 +47,21 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 		$reg = $regRepo->find($regEmail->registrationId);
 		
 		// We do nothing if the Reg does not exist in the database
-		if( ! empty($reg) && ! empty($email = $reg->getCustomer()->getEmail())) {
-			$message = (new \Swift_Message('Hello Email'))
-				->setFrom('no-reply@magenta-wellness.com')
-				->setTo($email)
-				->setBody(
-					"<h1>Sample Email Template</h1>",
-					'text/html'
-				)/*
+		if( ! empty($reg)) {
+			if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
+				if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
+					$msg = $reg->prepareEmailVerificationMessage();
+				} else {
+					$msg = $reg->prepareRegCopyMessage();
+				}
+				$email   = $msg['recipient'];
+				$message = (new \Swift_Message($msg['subject']))
+					->setFrom('no-reply@magenta-wellness.com')
+					->setTo($email)
+					->setBody(
+						$msg['body'],
+						'text/html'
+					)/*
 				 * If you also want to include a plaintext version of the message
 				->addPart(
 					$this->renderView(
@@ -64,13 +71,10 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 					'text/plain'
 				)
 				*/
-			;
-			
-			$this->mailer->send($message);
-			
-		}
-		if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
-			$message = '';
+				;
+				
+				$this->mailer->send($message);
+			}
 		}
 		$event->setResponse(new JsonResponse([ 'message' => $message ], 201));
 	}

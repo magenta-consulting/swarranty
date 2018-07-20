@@ -58,6 +58,8 @@ class WarrantyListener {
 				}
 			}
 		}
+		
+		
 	}
 	
 	public function preUpdateHandler(Warranty $warranty, LifecycleEventArgs $event) {
@@ -127,6 +129,11 @@ class WarrantyListener {
 //			$manager->flush($warranty);
 			$manager->persist($warranty);
 			$manager->flush($warranty);
+		}
+		
+		if($warranty->isApproved() && ! $warranty->isWarrantyApprovalNotified()) {
+			$warranty->setWarrantyApprovalNotified(true);
+			
 		}
 		
 	}

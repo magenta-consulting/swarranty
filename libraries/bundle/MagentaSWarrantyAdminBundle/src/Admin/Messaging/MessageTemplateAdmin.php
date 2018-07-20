@@ -186,6 +186,7 @@ class MessageTemplateAdmin extends BaseAdmin {
 			'choices'            => [
 				'form_field.label_registration_email_verification_template' => MessageTemplate::TYPE_REGISTRATION_VERIFICATION,
 				'form_field.label_registration_copy_template'               => MessageTemplate::TYPE_REGISTRATION_COPY,
+				'form_field.label_warranty_approved_notif_template'               => MessageTemplate::TYPE_WARRANTY_APPROVED,
 			],
 			'translation_domain' => $this->translationDomain
 		));
