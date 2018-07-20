@@ -10,6 +10,9 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        admin_front:
+            pattern:   ^/front
+            anonymous: true
 
         admin:
             context:        main
@@ -69,6 +72,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/front, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

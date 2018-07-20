@@ -79,7 +79,6 @@ class Registration implements ThingChildInterface {
 	public function removeWarranty(Warranty $warranty) {
 		$this->warranties->removeElement($warranty);
 		$warranty->setRegistration(null);
-		
 	}
 	
 	/**

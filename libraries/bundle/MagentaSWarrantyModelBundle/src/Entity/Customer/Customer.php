@@ -29,6 +29,14 @@ class Customer extends Thing {
 		return $this->fullText .= ' ' . sprintf('email:%s phone:%s home address:%s ', $this->email, $this->telephone, $this->homeAddress);
 	}
 	
+	public function initiateEmailVerificationToken() {
+		if( ! empty($this->emailVerificationToken)) {
+			$this->emailVerificationToken = User::generateCharacterCode(null, 16);
+		}
+		
+		return $this->emailVerificationToken;
+	}
+	
 	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"})
@@ -88,6 +96,12 @@ class Customer extends Thing {
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $email;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $emailVerificationToken;
 	
 	/**
 	 * @var string|null
@@ -251,5 +265,19 @@ class Customer extends Thing {
 	 */
 	public function setEmailVerified(?bool $emailVerified): void {
 		$this->emailVerified = $emailVerified;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmailVerificationToken(): ?string {
+		return $this->emailVerificationToken;
+	}
+	
+	/**
+	 * @param null|string $emailVerificationToken
+	 */
+	public function setEmailVerificationToken(?string $emailVerificationToken): void {
+		$this->emailVerificationToken = $emailVerificationToken;
 	}
 }

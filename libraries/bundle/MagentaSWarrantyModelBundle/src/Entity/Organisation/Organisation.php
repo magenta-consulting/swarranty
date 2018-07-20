@@ -183,6 +183,12 @@ class Organisation extends OrganizationModel {
 	
 	/**
 	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $emailVerificationUrl;
+	
+	/**
+	 * @var string|null
 	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $psnLocationInstruction;
@@ -536,5 +542,19 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setProductRegUrl(?string $productRegUrl): void {
 		$this->productRegUrl = $productRegUrl;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmailVerificationUrl(): ?string {
+		return $this->emailVerificationUrl;
+	}
+	
+	/**
+	 * @param null|string $emailVerificationUrl
+	 */
+	public function setEmailVerificationUrl(?string $emailVerificationUrl): void {
+		$this->emailVerificationUrl = $emailVerificationUrl;
 	}
 }

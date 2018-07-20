@@ -158,6 +158,9 @@ class OrganisationAdmin extends BaseAdmin {
 			'config' => array( 'toolbar' => 'full' ),
 		]);
 		$formMapper
+			->add('emailVerificationUrl', null, [
+			
+			])
 			->add('productRegUrl', null, [
 			
 			])

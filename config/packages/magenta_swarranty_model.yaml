@@ -82,6 +82,9 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\CustomerListener"
                                     event:
                                         -
+                                            type: postLoad
+                                            method: postLoadHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -

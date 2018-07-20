@@ -81,65 +81,14 @@ class CustomerListener {
 	
 	public function postRemoveHandler(Customer $customer, LifecycleEventArgs $event) {
 	}
-
-//	private function handleAdminEmail(Customer $customer) {
-//		$adminEmail = $customer->getAdminEmail();
-//		if( ! empty($adminEmail)) {
-//			$entityManager = $this->container->get('doctrine.orm.entity_manager');
-////            $userManager = $this->container->get('sonata.user.manager.user');
-////            $adminUser = $userManager->findOneBy(['email' => $adminEmail]);
-////            if (empty($adminUser)) {
-//			$adminUser = new User();
-//			$person = new Person();
-//			$person->setUser($adminUser);
-//			$adminUser->setPerson($person);
-//
-//			$person->setEnabled(true);
-//
-//			$person->setFamilyName($customer->getAdminFamilyName());
-//			$person->setGivenName($customer->getAdminGivenName());
-////			$adminUser->setPhone($customer->getAdminPhone());
-//
-//			$adminUser->setEmail($adminEmail);
-//			$adminUser->setUsername($adminEmail);
-//			$adminUser->setPlainPassword($customer->getAdminPassword());
-//			$adminUser->setEnabled(true);
-//			$adminUser->addRole('ROLE_USER');
-////            $userManager->save($adminUser);
-////            }
-//
-//			$position = new CustomerMember();
-////			$position->setEmail($adminEmail);
-//			$position->setPerson($person);
-//
-//			$position->setOrganization($customer);
-//			$position->addRole(Position::ROLE_ADMIN);
-//			if($customer->isPositionExistent($position)) {
-//				$employee = $this->container->get('sonata.user.manager.user')->findOneBy([ 'email' => $adminUser->getEmail() ]);
-//				$managedPosition = $this->container->get('doctrine')->getRepository(Position::class)->findOneBy([
-//					'employee' => $employee->getId(),
-//					'employer' => $customer->getId()
-//				]);
-//				$managedPosition->addRole(Position::ROLE_ADMIN);
-//				$customer->addPosition($managedPosition);
-//				if(empty($managedPosition->impersistable)) {
-//					$managedPosition->impersistable = true;
-//					$entityManager->persist($customer);
-//					$entityManager->flush();
-//				}
-//			} else {
-//				if(empty($position->impersistable)) {
-//					$customer->addPosition($position);
-//					$position->impersistable = true;
-//					$entityManager->persist($customer);
-//					$entityManager->flush();
-//				}
-//			}
-//			$removedPositions = $customer->purgeOldAdminPositions();
-//			foreach($removedPositions as $removedPosition) {
-//				$entityManager->persist($removedPosition);
-//				$entityManager->flush($removedPosition);
-//			}
-//		}
-//	}
+	
+	public function postLoadHandler(Customer $customer, LifecycleEventArgs $args) {
+		if(empty($customer->getEmailVerificationToken()) && empty($customer->isEmailVerified())) {
+			$customer->initiateEmailVerificationToken();
+			$manager = $args->getEntityManager();
+			$manager->persist($customer);
+			$manager->flush($customer);
+		}
+		
+	}
 }
