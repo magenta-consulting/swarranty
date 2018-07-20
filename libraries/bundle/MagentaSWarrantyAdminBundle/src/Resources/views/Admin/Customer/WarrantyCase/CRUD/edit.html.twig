@@ -10,6 +10,17 @@
 
                  {% if admin.hasRoute('decide') and object.id is not empty %}
                      <form role="form" action="/" method="post" class="decision-form" style="width:100%; display: flex; ">
+                         {% if object.completed is not empty %}
+                             <button type="submit" class="decision-button btn btn-warning"
+                                     data-action="{{ admin.generateObjectUrl('decide', object,{'action':'uncomplete'}) }}">
+                                 MARK AS NOT COMPLETED
+                             </button>
+                             {% else %}
+                             <button type="submit" class="decision-button btn btn-primary"
+                                     data-action="{{ admin.generateObjectUrl('decide', object,{'action':'complete'}) }}">
+                                 MARK AS COMPLETED
+                             </button>
+                         {% endif %}
                          {% if object.decisionStatus != 'CLOSED' %}
                              <button type="submit" class="decision-button btn btn-success"
                                      data-action="{{ admin.generateObjectUrl('decide', object,{'action':'close'}) }}">

@@ -6,7 +6,7 @@
                    data-action="{{ admin.generateObjectUrl('decide', object,{'action':'uncomplete'}) }}">
                MARK AS NOT COMPLETED
            </button>
-           {% ense %}
+           {% else %}
            <button type="submit" class="decision-button btn btn-primary"
                    data-action="{{ admin.generateObjectUrl('decide', object,{'action':'complete'}) }}">
                MARK AS COMPLETED
