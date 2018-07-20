@@ -374,7 +374,7 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	
 	/**
 	 * @var \DateTime
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="datetime",nullable=true)
 	 */
 	protected
 		$updatedAt;
