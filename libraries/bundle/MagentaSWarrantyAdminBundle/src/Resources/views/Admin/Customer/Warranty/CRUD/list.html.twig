@@ -1,8 +1,18 @@
 {% extends '@MagentaSWarrantyAdmin/CRUD/list.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        span.progress-description {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 {% block list_header %}
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">View All</a>
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">View
+        All</a>
     <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New
         Submissions</a>

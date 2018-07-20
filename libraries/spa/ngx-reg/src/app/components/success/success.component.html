@@ -10,7 +10,7 @@
                 class="success-item">
                     <p>Warranty Registration ID: {{warranty.number}}</p>
                     <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>
-                    <p>Warranty Expiry: 31 Dec 2019</p>
+                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>
                     <p>Product Category: {{warranty.product.name}}</p>
                     <p>Model Name: {{warranty.product.modelNumber}}</p>
                     <p>Serial Number: {{warranty.productSerialNumber}}</p>

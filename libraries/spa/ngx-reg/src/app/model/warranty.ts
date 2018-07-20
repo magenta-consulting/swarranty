@@ -12,6 +12,7 @@ export class Warranty {
     customer: Customer|string;
     productSerialNumber: string;
     purchaseDate: Date;
+    expiryDate: Date;
     dealer: Dealer;
 
 
@@ -25,19 +26,19 @@ export class Warranty {
 
     constructor() {
         this.brands = [
-            {id: null, name: "Loading"} as Brand
+            {id: null, name: 'Loading'} as Brand
         ];
         this.categories = [
-            {id: null, name: "Loading"} as BrandCategory
+            {id: null, name: 'Loading'} as BrandCategory
         ];
         this.subCategories = [
-            {id: null, name: "Loading"} as BrandSubCategory
+            {id: null, name: 'Loading'} as BrandSubCategory
         ];
         this.products = [
-            {id: null, name: "Loading"} as Product
+            {id: null, name: 'Loading'} as Product
         ];
         this.dealers = [
-            {id: null, name: "Loading"} as Dealer
+            {id: null, name: 'Loading'} as Dealer
         ];
     }
 
