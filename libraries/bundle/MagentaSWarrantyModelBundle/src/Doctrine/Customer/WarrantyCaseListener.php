@@ -117,9 +117,12 @@ class WarrantyCaseListener {
 		if($serviceSheets->count() > 0 && ! empty($apmt)) {
 			/** @var ServiceSheet $ss */
 			foreach($serviceSheets as $ss) {
-				$ss->setAppointment($apmt);
-				$apmt->setServiceSheet($ss);
-				$manager->persist($ss);
+				if( ! empty($ss->getAppointment())) {
+					$ss->setAppointment($apmt);
+					$apmt->setServiceSheet($ss);
+					$manager->persist($ss);
+					break;
+				}
 			}
 		}
 		
