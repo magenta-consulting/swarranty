@@ -157,10 +157,10 @@ class MessageTemplateAdmin extends BaseAdmin {
 	protected function configureListFields(ListMapper $listMapper) {
 		$listMapper->add('_action', 'actions', [
 				'actions' => array(
-					'review_submission'  => array( 'template' => '@MagentaSWarrantyTemplateAdmin/Admin/Customer/MessageTemplate/Action/list__action__review_submission.html.twig' ),
-					'case'               => array( 'template' => '@MagentaSWarrantyTemplateAdmin/Admin/Customer/MessageTemplate/Action/list__action__case.html.twig' ),
-					'case_add'           => array( 'template' => '@MagentaSWarrantyTemplateAdmin/Admin/Customer/MessageTemplate/Action/list__action__case_add.html.twig' ),
-					'transfer_ownership' => array( 'template' => '@MagentaSWarrantyTemplateAdmin/Admin/Customer/MessageTemplate/Action/list__action__transfer_ownership.html.twig' ),
+					'review_submission'  => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/MessageTemplate/Action/list__action__review_submission.html.twig' ),
+					'case'               => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/MessageTemplate/Action/list__action__case.html.twig' ),
+					'case_add'           => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/MessageTemplate/Action/list__action__case_add.html.twig' ),
+					'transfer_ownership' => array( 'template' => '@MagentaSWarrantyAdmin/Admin/Customer/MessageTemplate/Action/list__action__transfer_ownership.html.twig' ),
 					
 					'edit'   => array(),
 					'delete' => array(),
