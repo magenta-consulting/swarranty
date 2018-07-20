@@ -56,11 +56,6 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		
-		$nr = $this->registry->getRepository(Registration::class);
-		$c  = $reg->getCustomer();
-		if($c->isEmailVerified()) {
-			$reg->setVerified(true);
-		}
 		if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
