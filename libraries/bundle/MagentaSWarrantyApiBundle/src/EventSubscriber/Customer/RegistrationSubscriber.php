@@ -17,9 +17,11 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class RegistrationSubscriber implements EventSubscriberInterface {
 	
 	private $registry;
+	private $mailer;
 	
-	public function __construct(RegistryInterface $registry) {
+	public function __construct(RegistryInterface $registry, \Swift_Mailer $mailer) {
 		$this->registry = $registry;
+		$this->mailer   = $mailer;
 	}
 	
 	public static function getSubscribedEvents() {
