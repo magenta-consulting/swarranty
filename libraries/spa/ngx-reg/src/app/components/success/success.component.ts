@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import {ProductService} from "../../service/product.service";
 import {apiEndPoint, apiEndPointBase, organisationPath} from "../../../environments/environment";
@@ -19,9 +19,9 @@ export class SuccessComponent implements OnInit, AfterViewInit {
 
     modalRef: BsModalRef;
 
-    constructor(private productService: ProductService, 
-        private router: Router,
-        private modalService: BsModalService) {
+    constructor(private route: ActivatedRoute, private productService: ProductService,
+                private router: Router,
+                private modalService: BsModalService) {
     }
 
     ngOnInit() {
@@ -37,10 +37,11 @@ export class SuccessComponent implements OnInit, AfterViewInit {
 
     // 1. Get Data Warranties
     getDataWarranties() {
-        // let regId = this.router.snapshot.params['id'];
+        let regId = this.route.snapshot.params['id'];
+        localStorage.setItem('regId', regId);
         this.isLoading = true;
         if (localStorage.getItem('regId')) {
-            let regId:any = localStorage.getItem('regId');
+            let regId: any = localStorage.getItem('regId');
             if (Number.isNaN(parseInt(regId))) {
                 let cutstr = '/api/registrations/';
                 console.log('regId', regId, cutstr.length);
@@ -58,6 +59,7 @@ export class SuccessComponent implements OnInit, AfterViewInit {
             this.isLoading = false;
         }
     }
+
     // clear localStorage and then redirect to page registration
     clearRegistration() {
         this.modalRef.hide();

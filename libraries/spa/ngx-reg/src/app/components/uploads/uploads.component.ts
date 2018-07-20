@@ -68,7 +68,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
                         // if(c.)
                     }
                 }
-                this.router.navigate(['/success']);
+                this.router.navigate(['/success/' + regId]);
             },
             error => {
                 console.log('Error', error);

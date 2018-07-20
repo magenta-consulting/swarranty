@@ -19,7 +19,7 @@ const routes: Routes = [
     },
     { path: 'upload-receipt-image/:id', component: UploadsComponent },
     { path: 'send-email/:id', component: SendEmailComponent },
-    { path: 'success', component: SuccessComponent },
+    { path: 'success/:id', component: SuccessComponent },
 ];
 
 @NgModule({
