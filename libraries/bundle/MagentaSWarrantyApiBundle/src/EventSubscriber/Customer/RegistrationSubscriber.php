@@ -66,7 +66,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 			$this->manager->flush($reg);
 		}
 		
-		if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
+		if( ! $reg->isVerified() && ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
 			$message = (new \Swift_Message($msg['subject']))

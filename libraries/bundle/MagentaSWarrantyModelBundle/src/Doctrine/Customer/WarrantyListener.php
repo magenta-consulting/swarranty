@@ -132,16 +132,19 @@ class WarrantyListener {
 		}
 		
 		if($warranty->isApproved() && ! $warranty->isWarrantyApprovalNotified()) {
-			$warranty->setWarrantyApprovalNotified(true);
-			$msg     = $warranty->prepareWarrantyApprovedNotifMessage();
-			$email   = $msg['recipient'];
-			$message = (new \Swift_Message($msg['subject']))
-				->setFrom('no-reply@magenta-wellness.com')
-				->setTo($email)
-				->setBody(
-					$msg['body'],
-					'text/html'
-				)/*
+			$customer = $warranty->getCustomer();
+			if(filter_var($customer->getEmail(), FILTER_VALIDATE_EMAIL)) {
+				$warranty->setWarrantyApprovalNotified(true);
+				$msg   = $warranty->prepareWarrantyApprovedNotifMessage();
+				$email = $msg['recipient'];
+				
+				$message = (new \Swift_Message($msg['subject']))
+					->setFrom('no-reply@magenta-wellness.com')
+					->setTo($email)
+					->setBody(
+						$msg['body'],
+						'text/html'
+					)/*
 				 * If you also want to include a plaintext version of the message
 				->addPart(
 					$this->renderView(
@@ -151,13 +154,14 @@ class WarrantyListener {
 					'text/plain'
 				)
 				*/
-			;
-			
-			$this->container->get('mailer')->send($message);
-			
-			$manager = $args->getEntityManager();
-			$manager->persist($warranty);
-			$manager->flush($warranty);
+				;
+				
+				$this->container->get('mailer')->send($message);
+				
+				$manager = $args->getEntityManager();
+				$manager->persist($warranty);
+				$manager->flush($warranty);
+			}
 		}
 		
 	}
