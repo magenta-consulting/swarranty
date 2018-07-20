@@ -53,6 +53,12 @@ class MessageTemplate extends Thing {
 	
 	/**
 	 * @var string|null
+	 * @ORM\Column(type="string",nullable=false)
+	 */
+	protected $type;
+	
+	/**
+	 * @var string|null
 	 * @ORM\Column(name="subject",type="string",nullable=true)
 	 */
 	protected $subject;
@@ -89,5 +95,19 @@ class MessageTemplate extends Thing {
 	 */
 	public function setContent(?string $content): void {
 		$this->content = $content;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getType(): ?string {
+		return $this->type;
+	}
+	
+	/**
+	 * @param null|string $type
+	 */
+	public function setType(?string $type): void {
+		$this->type = $type;
 	}
 }

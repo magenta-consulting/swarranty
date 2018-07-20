@@ -5,6 +5,7 @@ namespace Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer;
 use ApiPlatform\Core\EventListener\EventPriorities;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +47,36 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 	}
 	
 	public function onKernelView(GetResponseForControllerResultEvent $event) {
+		$reg    = $event->getControllerResult();
+		$method = $event->getRequest()->getMethod();
 		
+		if( ! $reg instanceof Registration || Request::METHOD_POST !== $method) {
+			return;
+		}
+		
+		$nr         = $this->registry->getRepository(Registration::class);
+		$org        = $reg->getOrganisation();
+		$mt         = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		
+		$nlsResults = $nr->findBy([
+			'email' => $nls->getEmail()
+		]);
+		
+		if($cc = count($nlsResults) === 0) {
+			return;
+		} elseif($cc === 1) {
+			$event->setControllerResult($nlsResults[0]);
+		} else {
+			$event->setControllerResult($nlsResults[0]);
+			/** @var Registration $c */
+			foreach($nlsResults as $c) {
+				if($c->getEmail() === $nls->getEmail()) {
+					$event->setControllerResult($c);
+					
+					return;
+				}
+			}
+		}
 	}
 	
 }

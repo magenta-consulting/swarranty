@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
@@ -72,6 +73,15 @@ class Organisation extends OrganizationModel {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate", mappedBy="organisation", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $messageTemplates;
+	
+	public function getMessageTemplateByType($type) {
+		/** @var MessageTemplate $mt */
+		foreach($this->messageTemplates as $mt) {
+			if($mt->isEnabled() && $mt->getType() === $type) {
+				return $mt;
+			}
+		}
+	}
 	
 	/**
 	 * @var Collection
@@ -164,6 +174,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $psnLocationUrl;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $productRegUrl;
 	
 	/**
 	 * @var string|null
@@ -506,5 +522,19 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setPsnLocationUrl(?string $psnLocationUrl): void {
 		$this->psnLocationUrl = $psnLocationUrl;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getProductRegUrl(): ?string {
+		return $this->productRegUrl;
+	}
+	
+	/**
+	 * @param null|string $productRegUrl
+	 */
+	public function setProductRegUrl(?string $productRegUrl): void {
+		$this->productRegUrl = $productRegUrl;
 	}
 }

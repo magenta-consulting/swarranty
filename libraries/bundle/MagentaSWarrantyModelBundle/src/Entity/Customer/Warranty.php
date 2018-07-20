@@ -25,6 +25,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="customer__warranty")
  */
 class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMakingInterface, FullTextSearchInterface {
+	
 	public function getThing(): ?Thing {
 		return $this->customer;
 	}
@@ -205,7 +206,7 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	): void {
 		$this->product                = $product;
 		$this->warrantyPeriod         = $product->getWarrantyPeriod();
-		$this->extendedWarrantyPeriod = $product->getWarrantyPeriod();
+		$this->extendedWarrantyPeriod = $product->getExtendedWarrantyPeriod();
 	}
 	
 	public

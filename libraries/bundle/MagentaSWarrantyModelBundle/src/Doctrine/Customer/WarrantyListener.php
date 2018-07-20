@@ -89,6 +89,9 @@ class WarrantyListener {
 		if(empty($warranty->getExpiryDate())) {
 			$expiryAt = clone $warranty->getPurchaseDate();
 			$expiryAt->modify(sprintf("+%d months", $warranty->getProduct()->getWarrantyPeriod()));
+			if( ! empty($warranty->getRegistration())) {
+				$expiryAt->modify(sprintf("+%d months", $warranty->getExtendedWarrantyPeriod()));
+			}
 			$warranty->setExpiryDate($expiryAt);
 		}
 		if( ! empty($reg = $warranty->getRegistration())) {

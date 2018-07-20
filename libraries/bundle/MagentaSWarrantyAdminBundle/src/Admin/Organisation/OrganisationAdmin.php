@@ -157,11 +157,16 @@ class OrganisationAdmin extends BaseAdmin {
 		$formMapper->add('tos', CKEditorType::class, [
 			'config' => array( 'toolbar' => 'full' ),
 		]);
-		$formMapper->add('psnLocationUrl', null, [
-		
-		])->add('psnLocationInstruction', CKEditorType::class, [
-			'config' => array( 'toolbar' => 'full' ),
-		]);
+		$formMapper
+			->add('productRegUrl', null, [
+			
+			])
+			->add('psnLocationUrl', null, [
+			
+			])
+			->add('psnLocationInstruction', CKEditorType::class, [
+				'config' => array( 'toolbar' => 'full' ),
+			]);
 		$formMapper->add('dataPolicy', CKEditorType::class, [
 			'config' => array( 'toolbar' => 'full' ),
 		]);
