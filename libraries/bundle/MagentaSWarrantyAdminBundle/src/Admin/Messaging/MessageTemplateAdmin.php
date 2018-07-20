@@ -39,6 +39,7 @@ use Sonata\CoreBundle\Form\Type\DatePickerType;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\MediaBundle\Form\Type\MediaType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -185,6 +186,15 @@ class MessageTemplateAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
+		$formMapper->add('type', ChoiceType::class, array(
+			'multiple'           => false,
+			'placeholder'        => 'Select Template Type',
+			'choices'            => [
+				'form_field.label_registration_email_verification_template' => MessageTemplate::TYPE_REGISTRATION_VERIFICATION,
+				'form_field.label_registration_copy_template' => MessageTemplate::TYPE_REGISTRATION_COPY,
+			],
+			'translation_domain' => $this->translationDomain
+		));
 		$formMapper->add('name', null, [ 'label' => 'form.label_name' ]);
 		$formMapper->add('subject', null, [ 'label' => 'form.label_subject' ]);
 		$formMapper->add('content', CKEditorType::class, [ 'label' => 'form.label_content' ]);

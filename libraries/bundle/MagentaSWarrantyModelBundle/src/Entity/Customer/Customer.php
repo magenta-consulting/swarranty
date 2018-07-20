@@ -66,7 +66,7 @@ class Customer extends Thing {
 	protected $person;
 	
 	/**
-	 * @var bool|null
+	 * @var boolean|null
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
 	protected $emailVerified = false;
@@ -240,14 +240,14 @@ class Customer extends Thing {
 	}
 	
 	/**
-	 * @return bool|null
+	 * @return boolean|null
 	 */
-	public function getEmailVerified(): ?bool {
+	public function isEmailVerified(): ?bool {
 		return $this->emailVerified;
 	}
 	
 	/**
-	 * @param bool|null $emailVerified
+	 * @param boolean|null $emailVerified
 	 */
 	public function setEmailVerified(?bool $emailVerified): void {
 		$this->emailVerified = $emailVerified;

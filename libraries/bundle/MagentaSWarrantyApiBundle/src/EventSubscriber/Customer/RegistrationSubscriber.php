@@ -54,29 +54,30 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		
-		$nr         = $this->registry->getRepository(Registration::class);
-		$org        = $reg->getOrganisation();
-		$mt         = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		$nr = $this->registry->getRepository(Registration::class);
 		
-		$nlsResults = $nr->findBy([
-			'email' => $nls->getEmail()
-		]);
-		
-		if($cc = count($nlsResults) === 0) {
-			return;
-		} elseif($cc === 1) {
-			$event->setControllerResult($nlsResults[0]);
-		} else {
-			$event->setControllerResult($nlsResults[0]);
-			/** @var Registration $c */
-			foreach($nlsResults as $c) {
-				if($c->getEmail() === $nls->getEmail()) {
-					$event->setControllerResult($c);
-					
-					return;
-				}
-			}
+		if($reg->isSubmitted() && ! $reg->isVerified() && ! empty($c = $reg->getCustomer()) && ! empty($c->getEmail())) {
+			$msg     = $reg->prepareEmailVerificationMessage();
+			$email   = $msg['recipient'];
+			$message = (new \Swift_Message($msg['subject']))
+				->setFrom('no-reply@magenta-wellness.com')
+				->setTo($email)
+				->setBody(
+					$msg['body'],
+					'text/html'
+				)/*
+				 * If you also want to include a plaintext version of the message
+				->addPart(
+					$this->renderView(
+						'emails/registration.txt.twig',
+						array('name' => $name)
+					),
+					'text/plain'
+				)
+				*/
+			;
+			
+			$this->mailer->send($message);
 		}
 	}
-	
 }

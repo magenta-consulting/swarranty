@@ -2,6 +2,7 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
@@ -48,6 +49,19 @@ class Registration implements ThingChildInterface {
 	
 	public function getOrganisation(): Organisation {
 		return $this->customer->getOrganisation();
+	}
+	
+	public function prepareEmailVerificationMessage() {
+		$org = $this->getOrganisation();
+		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		$bc  = $mt->getContent();
+		$bc  = str_replace('{verification_url}', $org->getProductRegUrl(), $bc);
+		
+		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
+	}
+	
+	public function prepareRegCopyMessage() {
+	
 	}
 	
 	/**

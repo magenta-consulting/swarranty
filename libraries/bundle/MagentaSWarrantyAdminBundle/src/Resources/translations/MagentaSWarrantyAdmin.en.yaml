@@ -134,6 +134,8 @@ form_group:
     service_notes: Service Notes
 
 form_field:
+    label_registration_email_verification_template: Registration Email Verification
+    label_registration_copy_template: Registration Copy
     label_registration_fields: Registration Fields
     label_warranty_productSerialNumber: Product Serial Number
     label_customer_telephone: Customer Contact Number
@@ -219,6 +221,8 @@ form:
     label_role: Role
 
 breadcrumb:
+    link_message_template_list: Communication Templates
+    link_message_template_create: Create
     link_child_case_list: Child Cases
     link_child_case_create: Add Child Case
     link_warranty_create: New Warranty
