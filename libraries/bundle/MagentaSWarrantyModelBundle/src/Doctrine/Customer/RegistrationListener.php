@@ -39,41 +39,24 @@ class RegistrationListener {
 	}
 	
 	public function preUpdateHandler(Registration $reg, LifecycleEventArgs $event) {
-		$this->updateInfBeforeOperation($case, $event);
-//		if( ! empty($case->getRegNo())) {
-//			$case->setRegNo(strtoupper($case->getRegNo()));
-//		}
-
-//		if(empty($case->getName())) {
-//			$case->setName($case->getRegNo());
-//		}
-//		$case->setSlug($this->container->get('bean_core.string')->slugify($case->getName()));
-
-//		if(empty($case->getCode())) {
-//			if( ! empty($case->getRegNo())) {
-//				$case->setCode($case->getRegNo());
-//			} else {
-//				$case->setCode($case->getSlug());
-//			}
-//		}
-//		$case->setCode(strtoupper(trim($case->getCode())));
+		$this->updateInfBeforeOperation($reg, $event);
 	}
 	
 	public function postUpdateHandler(Registration $reg, LifecycleEventArgs $event) {
-//		$this->handleAdminEmail($case);
-		$this->updateInfAfterOperation($case, $event);
+//		$this->handleAdminEmail($reg);
+		$this->updateInfAfterOperation($reg, $event);
 //		$manager = $event->getEntityManager();
 	}
 	
 	public function prePersistHandler(Registration $reg, LifecycleEventArgs $event) {
-		$this->updateInfBeforeOperation($case, $event);
+		$this->updateInfBeforeOperation($reg, $event);
 	}
 	
 	public function postPersistHandler(Registration $reg, LifecycleEventArgs $event) {
-		$this->updateInfAfterOperation($case, $event);
+		$this->updateInfAfterOperation($reg, $event);
 //		$manager = $event->getEntityManager();
 
-//		$this->handleAdminEmail($case);
+//		$this->handleAdminEmail($reg);
 
 //        $receivers = $this->container->getParameter('mhs_mail_receivers');
 //        $this->container->get('sylius.email_sender')->send('channel_partner_new_order', $receivers, array('movie' => 'NEW POSITION', 'user' => 'NEW POSITION'));
@@ -83,7 +66,7 @@ class RegistrationListener {
 	}
 	
 	public function postRemoveHandler(Registration $reg, LifecycleEventArgs $event) {
-	
+		
 	}
 	
 	public function postLoadHandler(Registration $reg, LifecycleEventArgs $args) {
