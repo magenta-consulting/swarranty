@@ -138,7 +138,7 @@
                     <table class="fullwidth title-100">
                         <tr>
                             <td title>Model No: </td>
-                            <td content></td>
+                            <td content>{{ case.warranty.product.modelNumber }}</td>
                         </tr>
                         <tr>
                             <td title>Gas type: </td>
@@ -150,7 +150,7 @@
                         </tr>
                         <tr>
                             <td title>Serial No: </td>
-                            <td content></td>
+                            <td content>{{ case.warranty.product.productSerialNumber }}</td>
                         </tr>
                     </table>
                     <table class="fullwidth title-200">
@@ -192,7 +192,7 @@
                     <table border="1px" class="fullwidth title-180">
                         <tr>
                             <td title style="border-right: none; border-bottom: none"><b>Fault Description: </b></td>
-                            <td style="border-left: none">&nbsp;</td>
+                            <td style="border-left: none">&nbsp;case.description </td>
                         </tr>
                         <tr>
                             <td style="border-right: none; border-top: none">&nbsp;</td>
