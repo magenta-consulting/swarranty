@@ -63,6 +63,7 @@ class Registration implements ThingChildInterface {
 			$domain = $protocol . $domain;
 		}
 		$emailVerUrl = $domain . '/front/verify-email?token=' . $this->customer->initiateEmailVerificationToken();
+		$emailVerUrl .= '&reg=' . $this->id;
 		$bc          = str_replace('{verification_url}', $emailVerUrl, $bc);
 		
 		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
