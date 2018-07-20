@@ -52,8 +52,11 @@ class Registration implements ThingChildInterface {
 	}
 	
 	public function prepareEmailVerificationMessage() {
-		$org      = $this->getOrganisation();
-		$mt       = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		$org = $this->getOrganisation();
+		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		if(empty($mt)) {
+			return [ 'recipient' => $this->customer->getEmail(), 'subject' => '', 'body' => '' ];
+		}
 		$bc       = $mt->getContent();
 		$system   = $org->getSystem();
 		$protocol = $system->isSslEnabled() ? 'https://' : 'http://';
@@ -71,8 +74,11 @@ class Registration implements ThingChildInterface {
 	}
 	
 	public function prepareRegCopyMessage() {
-		$org    = $this->getOrganisation();
-		$mt     = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_COPY);
+		$org = $this->getOrganisation();
+		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_COPY);
+		if(empty($mt)) {
+			return [ 'recipient' => $this->customer->getEmail(), 'subject' => '', 'body' => '' ];
+		}
 		$bc     = $mt->getContent();
 		$system = $org->getSystem();
 		$bc     = str_replace('{name}', $this->customer->getName(), $bc);

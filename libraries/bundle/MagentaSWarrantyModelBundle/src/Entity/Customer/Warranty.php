@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
 use Bean\Component\Thing\Model\ThingInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
@@ -89,6 +90,19 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$this->createdAt     = new \DateTime();
 		$this->code          = User::generateCharacterCode(null, 6) . '-' . $this->createdAt->format('dm-Y');
 		$this->initiateNumber();
+	}
+	
+	public function prepareWarrantyApprovedNotifMessage() {
+		$org = $this->getOrganisation();
+		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_WARRANTY_APPROVED);
+		if(empty($mt)) {
+			return [ 'recipient' => $this->customer->getEmail(), 'subject' => '', 'body' => '' ];
+		}
+		$bc     = $mt->getContent();
+		$system = $org->getSystem();
+		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
+		
+		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
 	public

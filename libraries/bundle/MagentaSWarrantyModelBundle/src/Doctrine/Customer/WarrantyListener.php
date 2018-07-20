@@ -133,7 +133,30 @@ class WarrantyListener {
 		
 		if($warranty->isApproved() && ! $warranty->isWarrantyApprovalNotified()) {
 			$warranty->setWarrantyApprovalNotified(true);
+			$msg     = $warranty->prepareWarrantyApprovedNotifMessage();
+			$email   = $msg['recipient'];
+			$message = (new \Swift_Message($msg['subject']))
+				->setFrom('no-reply@magenta-wellness.com')
+				->setTo($email)
+				->setBody(
+					$msg['body'],
+					'text/html'
+				)/*
+				 * If you also want to include a plaintext version of the message
+				->addPart(
+					$this->renderView(
+						'emails/registration.txt.twig',
+						array('name' => $name)
+					),
+					'text/plain'
+				)
+				*/
+			;
 			
+			$this->container->get('mailer')->send($message);
+			
+			$manager->persist($warranty);
+			$manager->flush($warranty);
 		}
 		
 	}
