@@ -76,7 +76,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				$this->mailer->send($message);
 			}
 		}
-		$event->setResponse(new JsonResponse([ 'message' => 'Email has been successfully sent' ], 201));
+		$event->setResponse(new JsonResponse([ 'message' => 'Email has been successfully sent to ' . $email ], 201));
 	}
 	
 }
