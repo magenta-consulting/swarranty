@@ -1,3 +1,7 @@
 service_sheet:
     path:     /service-sheet
     controller: Magenta\Bundle\SWarrantyAdminBundle\Controller\ServiceSheetController::indexAction
+
+email_verification:
+    path:     /verify-email
+    controller: Magenta\Bundle\SWarrantyAdminBundle\Controller\RegistrationController::verifyEmailAction

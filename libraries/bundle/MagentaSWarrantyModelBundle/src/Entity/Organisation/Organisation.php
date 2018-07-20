@@ -185,6 +185,18 @@ class Organisation extends OrganizationModel {
 	 * @var string|null
 	 * @ORM\Column(type="string", nullable=true)
 	 */
+	protected $subDomain;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $adminDomain;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
 	protected $emailVerificationUrl;
 	
 	/**
@@ -557,4 +569,33 @@ class Organisation extends OrganizationModel {
 	public function setEmailVerificationUrl(?string $emailVerificationUrl): void {
 		$this->emailVerificationUrl = $emailVerificationUrl;
 	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSubDomain(): ?string {
+		return $this->subDomain;
+	}
+	
+	/**
+	 * @param null|string $subDomain
+	 */
+	public function setSubDomain(?string $subDomain): void {
+		$this->subDomain = $subDomain;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAdminDomain(): ?string {
+		return $this->adminDomain;
+	}
+	
+	/**
+	 * @param null|string $adminDomain
+	 */
+	public function setAdminDomain(?string $adminDomain): void {
+		$this->adminDomain = $adminDomain;
+	}
+	
 }

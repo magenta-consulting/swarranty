@@ -246,6 +246,19 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	protected
 		$appointments;
 	
+	public function hasAppointment(CaseAppointment $apmt = null) {
+		if($apmt === null) {
+			return false;
+		}
+		foreach($this->appointments as $a) {
+			if($a === $apmt) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public
 	function addAppointment(
 		CaseAppointment $appointment
@@ -307,6 +320,10 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	) {
 		$this->serviceNotes->removeElement($note);
 		$note->setCase(null);
+		if($this->hasAppointment($apmt = $note->getAppointment())) {
+			$note->setAppointment(null);
+			$apmt->setServiceNote(null);
+		}
 	}
 	
 	/**
@@ -373,7 +390,7 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$createdAt;
 	
 	/**
-	 * @var \DateTime
+	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime",nullable=true)
 	 */
 	protected
@@ -906,16 +923,16 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	}
 	
 	/**
-	 * @return \DateTime
+	 * @return \DateTime|null
 	 */
-	public function getUpdatedAt(): \DateTime {
+	public function getUpdatedAt(): ?\DateTime {
 		return $this->updatedAt;
 	}
 	
 	/**
-	 * @param \DateTime $updatedAt
+	 * @param \DateTime|null $updatedAt
 	 */
-	public function setUpdatedAt(\DateTime $updatedAt): void {
+	public function setUpdatedAt(?\DateTime $updatedAt): void {
 		$this->updatedAt = $updatedAt;
 	}
 }

@@ -622,8 +622,11 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				if( ! empty($note) && empty($note->getDescription())) {
 					$apmt->setServiceNote(null);
 					$note->setAppointment(null);
-					$manager->remove($note);
-					$manager->flush($note);
+					$object->removeServiceNote($note);
+					if( ! empty($note->getId())) {
+						$manager->remove($note);
+						$manager->flush($note);
+					}
 				}
 				$object->addAppointment($apmt);
 			}

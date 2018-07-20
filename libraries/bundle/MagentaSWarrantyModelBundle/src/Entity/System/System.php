@@ -19,6 +19,12 @@ class System {
 	protected $id = 'magenta.swarranty';
 	
 	/**
+	 * @var string
+	 * @ORM\Column(type="string", length=255)
+	 */
+	protected $domain = 'magentapulse.com';
+	
+	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule", mappedBy="system", cascade={"persist","merge"}, orphanRemoval=true)
 	 */

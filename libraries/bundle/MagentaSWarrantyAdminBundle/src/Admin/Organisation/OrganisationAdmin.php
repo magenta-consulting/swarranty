@@ -158,6 +158,12 @@ class OrganisationAdmin extends BaseAdmin {
 			'config' => array( 'toolbar' => 'full' ),
 		]);
 		$formMapper
+			->add('subDomain', null, [
+			
+			])
+			->add('adminDomain', null, [
+			
+			])
 			->add('emailVerificationUrl', null, [
 			
 			])
