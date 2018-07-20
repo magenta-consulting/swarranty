@@ -30,7 +30,7 @@ class Customer extends Thing {
 	}
 	
 	public function initiateEmailVerificationToken() {
-		if( ! empty($this->emailVerificationToken)) {
+		if( empty($this->emailVerificationToken)) {
 			$this->emailVerificationToken = User::generateCharacterCode(null, 16);
 		}
 		
