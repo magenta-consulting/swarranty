@@ -34,8 +34,10 @@ class RegistrationListener {
 		/** @var EntityManager $manager */
 		$manager = $event->getObjectManager();
 		$uow     = $manager->getUnitOfWork();
-		$user    = $this->container->get(UserService::class)->getUser(false);
-		
+		$c       = $reg->getCustomer();
+		if( ! empty($c) && $c->isEmailVerified()) {
+			$reg->setVerified(true);
+		}
 	}
 	
 	public function preUpdateHandler(Registration $reg, LifecycleEventArgs $event) {
