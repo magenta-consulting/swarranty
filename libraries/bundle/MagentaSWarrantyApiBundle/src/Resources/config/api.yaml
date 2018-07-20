@@ -28,6 +28,7 @@ services:
     magenta_swarranty_api.customer.registration_subscriber:
         class: Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer\RegistrationSubscriber
         arguments:
+            - '@doctrine.orm.entity_manager.abstract'
             - '@doctrine'
             - '@swiftmailer.mailer'
         tags:

@@ -88,7 +88,7 @@ class RegistrationListener {
 	
 	public function postLoadHandler(Registration $reg, LifecycleEventArgs $args) {
 		$c = $reg->getCustomer();
-		if($c->isEmailVerified()) {
+		if( ! empty($c) && $c->isEmailVerified()) {
 			$reg->setVerified(true);
 			$manager = $args->getEntityManager();
 			$manager->persist($reg);

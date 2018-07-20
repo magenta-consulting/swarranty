@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyApiBundle\EventSubscriber\Customer;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
+use Doctrine\ORM\EntityManagerInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
@@ -18,8 +19,10 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 	
 	private $registry;
 	private $mailer;
+	private $manager;
 	
-	public function __construct(RegistryInterface $registry, \Swift_Mailer $mailer) {
+	public function __construct(EntityManagerInterface $manager, RegistryInterface $registry, \Swift_Mailer $mailer) {
+		$this->manager  = $manager;
 		$this->registry = $registry;
 		$this->mailer   = $mailer;
 	}
@@ -54,6 +57,13 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		
 		if( ! $reg instanceof Registration || Request::METHOD_POST !== $method) {
 			return;
+		}
+		
+		$c = $reg->getCustomer();
+		if($c->isEmailVerified()) {
+			$reg->setVerified(true);
+			$this->manager->persist($reg);
+			$this->manager->flush($reg);
 		}
 		
 		if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
