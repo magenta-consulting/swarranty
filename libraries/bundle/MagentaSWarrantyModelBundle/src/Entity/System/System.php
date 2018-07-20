@@ -25,6 +25,12 @@ class System {
 	protected $domain = 'magentapulse.com';
 	
 	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", options={"default":false})
+	 */
+	protected $sslEnabled = false;
+	
+	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule", mappedBy="system", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
@@ -112,5 +118,33 @@ class System {
 	 */
 	public function setEnabled(bool $enabled): void {
 		$this->enabled = $enabled;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getDomain(): string {
+		return $this->domain;
+	}
+	
+	/**
+	 * @param string $domain
+	 */
+	public function setDomain(string $domain): void {
+		$this->domain = $domain;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSslEnabled(): bool {
+		return $this->sslEnabled;
+	}
+	
+	/**
+	 * @param bool $sslEnabled
+	 */
+	public function setSslEnabled(bool $sslEnabled): void {
+		$this->sslEnabled = $sslEnabled;
 	}
 }

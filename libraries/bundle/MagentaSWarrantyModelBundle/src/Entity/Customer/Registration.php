@@ -52,11 +52,13 @@ class Registration implements ThingChildInterface {
 	}
 	
 	public function prepareEmailVerificationMessage() {
-		$org = $this->getOrganisation();
-		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
-		$bc  = $mt->getContent();
+		$org    = $this->getOrganisation();
+		$mt     = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
+		$bc     = $mt->getContent();
+		$system = $org->getSystem();
 		if(empty($domain = $org->getAdminDomain())) {
-			$domain = $org->getSubDomain();
+			$protocol = $system->isSslEnabled() ? 'https://' : 'http://';
+			$domain   = $protocol . $org->getSubDomain();
 		}
 		$emailVerUrl = $domain . '/front/verify-email';
 		$bc          = str_replace('{verification_url}', $emailVerUrl, $bc);

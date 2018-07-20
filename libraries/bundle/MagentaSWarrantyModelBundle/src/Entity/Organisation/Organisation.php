@@ -156,7 +156,7 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="integer", options={"default":30})
 	 */
 	protected $nearExpiryPeriod = 30;
-	
+
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":true})
