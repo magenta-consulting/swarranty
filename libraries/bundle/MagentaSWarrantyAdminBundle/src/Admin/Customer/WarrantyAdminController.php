@@ -83,7 +83,7 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 		
 		return new JsonResponse([
 			'customer_name'  => $customer->getName(),
-			'customer_phone' => '+' . $customer->getDialingCode() . ' ' . $customer->getTelephone(),
+			'customer_phone' => $customer->getTelephone(),
 			'customer_email' => $customer->getEmail(),
 			
 			'customer_address'      => $customer->getHomeAddress(),
