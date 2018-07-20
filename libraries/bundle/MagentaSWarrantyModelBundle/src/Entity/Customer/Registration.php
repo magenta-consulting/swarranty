@@ -55,7 +55,11 @@ class Registration implements ThingChildInterface {
 		$org = $this->getOrganisation();
 		$mt  = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_VERIFICATION);
 		$bc  = $mt->getContent();
-		$bc  = str_replace('{verification_url}', $org->getProductRegUrl(), $bc);
+		if(empty($domain = $org->getAdminDomain())) {
+			$domain = $org->getSubDomain();
+		}
+		$emailVerUrl = $domain . '/front/verify-email';
+		$bc          = str_replace('{verification_url}', $emailVerUrl, $bc);
 		
 		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
