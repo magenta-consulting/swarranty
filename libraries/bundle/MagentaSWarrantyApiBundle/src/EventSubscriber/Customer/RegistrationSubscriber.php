@@ -27,7 +27,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 	public static function getSubscribedEvents() {
 		return [
 			KernelEvents::REQUEST => [ 'onKernelRequest', EventPriorities::PRE_READ ],
-			KernelEvents::VIEW    => [ 'onKernelView', EventPriorities::PRE_WRITE ],
+			KernelEvents::VIEW    => [ 'onKernelView', EventPriorities::POST_WRITE ],
 		
 		];
 	}
@@ -57,8 +57,11 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		}
 		
 		$nr = $this->registry->getRepository(Registration::class);
-		
-		if( ! $reg->isVerified() && ! empty($c = $reg->getCustomer()) && ! empty($c->getEmail())) {
+		$c  = $reg->getCustomer();
+		if($c->isEmailVerified()) {
+			$reg->setVerified(true);
+		}
+		if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
 			$message = (new \Swift_Message($msg['subject']))

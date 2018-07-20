@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, EventEmitter, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Router, ActivatedRoute} from "@angular/router";
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import {BsModalService} from 'ngx-bootstrap/modal';
+import {BsModalRef} from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 import {ProductService} from "../../service/product.service";
 import {
@@ -18,6 +18,7 @@ import {ImageUploadModule, FileHolder, UploadMetadata} from "../../extensions/an
 
 import {Helper} from "../../helper/helper";
 import {RegistrationService} from "../../service/registration.service";
+import {Customer} from "../../model/customer";
 
 @Component({
     selector: 'uploads',
@@ -60,6 +61,13 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         this.regService.submitRegistration(regId).subscribe(
             res => {
                 this.isLoading = false;
+                let c = res.customer;
+                if (c instanceof Customer) {
+                    let email = c.email;
+                    if (typeof email !== "undefined" && email !== null && email !== '') {
+                        // if(c.)
+                    }
+                }
                 this.router.navigate(['/success']);
             },
             error => {
@@ -134,10 +142,10 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     onRemoved(file: FileHolder) {
         let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
         let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-        
+
         let v_confirm = false;
         // check android or ios
-        if(navigator.userAgent.toLowerCase().indexOf("android") > -1 
+        if (navigator.userAgent.toLowerCase().indexOf("android") > -1
             || navigator.userAgent.toLowerCase().indexOf("ios") > -1) {
             v_confirm = true;
         } else {
@@ -146,7 +154,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             // console.log('removed', file);
         }
         // After Asking.
-        if(v_confirm == true) {
+        if (v_confirm == true) {
             this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
                 res => {
                     console.log('res', res);
