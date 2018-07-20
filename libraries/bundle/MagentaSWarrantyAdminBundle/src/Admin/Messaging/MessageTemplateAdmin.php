@@ -174,8 +174,6 @@ class MessageTemplateAdmin extends BaseAdmin {
 			->add('name', null, [ 'label' => 'form.label_name' ])
 			->add('subject', null, [ 'label' => 'form.label_subject' ]);
 		
-		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_images' ]);
-
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
 	

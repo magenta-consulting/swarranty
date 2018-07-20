@@ -56,7 +56,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		
 		$nr = $this->registry->getRepository(Registration::class);
 		
-		if($reg->isSubmitted() && ! $reg->isVerified() && ! empty($c = $reg->getCustomer()) && ! empty($c->getEmail())) {
+		if( ! $reg->isVerified() && ! empty($c = $reg->getCustomer()) && ! empty($c->getEmail())) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
 			$message = (new \Swift_Message($msg['subject']))
