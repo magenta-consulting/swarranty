@@ -155,6 +155,7 @@ class WarrantyListener {
 			
 			$this->container->get('mailer')->send($message);
 			
+			$manager = $args->getEntityManager();
 			$manager->persist($warranty);
 			$manager->flush($warranty);
 		}
