@@ -60,7 +60,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		}
 		
 		$c = $reg->getCustomer();
-		if($c->isEmailVerified()) {
+		if( ! $reg->isVerified() && $c->isEmailVerified()) {
 			$reg->setVerified(true);
 			$this->manager->persist($reg);
 			$this->manager->flush($reg);
