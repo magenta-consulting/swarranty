@@ -77,6 +77,8 @@ class User extends AbstractUser {
 				'DECIDE_ALL',
 				'DECISION_APPROVE',
 				'DECISION_REJECT',
+				'DECISION_' . WarrantyCase::DECISION_COMPLETE,
+				'DECISION_' . WarrantyCase::DECISION_UNCOMPLETE,
 				'DECISION_' . WarrantyCase::DECISION_CLOSE,
 				'DECISION_' . WarrantyCase::DECISION_REOPEN
 			])) {

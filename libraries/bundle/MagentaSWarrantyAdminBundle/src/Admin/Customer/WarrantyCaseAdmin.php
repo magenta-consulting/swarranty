@@ -127,6 +127,8 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	
 	protected function getAccess() {
 		return array_merge(parent::getAccess(), [
+			'complete'  => 'DECISION_' . WarrantyCase::DECISION_COMPLETE,
+			'uncomplete'  => 'DECISION_' . WarrantyCase::DECISION_UNCOMPLETE,
 			'close'  => 'DECISION_' . WarrantyCase::DECISION_CLOSE,
 			'reopen' => 'DECISION_' . WarrantyCase::DECISION_REOPEN
 		]);

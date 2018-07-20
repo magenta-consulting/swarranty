@@ -29,6 +29,8 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	
 	const DECISION_ASSIGN = 'ASSIGN';
 	const DECISION_CLOSE = 'CLOSE';
+	const DECISION_COMPLETE = 'COMPLETE';
+	const DECISION_UNCOMPLETE = 'UNCOMPLETE';
 	const DECISION_REOPEN = 'REOPEN';
 
 //	const STATUS_NEW = 'NEW'; // inherited
@@ -96,6 +98,12 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		switch($decision) {
 			case self::DECISION_ASSIGN:
 				$this->markStatusAs(self::STATUS_ASSIGNED);
+				break;
+			case self::DECISION_COMPLETE:
+				$this->markStatusAs(self::STATUS_COMPLETED);
+				break;
+			case self::DECISION_UNCOMPLETE:
+				$this->markStatusAs(self::STATUS_RESPONDED);
 				break;
 			case self::DECISION_CLOSE:
 				$this->markStatusAs(self::STATUS_CLOSED);
