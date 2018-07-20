@@ -65,7 +65,7 @@ class MessageTemplate extends Thing {
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(name="content",type="string",nullable=true)
+	 * @ORM\Column(type="text",nullable=true)
 	 */
 	protected $content;
 	

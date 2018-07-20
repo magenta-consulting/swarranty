@@ -33,8 +33,11 @@ export class AuthGuard implements CanActivate {
     // 1. Get Data Registration
     getDataRegistration() {
         // let regId = this.router.snapshot.params['id'];
+        console.log('ok');
         if (localStorage.getItem('regId')) {
+          console.log('okkkk');
             let regId = localStorage.getItem('regId');
+            console.log('regId is ',regId);
             if (Number.isNaN(parseInt(regId))) {
                 let cutstr = '/api/registrations/';
                 console.log('regId', regId, cutstr.length);
@@ -42,14 +45,14 @@ export class AuthGuard implements CanActivate {
             }
 
             this.registrationService.getRegistration(regId).subscribe((res: Registration) => {
-                if (res.submitted == false) {
+                if (res.submitted === false) {
                     this.router.navigate(['upload-receipt-image/', parseInt(regId)]);
                 } else {
                     // check email exists
-                    if (res.customer !== undefined && res && (<Customer>res.customer).email) {
+                    if (res.customer !== undefined && res && (<Customer>res.customer).email && !res.verified) {
                         this.router.navigate(['send-email/', parseInt(regId)]);
                     } else {
-                        this.router.navigate(['success']);
+                        this.router.navigate(['success/',parseInt(regId)]);
                     }
                 }
             });
