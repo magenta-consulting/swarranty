@@ -70,7 +70,11 @@ class Registration implements ThingChildInterface {
 	}
 	
 	public function prepareRegCopyMessage() {
-	
+		$org    = $this->getOrganisation();
+		$mt     = $org->getMessageTemplateByType(MessageTemplate::TYPE_REGISTRATION_COPY);
+		$bc     = $mt->getContent();
+		$system = $org->getSystem();
+		
 	}
 	
 	/**
