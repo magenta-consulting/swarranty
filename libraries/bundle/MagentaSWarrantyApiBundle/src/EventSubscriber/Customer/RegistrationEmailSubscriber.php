@@ -48,7 +48,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 		
 		// We do nothing if the Reg does not exist in the database
 		if( ! empty($reg)) {
-			if( ! $reg->isVerified() && ! empty($c) && ! empty($c->getEmail())) {
+			if( ! empty($c) && ! empty($c->getEmail())) {
 				if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
 					$msg = $reg->prepareEmailVerificationMessage();
 				} else {
