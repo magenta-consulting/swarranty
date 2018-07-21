@@ -424,6 +424,10 @@ sonata_media:
 
 
         default:
+            download:
+                strategy: sonata.media.security.public_strategy
+                mode: http
+
             providers:
                 - sonata.media.provider.dailymotion
                 - sonata.media.provider.youtube

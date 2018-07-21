@@ -13,24 +13,24 @@ fos_ck_editor:
             filebrowserBrowseRoute: admin_magenta_swarrantymodel_media_media_ckeditor_browser
             filebrowserBrowseRouteParameters:
                 provider: sonata.media.provider.file
-                context: book_file # Optional, to upload in a custom context
+                context: default # Optional, to upload in a custom context
 
             filebrowserImageBrowseRoute: admin_magenta_swarrantymodel_media_media_ckeditor_browser
             # Display images by default when clicking the image dialog browse button
             filebrowserImageBrowseRouteParameters:
                 provider: sonata.media.provider.image
-                context: book_image # Optional, to upload in a custom context
+                context: default # Optional, to upload in a custom context
 
             filebrowserUploadRoute: admin_magenta_swarrantymodel_media_media_ckeditor_upload
             filebrowserUploadRouteParameters:
                 provider: sonata.media.provider.file
-                context: book_file # Optional, to upload in a custom context
+                context: default # Optional, to upload in a custom context
 
             # Upload file as image when sending a file from the image dialog
             filebrowserImageUploadRoute: admin_magenta_swarrantymodel_media_media_ckeditor_upload
             filebrowserImageUploadRouteParameters:
                 provider: sonata.media.provider.image
-                context: book_image # Optional, to upload in a custom context
+                context: default # Optional, to upload in a custom context
                 format: big # Optional, media format or original size returned to editor
 
 sonata_formatter:
