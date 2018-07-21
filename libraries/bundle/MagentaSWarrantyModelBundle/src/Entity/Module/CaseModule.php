@@ -6,6 +6,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Module;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
@@ -25,7 +26,7 @@ class CaseModule extends SystemModule implements ACModuleInterface {
 	}
 	
 	public function isClassSupported(string $class): bool {
-		return $class === WarrantyCase::class;
+		return in_array($class, [ WarrantyCase::class, CaseAppointment::class ]);
 	}
 	
 	public function getSupportedModuleActions(): array {
