@@ -37,7 +37,7 @@ sonata_formatter:
     ckeditor:
         templates:
             browser: '@SonataFormatter/Ckeditor/browser.html.twig'
-            upload: '@MagentaSwarrantyAdmin/Ckeditor/upload.html.twig'
+            upload: '@MagentaSWarrantyAdmin/Ckeditor/upload.html.twig'
 
     default_formatter: text
     formatters:
