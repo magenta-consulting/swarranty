@@ -64,6 +64,7 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 	protected function configureFormFields(FormMapper $formMapper) {
 		parent::configureFormFields($formMapper);
 		$formMapper->remove('warranty');
+		
 		$formMapper
 			->with('form_group.selected_warranty');
 		$formMapper
