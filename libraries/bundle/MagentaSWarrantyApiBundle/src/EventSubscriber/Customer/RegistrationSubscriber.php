@@ -69,6 +69,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 		if( ! $reg->isVerified() && ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
+			$customer = $reg->getCustomer();
 			$message = (new \Swift_Message($msg['subject']))
 				->setFrom('no-reply@' . $customer->getOrganisation()->getSystem()->getDomain())
 				->setTo($email)

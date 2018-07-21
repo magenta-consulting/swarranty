@@ -55,6 +55,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				} else {
 					$msg = $reg->prepareRegCopyMessage();
 				}
+				$customer = $reg->getCustomer();
 				$email   = $msg['recipient'];
 				$message = (new \Swift_Message($msg['subject']))
 					->setFrom('no-reply@'.$customer->getOrganisation()->getSystem()->getDomain())
