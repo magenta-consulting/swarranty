@@ -1,0 +1,7 @@
+{% if object.providerName == 'sonata.media.provider.file' %}
+    {"fileName":"{{ object.name }}","uploaded":1,"url":"{{ path('get_medium_binary_view',{'id':object.id,'format':'reference'}) }}"}
+{% else %}
+    {"fileName":"{{ object.name }}","uploaded":1,"url":"{{ path('get_medium_binary_view',{'id':object.id,'format':'book_image_big'}) }}"}
+{% endif %}
+{#{% extends '@SonataFormatter/Ckeditor/upload.html.twig' %}#}
+{#{"fileName":"{{ object.name }}","uploaded":1,"url":"{% path object, format|escape('js') %}"}#}
