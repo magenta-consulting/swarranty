@@ -183,6 +183,7 @@ class CustomerAdmin extends BaseAdmin {
 			->add('dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
 			->add('telephone', null, [ 'label' => 'form.label_telephone' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
+			->add('homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ])
 //			->add('person.familyName',null,['label' => 'form.label_family_name' ])
 //		           ->add('person.givenName',null,['label' => 'form.label_given_name' ])
 			->add('enabled', null, [ 'label' => 'form.label_enabled' ]);
