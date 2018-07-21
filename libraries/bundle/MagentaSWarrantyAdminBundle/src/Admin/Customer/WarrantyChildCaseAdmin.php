@@ -63,22 +63,47 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		parent::configureFormFields($formMapper);
-		$formMapper->remove('warranty');
-		
-		$formMapper
-			->with('form_group.selected_warranty');
-		$formMapper
-			->add('warranty', ModelType::class, [
-				'required'    => false,
-				'placeholder' => 'Select a Warranty',
-				'label'       => false,
-				'property'    => 'product.name',
-				'btn_add'     => false
-			]);
-		$formMapper->end();
+		if( ! empty($parent = $this->getParent())) {
+			/** @var WarrantyCase $parentCase */
+			$parentCase = $parent->getSubject();
+			$customerId = $parentCase->getWarranty()->getCustomer()->getId();
+			
+			$formMapper->remove('warranty');
+			
+			/** @var ProxyQuery $productQuery */
+			$warrantiesFromSameCustomerQuery = $this->getFilterByOrganisationQueryForModel(Warranty::class);
+			/** @var Expr $expr */
+			$expr = $warrantiesFromSameCustomerQuery->expr();
+			/** @var QueryBuilder $wfscqb */
+			$wfscqb        = $warrantiesFromSameCustomerQuery->getQueryBuilder();
+			$wfscRootAlias = $wfscqb->getRootAliases()[0];
+			
+			$wfscqb->join('o.customer', 'customer');
+			$wfscqb->andWhere($expr->andX(
+				$expr->eq('customer.id', $expr->literal($customerId)),
+				$expr->eq('o.status', $expr->literal('APPROVED')),
+				$expr->gte($wfscRootAlias . '.expiryDate', ':today')
+			
+			))
+			       ->setParameter('today', new \DateTime());
+			
+			$formMapper
+				->with('form_group.selected_warranty');
+			$formMapper
+				->add('warranty', ModelType::class, [
+					'required'    => false,
+					'placeholder' => 'Select a Warranty',
+					'label'       => false,
+					'property'    => 'product.name',
+					'btn_add'     => false,
+					'query'       => $warrantiesFromSameCustomerQuery
+				]);
+			$formMapper->end();
+		}
 	}
 	
-	protected function getAutocompleteRouteParameters() {
+	protected
+	function getAutocompleteRouteParameters() {
 		if( ! empty($parent = $this->getParent())) {
 			/** @var WarrantyCase $parentCase */
 			$parentCase = $parent->getSubject();
