@@ -71,7 +71,7 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 			$formMapper->remove('warranty');
 			
 			/** @var ProxyQuery $productQuery */
-			$warrantiesFromSameCustomerQuery = $this->getFilterByOrganisationQueryForModel(Warranty::class);
+			$warrantiesFromSameCustomerQuery = $this->getModelManager()->createQuery(Warranty::class);
 			/** @var Expr $expr */
 			$expr = $warrantiesFromSameCustomerQuery->expr();
 			/** @var QueryBuilder $wfscqb */
