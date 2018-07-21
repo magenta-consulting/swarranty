@@ -350,7 +350,7 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":false})
 	 */
-	protected $warrantyApprovalNotified;
+	protected $warrantyApprovalNotified = false;
 	
 	/**
 	 * @var boolean
