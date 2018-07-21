@@ -495,7 +495,7 @@ monolog:
             handler: swift
         swift:
             type:       swift_mailer
-            from_email: 'no-reply@magenta-wellness.com'
+            from_email: 'no-reply@magentapulse.com'
             to_email:   'binh@sunrise.vn'
             subject:    'SWarranty - An Error Occurred! %%message%%'
             level:      debug

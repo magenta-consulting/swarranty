@@ -70,7 +70,7 @@ class RegistrationSubscriber implements EventSubscriberInterface {
 			$msg     = $reg->prepareEmailVerificationMessage();
 			$email   = $msg['recipient'];
 			$message = (new \Swift_Message($msg['subject']))
-				->setFrom('no-reply@magenta-wellness.com')
+				->setFrom('no-reply@' . $customer->getOrganisation()->getSystem()->getDomain())
 				->setTo($email)
 				->setBody(
 					$msg['body'],
