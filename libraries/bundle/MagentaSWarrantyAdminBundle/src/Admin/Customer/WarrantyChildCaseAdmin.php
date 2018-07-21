@@ -61,6 +61,22 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 	
 	protected $classnameLabel = 'child_case';
 	
+	protected function configureFormFields(FormMapper $formMapper) {
+		parent::configureFormFields($formMapper);
+		$formMapper->remove('warranty');
+		$formMapper
+			->with('form_group.selected_warranty');
+		$formMapper
+			->add('warranty', ModelType::class, [
+				'required'    => false,
+				'placeholder' => 'Select a Warranty',
+				'label'       => false,
+				'property'    => 'product.name',
+				'btn_add'     => false
+			]);
+		$formMapper->end();
+	}
+	
 	protected function getAutocompleteRouteParameters() {
 		if( ! empty($parent = $this->getParent())) {
 			/** @var WarrantyCase $parentCase */

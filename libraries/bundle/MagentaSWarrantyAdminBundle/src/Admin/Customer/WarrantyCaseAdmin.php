@@ -561,13 +561,29 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			'property'    => 'name'
 		]);
 		if(empty($this->subject->getAssignee())) {
+			/** @var ProxyQuery $productQuery */
+			$canReceiveCaseMemberQuery = $this->getFilterByOrganisationQueryForModel(OrganisationMember::class);
+			/** @var Expr $expr */
+			$expr = $canReceiveCaseMemberQuery->expr();
+			/** @var QueryBuilder $crcmqb */
+			$crcmqb = $canReceiveCaseMemberQuery->getQueryBuilder();
+			$crcmqb->join('o.role', 'role');
+			$crcmqb->join('role.entries', 'entries');
+			$crcmqb->join('entries.module', 'module');
+			$crcmqb->andWhere($expr->andX(
+				$expr->like('entries.permission', $expr->literal(ACEntry::PERMISSION_RECEIVE)),
+				$expr->isInstanceOf('module', CaseModule::class)
+			));
+			
+			
 			$formMapper
 				->add('assignee', ModelType::class, [
 					'required'    => false,
 					'placeholder' => 'Select a Technician',
 					'label'       => 'form.label_assign_technician',
 					'property'    => 'person.name',
-					'btn_add'     => false
+					'btn_add'     => false,
+					'query'       => $canReceiveCaseMemberQuery
 				])
 				->add('appointmentAt', DateTimePickerType::class, [
 					'required'              => false,
