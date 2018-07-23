@@ -24,8 +24,13 @@
             {% if value is not empty and value.providerReference %}
                 <div class="pull-left" style="margin-right: 5px">
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
-                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json"
-                         class="img-polaroid media-object"/>
+                    <!-- Button trigger modal -->
+                    <span class="img-thumbnail"
+                          data-src="{{ media_endpoint }}/media/{{ value.id }}/binaries/reference/view.json"
+                          data-toggle="modal" data-target="#admin-modal">
+                                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json"
+                                         class="img-polaroid media-object"/>
+                    </span>
                 </div>
             {% else %}
                 <div class="pull-left" style="margin-right: 5px">
