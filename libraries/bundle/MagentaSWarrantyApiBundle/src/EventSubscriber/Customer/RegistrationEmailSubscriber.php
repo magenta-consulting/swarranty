@@ -44,8 +44,8 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 		
 		$regRepo = $this->registry->getRepository(Registration::class);
 		/** @var Registration $reg */
-		$reg = $regRepo->find($regEmail->registrationId);
-		
+		$reg   = $regRepo->find($regEmail->registrationId);
+		$email = '';
 		// We do nothing if the Reg does not exist in the database
 		if( ! empty($reg)) {
 			$c = $reg->getCustomer();
@@ -56,9 +56,9 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 					$msg = $reg->prepareRegCopyMessage();
 				}
 				$customer = $reg->getCustomer();
-				$email   = $msg['recipient'];
-				$message = (new \Swift_Message($msg['subject']))
-					->setFrom('no-reply@'.$customer->getOrganisation()->getSystem()->getDomain())
+				$email    = $msg['recipient'];
+				$message  = (new \Swift_Message($msg['subject']))
+					->setFrom('no-reply@' . $customer->getOrganisation()->getSystem()->getDomain())
 					->setTo($email)
 					->setBody(
 						$msg['body'],
@@ -78,7 +78,11 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 				$this->mailer->send($message);
 			}
 		}
-		$event->setResponse(new JsonResponse([ 'message' => 'Email has been successfully sent to ' . $email ], 201));
+		if( ! empty($email)) {
+			$event->setResponse(new JsonResponse([ 'message' => 'Email has been successfully sent to ' . $email ], 201));
+		} else {
+			$event->setResponse(new JsonResponse([ 'message' => 'No emails were sent ' ], 200));
+		}
 	}
 	
 }

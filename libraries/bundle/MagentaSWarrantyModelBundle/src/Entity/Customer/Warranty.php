@@ -101,7 +101,7 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$bc     = $mt->getContent();
 		$system = $org->getSystem();
 		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
-		
+//		 {product_details}
 		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
