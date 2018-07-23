@@ -101,7 +101,20 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		$bc     = $mt->getContent();
 		$system = $org->getSystem();
 		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
-//		 {product_details}
+		
+		$dor  = 'N.A';
+		$pCat = 'N.A';
+		if( ! empty($reg = $this->registration)) {
+			$dor = $reg->getCreatedAt()->format('d-m-Y');
+		}
+		$product = $this->product;
+		if( ! empty($cat = $product->getCategory())) {
+			$pCat = $cat->getName();
+		}
+		
+		$productDetailsHtml = sprintf('<div _ngcontent-c1="" class="success-item"><p _ngcontent-c1="">Warranty Registration ID: %1$s</p><p _ngcontent-c1="">Date of Registration: %2$s</p><p _ngcontent-c1="">Warranty Expiry: %3$s</p><p _ngcontent-c1="">Product Category: %4$s</p><p _ngcontent-c1="">Model Name: %5$s</p><p _ngcontent-c1="">Serial Number: %6$s</p></div>', $this->number, $dor, $this->expiryDate->format('d-m-Y'), $pCat, $product->getName(), $this->productSerialNumber);
+		$bc                 = str_replace('{product_details}', $productDetailsHtml, $bc);
+		
 		return [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
@@ -237,6 +250,8 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 				$this->number .= '-' . User::generateCharacterCode('' . $this->id, 5);
 			}
 		}
+		
+		return $this->number;
 	}
 	
 	/**
