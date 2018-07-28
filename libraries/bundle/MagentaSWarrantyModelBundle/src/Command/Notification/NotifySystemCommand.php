@@ -37,9 +37,9 @@ use Symfony\Component\Console\Question\Question;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class InitiateModuleCommand extends Command {
+class NotifySystemCommand extends Command {
 	
-	protected static $defaultName = 'magenta:module:init';
+	protected static $defaultName = 'magenta:notif:system';
 	
 	/** @var RegistryInterface */
 	private $registry;
@@ -59,25 +59,11 @@ class InitiateModuleCommand extends Command {
 	protected function configure() {
 		$this
 			->setName(self::$defaultName)
-			->setDescription('Initate DB.')
+			->setDescription('Notify System Command such as Tech Notif and CS new Reg Notif.')
 			->setHelp(<<<'EOT'
-The <info>magenta:module:init</info> command creates a user:
+The <info>magenta:notif:system</info> command creates a notif:
 
   <info>php %command.full_name% matthieu</info>
-
-This interactive shell will ask you for an email and then a password.
-
-You can alternatively specify the email and password as the second and third arguments:
-
-  <info>php %command.full_name% matthieu matthieu@example.com mypassword</info>
-
-You can create a super admin via the super-admin flag:
-
-  <info>php %command.full_name% admin --super-admin</info>
-
-You can create an inactive user (will not be able to log in):
-
-  <info>php %command.full_name% thibault --inactive</info>
 
 EOT
 			);
@@ -87,82 +73,16 @@ EOT
 	 * {@inheritdoc}
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$repo   = $this->registry->getRepository(SystemModule::class);
-		$system = $this->registry->getRepository(System::class)->find('magenta.swarranty');
-		
-		$modules = $repo->findAll();
-		
-		if( ! empty($system)) {
-//			$this->entityManager->remove($system);
-		} else {
-			$system = new System();
-			$system->setId('magenta.swarranty');
-			$this->entityManager->persist($system);
-			$this->entityManager->flush($system);
-		}
-		
+		$repo          = $this->registry->getRepository(SystemModule::class);
+		$system        = $this->registry->getRepository(System::class)->find('magenta.swarranty');
 		$organisations = $this->registry->getRepository(Organisation::class)->findBy([
 			'enabled' => true,
 			'system'  => $system
 		]);
 		
-		$mods          = [];
-		/** @var SystemModule $module */
-		foreach($modules as $module) {
-//			$this->entityManager->remove($module);
-			$mods[] = $module->getModuleCode();
-		}
-
-//		$this->entityManager->flush();
-		
-		$user = new UserModule();
-		$user->setSystem($system);
-		
-		$case = new CaseModule();
-		$case->setSystem($system);
-		
-		$ct = new CommunicationTemplateModule();
-		$ct->setSystem($system);
-		
-		$customer = new CustomerModule();
-		$customer->setSystem($system);
-		
-		$dealer = new DealerModule();
-		$dealer->setSystem($system);
-		
-		$product = new ProductModule();
-		$product->setSystem($system);
-		
-		$w = new WarrantyModule();
-		$w->setSystem($system);
-		
-		$systemC = new SystemConfigModule();
-		$systemC->setSystem($system);
-		
-		if( ! in_array($user->getModuleCode(), $mods)) {
-			$this->entityManager->persist($user);
-		}
-		if( ! in_array($product->getModuleCode(), $mods)) {
-			$this->entityManager->persist($product);
-		}
-		if( ! in_array($w->getModuleCode(), $mods)) {
-			$this->entityManager->persist($w);
-		}
-		if( ! in_array($ct->getModuleCode(), $mods)) {
-			$this->entityManager->persist($ct);
-		}
-		if( ! in_array($dealer->getModuleCode(), $mods)) {
-			$this->entityManager->persist($dealer);
-		}
-		if( ! in_array($case->getModuleCode(), $mods)) {
-			$this->entityManager->persist($case);
-		}
-		if( ! in_array($customer->getModuleCode(), $mods)) {
-			$this->entityManager->persist($customer);
-		}
-		if( ! in_array($systemC->getModuleCode(), $mods)) {
-			$this->entityManager->persist($systemC);
-		}
+		$system->setLastNotifiedAt(new \DateTime());
+		$this->entityManager->persist($system);
+		$this->entityManager->flush($system);
 		
 		foreach($organisations as $org) {
 //			$role = new ACRole();

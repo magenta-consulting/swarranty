@@ -342,6 +342,34 @@ doctrine:
                                         -
                                             type: postRemove
                                             method: postRemoveHandler
+
+                        -
+                            class:  "Magenta\\Bundle\\SWarrantyModelBundle\\Entity\\System\\System"
+                            listener:
+                                -
+                                    class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\System\\SystemListener"
+                                    event:
+                                        -
+                                            type: preFlush
+                                            method: preFlushHandler
+                                        -
+                                            type: postPersist
+                                            method: postPersistHandler
+                                        -
+                                            type: postUpdate
+                                            method: postUpdateHandler
+                                        -
+                                            type: prePersist
+                                            method: prePersistHandler
+                                        -
+                                            type: preUpdate
+                                            method: preUpdateHandler
+                                        -
+                                            type: preRemove
+                                            method: preRemoveHandler
+                                        -
+                                            type: postRemove
+                                            method: postRemoveHandler
                 filters:
 
                     # An array of filters

@@ -82,3 +82,10 @@ services:
                 - '@service_container'
             tags:
                 - { name: doctrine.orm.entity_listener }
+
+    magenta_doctrine_entity_listener_system:
+            class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\System\SystemListener
+            arguments:
+                - '@service_container'
+            tags:
+                - { name: doctrine.orm.entity_listener }

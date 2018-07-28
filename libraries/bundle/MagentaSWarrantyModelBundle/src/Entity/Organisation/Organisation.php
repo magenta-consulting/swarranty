@@ -56,7 +56,7 @@ class Organisation extends OrganizationModel {
 		return $mems->matching($criteria);
 	}
 	
-	public function prepareNewRegistrationMessage() {
+	public function prepareNewRegistrationMessage($data = []) {
 		$messages = [];
 		
 		$mt = $this->getMessageTemplateByType(MessageTemplate::TYPE_WARRANTY_NEW_REGISTRATION);
@@ -67,19 +67,17 @@ class Organisation extends OrganizationModel {
 		
 		/** @var OrganisationMember $member */
 		foreach($members as $member) {
-		
+			$recipients[] = $member->getEmail();
 		}
 		
 		if(empty($mt)) {
-			return $messages[] = [ 'recipients' => $this->customer->getEmail(), 'subject' => '', 'body' => '' ];
+			return $messages[] = [ 'recipients' => $recipients, 'subject' => '', 'body' => '' ];
 		}
 		
-		$bc     = $mt->getContent();
-		$system = $org->getSystem();
-		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
+		$bc = $mt->getContent();
+		$bc = str_replace('{number_of_new_entries}', $data['total']['new'], $bc);
 		
 		$messages[] = [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
-		
 		
 		return $messages;
 	}
