@@ -6,9 +6,12 @@ use Bean\Component\Organization\Model\Organization as OrganizationModel;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Module\WarrantyModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
@@ -33,6 +36,52 @@ class Organisation extends OrganizationModel {
 	
 	function __construct() {
 		parent::__construct();
+	}
+	
+	public function getMembersWithApprovePermission() {
+		$criteria = Criteria::create();
+		$expr     = Criteria::expr();
+		$roles    = $this->getSystem()->getModuleByCode(WarrantyModule::MODULE_CODE)->getRolesWithPermission(ACEntry::PERMISSION_APPROVE);
+		if(empty($roles)) {
+			return new ArrayCollection();
+		}
+		
+		$criteria->where(
+			$expr->in('role', $roles)
+		);
+		
+		/** @var ArrayCollection $mems */
+		$mems = $this->members;
+		
+		return $mems->matching($criteria);
+	}
+	
+	public function prepareNewRegistrationMessage() {
+		$messages = [];
+		
+		$mt = $this->getMessageTemplateByType(MessageTemplate::TYPE_WARRANTY_NEW_REGISTRATION);
+		
+		$recipients = [];
+		
+		$members = $this->getMembersWithApprovePermission();
+		
+		/** @var OrganisationMember $member */
+		foreach($members as $member) {
+		
+		}
+		
+		if(empty($mt)) {
+			return $messages[] = [ 'recipients' => $this->customer->getEmail(), 'subject' => '', 'body' => '' ];
+		}
+		
+		$bc     = $mt->getContent();
+		$system = $org->getSystem();
+		$bc     = str_replace('{name}', $this->customer->getName(), $bc);
+		
+		$messages[] = [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
+		
+		
+		return $messages;
 	}
 	
 	/**
@@ -156,7 +205,7 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="integer", options={"default":30})
 	 */
 	protected $nearExpiryPeriod = 30;
-
+	
 	/**
 	 * @var boolean
 	 * @ORM\Column(type="boolean", options={"default":true})
@@ -180,6 +229,12 @@ class Organisation extends OrganizationModel {
 	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $productRegUrl;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $assigneeUrl;
 	
 	/**
 	 * @var string|null
@@ -596,6 +651,20 @@ class Organisation extends OrganizationModel {
 	 */
 	public function setAdminDomain(?string $adminDomain): void {
 		$this->adminDomain = $adminDomain;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAssigneeUrl(): ?string {
+		return $this->assigneeUrl;
+	}
+	
+	/**
+	 * @param null|string $assigneeUrl
+	 */
+	public function setAssigneeUrl(?string $assigneeUrl): void {
+		$this->assigneeUrl = $assigneeUrl;
 	}
 	
 }

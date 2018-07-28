@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -19,6 +20,10 @@ class WarrantyModule extends SystemModule implements ACModuleInterface {
 	
 	const PERMISSION_CREATE_CASE = ACEntry::PERMISSION_CREATE . '_CASE';
 	const PERMISSION_LIST_CASES = ACEntry::PERMISSION_LIST . '_CASES';
+	
+	function __construct() {
+		parent::__construct();
+	}
 	
 	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {
 		/** @var Warranty $w */

@@ -17,6 +17,15 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  * @ORM\Table(name="module__case")
  */
 class CaseModule extends SystemModule implements ACModuleInterface {
+	
+	function __construct() {
+		parent::__construct();
+	}
+	
+	public function getOrganisationMembersWithReceivePermission(Organisation $org) {
+	
+	}
+	
 	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {
 		if( ! $this->isClassSupported($class)) {
 			return null;

@@ -139,6 +139,12 @@ class OrganisationMember extends MemberModel {
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime",nullable=true)
 	 */
+	protected $caseAssignmentLastNotifiedAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
 	protected $createdAt;
 	
 	/**
@@ -317,5 +323,19 @@ class OrganisationMember extends MemberModel {
 	 */
 	public function setEmail(?string $email): void {
 		$this->email = $email;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getCaseAssignmentLastNotifiedAt(): ?\DateTime {
+		return $this->caseAssignmentLastNotifiedAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $caseAssignmentLastNotifiedAt
+	 */
+	public function setCaseAssignmentLastNotifiedAt(?\DateTime $caseAssignmentLastNotifiedAt): void {
+		$this->caseAssignmentLastNotifiedAt = $caseAssignmentLastNotifiedAt;
 	}
 }

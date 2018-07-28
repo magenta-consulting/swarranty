@@ -1,0 +1,8 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+            {%- block field %}
+                {{ object.number }}
+                <br/>
+                {{ object.product.brand.name }}
+                <br/>
+                {{ object.product.name }}
+            {% endblock -%}

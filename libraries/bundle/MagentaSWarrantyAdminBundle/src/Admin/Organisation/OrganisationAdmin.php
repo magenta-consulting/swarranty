@@ -170,6 +170,9 @@ class OrganisationAdmin extends BaseAdmin {
 			->add('productRegUrl', null, [
 			
 			])
+			->add('assigneeUrl', null, [
+			
+			])
 			->add('psnLocationUrl', null, [
 			
 			])

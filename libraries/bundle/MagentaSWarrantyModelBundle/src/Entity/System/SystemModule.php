@@ -32,15 +32,28 @@ abstract class SystemModule implements ACModuleInterface {
 		$this->acEntries = new ArrayCollection();
 	}
 	
+	public function getRolesWithPermission($permission) {
+		$permission = strtoupper($permission);
+		$roles      = [];
+		/** @var ACEntry $ace */
+		foreach($this->acEntries as $ace) {
+			if($ace->getPermission() === $permission) {
+				$roles[] = $ace->getRole();
+			}
+		}
+		
+		return $roles;
+	}
+	
 	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {
 		if(empty($member)) {
 			return false;
 		}
 		
-		return $this->isGranted($permission, $member->getRole());
+		return $this->isRoleGranted($permission, $member->getRole());
 	}
 	
-	public function isGranted($permission, ACRole $role) {
+	public function isRoleGranted($permission, ACRole $role) {
 		$permission = strtoupper($permission);
 		$entries    = $role->getEntries();
 		/** @var ACEntry $entry */

@@ -4,6 +4,8 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\System;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 
 /**
  * @ORM\Entity()
@@ -17,6 +19,9 @@ class System {
 	 * @ORM\Column(type="string", length=180)
 	 */
 	protected $id = 'magenta.swarranty';
+	
+	function __construct() {
+	}
 	
 	/**
 	 * @var string
@@ -58,6 +63,12 @@ class System {
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", mappedBy="system", cascade={"persist","merge"}, orphanRemoval=true)
 	 */
 	protected $organisations;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime",nullable=true)
+	 */
+	protected $lastNotifiedAt;
 	
 	/**
 	 * @var boolean
@@ -146,5 +157,19 @@ class System {
 	 */
 	public function setSslEnabled(bool $sslEnabled): void {
 		$this->sslEnabled = $sslEnabled;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getLastNotifiedAt(): ?\DateTime {
+		return $this->lastNotifiedAt;
+	}
+	
+	/**
+	 * @param \DateTime|null $lastNotifiedAt
+	 */
+	public function setLastNotifiedAt(?\DateTime $lastNotifiedAt): void {
+		$this->lastNotifiedAt = $lastNotifiedAt;
 	}
 }

@@ -150,6 +150,7 @@ form:
     label_content: Content
     label_notes: Notes
     label_number: Number
+    label_purchase_description: Purchase Description
     label_product_serial_number: Product Serial Number
     label_description: Description
     label_visited_at: Visit Time

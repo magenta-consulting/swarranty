@@ -2,10 +2,26 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        /* Stupid Client with small screen monitors */
+        table.sonata-ba-list {
+            table-layout: fixed;
+        }
+
+        .sonata-ba-list-field-header-actions {
+            width: 156px; /* for Warranty Action*/
+        }
+
+        td.sonata-ba-list-field.sonata-ba-list-field-text, th {
+            word-wrap: break-word;
+        }
+
+        /* End of stupidity */
+
         /* export button */
         form button.btn.btn-default.dropdown-toggle {
             /*display: none;*/
         }
+
         /* end export btn */
 
         nav .nav.navbar-right.btn-group {

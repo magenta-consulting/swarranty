@@ -269,13 +269,16 @@ class WarrantyAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('number', null, [ 'label' => 'form.label_number' ])
+			->add('number', 'purchase_description', [
+				'label'    => 'form.label_purchase_description',
+				'template' => '@MagentaSWarrantyAdmin/Admin/Customer/Warranty/CRUD/list_field.html.twig'
+			])
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
 			->add('dealer.name', null, [ 'editable' => false, 'label' => 'form.label_dealer' ])
-			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])
-			->add('product.name', null, [ 'editable' => false, 'label' => 'form.label_model_name' ])
+//			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])
+//			->add('product.name', null, [ 'editable' => false, 'label' => 'form.label_model_name' ])
 			->add('purchaseDate', 'date', [ 'editable' => false, 'label' => 'form.label_purchase_date' ])
 			->add('createdAt', 'date', [ 'editable' => false, 'label' => 'form.label_submission_date' ])
 			->add('expiryDate', 'date', [ 'editable' => false, 'label' => 'form.label_expiry_date' ]);
