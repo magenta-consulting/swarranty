@@ -12,6 +12,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Messaging\MessageTemplate;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 
 /**
@@ -34,6 +35,21 @@ class OrganisationMember extends MemberModel {
 		$this->createdCases            = new ArrayCollection();
 		$this->createdCaseAppointments = new ArrayCollection();
 		$this->createdAt               = new \DateTime();
+	}
+	
+	public function prepareNewAssignmentMessage($data = []) {
+		$mt = $this->organization->getMessageTemplateByType(MessageTemplate::TYPE_TECHNICIAN_NEW_ASSIGNMENT);
+		
+		$recipient = $this->email;
+		
+		if(empty($mt)) {
+			return [ 'recipient' => $recipient, 'subject' => '', 'body' => '' ];
+		}
+		
+		$bc = $mt->getContent();
+		$bc = str_replace('{number_of_new_entries}', $data['new'], $bc);
+		
+		return [ 'recipient' => $recipient, 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
 	/**

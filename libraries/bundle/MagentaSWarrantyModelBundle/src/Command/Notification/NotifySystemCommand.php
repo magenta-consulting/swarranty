@@ -81,6 +81,11 @@ EOT
 		]);
 		
 		$system->setLastNotifiedAt(new \DateTime());
+		
+		$system->notificationTypes[] = System::NOTIFICATION_TECHNICIAN_NEW_ASSIGNMENT;
+		$system->notificationTypes[] = System::NOTIFICATION_WARRANTY_NEW_REGISTRATION;
+		
+		
 		$this->entityManager->persist($system);
 		$this->entityManager->flush($system);
 		

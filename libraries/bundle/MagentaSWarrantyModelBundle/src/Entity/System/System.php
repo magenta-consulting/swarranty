@@ -13,6 +13,11 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
  */
 class System {
 	
+	const NOTIFICATION_WARRANTY_NEW_REGISTRATION = 'WARRANTY_NEW_REGISTRATION';
+	const NOTIFICATION_TECHNICIAN_NEW_ASSIGNMENT = 'TECHNICIAN_NEW_ASSIGNMENT';
+	
+	public $notificationTypes = [];
+	
 	/**
 	 * @var string
 	 * @ORM\Id
