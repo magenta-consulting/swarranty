@@ -90,6 +90,5 @@ EOT
 //			$role->setName('Technician');
 //			$this->entityManager->persist($role);
 		}
-		$this->entityManager->flush();
 	}
 }
