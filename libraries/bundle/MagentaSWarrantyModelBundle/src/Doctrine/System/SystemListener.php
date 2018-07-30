@@ -46,22 +46,29 @@ class SystemListener {
 		$registry = $this->container->get('doctrine');
 		$orgs     = $system->getOrganisations();
 		
-		$qb = $manager->createQueryBuilder();
-		$qb->select('w')->from(Warranty::class, 'w');
-		$wResult = $qb->getQuery()->getResult();
-		
 		/** @var Organisation $org */
 		foreach($orgs as $org) {
-			$orgMsg = $org->prepareNewRegistrationMessage([ 'total' => [ 'new' => count($wResult) ] ]);
-			$emails = $orgMsg['recipients'];
+			$qb = $manager->createQueryBuilder();
+			$qb->select('w')->from(Warranty::class, 'w');
+			$expr = $qb->expr();
+			$qb->andWhere($expr->like('w.status', $expr->literal(Warranty::STATUS_NEW)));
+			$qb->join('w.customer', 'customer')
+			   ->join('customer.organisation', 'organisation');
+			$qb->andWhere($expr->eq('organisation.id', $org->getId()));
 			
-			$message = (new \Swift_Message($orgMsg['subject']))
-				->setFrom('no-reply@' . $system->getDomain())
-				->setTo($emails)
-				->setBody(
-					$orgMsg['body'],
-					'text/html'
-				)/*
+			$wResult = $qb->getQuery()->getResult();
+			
+			if($newEntriesCount = count($wResult) > 0) {
+				$orgMsg = $org->prepareNewRegistrationMessage([ 'total' => [ 'new' => $newEntriesCount ] ]);
+				$emails = $orgMsg['recipients'];
+				
+				$message = (new \Swift_Message($orgMsg['subject']))
+					->setFrom('no-reply@' . $system->getDomain())
+					->setTo($emails)
+					->setBody(
+						$orgMsg['body'],
+						'text/html'
+					)/*
 				 * If you also want to include a plaintext version of the message
 				->addPart(
 					$this->renderView(
@@ -71,9 +78,9 @@ class SystemListener {
 					'text/plain'
 				)
 				*/
-			;
-			
-			$this->container->get('mailer')->send($message);
+				;
+				$this->container->get('mailer')->send($message);
+			}
 		}
 	}
 	
