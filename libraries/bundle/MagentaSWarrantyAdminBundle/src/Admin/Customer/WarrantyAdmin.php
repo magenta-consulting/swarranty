@@ -446,6 +446,35 @@ class WarrantyAdmin extends BaseAdmin {
 	public function preValidate($object) {
 		parent::preValidate($object);
 		$ris = $object->getReceiptImages();
+		$c   = $object->getCustomer();
+		
+		$cr        = $this->registry->getRepository(Customer::class);
+		$customers = $cr->findBy([
+			'telephone'    => $c->getTelephone(),
+			'dialingCode'  => $c->getDialingCode(),
+			'organisation' => $c->getOrganisation()
+		]);
+		
+		$cc = count($customers);
+		if($cc > 0) {
+			$object->setCustomer(null);
+			$c->removeWarranties($object);
+			$customers[0]->addWarranties($object);
+			$object->setCustomer($customers[0]);
+		}
+		if($cc > 1) {
+			/** @var Customer $_c */
+			foreach($customers as $_c) {
+				if($_c->getEmail() === $c->getEmail()) {
+					$object->setCustomer(null);
+					$customers[0]->removeWarranties($object);
+					$_c->addWarranties($object);
+					$object->setCustomer($_c);
+					
+				}
+			}
+		}
+		
 		/** @var Media $ri */
 		foreach($ris as $m) {
 			if( ! empty($m)) {
