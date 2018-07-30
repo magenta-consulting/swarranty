@@ -6,6 +6,13 @@ services:
         tags:
             - {name: "console.command", command: "magenta:module:init"}
 
+    magenta_config.notif:system:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Notification\NotifySystemCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+            - {name: "console.command", command: "magenta:notif:system"}
+
     magenta_config.command.generate_product_search_text:
         class: Magenta\Bundle\SWarrantyModelBundle\Command\Product\GenerateProductSearchTextCommand
         public: false

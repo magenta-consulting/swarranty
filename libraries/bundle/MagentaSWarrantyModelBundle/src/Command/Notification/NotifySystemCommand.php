@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Magenta\Bundle\SWarrantyModelBundle\Command\Module;
+namespace Magenta\Bundle\SWarrantyModelBundle\Command\Notification;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;

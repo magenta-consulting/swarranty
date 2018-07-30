@@ -57,8 +57,6 @@ class Organisation extends OrganizationModel {
 	}
 	
 	public function prepareNewRegistrationMessage($data = []) {
-		$messages = [];
-		
 		$mt = $this->getMessageTemplateByType(MessageTemplate::TYPE_WARRANTY_NEW_REGISTRATION);
 		
 		$recipients = [];
@@ -71,15 +69,13 @@ class Organisation extends OrganizationModel {
 		}
 		
 		if(empty($mt)) {
-			return $messages[] = [ 'recipients' => $recipients, 'subject' => '', 'body' => '' ];
+			return [ 'recipients' => $recipients, 'subject' => '', 'body' => '' ];
 		}
 		
 		$bc = $mt->getContent();
 		$bc = str_replace('{number_of_new_entries}', $data['total']['new'], $bc);
 		
-		$messages[] = [ 'recipient' => $this->customer->getEmail(), 'subject' => $mt->getSubject(), 'body' => $bc ];
-		
-		return $messages;
+		return [ 'recipients' => $recipients, 'subject' => $mt->getSubject(), 'body' => $bc ];
 	}
 	
 	/**

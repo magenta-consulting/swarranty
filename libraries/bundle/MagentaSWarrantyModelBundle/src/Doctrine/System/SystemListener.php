@@ -52,7 +52,28 @@ class SystemListener {
 		
 		/** @var Organisation $org */
 		foreach($orgs as $org) {
-			$org->prepareNewRegistrationMessage([ 'total' => [ 'new' => count($wResult) ] ]);
+			$orgMsg = $org->prepareNewRegistrationMessage([ 'total' => [ 'new' => count($wResult) ] ]);
+			$emails = $orgMsg['recipients'];
+			
+			$message = (new \Swift_Message($orgMsg['subject']))
+				->setFrom('no-reply@' . $system->getDomain())
+				->setTo($emails)
+				->setBody(
+					$orgMsg['body'],
+					'text/html'
+				)/*
+				 * If you also want to include a plaintext version of the message
+				->addPart(
+					$this->renderView(
+						'emails/registration.txt.twig',
+						array('name' => $name)
+					),
+					'text/plain'
+				)
+				*/
+			;
+			
+			$this->container->get('mailer')->send($message);
 		}
 	}
 	
