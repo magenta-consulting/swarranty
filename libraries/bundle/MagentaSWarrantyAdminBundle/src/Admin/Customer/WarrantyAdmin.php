@@ -448,7 +448,7 @@ class WarrantyAdmin extends BaseAdmin {
 		$ris = $object->getReceiptImages();
 		$c   = $object->getCustomer();
 		
-		$cr        = $this->registry->getRepository(Customer::class);
+		$cr        = $this->getConfigurationPool()->getContainer()->get('doctrine')->getRepository(Customer::class);
 		$customers = $cr->findBy([
 			'telephone'    => $c->getTelephone(),
 			'dialingCode'  => $c->getDialingCode(),
