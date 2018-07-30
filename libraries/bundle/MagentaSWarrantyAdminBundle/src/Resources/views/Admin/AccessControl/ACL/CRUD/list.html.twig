@@ -1,4 +1,9 @@
 {% extends '@MagentaSWarrantyAdmin/CRUD/list.html.twig' %}
+{% block stylesheets_stupid %}
+
+{% endblock %}
+
+
                   {% block table_header %}
                       <thead>
                       <tr class="sonata-ba-list-field-header">
@@ -68,25 +73,25 @@
                             <tbody>
 
                             {#<tr>#}
-                                {#{% set elementCount = 2 %}#}
-                                {#<td></td>#}
-                                {#<td colspan="1" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
-                                    {#<button type="button" class="btn-primary btn form-control">Save New Role</button>#}
-                                {#</td>#}
-                                {#<td colspan="{{ elementCount - 1 }}"#}
-                                    {#class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
-                                    {#<input placeholder="Enter New Role" type="text" name="new_role"#}
-                                           {#class="form-control"/>#}
-                                {#</td>#}
+                            {#{% set elementCount = 2 %}#}
+                            {#<td></td>#}
+                            {#<td colspan="1" class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                            {#<button type="button" class="btn-primary btn form-control">Save New Role</button>#}
+                            {#</td>#}
+                            {#<td colspan="{{ elementCount - 1 }}"#}
+                            {#class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                            {#<input placeholder="Enter New Role" type="text" name="new_role"#}
+                            {#class="form-control"/>#}
+                            {#</td>#}
 
-                                {#{% for module in admin.systemModules %}#}
-                                    {#{% for supportedAction in module.supportedModuleActions %}#}
-                                        {#<td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
-                                            {#<input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}"#}
-                                                   {#value="{{ supportedAction }}">#}
-                                        {#</td>#}
-                                    {#{% endfor %}#}
-                                {#{% endfor %}#}
+                            {#{% for module in admin.systemModules %}#}
+                            {#{% for supportedAction in module.supportedModuleActions %}#}
+                            {#<td class="sonata-ba-list-field sonata-ba-list-field-actions" objectid="0">#}
+                            {#<input type="checkbox" autocomplete="off" name="{{ module.moduleCode }}"#}
+                            {#value="{{ supportedAction }}">#}
+                            {#</td>#}
+                            {#{% endfor %}#}
+                            {#{% endfor %}#}
                             {#</tr>#}
 
                             {% include get_admin_template('outer_list_rows_' ~ admin.getListMode(), admin.code) %}

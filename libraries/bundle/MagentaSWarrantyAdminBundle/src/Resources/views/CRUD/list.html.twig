@@ -1,8 +1,8 @@
 {% extends '@SonataAdmin/CRUD/base_list.html.twig' %}
-{% block stylesheets %}
-    {{ parent() }}
+
+{% block stylesheets_stupid %}
     <style>
-        /* Stupid Client with small screen monitors */
+        /*Stupid Client with small screen monitors */
         table.sonata-ba-list {
             table-layout: fixed;
         }
@@ -20,7 +20,12 @@
         }
 
         /* End of stupidity */
-
+    </style>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ block('stylesheets_stupid') }}
+    <style>
         /* export button */
         form button.btn.btn-default.dropdown-toggle {
             /*display: none;*/
