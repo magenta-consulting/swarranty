@@ -109,16 +109,15 @@ class SystemListener {
 						$case            = $result['warranty_case'];
 						$assignee        = $case->getAssignee();
 						$newEntriesCount = $result['count'];
-						$message         = $assignee->prepareNewAssignmentMessage([ 'new' => $newEntriesCount ]);
 						if($newEntriesCount > 0) {
-							$orgMsg = $org->prepareNewRegistrationMessage([ 'new' => $newEntriesCount ]);
-							$email  = $orgMsg['recipient'];
+							$asgnMessage = $assignee->prepareNewAssignmentMessage([ 'new' => $newEntriesCount ]);
+							$email  = $asgnMessage['recipient'];
 							
-							$swiftMessage = (new \Swift_Message($message['subject']))
+							$swiftMessage = (new \Swift_Message($asgnMessage['subject']))
 								->setFrom('no-reply@' . $system->getDomain())
 								->setTo($email)
 								->setBody(
-									$message['body'],
+									$asgnMessage['body'],
 									'text/html'
 								)/*
 				 * If you also want to include a plaintext version of the message
