@@ -27,7 +27,7 @@ export function exp(token: string) {
 }
 
 export function isExpired(token: string) {
-    return exp(token)*1000 > + new Date();
+    return exp(token)*1000 >= + new Date();
     // return true;
 }
 
@@ -49,11 +49,11 @@ export function requireToken(service, callback) {
         .subscribe(res => {
             window.localStorage.setItem('token', res['token']);
             window.localStorage.setItem('refresh_token', res['refresh_token']);
-            console.log("Token refreshed");
+            // console.log("Token refreshed");
             callback();
         });
     } else {
-        console.log("No need to refresh token");
+        // console.log("No need to refresh token");
         callback();
     }
 }

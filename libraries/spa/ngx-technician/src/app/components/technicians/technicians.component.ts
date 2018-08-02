@@ -18,6 +18,8 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
     cases: Case[];
+    completedCount = 0;
+    uncompletedCount = 0;
 
     constructor(private memberService: MemberService) {
         this.fetchMembers();
@@ -27,6 +29,8 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
         requireToken(this.memberService, () => {
             this.memberService.getMembers(1).subscribe(members => {
                 this.cases = members[0].assignedCases;
+                this.completedCount = this.cases.filter(c => c.completed).length;
+                this.uncompletedCount = this.cases.filter(c => !c.completed).length;
             });
         })
     }
