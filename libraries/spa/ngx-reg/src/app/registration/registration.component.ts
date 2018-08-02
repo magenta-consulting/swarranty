@@ -6,7 +6,8 @@ import {
     OnInit,
     TemplateRef,
     ViewChild,
-    NgZone
+    NgZone,
+    ViewEncapsulation
 } from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Brand} from "../model/brand";
