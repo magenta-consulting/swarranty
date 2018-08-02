@@ -29,6 +29,7 @@ import {FormControl} from '@angular/forms';
 import {} from 'googlemaps';
 import {MapsAPILoader} from '@agm/core';
 import {CompleterService, CompleterData} from 'ng2-completer';
+import { NewsletterSubscriptionService } from '../service/newsletter-subscription.service';
 
 @Component({
     selector: 'app-registration',
@@ -44,6 +45,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     typingConfirm: false;
     isAgreedToTermsAndPolicy = false;
     processing = false;
+    subscribeNewsletter: boolean;
 
     warranties: Warranty[] = [];
 
@@ -70,7 +72,8 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     constructor(private productService: ProductService,
                 private organisationService: OrganisationService,
                 private customerService: CustomerService,
-                private registrationSerice: RegistrationService,
+                private registrationService: RegistrationService,
+                private newsletterSubscriptionService: NewsletterSubscriptionService,
                 private router: Router,
                 private mapsAPILoader: MapsAPILoader,
                 private ngZone: NgZone,
@@ -161,7 +164,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     reg.warranties.push(rw);
                 }
 
-                this.registrationSerice.postRegistration(reg).subscribe(reg => {
+                this.registrationService.postRegistration(reg).subscribe(reg => {
                     localStorage.setItem('regId', reg['@id']);
                     let regId = reg['@id'];
                     let cutstr = '/api/registrations/';
@@ -170,6 +173,11 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                     this.router.navigate([`/upload-receipt-image/${regRId}`]);
                 });
 
+                if (this.customer.email != null && this.customer.email.trim() != '' && this.subscribeNewsletter) {
+                    this.newsletterSubscriptionService.postNewsletterSubscription(customer.name, customer.email).subscribe(res => {
+                        console.log('Newsletter subscription successfully!');
+                    })                    
+                }
             });
         } else {
             if (this.isOk()) {
