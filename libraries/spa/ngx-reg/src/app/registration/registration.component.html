@@ -326,9 +326,9 @@
                 <span class="add-product-text"> Add another Product</span>
             </div>
             <section *ngIf="!isFormPreview" class="checkboxes">
-                <div class="form-check">
+                <div *ngIf="customer.email" class="form-check">
                     <input required="required" type="checkbox" aria-label="Checkbox for following text input"
-                           id="newsletterSubscription">
+                           id="newsletterSubscription" [(ngModel)]="subscribeNewsletter">
                     <label class="form-check-label" for="newsletterSubscription">
                         Keep me updated on new {{organisation.name}} product and promotions.
                     </label>
