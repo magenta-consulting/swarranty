@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+
 </head>
 <body>
 <script>
-    var createCORSRequest = function(method, url) {
+    var createCORSRequest = function (method, url) {
         var xhr = new XMLHttpRequest();
         if ("withCredentials" in xhr) {
             // Most browsers.
@@ -22,19 +25,26 @@
         return xhr;
     };
 
-    var url = '';
-    var method = '';
+    var url = 'http://dev-swarranty.magentapulse.com/api/login_check';
+    var method = 'GET';
     var xhr = createCORSRequest(method, url);
 
-    xhr.onload = function() {
+    xhr.onload = function () {
         alert('ok');
     };
 
-    xhr.onerror = function() {
+    xhr.onerror = function () {
         alert('error, not ok');
     };
 
+    xhr.setRequestHeader('Content-Type','application/json');
     xhr.send();
+
+
+    var success = function () {
+        alert('jquery success');
+    }
+
 
 </script>
 </body>

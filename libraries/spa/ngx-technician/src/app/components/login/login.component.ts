@@ -13,10 +13,10 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
   message: string;
-  loading: boolean = false;
+  loading = false;
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private router: Router,
   ) { }
 
