@@ -21,7 +21,10 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
     completedCount = 0;
     uncompletedCount = 0;
 
-    constructor(private memberService: MemberService) {
+    constructor(
+        private memberService: MemberService,
+        private router: Router
+    ) {
         this.fetchMembers();
     }
 
@@ -52,5 +55,11 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
         // show content
         $('.tab-pane').removeClass('fade show in active');
         $(tabId).addClass('fade show in active');
+    }
+
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
+        this.router.navigateByUrl('/login');
     }
 }

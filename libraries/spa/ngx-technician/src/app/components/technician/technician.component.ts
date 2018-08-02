@@ -47,6 +47,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         private caseService: CaseService,
         private warrantyService: WarrantyService,
         private route: ActivatedRoute,
+        private router: Router,
         private helper: Helper
     ) {
         requireToken(memberService, () => memberService.getMembers(1).subscribe(members => {
@@ -248,5 +249,11 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             this.case.status = res.status;
             this.isSaving['status'] = false;
         }));
+    }
+
+    logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('refresh_token');
+        this.router.navigateByUrl('/login');
     }
 }
