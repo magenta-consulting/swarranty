@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class BrandCategoryController extends Controller {
 	public function productsAction(BrandCategory $data): Collection {
-		$prods = $data->getProducts();
+		$prods = $data->getEnabledProducts();
 		
 		return $prods;
 	}
