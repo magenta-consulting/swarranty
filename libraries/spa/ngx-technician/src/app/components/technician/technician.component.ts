@@ -19,6 +19,7 @@ import { NoteService } from "../../service/note.service";
 import { ServiceSheet } from '../../model/service-sheet';
 import { CaseService } from "../../service/case.service";
 import { WarrantyService } from "../../service/warranty.service";
+import { requireToken } from '../../helper/token';
 
 @Component({
     selector: 'technician',
@@ -48,7 +49,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         private route: ActivatedRoute,
         private helper: Helper
     ) {
-        memberService.getMembers(1).subscribe(members => {
+        requireToken(memberService, () => memberService.getMembers(1).subscribe(members => {
             this.cases = members[0].assignedCases;
             this.cases.forEach(element => {
                 if (element.id == this.id) {
@@ -59,7 +60,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             this.findCurrentAppointment();
             this.loadProductList();
             console.log(this.case);
-        });
+        }))
     }
 
     loadProductList() {
@@ -67,7 +68,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         this.case.warranty.selectedBrand.id = this.case.warranty.selectedBrand["@id"];
         this.case.warranty.selectedCategory = this.case.warranty.product['category'];
         this.case.warranty.selectedCategory.id = this.case.warranty.selectedCategory["@id"];
-        this.productService.getBrands().subscribe(brands => this.case.warranty.brands = brands);
+        requireToken(this.productService, () => this.productService.getBrands().subscribe(brands => this.case.warranty.brands = brands));
         this.selectBrand(null, this.case.warranty);
         this.selectCategory(null, this.case.warranty);
     }
@@ -131,7 +132,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         if (imgId == null) {
             return;
         }
-        this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+        requireToken(this.productService, () => this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
             res => {
                 console.log('res', res);
             },
@@ -141,7 +142,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             () => {
                 console.log('Complete Request');
             }
-        );
+        ));
     }
 
     onUploadStateChanged(state: boolean) {
@@ -160,10 +161,10 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             warranty.isProductHidden = true;
             warranty.isCategoryHidden = true;
 
-            this.productService.getCategories(brand.id).subscribe(cats => {
+            requireToken(this.productService, () => this.productService.getCategories(brand.id).subscribe(cats => {
                 warranty.categories = cats;
                 warranty.isCategoryHidden = false;
-            });
+            }));
         }
     }
 
@@ -176,20 +177,20 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
             warranty.products = [{id: null, name: 'Loading'} as Product]
             warranty.isProductHidden = true;
 
-            this.productService.getProductsByCategory(warranty.selectedCategory.id).subscribe(prods => {
+            requireToken(this.productService, () => this.productService.getProductsByCategory(warranty.selectedCategory.id).subscribe(prods => {
                 warranty.products = prods;
                 warranty.isProductHidden = false;
                 warranty.selectedProduct = null;
-            });
+            }));
         }
     }
 
     selectProduct(e, warranty: Warranty): void {
         this.isSaving['product'] = true;
-        this.warrantyService.updateWarrantyProduct(warranty).subscribe(res => {
+        requireToken(this.warrantyService, () => this.warrantyService.updateWarrantyProduct(warranty).subscribe(res => {
             this.isSaving['product'] = false;
             this.case.warranty.product = res.product;
-        })
+        }))
     }
 
     deleteNote(note: ServiceNote) {
@@ -233,19 +234,19 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
 
     updateSerialNumber() {
         this.isSaving['serial'] = true;
-        this.warrantyService.updateWarrantyProductSerialNumber(this.case.warranty).subscribe(res => {
+        requireToken(this.warrantyService, () => this.warrantyService.updateWarrantyProductSerialNumber(this.case.warranty).subscribe(res => {
             this.case.warranty.productSerialNumber = res.productSerialNumber;
             this.isSaving['serial'] = false;
             this.isEditing['serial'] = false;
-        })
+        }))
     }
 
     markCompleted() {
         this.isSaving['status'] = true;
-        this.caseService.markCompleted(this.case).subscribe(res => {
+        requireToken(this.caseService, () => this.caseService.markCompleted(this.case).subscribe(res => {
             this.case.completed = res.completed;
             this.case.status = res.status;
             this.isSaving['status'] = false;
-        });
+        }));
     }
 }

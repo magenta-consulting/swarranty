@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import {MemberService} from '../../service/member.service'
 import { Member } from '../../model/member';
 import { Case } from '../../model/case';
+import { requireToken } from '../../helper/token';
 
 @Component({
     selector: 'technicians',
@@ -23,9 +24,11 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
     }
 
     fetchMembers() {
-        this.memberService.getMembers(1).subscribe(members => {
-            this.cases = members[0].assignedCases;
-        });
+        requireToken(this.memberService, () => {
+            this.memberService.getMembers(1).subscribe(members => {
+                this.cases = members[0].assignedCases;
+            });
+        })
     }
 
     ngOnInit() {

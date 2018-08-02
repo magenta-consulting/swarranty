@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { Member } from '../model/member';
 import { Case } from '../model/case';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +31,7 @@ export class MemberService {
       map(res => {
         let members = res['hydra:member'];
         return members;
-      }),
-      catchError((error, caught) : Observable<void> => {
-        let modal = this.modal.show(LoginModalComponent);
-        return;
       })
-    );
+    )
   }
 }
