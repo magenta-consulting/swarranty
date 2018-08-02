@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 import {MemberService} from '../../service/member.service'
 import { Member } from '../../model/member';
 import { Case } from '../../model/case';
+import { requireToken } from '../../helper/token';
 
 @Component({
     selector: 'technicians',
@@ -17,15 +18,21 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
 
     isLoading: boolean = false;
     cases: Case[];
+    completedCount = 0;
+    uncompletedCount = 0;
 
     constructor(private memberService: MemberService) {
         this.fetchMembers();
     }
 
     fetchMembers() {
-        this.memberService.getMembers(1).subscribe(members => {
-            this.cases = members[0].assignedCases;
-        });
+        requireToken(this.memberService, () => {
+            this.memberService.getMembers(1).subscribe(members => {
+                this.cases = members[0].assignedCases;
+                this.completedCount = this.cases.filter(c => c.completed).length;
+                this.uncompletedCount = this.cases.filter(c => !c.completed).length;
+            });
+        })
     }
 
     ngOnInit() {

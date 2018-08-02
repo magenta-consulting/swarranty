@@ -6,7 +6,6 @@ import { map, catchError } from "rxjs/operators";
 import { Product } from '../model/product';
 import { Observable } from 'rxjs';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { LoginModalComponent } from '../components/login-modal/login-modal.component';
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +30,7 @@ export class WarrantyService {
         'Authorization': `Bearer ${this.token}`
       })
     }).pipe(
-      map(res => res as any),
-      catchError((error, caught): Observable<void> => {
-        let modal = this.modal.show(LoginModalComponent);
-        return;
-      })
+      map(res => res as any)
     )
   }
 
@@ -48,11 +43,7 @@ export class WarrantyService {
         'Authorization': `Bearer ${this.token}`
       })
     }).pipe(
-      map(res => res as any),
-      catchError((error, caught): Observable<void> => {
-        let modal = this.modal.show(LoginModalComponent);
-        return;
-      })
+      map(res => res as any)
     )
   }
 }

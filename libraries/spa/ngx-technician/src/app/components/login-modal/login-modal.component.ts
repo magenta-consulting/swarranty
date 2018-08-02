@@ -14,6 +14,7 @@ export class LoginModalComponent implements OnInit {
   password: string;
   message: string;
   loading: boolean = false;
+  callback: any;
 
   constructor(
     private http: HttpClient, 
@@ -33,8 +34,8 @@ export class LoginModalComponent implements OnInit {
     .subscribe(res => {
       localStorage.setItem('token', res.token);
       localStorage.setItem('refresh_token', res.refresh_token);
-      this.router.navigateByUrl('/');
       this._bsModalRef!.hide();
+      this.callback();
     }, error => {
       this.message = 'Invalid email or password!';
       this.loading = false;
