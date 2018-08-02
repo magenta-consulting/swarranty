@@ -81,7 +81,7 @@ class WarrantyChildCaseAdmin extends WarrantyCaseAdmin {
 			$wfscqb->join('o.customer', 'customer');
 			$wfscqb->andWhere($expr->andX(
 				$expr->eq('customer.id', $expr->literal($customerId)),
-				$expr->eq('o.status', $expr->literal('APPROVED')),
+//				$expr->eq('o.status', $expr->literal('APPROVED')),
 				$expr->gte($wfscRootAlias . '.expiryDate', ':today')
 			
 			))
