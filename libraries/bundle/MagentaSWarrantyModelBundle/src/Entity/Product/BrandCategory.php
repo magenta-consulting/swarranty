@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Product;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
@@ -17,6 +18,17 @@ class BrandCategory extends Thing {
 	public function __construct() {
 		$this->brands   = new ArrayCollection();
 		$this->products = new ArrayCollection();
+	}
+	
+	/**
+	 * @return Collection|null
+	 */
+	public function getEnabledProducts(): ?Collection {
+		$criteria = Criteria::create();
+		$expr     = Criteria::expr();
+		$criteria->andWhere($expr->eq('enabled', true));
+		
+		return $this->products->matching($criteria);
 	}
 	
 	/**
