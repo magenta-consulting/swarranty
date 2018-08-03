@@ -7,6 +7,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 interface DecisionMakingInterface {
 	
 	const DECISION_APPROVE = 'APPROVE';
+    const DECISION_RESET= 'RESET';
 	const DECISION_REJECT = 'REJECT';
 	
 	const STATUS_NEW = 'NEW';

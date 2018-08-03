@@ -128,7 +128,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		string $decision
 	) {
 		$status = null;
-		if($decision === DecisionMakingInterface::DECISION_APPROVE) {
+        if($decision === DecisionMakingInterface::DECISION_RESET) {
+            $status = DecisionMakingInterface::STATUS_NEW;
+        } elseif($decision === DecisionMakingInterface::DECISION_APPROVE) {
 			$status = DecisionMakingInterface::STATUS_APPROVED;
 		} elseif($decision === DecisionMakingInterface::DECISION_REJECT) {
 			$status = DecisionMakingInterface::STATUS_REJECTED;
