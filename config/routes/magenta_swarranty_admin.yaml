@@ -1,6 +1,6 @@
 magenta_user:
     resource: "@MagentaSWarrantyAdminBundle/Resources/config/routing/all.xml"
-    prefix: /admin
+    prefix: '%SYSTEM_PREFIX%'
 
 magenta_custom_routes:
     resource: "@MagentaSWarrantyAdminBundle/Resources/config/routing/front_routes.yaml"
