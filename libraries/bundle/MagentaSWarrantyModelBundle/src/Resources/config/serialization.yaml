@@ -158,6 +158,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
     attributes:
+        customer:
+            groups: ['read_nls','write_nls']
         email:
             groups: ['read_nls','write_nls']
 

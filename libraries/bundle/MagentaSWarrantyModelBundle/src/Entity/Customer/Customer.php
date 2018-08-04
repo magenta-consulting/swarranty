@@ -38,6 +38,12 @@ class Customer extends Thing {
 	}
 	
 	/**
+	 * @var NewsletterSubscription|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription", mappedBy="customer", cascade={"persist","merge"})
+	 */
+	protected $newsletterSubscription;
+	
+	/**
 	 * @var Collection
 	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"})
 	 */

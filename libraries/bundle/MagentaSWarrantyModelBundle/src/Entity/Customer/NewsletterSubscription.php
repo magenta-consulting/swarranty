@@ -25,6 +25,13 @@ class NewsletterSubscription extends Thing {
 	}
 	
 	/**
+	 * @var Customer|null
+	 * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer", cascade={"persist", "merge"}, inversedBy="newsletterSubscription")
+	 * @ORM\JoinColumn(name="id_customer", referencedColumnName="id", onDelete="CASCADE")
+	 */
+	protected $customer;
+	
+	/**
 	 * @var string|null
 	 * @ORM\Column(type="string")
 	 */
@@ -42,5 +49,19 @@ class NewsletterSubscription extends Thing {
 	 */
 	public function setEmail(?string $email): void {
 		$this->email = $email;
+	}
+	
+	/**
+	 * @return Customer|null
+	 */
+	public function getCustomer(): ?Customer {
+		return $this->customer;
+	}
+	
+	/**
+	 * @param Customer|null $customer
+	 */
+	public function setCustomer(?Customer $customer): void {
+		$this->customer = $customer;
 	}
 }
