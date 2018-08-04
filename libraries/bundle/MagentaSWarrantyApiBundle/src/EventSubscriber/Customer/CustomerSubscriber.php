@@ -63,6 +63,7 @@ class CustomerSubscriber implements EventSubscriberInterface {
 			/** @var Customer $c */
 			foreach($customers as $c) {
 				if($c->getEmail() === $customer->getEmail()) {
+					$c->setEmail(strtolower(trim($c->getEmail())));
 					$event->setControllerResult($c);
 					
 					return;
