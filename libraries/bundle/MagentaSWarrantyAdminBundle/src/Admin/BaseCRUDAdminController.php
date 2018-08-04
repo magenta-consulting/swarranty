@@ -64,7 +64,9 @@ class BaseCRUDAdminController extends CRUDController {
 	
 	protected function getDecision($action): ?string {
 		$decision = null;
-		if($action === 'approve') {
+        if($action === 'reset') {
+            $decision = DecisionMakingInterface::DECISION_RESET;
+        } elseif($action === 'approve') {
 			$decision = DecisionMakingInterface::DECISION_APPROVE;
 		} elseif($action === 'reject') {
 			$decision = DecisionMakingInterface::DECISION_REJECT;

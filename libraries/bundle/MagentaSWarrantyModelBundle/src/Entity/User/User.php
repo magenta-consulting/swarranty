@@ -67,10 +67,11 @@ class User extends AbstractUser {
 		
 		if($object instanceof DecisionMakingInterface) {
 			if($permission === 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE) {
-				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
+				//return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
+                return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_APPROVED;
 			} elseif($permission === 'DECISION_' . DecisionMakingInterface::DECISION_REJECT) {
-//				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
-				return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
+				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
+				//return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
 			}
 			if(in_array($permission, [
 				'DECIDE',

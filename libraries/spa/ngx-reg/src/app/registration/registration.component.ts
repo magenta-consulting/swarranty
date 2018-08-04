@@ -6,7 +6,8 @@ import {
     OnInit,
     TemplateRef,
     ViewChild,
-    NgZone
+    NgZone,
+    ViewEncapsulation
 } from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
 import {Brand} from "../model/brand";
@@ -129,9 +130,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (!this.isEmailValid()) {
             return false;
         }
-        if (typeof this.emailConfirm !== 'undefined') {
+        if (this.emailConfirm != null) {
             if (this.emailConfirm.trim() !== this.customer.email.trim()) {
                 return false;
+            }
+        } else {
+            if (this.customer.email != null) {
+                return false;                
             }
         }
         for (let i = 0; i < this.warranties.length; i++) {

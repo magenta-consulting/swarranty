@@ -325,7 +325,8 @@ class BaseAdmin extends AbstractAdmin {
 			'decide'            => 'DECIDE',
 			'decide_everything' => 'DECIDE_ALL',
 			'approve'           => 'DECISION_' . DecisionMakingInterface::DECISION_APPROVE,
-			'reject'            => 'DECISION_' . DecisionMakingInterface::DECISION_REJECT
+			'reject'            => 'DECISION_' . DecisionMakingInterface::DECISION_REJECT,
+            'reset'            => 'DECISION_' . DecisionMakingInterface::DECISION_RESET
 		]);
 	}
 	
