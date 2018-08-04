@@ -11,11 +11,10 @@ import {LoginComponent} from './components/login/login.component';
 import {AuthenticationGuard} from './authentication.guard';
 
 const routes: Routes = [
-    { path: '', redirectTo: 'technicians', pathMatch: 'full' },
-    { path: 'technicians', component:  TechniciansComponent, canActivate: [AuthenticationGuard]},
+    { path: '', component:  TechniciansComponent, canActivate: [AuthenticationGuard]},
     { path: 'technician/:id', component:  TechnicianComponent, canActivate: [AuthenticationGuard]},
     { path: 'login', component:  LoginComponent},
-    { path: '**', redirectTo: 'technicians' },
+    { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
