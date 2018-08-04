@@ -27,7 +27,7 @@ export function exp(token: string) {
 }
 
 export function isExpired(token: string) {
-    return exp(token)*1000 >= + new Date();
+    return exp(token)*1000 <= + new Date();
     // return true;
 }
 

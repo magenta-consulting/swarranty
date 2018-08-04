@@ -179,7 +179,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 });
 
                 if (this.customer.email != null && this.customer.email.trim() != '' && this.subscribeNewsletter) {
-                    this.newsletterSubscriptionService.postNewsletterSubscription(customer.name, customer.email).subscribe(res => {
+                    this.newsletterSubscriptionService.postNewsletterSubscription(customer).subscribe(res => {
                         console.log('Newsletter subscription successfully!');
                     })                    
                 }

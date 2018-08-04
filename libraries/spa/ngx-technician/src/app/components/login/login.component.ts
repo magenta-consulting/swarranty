@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     .subscribe(res => {
       localStorage.setItem('token', res.token);
       localStorage.setItem('refresh_token', res.refresh_token);
-      this.router.navigateByUrl('technicians');
+      this.router.navigateByUrl('/');
     }, error => {
       this.message = 'Invalid email or password!';
       this.loading = false;
