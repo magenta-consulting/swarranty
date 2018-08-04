@@ -71,6 +71,7 @@
                            (keyup.enter)="updateField('emailAddress')"
                            (focus)="typingEmail=true"
                            (blur)="updateField('emailAddress'); typingEmail=false;"
+                           (change)="customer.email = customer.email.trim()"
                     >
                 </div>
                 <div *ngIf="isPreview('emailAddress')" (click)="editPreview('emailAddress')"
@@ -95,6 +96,7 @@
                            (keyup.enter)="updateField('emailConfirm')"
                            (blur)="updateField('emailConfirm'); typingConfirm=false"
                            (focus)="typingConfirm=true"
+                           (change)="emailConfirm = emailConfirm.trim()"
                     >
                 </div>
                 <div *ngIf="isPreview('emailConfirm')" (click)="editPreview('emailConfirm')"

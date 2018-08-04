@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '../../../node_modules/@angular/common/h
 import { Observable, of } from '../../../node_modules/rxjs';
 import { apiEndPoint, apiEndPointBase } from '../../environments/environment';
 import { catchError } from '../../../node_modules/rxjs/operators';
+import { Customer } from '../model/customer';
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/ld+json'})
@@ -17,11 +18,12 @@ export class NewsletterSubscriptionService {
     private http: HttpClient
   ) { }
   
-  postNewsletterSubscription(name: string, email: string): Observable<any> {
+  postNewsletterSubscription(customer: Customer): Observable<any> {
     let url = `${apiEndPoint}${apiEndPointBase}/newsletter-subscriptions`;
     return this.http.post(url, {
-      name: name,
-      email: email
+      customer: customer,
+      name: customer.name,
+      email: customer.email
     }, httpOptions).pipe(
       catchError(this.handleError<any>('postNewsletterSubscription'))
     );
