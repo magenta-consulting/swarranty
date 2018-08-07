@@ -132,8 +132,14 @@ class Customer extends Thing {
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $telephone;
-	
-	/**
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string",nullable=true)
+     */
+    protected $addressUnitNumber;
+
+    /**
 	 * @return \DateTime|null
 	 */
 	public function getBirthDate(): ?\DateTime {
@@ -286,4 +292,22 @@ class Customer extends Thing {
 	public function setEmailVerificationToken(?string $emailVerificationToken): void {
 		$this->emailVerificationToken = $emailVerificationToken;
 	}
+
+    /**
+     * @return null|string
+     */
+    public function getAddressUnitNumber(): ?string
+    {
+        return $this->addressUnitNumber;
+    }
+
+    /**
+     * @param null|string $addressUnitNumber
+     */
+    public function setAddressUnitNumber(?string $addressUnitNumber): void
+    {
+        $this->addressUnitNumber = $addressUnitNumber;
+    }
+
+
 }

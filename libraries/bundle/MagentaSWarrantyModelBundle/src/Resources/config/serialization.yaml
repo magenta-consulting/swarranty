@@ -155,6 +155,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer:
             groups: ['read_customer','write_customer']
         homePostalCode:
             groups: ['read_customer','write_customer']
+        addressUnitNumber:
+            groups: ['read_customer','write_customer']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription:
     attributes:
@@ -184,6 +186,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         homeAddress:
             groups: ['read_registration','write_registration']
         homePostalCode:
+            groups: ['read_registration','write_registration']
+        addressUnitNumber:
             groups: ['read_registration','write_registration']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:

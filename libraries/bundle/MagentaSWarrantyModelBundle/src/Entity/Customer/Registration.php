@@ -117,8 +117,14 @@ class Registration implements ThingChildInterface {
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $name;
-	
-	/**
+
+    /**
+     * @var string|null
+     * @ORM\Column(type="string",nullable=true)
+     */
+    protected $addressUnitNumber;
+
+    /**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
@@ -360,5 +366,22 @@ class Registration implements ThingChildInterface {
 	public function setTelephone(?string $telephone): void {
 		$this->telephone = $telephone;
 	}
-	
+
+    /**
+     * @return null|string
+     */
+    public function getAddressUnitNumber(): ?string
+    {
+        return $this->addressUnitNumber;
+    }
+
+    /**
+     * @param null|string $addressUnitNumber
+     */
+    public function setAddressUnitNumber(?string $addressUnitNumber): void
+    {
+        $this->addressUnitNumber = $addressUnitNumber;
+    }
+
+
 }
