@@ -77,7 +77,8 @@
                     <img src="{{ app.request.getSchemeAndHttpHost() }}/asset/fujioh/img/logo.png" alt="">
                 </div>
                 <div class="col-6" style="margin: auto">
-                    <b>Service Invoice No: </b>
+                    <b>Service Invoice No: </b><br>
+                    Case: {{ case.number }}
                 </div>
             </div>
             <div class="row">
@@ -164,7 +165,7 @@
                         </tr>
                         <tr>
                             <td title>Warranty Card No: </td>
-                            <td content> {{ case.warranty.number }} (Case: {{ case.number }}) </td>
+                            <td content> {{ case.warranty.number }} </td>
                         </tr>
                         <tr>
                             <td title>Warranty: </td>
@@ -189,28 +190,40 @@
             <div class="row">
                 <div class="col-12">
                     <p>
-                    <table border="1px" class="fullwidth title-180">
-                        <tr>
-                            <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>
-                            <td style="border-left: none;border-bottom:none;">{{ case.description|raw }} </td>
-                        </tr>
-                        {#<tr>#}
-                            {#<td style="border-right: none; border-top: none">&nbsp;</td>#}
-                            {#<td style="border-left: none">&nbsp;</td>#}
-                        {#</tr>#}
-                    </table>
+                        <table border="1px" class="fullwidth title-180">
+                            <tr>
+                                <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>
+                                <td style="border-left: none;border-bottom:none;">{{ case.description|raw }} </td>
+                            </tr>
+                        </table>
                     </p>
                     <p>
-                    <table border="1px" class="fullwidth title-180">
-                        <tr>
-                            <td title style="border-right: none; border-bottom: none"><b>Fault Anaylsis: </b></td>
-                            <td style="border-left: none">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td style="border-right: none; border-top: none">&nbsp;</td>
-                            <td style="border-left: none">&nbsp;</td>
-                        </tr>
-                    </table>
+                        <table border="1px" class="fullwidth title-180">
+                            <tr>
+                                <td title style="border-right: none; border-bottom: none"><b>Fault Analysis: </b></td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="border: none">&nbsp;</td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="border: none">&nbsp;</td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="border: none">&nbsp;</td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="border: none">&nbsp;</td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                            <tr>
+                                <td style="border: none">&nbsp;</td>
+                                <td style="border: none">&nbsp;</td>
+                            </tr>
+                        </table>
                     </p>
                     <p>
                     <table class="fullwidth bordered">
