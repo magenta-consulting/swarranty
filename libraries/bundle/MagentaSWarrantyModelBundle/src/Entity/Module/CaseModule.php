@@ -8,6 +8,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACEntry;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACModuleInterface;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\SystemModule;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -20,10 +21,6 @@ class CaseModule extends SystemModule implements ACModuleInterface {
 	
 	function __construct() {
 		parent::__construct();
-	}
-	
-	public function getOrganisationMembersWithReceivePermission(Organisation $org) {
-	
 	}
 	
 	public function isUserGranted(OrganisationMember $member = null, $permission, $object, $class): ?bool {

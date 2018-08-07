@@ -17,16 +17,16 @@ security:
         admin:
             context:        main
             provider:       magenta_user
-            pattern:        /admin(.*)
+            pattern:        /system(.*)
             form_login:
-                login_path:     /admin/login
+                login_path:     /system/login
                 use_forward:    false
-                check_path:     /admin/login_check
+                check_path:     /system/login_check
                 failure_path:   null
-                default_target_path: /admin/dashboard
+                default_target_path: /system/dashboard
                 success_handler: magenta_admin_login_success_handler
             logout:
-                path:           /admin/logout
+                path:           /system/logout
                 success_handler: magenta_admin_logout_handler
             anonymous:          true
             switch_user:        true
@@ -73,11 +73,11 @@ security:
     access_control:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/front, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_SONATA_ADMIN }
+        - { path: ^/system/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/logout$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/system, roles: ROLE_SONATA_ADMIN }
 
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 #        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY, ips: ['%env(DEV_IP)%'] }

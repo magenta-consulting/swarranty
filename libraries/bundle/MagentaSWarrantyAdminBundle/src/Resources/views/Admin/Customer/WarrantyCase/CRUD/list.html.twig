@@ -2,7 +2,7 @@
 
 {% block list_header %}
     <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
-       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">New</a>
+       class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">Unassigned</a>
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ASSIGNED'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ASSIGNED'?'active':'' }}">Assigned</a>
     <a href="{{ admin.generateUrl('list',{'statusFilter':'RESPONDED'}) }}"

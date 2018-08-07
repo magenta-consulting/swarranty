@@ -1,5 +1,5 @@
 bean_dev_tool:
-    library_source: E:\wamp31\www\libraries\
+    library_source: E:\wamp31\www\libraries\swarranty\
     library_workspace: E:\wamp31\www\swarranty\sw-dev\libraries\
     components: ~
     bundles:

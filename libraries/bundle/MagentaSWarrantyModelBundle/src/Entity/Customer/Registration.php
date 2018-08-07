@@ -110,6 +110,51 @@ class Registration implements ThingChildInterface {
 	 */
 	protected $customer;
 	
+	//	Customer Info
+
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $name;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	protected $birthDate;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $email;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $homeAddress;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $homePostalCode;
+	
+	/**
+	 * @var integer|null
+	 * @ORM\Column(type="integer",nullable=true)
+	 */
+	protected $dialingCode = 65;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $telephone;
+//   End of Customer Info
+	
 	/**
 	 * @var \DateTime
 	 * @ORM\Column(type="datetime")
@@ -217,4 +262,103 @@ class Registration implements ThingChildInterface {
 	public function setCode(?string $code): void {
 		$this->code = $code;
 	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getName(): ?string {
+		return $this->name;
+	}
+	
+	/**
+	 * @param null|string $name
+	 */
+	public function setName(?string $name): void {
+		$this->name = $name;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getBirthDate(): ?\DateTime {
+		return $this->birthDate;
+	}
+	
+	/**
+	 * @param \DateTime|null $birthDate
+	 */
+	public function setBirthDate(?\DateTime $birthDate): void {
+		$this->birthDate = $birthDate;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getEmail(): ?string {
+		return $this->email;
+	}
+	
+	/**
+	 * @param null|string $email
+	 */
+	public function setEmail(?string $email): void {
+		$this->email = $email;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getHomeAddress(): ?string {
+		return $this->homeAddress;
+	}
+	
+	/**
+	 * @param null|string $homeAddress
+	 */
+	public function setHomeAddress(?string $homeAddress): void {
+		$this->homeAddress = $homeAddress;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getHomePostalCode(): ?string {
+		return $this->homePostalCode;
+	}
+	
+	/**
+	 * @param null|string $homePostalCode
+	 */
+	public function setHomePostalCode(?string $homePostalCode): void {
+		$this->homePostalCode = $homePostalCode;
+	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getDialingCode(): ?int {
+		return $this->dialingCode;
+	}
+	
+	/**
+	 * @param int|null $dialingCode
+	 */
+	public function setDialingCode(?int $dialingCode): void {
+		$this->dialingCode = $dialingCode;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getTelephone(): ?string {
+		return $this->telephone;
+	}
+	
+	/**
+	 * @param null|string $telephone
+	 */
+	public function setTelephone(?string $telephone): void {
+		$this->telephone = $telephone;
+	}
+	
 }

@@ -11,6 +11,7 @@ use Doctrine\ORM\QueryBuilder;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\System;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,7 +21,7 @@ class BeanPlaygroundController extends Controller {
 	 * @Route("/", name="home")
 	 */
 	public function home() {
-		return new Response('hello kitty');
+		return new RedirectResponse($this->container->getParameter('SYSTEM_PREFIX'));
 	}
 	
 	/**

@@ -173,6 +173,18 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
             groups: ['read_registration','write_registration']
         verified:
             groups: ['read_registration']
+        name:
+            groups: ['read_registration','write_registration']
+        email:
+            groups: ['read_registration','write_registration']
+        dialingCode:
+            groups: ['read_registration','write_registration']
+        telephone:
+            groups: ['read_registration','write_registration']
+        homeAddress:
+            groups: ['read_registration','write_registration']
+        homePostalCode:
+            groups: ['read_registration','write_registration']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
     attributes:
