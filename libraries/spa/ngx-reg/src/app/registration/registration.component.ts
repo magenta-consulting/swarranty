@@ -161,6 +161,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 reg['dialingCode'] = customer.dialingCode;
                 reg['email'] = customer.email;
                 reg['homeAddress'] = customer.homeAddress;
+                reg['addressUnitNumber'] = this.customer.addressUnitNumber;
                 reg['homePostalCode'] = customer.homePostalCode;
                 reg['name'] = customer.name;
                 reg['organisation'] = customer.organisation;
@@ -186,7 +187,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 });
 
                 if (this.customer.email != null && this.customer.email.trim() != '' && this.subscribeNewsletter) {
-                    this.newsletterSubscriptionService.postNewsletterSubscription(customer).subscribe(res => {
+                    this.newsletterSubscriptionService.postNewsletterSubscription(this.customer).subscribe(res => {
                         console.log('Newsletter subscription successfully!');
                     })                    
                 }

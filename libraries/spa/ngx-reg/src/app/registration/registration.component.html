@@ -61,9 +61,10 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="checkingError && (customer.telephone == null || customer.telephone == '')"
+                <div *ngIf="checkingError && (!customer.telephone || customer.telephone.toString().length != 8)"
                      class="alert alert-danger" role="alert">
-                    This field is required
+                    <span *ngIf="!customer.telephone">This field is required</span>
+                    <span *ngIf="customer.telephone && customer.telephone.toString().length != 8">Contact number has 8 digits</span>
                 </div>
                 <div *ngIf="!isPreview('emailAddress')" class="input-group mb-2">
                     <input [(ngModel)]="customer.email" type="text" class="form-control" placeholder="Email Address"
@@ -137,6 +138,27 @@
                     <div class="input-group-append">
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
+                </div>
+                <div *ngIf="isPreview('addressUnitNumber')" (click)="editPreview('addressUnitNumber')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Unit/Block/House Number </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{customer.addressUnitNumber}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="!isPreview('addressUnitNumber')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.addressUnitNumber" type="text" class="form-control"
+                           placeholder="Unit/Block/House Number"
+                           aria-label="Unit/Block/House Number"
+                           (keyup.enter)="updateField('addressUnitNumber')"
+                           (blur)="updateField('addressUnitNumber')"
+                           type="number"
+                    >
                 </div>
                 <div *ngIf="!isPreview('homePostalCode')" class="input-group mb-2">
                     <input [(ngModel)]="customer.homePostalCode" type="text" class="form-control"

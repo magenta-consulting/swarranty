@@ -6,5 +6,6 @@ export class Customer {
     telephone: string;
     email: string;
     homeAddress: string;
+    addressUnitNumber: string;
     homePostalCode: string;
 }
