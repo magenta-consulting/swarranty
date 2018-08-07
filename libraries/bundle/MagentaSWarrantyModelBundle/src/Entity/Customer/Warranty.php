@@ -48,27 +48,29 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 	}
 	
 	public function generateFullText() {
-		$org      = $this->getOrganisation();
-		$orgName  = $org === null ? 'none' : $org->getName();
 		$customer = $this->customer;
-		$product  = $this->product;
-		$mName    = $mNumber = $pCat = $pSubCat = $pBrand = '';
-		$cName    = $cEmail = $cHAddress = $cPhone = $cHPostal = '';
+		if( ! empty($customer)) {
+			$org     = $this->getOrganisation();
+			$orgName = $org === null ? 'none' : $org->getName();
+		}
+		$cName   = $cEmail = $cHAddress = $cPhone = $cHPostal = '';
+		$product = $this->product;
+		$mName   = $mNumber = $pCat = $pSubCat = $pBrand = '';
 		
 		if( ! empty($product)) {
 			$mName   = $product->getName();
 			$mNumber = $product->getModelNumber();
 		}
 		
-		if(empty($this->customer)) {
+		if(empty($customer)) {
 			$cft = '';
 		} else {
-			$cft = $this->customer->generateFullText();
+			$cft = $customer->generateFullText();
 		}
-		if(empty($this->product)) {
+		if(empty($product)) {
 			$pft = '';
 		} else {
-			$pft = $this->product->generateFullText();
+			$pft = $product->generateFullText();
 		}
 		
 		return $this->fullText = 'number: ' . $this->number . ' ' . $cft . ' ' . $pft;
@@ -128,9 +130,9 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
 		string $decision
 	) {
 		$status = null;
-        if($decision === DecisionMakingInterface::DECISION_RESET) {
-            $status = DecisionMakingInterface::STATUS_NEW;
-        } elseif($decision === DecisionMakingInterface::DECISION_APPROVE) {
+		if($decision === DecisionMakingInterface::DECISION_RESET) {
+			$status = DecisionMakingInterface::STATUS_NEW;
+		} elseif($decision === DecisionMakingInterface::DECISION_APPROVE) {
 			$status = DecisionMakingInterface::STATUS_APPROVED;
 		} elseif($decision === DecisionMakingInterface::DECISION_REJECT) {
 			$status = DecisionMakingInterface::STATUS_REJECTED;
