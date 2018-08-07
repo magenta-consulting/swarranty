@@ -158,6 +158,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             this.customerService.postCustomer(this.customer).subscribe(customer => {
                 let reg = new Registration();
                 reg.customer = customer['@id'];
+                reg['dialingCode'] = customer.dialingCode;
+                reg['email'] = customer.email;
+                reg['homeAddress'] = customer.homeAddress;
+                reg['homePostalCode'] = customer.homePostalCode;
+                reg['name'] = customer.name;
+                reg['organisation'] = customer.organisation;
+                reg['telephone'] = customer.telephone;
                 reg.submitted = false;
                 reg.warranties = [];
                 for (let w of this.warranties) {
