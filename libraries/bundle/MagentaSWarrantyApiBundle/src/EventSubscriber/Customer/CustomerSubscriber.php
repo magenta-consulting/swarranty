@@ -47,6 +47,7 @@ class CustomerSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		
+		return;
 		$cr        = $this->registry->getRepository(Customer::class);
 		$customers = $cr->findBy([
 			'telephone'    => $customer->getTelephone(),

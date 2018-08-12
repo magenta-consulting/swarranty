@@ -34,6 +34,7 @@ class WarrantyListener {
 			'organisation' => $customer->getOrganisation()
 		]);
 		
+		return;
 		if($cc = count($customers) === 0) {
 			return;
 		} elseif($cc === 1) {
