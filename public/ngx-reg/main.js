@@ -1604,7 +1604,7 @@ var RegistrationComponent = /** @class */ (function () {
                     rw.product = w.selectedProduct.id;
                     rw.purchaseDate = w.purchaseDate;
                     rw.productSerialNumber = w.productSerialNumber;
-                    rw.dealer = w.selectedDealer;
+                    rw.dealer = w.selectedDealer.id;
                     reg.warranties.push(rw);
                 }
                 _this.registrationService.postRegistration(reg).subscribe(function (reg) {
