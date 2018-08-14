@@ -92,7 +92,6 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty:
         dealer:
           groups: ['read_warranty','write_warranty','read_registration_warranty']
 
-
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
     attributes:
         id:
