@@ -13,7 +13,7 @@ export class Warranty {
     productSerialNumber: string;
     purchaseDate: Date;
     expiryDate: Date;
-    dealer: Dealer;
+    dealer: Dealer | string;
 
 
     isCategoryHidden = true;
