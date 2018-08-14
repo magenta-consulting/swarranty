@@ -548,6 +548,17 @@ class WarrantyCaseAdmin extends BaseAdmin {
 						'required' => false,
 						'label'    => false, //'form.label_case_detail'
 					]);
+				
+//				$formMapper->end();
+//
+//				$formMapper
+//					->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
+				
+				$formMapper
+					->add('specialRemarks', CKEditorType::class, [
+						'required' => false,
+						'label'    => 'form.label_special_remarks'
+					]);
 				$formMapper->end();
 			} else {
 			

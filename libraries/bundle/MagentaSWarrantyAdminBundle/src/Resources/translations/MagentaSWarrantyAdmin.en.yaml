@@ -212,6 +212,7 @@ form:
     label_submission_date: Registered On
     label_expiry_date: Expiry Date
     label_warranty_expiry: Warranty Expiry
+    label_special_remarks: Special Remarks
     label_receipt_images: Receipt Images
     label_brand: Brand
     label_categories: Categories

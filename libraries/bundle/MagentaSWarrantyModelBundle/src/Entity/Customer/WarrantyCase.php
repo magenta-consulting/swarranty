@@ -503,6 +503,13 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$description;
 	
 	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected
+		$specialRemarks;
+	
+	/**
 	 * @return Warranty|null
 	 */
 	public
@@ -943,4 +950,19 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	public function setUpdatedAt(?\DateTime $updatedAt): void {
 		$this->updatedAt = $updatedAt;
 	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getSpecialRemarks(): ?string {
+		return $this->specialRemarks;
+	}
+	
+	/**
+	 * @param null|string $specialRemarks
+	 */
+	public function setSpecialRemarks(?string $specialRemarks): void {
+		$this->specialRemarks = $specialRemarks;
+	}
+
 }
