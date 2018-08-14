@@ -33,7 +33,7 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember:
             groups: ['read_member','write_member']
         organization:
             groups: ['read_member','write_member']
-        assignedCases:
+        assignedOpenCases:
             groups: ['read_member','write_member']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person:
