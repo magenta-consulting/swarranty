@@ -137,6 +137,9 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\CaseAppointmentListener"
                                     event:
                                         -
+                                            type: postLoad
+                                            method: postLoadHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -

@@ -73,8 +73,9 @@ class CaseAppointment extends FullTextSearch {
 		if( ! empty($this->case)) {
 			$this->case->addServiceSheet($ss);
 		}
+		$this->serviceSheet = $ss;
 		
-		return $ss;
+		return $this->serviceSheet;
 	}
 	
 	public function getOrganisation(): ?Organisation {
