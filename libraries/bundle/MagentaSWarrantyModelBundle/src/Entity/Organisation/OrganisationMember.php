@@ -6,6 +6,7 @@ use Bean\Component\Organization\Model\OrganizationMember as MemberModel;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\AccessControl\ACRole;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\AssigneeHistory;
@@ -35,6 +36,26 @@ class OrganisationMember extends MemberModel {
 		$this->createdCases            = new ArrayCollection();
 		$this->createdCaseAppointments = new ArrayCollection();
 		$this->createdAt               = new \DateTime();
+	}
+	
+	
+	/**
+	 * @return Collection
+	 */
+	public function getAssignedOpenCases(): Collection {
+		$criteria = Criteria::create();
+		$expr     = Criteria::expr();
+		
+		$criteria->where(
+			$expr->in('status', [
+				WarrantyCase::STATUS_ASSIGNED,
+				WarrantyCase::STATUS_RESPONDED,
+				WarrantyCase::STATUS_COMPLETED,
+				WarrantyCase::STATUS_REOPENED
+			])
+		);
+		
+		return $this->assignedCases->matching($criteria);
 	}
 	
 	public function prepareNewAssignmentMessage($data = []) {
