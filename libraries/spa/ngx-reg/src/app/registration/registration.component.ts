@@ -27,7 +27,6 @@ import {Registration} from '../model/registration';
 import {RegistrationService} from '../service/registration.service';
 
 import {FormControl} from '@angular/forms';
-import {} from 'googlemaps';
 import {MapsAPILoader} from '@agm/core';
 import {CompleterService, CompleterData} from 'ng2-completer';
 import { NewsletterSubscriptionService } from '../service/newsletter-subscription.service';
