@@ -194,6 +194,7 @@ form:
     label_product: Product
     label_product_image: Product Image
     label_address: Address
+    label_address_unit_number: Unit/Block/House Number
     label_postal_code: Postal Code
     label_email: Email
     label_enabled: Enabled
