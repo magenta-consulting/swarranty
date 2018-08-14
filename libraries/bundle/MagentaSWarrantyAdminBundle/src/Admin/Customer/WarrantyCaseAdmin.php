@@ -57,6 +57,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 
 class WarrantyCaseAdmin extends BaseAdmin {
@@ -381,6 +382,16 @@ class WarrantyCaseAdmin extends BaseAdmin {
 //		];
 //	}
 	
+	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
+		$statusFilter = $this->getRequest()->query->get('statusFilter');
+		if( ! empty($statusFilter)) {
+			$parameters['statusFilter'] = $statusFilter;
+		}
+		
+		return parent::generateUrl($name, $parameters, $absolute);
+	}
+	
+	
 	protected function getAutocompleteRouteParameters() {
 		/** @var WarrantyCase $case */
 		$case   = $this->getSubject();
@@ -548,7 +559,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 						'required' => false,
 						'label'    => false, //'form.label_case_detail'
 					]);
-				
+
 //				$formMapper->end();
 //
 //				$formMapper
