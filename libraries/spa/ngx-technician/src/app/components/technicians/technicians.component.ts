@@ -31,7 +31,7 @@ export class TechniciansComponent implements OnInit, AfterViewInit {
     fetchMembers() {
         requireToken(this.memberService, () => {
             this.memberService.getMembers(1).subscribe(members => {
-                this.cases = members[0].assignedCases.filter(c => c.status.trim().toLowerCase() != 'closed');
+                this.cases = members[0].assignedOpenCases;
                 this.completedCount = this.cases.filter(c => c.completed).length;
                 this.uncompletedCount = this.cases.filter(c => !c.completed).length;
             });
