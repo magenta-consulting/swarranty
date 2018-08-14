@@ -121,6 +121,8 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
             groups: ['read_case','write_case']
         description:
             groups: ['read_case','write_case']
+        specialRemarks:
+            groups: ['read_case','write_case']
 
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment:
     attributes:
