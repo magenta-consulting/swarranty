@@ -7,5 +7,5 @@ export class Customer {
     email: string;
     homeAddress: string;
     addressUnitNumber: string;
-    homePostalCode: string;
+    homePostalCode: number | string;
 }

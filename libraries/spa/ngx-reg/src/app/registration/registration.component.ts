@@ -124,7 +124,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (this.customer.name == null || this.customer.name.trim() === '') {
             return false;
         }
-        if (this.customer.telephone == null) {
+        if (!this.customer.telephone) {
+            return false;
+        }
+        if (this.customer.telephone && this.customer.telephone.toString().length != 8) {
             return false;
         }
         if (!this.isEmailValid()) {

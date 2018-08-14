@@ -112,7 +112,7 @@
                         <span class="input-group-text"><fa name="edit"></fa></span>
                     </div>
                 </div>
-                <div *ngIf="customer.email !== null && emailConfirm != customer.email && !typingConfirm && !typingEmail"
+                <div *ngIf="customer.email && emailConfirm != customer.email && !typingConfirm && !typingEmail"
                      class="alert alert-danger" role="alert">
                     The Confirmation Email must match your Email!
                 </div>
@@ -157,7 +157,6 @@
                            aria-label="Unit/Block/House Number"
                            (keyup.enter)="updateField('addressUnitNumber')"
                            (blur)="updateField('addressUnitNumber')"
-                           type="number"
                     >
                 </div>
                 <div *ngIf="!isPreview('homePostalCode')" class="input-group mb-2">
@@ -351,7 +350,7 @@
             </div>
             <section *ngIf="!isFormPreview" class="checkboxes">
                 <div *ngIf="customer.email" class="form-check">
-                    <input required="required" type="checkbox" aria-label="Checkbox for following text input"
+                    <input type="checkbox" aria-label="Checkbox for following text input"
                            id="newsletterSubscription" [(ngModel)]="subscribeNewsletter">
                     <label class="form-check-label" for="newsletterSubscription">
                         Keep me updated on new {{organisation.name}} product and promotions.
