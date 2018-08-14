@@ -4,7 +4,7 @@ import { Person } from './person';
 export class Member {
     id: number;
     type: string;
-    assignedCases: Case[];
+    assignedOpenCases: Case[];
     organization: string;
     person: Person
 }

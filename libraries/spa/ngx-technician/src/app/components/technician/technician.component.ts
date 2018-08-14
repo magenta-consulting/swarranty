@@ -51,7 +51,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
         private helper: Helper
     ) {
         requireToken(memberService, () => memberService.getMembers(1).subscribe(members => {
-            this.cases = members[0].assignedCases;
+            this.cases = members[0].assignedOpenCases;
             this.cases.forEach(element => {
                 if (element.id == this.id) {
                     this.case = element;
