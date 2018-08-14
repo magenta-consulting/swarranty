@@ -75,4 +75,14 @@ class CaseAppointmentListener {
 	
 	}
 	
+	public function postLoadHandler(CaseAppointment $apmt, LifecycleEventArgs $args) {
+		$ss = $apmt->getServiceSheet();
+		if(empty($ss)) {
+			$ss      = $apmt->createServiceSheet();
+			$manager = $args->getEntityManager();
+			$manager->persist($ss);
+			$manager->flush($ss);
+		}
+	}
+	
 }

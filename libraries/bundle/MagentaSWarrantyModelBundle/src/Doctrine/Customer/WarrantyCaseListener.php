@@ -28,7 +28,7 @@ class WarrantyCaseListener {
 	private function updateInfAfterOperation(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
 		$manager = $event->getEntityManager();
-		$manager->flush();
+//		$manager->flush();
 	}
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -114,18 +114,22 @@ class WarrantyCaseListener {
 			}
 		}
 		
-		if($serviceSheets->count() > 0 && ! empty($apmt)) {
-			/** @var ServiceSheet $ss */
-			foreach($serviceSheets as $ss) {
-				if( empty($ss->getAppointment())) {
-					$ss->setAppointment($apmt);
-					$apmt->setServiceSheet($ss);
-					$manager->persist($ss);
-					break;
+		if( ! empty($apmt)) {
+			if($serviceSheets->count() > 0) {
+				/** @var ServiceSheet $ss */
+				foreach($serviceSheets as $ss) {
+					if(empty($ss->getAppointment())) {
+						$ss->setAppointment($apmt);
+						$apmt->setServiceSheet($ss);
+						$manager->persist($ss);
+						break;
+					}
 				}
+			} else {
+			
 			}
+			
 		}
-		
 	}
 	
 	public function updateInfBeforeOperation(WarrantyCase $case, LifecycleEventArgs $event) {
