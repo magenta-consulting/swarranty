@@ -198,10 +198,10 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		if(empty($this->number)) {
 			$now          = new \DateTime();
 			$this->number = User::generateCharacterCode();
-			if( ! empty($this->purchaseDate)) {
-				$this->number .= '-' . $this->purchaseDate->format('my');
+			if( ! empty($this->warranty) && ! empty($this->warranty->getPurchaseDate())) {
+				$this->number .= '-' . $this->warranty->getPurchaseDate()->format('my');
 			} else {
-				$this->number .= '-' . 'XXXX';
+				$this->number .= '-' . $this->warranty->getId();
 			}
 			$this->number .= '-' . $now->format('my');
 		}
@@ -964,5 +964,5 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	public function setSpecialRemarks(?string $specialRemarks): void {
 		$this->specialRemarks = $specialRemarks;
 	}
-
+	
 }
