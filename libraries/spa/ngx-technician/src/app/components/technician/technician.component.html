@@ -168,7 +168,7 @@
             </tr>
             <tr>
                 <td class="td-name">Technician</td>
-                <td>: {{currentServiceSheet.appointment.assigneeName}}</td>
+                <td>: {{currentServiceSheet?.appointment.assigneeName}}</td>
             </tr>
             <tr>
                 <td class="td-name">Service Zone</td>
@@ -185,6 +185,10 @@
         <!-- <p>What ever they want to write about the case when the customer called in.</p> -->
         <!-- <input type="text" class="ipt full" placeholder="Add Case Detail" [value]="case.description"/> -->
         <div [innerHTML]="case.description"></div>
+    </div>
+    <div class="tech-blk">
+        <h4 class="tech-sub-ttl">Special Remarks</h4>
+        <div [innerHTML]="case.specialRemarks"></div>
     </div>
     <div class="tech-blk">
         <h4 class="tech-sub-ttl">Service/Case Notes</h4>
