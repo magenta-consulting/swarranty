@@ -18,6 +18,7 @@ export class Case {
     status: string;
     number: string;
     description: string;
+    specialRemarks: string;
     appointments: Appointment[];
     currentAppointment: Appointment;
     serviceNotes: ServiceNote[];
