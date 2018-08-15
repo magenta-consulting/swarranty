@@ -25,6 +25,13 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class WarrantyCaseAdminController extends BaseCRUDAdminController {
 	
+	public function listAction() {
+		$this->admin->setTemplate('base_list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
+		$this->admin->setTemplate('base_list_field', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list_field.html.twig');
+		
+		return parent::listAction();
+	}
+	
 	/**
 	 * Export data to specified format.
 	 *

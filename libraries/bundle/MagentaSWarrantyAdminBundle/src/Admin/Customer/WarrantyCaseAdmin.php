@@ -43,10 +43,13 @@ use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\CoreBundle\Form\Type\CollectionType;
 use Sonata\CoreBundle\Form\Type\DatePickerType;
+use Sonata\CoreBundle\Form\Type\DateRangePickerType;
+use Sonata\CoreBundle\Form\Type\DateRangeType;
 use Sonata\CoreBundle\Form\Type\DateTimePickerType;
 use Sonata\DoctrineORMAdminBundle\Admin\FieldDescription;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
+use Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter;
 use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -325,7 +328,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		);
 		
 		$listMapper
-			->add('number', null, [ 'label' => 'form.label_number' ])
+			->add('number', 'number', [ 'label' => 'form.label_number' ])
 			->add('priority', 'choice', [
 				'editable' => true,
 				'label'    => 'form.label_priority',
@@ -346,6 +349,9 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			->add('serviceNotes', 'serviceNotes', [
 				'label'               => 'form.label_service_notes',
 				'associated_property' => 'description'
+			])
+			->add('specialRemarks', 'html', [
+				'label' => 'form.label_special_remarks'
 			])
 			->add('assigneeHistory', null, [
 				'label'               => 'form.label_assignee_history',
@@ -573,7 +579,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				$formMapper->end();
 			} else {
 			
-				
+			
 			}
 		}
 		
@@ -733,6 +739,44 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			->add('warranty.customer.name')//			->add('locked')
 		;
 		parent::configureDatagridFilters($filterMapper);
+		$filterMapper->add('createdAt', DateRangeFilter::class, [
+			'field_type'    => DateRangePickerType::class,
+			'field_options' => [
+				'field_options_start' => [
+					'format'                => 'dd-MM-yyyy',
+					'placeholder'           => 'dd-mm-yyyy',
+					'datepicker_use_button' => false,
+					'attr'                  => [ 'class' => 'anh-yeu-em' ]
+				],
+				'field_options_end'   => [
+					'format'                => 'dd-MM-yyyy',
+					'placeholder'           => 'dd-mm-yyyy',
+					'datepicker_use_button' => false,
+				],
+			],
+			
+			'label'       => 'form.label_opened_on',
+			'show_filter' => true
+		]);
+		$filterMapper->add('closedAt', DateRangeFilter::class, [
+			'field_type'    => DateRangePickerType::class,
+			'field_options' => [
+				'field_options_start' => [
+					'format'                => 'dd-MM-yyyy',
+					'placeholder'           => 'dd-mm-yyyy',
+					'datepicker_use_button' => false,
+				],
+				'field_options_end'   => [
+					'format'                => 'dd-MM-yyyy',
+					'placeholder'           => 'dd-mm-yyyy',
+					'datepicker_use_button' => false,
+				],
+			],
+			
+			'label'       => 'form.label_closed_on',
+			'show_filter' => true
+		]);
+		
 	}
 	
 	

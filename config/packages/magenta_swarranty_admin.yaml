@@ -86,6 +86,9 @@ sonata_formatter:
 sonata_doctrine_orm_admin:
     templates:
         form: ['@MagentaSWarrantyAdmin/Form/fields.html.twig']
+        types:
+            list:
+                choice: '@MagentaSWarrantyAdmin/CRUD/list_choice.html.twig'
 
 sonata_admin:
     title: 'Smart Warranty'
@@ -106,6 +109,8 @@ sonata_admin:
         user_block: '@MagentaSWarrantyAdmin/Core/user_block.html.twig'
         list: '@MagentaSWarrantyAdmin/CRUD/list.html.twig'
         delete: '@MagentaSWarrantyAdmin/CRUD/delete.html.twig'
+        base_list_field: '@MagentaSWarrantyAdmin/CRUD/list_field.html.twig'
+
 
     assets:
         extra_stylesheets:

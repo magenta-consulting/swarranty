@@ -41,7 +41,7 @@
                     <thead>
                     <tr>
                         <th>Warranty Number</th>
-                        <th>Model Name</th>
+                        <th>Model Number</th>
                         <th>Expiry Date</th>
                         <th>Action</th>
                     </tr>
@@ -57,7 +57,7 @@
                             </td>
                             <td>
                                 <a href="{{ field_description.associationadmin.generateObjectUrl(route_name, element, field_description.options.route.parameters) }}">
-                                    {{ element.product.name }}
+                                    {{ element.product.modelNumber }}
                                 </a>
                             </td>
                             <td>

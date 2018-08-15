@@ -188,8 +188,11 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 				$this->assigned  = true;
 				$this->responded = true;
 				$this->completed = true;
-				$this->closed    = true;
-				$this->status    = self::STATUS_CLOSED;
+				if(empty($this->closed)) {
+					$this->closedAt = new \DateTime();
+				}
+				$this->closed = true;
+				$this->status = self::STATUS_CLOSED;
 				break;
 		}
 	}
