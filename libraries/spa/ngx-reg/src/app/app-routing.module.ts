@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {RegistrationComponent} from "./registration/registration.component";
 
 // import component
+import {RegistrationComponent} from "./components/registration/registration.component";
 import {UploadsComponent} from "./components/uploads/uploads.component";
 import {SendEmailComponent} from "./components/send-email/send-email.component";
 import {SuccessComponent} from "./components/success/success.component";

@@ -45,6 +45,7 @@
                                aria-label="Contact Number"
                                (keyup.enter)="updateField('customerTelephone')"
                                (blur)="updateField('customerTelephone')"
+                               (keypress)="checkPhone($event)"
                         />
                     </div>
                 </div>
@@ -269,7 +270,7 @@
                 <div *ngIf="!isPreview('purchaseDate'+i)">
                     <div class="input-group mb-2">
                         <input [(ngModel)]="warranty.purchaseDate" type="text"
-                               placeholder="(*) Purchase Date (DD-MM-YYYY)"
+                               placeholder="(*) Delivery Date (DD-MM-YYYY)"
                                class="form-control"
                                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
                                (ngModelChange)="updateField('purchaseDate'+i)"
@@ -279,7 +280,7 @@
                 <div *ngIf="isPreview('purchaseDate'+i)" (click)="editPreview('purchaseDate'+i)">
                     <div class="input-group mb-2 preview-container">
                         <div class="input-group-prepend preview-label">
-                            <span class="input-group-text">Purchase Date </span>
+                            <span class="input-group-text">Delivery Date </span>
                         </div>
                         <div class="form-control preview-text">
                             <span>{{warranty.purchaseDate|date}}</span>
