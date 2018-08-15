@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './registration/registration.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -16,6 +15,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { FocusDirective } from './directive/focus.directive';
 
 // import components
+import {RegistrationComponent} from './components/registration/registration.component';
 import {UploadsComponent} from "./components/uploads/uploads.component";
 import {SendEmailComponent} from "./components/send-email/send-email.component";
 import {SuccessComponent} from "./components/success/success.component";

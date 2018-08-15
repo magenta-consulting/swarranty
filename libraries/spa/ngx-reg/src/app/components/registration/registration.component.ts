@@ -10,27 +10,28 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {NgSelectModule, NgOption} from '@ng-select/ng-select';
-import {Brand} from "../model/brand";
-import {ProductService} from "../service/product.service";
-import {BrandCategory} from "../model/brand-category";
-import {Product} from "../model/product";
-import {BrandSubCategory} from "../model/brand-sub-category";
-import {Dealer} from "../model/dealer";
+import {Brand} from "../../model/brand";
+import {ProductService} from "../../service/product.service";
+import {BrandCategory} from "../../model/brand-category";
+import {Product} from "../../model/product";
+import {BrandSubCategory} from "../../model/brand-sub-category";
+import {Dealer} from "../../model/dealer";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {Customer} from "../model/customer";
-import {Warranty} from "../model/warranty";
+import {Customer} from "../../model/customer";
+import {Warranty} from "../../model/warranty";
 import {Router} from "@angular/router";
-import {OrganisationService} from "../service/organisation.service";
-import {Organisation} from "../model/organisation";
-import {CustomerService} from '../service/customer.service';
-import {Registration} from '../model/registration';
-import {RegistrationService} from '../service/registration.service';
+import {OrganisationService} from "../../service/organisation.service";
+import {Organisation} from "../../model/organisation";
+import {CustomerService} from '../../service/customer.service';
+import {Registration} from '../../model/registration';
+import {RegistrationService} from '../../service/registration.service';
 
 import {FormControl} from '@angular/forms';
-import {} from 'googlemaps';
 import {MapsAPILoader} from '@agm/core';
 import {CompleterService, CompleterData} from 'ng2-completer';
-import { NewsletterSubscriptionService } from '../service/newsletter-subscription.service';
+import { NewsletterSubscriptionService } from '../../service/newsletter-subscription.service';
+
+import {} from 'googlemaps';
 
 @Component({
     selector: 'app-registration',
