@@ -322,4 +322,13 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             });
         }
     }
+
+    private checkPhone(e: KeyboardEvent) {
+        if (e.key.length == 1 && (e.key.toLowerCase() < '0' || e.key.toLowerCase() > '9')) {
+            return false;
+        }
+        if (this.customer.telephone && e.key.length == 1 && this.customer.telephone.toString().length == 8) {
+            return false;
+        }
+    }
 }

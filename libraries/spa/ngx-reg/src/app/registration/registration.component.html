@@ -45,6 +45,7 @@
                                aria-label="Contact Number"
                                (keyup.enter)="updateField('customerTelephone')"
                                (blur)="updateField('customerTelephone')"
+                               (keypress)="checkPhone($event)"
                         />
                     </div>
                 </div>
