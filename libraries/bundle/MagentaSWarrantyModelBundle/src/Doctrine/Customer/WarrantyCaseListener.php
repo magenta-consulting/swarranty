@@ -51,7 +51,7 @@ class WarrantyCaseListener {
 		} else {
 			$pc->initiateNumber();
 			$pc->addChild($case);
-			$case = $pc->getNumber() . '-' . $pc->getChildren()->count();
+			$caseNumber = $pc->getNumber() . '-' . $pc->getChildren()->count();
 		}
 		////////////// update Appointment /////////////////////
 		
