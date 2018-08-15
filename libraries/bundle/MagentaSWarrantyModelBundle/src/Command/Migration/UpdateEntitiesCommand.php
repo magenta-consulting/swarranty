@@ -4,6 +4,7 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Command\Migration;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -67,6 +68,22 @@ EOT
 						
 					}
 				}
+				
+				if($class === Product::class) {
+					$repo    = $this->registry->getRepository($class);
+					$objects = $repo->findAll();
+					$output->writeln(sprintf('>>>>> Swap model name and number for %s ', $class));
+					/** @var Product $object */
+					foreach($objects as $object) {
+						$number = $object->getModelNumber();
+						$name   = $object->getName();
+						$object->setModelNumber($name);
+						$object->setName($number);
+						$em->persist($object);
+						$output->writeln(sprintf('model Name %s has been swapped with model Number %s', $name, $number));
+					}
+				}
+
 //				if($class === CaseAppointment::class) {
 //					$repo    = $this->registry->getRepository($class);
 //					$objects = $repo->findAll();
