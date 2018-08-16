@@ -10,13 +10,13 @@ import {AppComponent} from './app.component';
 
 // import services
 import { AuthGuard } from './service/auth-guard.service';
+import { SurveyComponent } from './components/survey/survey.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/registration', pathMatch: 'full' },
     // { path: '', component:  AppComponent},
-    { path: 'registration', component: RegistrationComponent, 
-    canActivate: [AuthGuard] 
-    },
+    { path: '', redirectTo: '/survey', pathMatch: 'full' },
+    { path: 'survey', component: SurveyComponent, canActivate: [ AuthGuard ] },
+    { path: 'registration', component: RegistrationComponent },
     { path: 'upload-receipt-image/:id', component: UploadsComponent },
     { path: 'send-email/:id', component: SendEmailComponent },
     { path: 'success/:id', component: SuccessComponent },
