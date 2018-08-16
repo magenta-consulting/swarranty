@@ -1,5 +1,11 @@
 {% extends '@SonataCore/Form/datepicker.html.twig' %}
 
+{#  FILTER FORM FIELDS #}
+{% block filter_createdAt_value %}
+    filter_createdAt_value
+{% endblock filter_createdAt_value %}
+{# END FILTER FORM FIELDS #}
+
 {% block sonata_type_date_picker_widget_html %}
     {% set attr = attr|merge({'placeholder': 'dd-mm-yyyy'}) %}
 

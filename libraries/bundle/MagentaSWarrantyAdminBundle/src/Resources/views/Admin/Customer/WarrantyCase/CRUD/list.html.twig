@@ -1,5 +1,15 @@
 {% extends '@MagentaSWarrantyAdmin/CRUD/list.html.twig' %}
-
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #filter_createdAt_value > div, #filter_closedAt_value > div {
+            position: relative;
+            width: 50%;
+            float: left;
+            padding-left: 0px;
+        }
+    </style>
+{% endblock %}
 {% block list_header %}
     <a href="{{ admin.generateUrl('list',{'statusFilter':'NEW'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'NEW'?'active':'' }}">Unassigned</a>

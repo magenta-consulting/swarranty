@@ -16,6 +16,8 @@
                     {% else %}
                         {% set value = '' %}
                     {% endif %}
+                {% elseif field_description.type == 'number' %}
+                    {% set value = value ~ ' <br/> <code>' ~ object.createdAt|date('d-m-Y') ~ '</code>' %}
                 {% endif %}
                 {% spaceless %}
                     {% if field_description.options.collapse is defined %}
@@ -23,9 +25,9 @@
                         <div class="sonata-readmore"
                              data-readmore-height="{{ collapse.height|default(40) }}"
                              data-readmore-more="{{ collapse.more|default('read_more')|trans({}, 'SonataAdminBundle') }}"
-                             data-readmore-less="{{ collapse.less|default('read_less')|trans({}, 'SonataAdminBundle') }}">{{ value }}</div>
+                             data-readmore-less="{{ collapse.less|default('read_less')|trans({}, 'SonataAdminBundle') }}">{{ value|raw }}</div>
                     {% else %}
-                        {{ value }}
+                        {{ value|raw }}
                     {% endif %}
                 {% endspaceless %}
             {% endblock -%}
