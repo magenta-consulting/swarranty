@@ -43,11 +43,6 @@ export class SurveyComponent implements OnInit {
         name: 'Internet',
         value: 'internet',
         selected: true
-      },
-      {
-        name: '',
-        value: 'other',
-        selected: false
       }
     ]
   }

@@ -9,12 +9,14 @@
 
   <ol>
     <li *ngFor="let option of survey.howKnow">
-      <span *ngIf="option.value != 'other'">
+      <span>
         <input name="howKnow" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
       </span>
-      <span *ngIf="option.value == 'other'">
-        <input type="howKnow" type="checkbox" value="other" [(ngModel)]="option.selected"> Other:<br>
-        <input type="text" [(ngModel)]="option.name">
+    </li>
+    <li>
+      <span>
+        <input type="howKnow" type="checkbox" value="other" [(ngModel)]="survey.otherHowKnow.selected"> Other:<br>
+        <input type="text" [(ngModel)]="survey.otherHowKnow.name">
       </span>
     </li>
   </ol>
