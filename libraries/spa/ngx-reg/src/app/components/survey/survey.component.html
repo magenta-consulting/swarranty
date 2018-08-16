@@ -8,15 +8,15 @@
   </ol>
 
   <ol>
-    <li *ngFor="let option of survey.howKnow">
+    <li *ngFor="let option of survey.hearFrom">
       <span>
-        <input name="howKnow" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
+        <input name="hearFrom" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
       </span>
     </li>
     <li>
       <span>
-        <input type="howKnow" type="checkbox" value="other" [(ngModel)]="survey.otherHowKnow.selected"> Other:<br>
-        <input type="text" [(ngModel)]="survey.otherHowKnow.name">
+        <input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Other:<br>
+        <input type="text" [(ngModel)]="survey.otherHearFrom.name">
       </span>
     </li>
   </ol>

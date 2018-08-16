@@ -33,7 +33,7 @@ export class SurveyComponent implements OnInit {
       }
     ]
 
-    this.survey.howKnow = [
+    this.survey.hearFrom = [
       {
         name: 'Friend tell',
         value: 'friend',
@@ -50,6 +50,6 @@ export class SurveyComponent implements OnInit {
   submit() {
     console.log('This shit gonna be sent to the server: ', this.survey.getResult());
     // localStorage.setItem('survey', '1');
-    // this.router.navigate(['registration']);
+    this.router.navigate(['registration']);
   }
 }

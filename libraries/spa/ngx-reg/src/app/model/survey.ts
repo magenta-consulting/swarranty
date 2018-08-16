@@ -1,15 +1,19 @@
+class HearFrom {
+    options: Option[];
+    otherOption: string;
+}
 export class Survey {
     ageGroup: Option[];
-    howKnow: Option[];
-    whyChoose: Option[];
+    hearFrom: Option[];
+    reason: Option[];
 
     selectedAgeGroup: string;
-    otherHowKnow: Option = {
+    otherHearFrom: Option = {
         name: '',
         value: 'other',
         selected: false
     };
-    otherWhyChoose: Option = {
+    otherReason: Option = {
         name: '',
         value: 'other',
         selected: false
@@ -18,10 +22,14 @@ export class Survey {
     getResult() {
         return {
             ageGroup: this.selectedAgeGroup,
-            otherHowKnow: this.otherHowKnow.selected ? this.otherHowKnow.name : undefined,
-            otherWhyChoose: this.otherWhyChoose.selected ? this.otherWhyChoose.name : undefined,
-            howKnow: this.howKnow ? this.howKnow.filter(o => o.selected).map(o => o.value) : null,
-            whyChoose: this.whyChoose? this.whyChoose.filter(o => o.selected).map(o => o.value) : null
+            hearFrom: {
+                options: this.hearFrom ? this.hearFrom.filter(o => o.selected).map(o => o.value) : null,
+                other: this.otherHearFrom.selected ? this.otherHearFrom.name : undefined
+            },
+            reason: {
+                options: this.reason? this.reason.filter(o => o.selected).map(o => o.value) : null,
+                other: this.otherReason.selected ? this.otherReason.name : undefined
+            }
         }
     }
 }
