@@ -1,0 +1,25 @@
+<div>
+  <p>survey works!</p>
+  
+  <ol>
+    <li *ngFor="let option of survey.ageGroup">
+      <input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}
+    </li>
+  </ol>
+
+  <ol>
+    <li *ngFor="let option of survey.hearFrom">
+      <span>
+        <input name="hearFrom" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
+      </span>
+    </li>
+    <li>
+      <span>
+        <input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Other:<br>
+        <input type="text" [(ngModel)]="survey.otherHearFrom.name">
+      </span>
+    </li>
+  </ol>
+
+  <button class="btn btn-success" (click)="submit()">Next</button>
+</div>

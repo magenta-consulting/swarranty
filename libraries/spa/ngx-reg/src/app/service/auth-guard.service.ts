@@ -20,9 +20,12 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate() {
-        // 1.
         if (localStorage.getItem('regId')) {
             this.getDataRegistration();
+            return false;
+        } else if (localStorage.getItem('survey')) {
+            this.router.navigate(['registration']);
+            return false;
         }
         return true;
     }
@@ -32,15 +35,10 @@ export class AuthGuard implements CanActivate {
 
     // 1. Get Data Registration
     getDataRegistration() {
-        // let regId = this.router.snapshot.params['id'];
-        console.log('ok');
         if (localStorage.getItem('regId')) {
-          console.log('okkkk');
             let regId = localStorage.getItem('regId');
-            console.log('regId is ',regId);
             if (Number.isNaN(parseInt(regId))) {
                 let cutstr = '/api/registrations/';
-                console.log('regId', regId, cutstr.length);
                 regId = regId.substring(cutstr.length);
             }
 

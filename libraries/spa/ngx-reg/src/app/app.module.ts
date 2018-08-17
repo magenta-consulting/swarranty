@@ -28,6 +28,7 @@ import { Ng2CompleterModule } from "ng2-completer";
 import { ImageUploadModule } from "./extensions/angular2-image-upload";
 import {Helper} from "./helper/helper";
 import { AgmCoreModule } from '@agm/core';
+import { SurveyComponent } from './components/survey/survey.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AgmCoreModule } from '@agm/core';
     FocusDirective,
     UploadsComponent,
     SendEmailComponent,
-    SuccessComponent
+    SuccessComponent,
+    SurveyComponent
   ],
   imports: [
     BrowserModule,
