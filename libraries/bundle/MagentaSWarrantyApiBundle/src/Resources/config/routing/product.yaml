@@ -18,7 +18,7 @@ category_products:
     path:     /brand-categories/{id}/products
     controller: Magenta\Bundle\SWarrantyApiBundle\Controller\Product\BrandCategoryController::productsAction
     defaults:
-        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product'
+        _api_resource_class: 'Magenta\Bundle\SWarrantyModelBundle\Entity\Product\BrandCategory'
         _api_item_operation_name: 'get_category_products'
         _api_collection_operation_name: 'products'
 
