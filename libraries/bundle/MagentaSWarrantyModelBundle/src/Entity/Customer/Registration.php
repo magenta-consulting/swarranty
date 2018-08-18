@@ -188,31 +188,31 @@ class Registration implements ThingChildInterface {
 //	DIRTY FIELDS
     /**
      * @var string|null
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $ageGroup;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $hearFromOnlineSearch;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $hearFromOnlineAd;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $hearFromFriendFamily;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonInteriorDesigner ;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $hearWalkShop;
@@ -222,42 +222,42 @@ class Registration implements ThingChildInterface {
      */
     protected $hearOthers;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonPromotions;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonTheBrand;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonTechnology;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonJapanese;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonTheDesign;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonAffordable;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonDesignerSuggested;
     /**
-     * @var boolean
+     * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $reasonFriendFamilySuggested;
@@ -424,6 +424,20 @@ class Registration implements ThingChildInterface {
 	}
 	
 	/**
+	 * @return null|string
+	 */
+	public function getAddressUnitNumber(): ?string {
+		return $this->addressUnitNumber;
+	}
+	
+	/**
+	 * @param null|string $addressUnitNumber
+	 */
+	public function setAddressUnitNumber(?string $addressUnitNumber): void {
+		$this->addressUnitNumber = $addressUnitNumber;
+	}
+	
+	/**
 	 * @return int|null
 	 */
 	public function getDialingCode(): ?int {
@@ -450,22 +464,6 @@ class Registration implements ThingChildInterface {
 	public function setTelephone(?string $telephone): void {
 		$this->telephone = $telephone;
 	}
-
-    /**
-     * @return null|string
-     */
-    public function getAddressUnitNumber(): ?string
-    {
-        return $this->addressUnitNumber;
-    }
-
-    /**
-     * @param null|string $addressUnitNumber
-     */
-    public function setAddressUnitNumber(?string $addressUnitNumber): void
-    {
-        $this->addressUnitNumber = $addressUnitNumber;
-    }
 	
 	/**
 	 * @return null|string
@@ -482,72 +480,72 @@ class Registration implements ThingChildInterface {
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isHearFromOnlineSearch(): bool {
+	public function getHearFromOnlineSearch(): ?bool {
 		return $this->hearFromOnlineSearch;
 	}
 	
 	/**
-	 * @param bool $hearFromOnlineSearch
+	 * @param bool|null $hearFromOnlineSearch
 	 */
-	public function setHearFromOnlineSearch(bool $hearFromOnlineSearch): void {
+	public function setHearFromOnlineSearch(?bool $hearFromOnlineSearch): void {
 		$this->hearFromOnlineSearch = $hearFromOnlineSearch;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isHearFromOnlineAd(): bool {
+	public function getHearFromOnlineAd(): ?bool {
 		return $this->hearFromOnlineAd;
 	}
 	
 	/**
-	 * @param bool $hearFromOnlineAd
+	 * @param bool|null $hearFromOnlineAd
 	 */
-	public function setHearFromOnlineAd(bool $hearFromOnlineAd): void {
+	public function setHearFromOnlineAd(?bool $hearFromOnlineAd): void {
 		$this->hearFromOnlineAd = $hearFromOnlineAd;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isHearFromFriendFamily(): bool {
+	public function getHearFromFriendFamily(): ?bool {
 		return $this->hearFromFriendFamily;
 	}
 	
 	/**
-	 * @param bool $hearFromFriendFamily
+	 * @param bool|null $hearFromFriendFamily
 	 */
-	public function setHearFromFriendFamily(bool $hearFromFriendFamily): void {
+	public function setHearFromFriendFamily(?bool $hearFromFriendFamily): void {
 		$this->hearFromFriendFamily = $hearFromFriendFamily;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonInteriorDesigner(): bool {
+	public function getReasonInteriorDesigner(): ?bool {
 		return $this->reasonInteriorDesigner;
 	}
 	
 	/**
-	 * @param bool $reasonInteriorDesigner
+	 * @param bool|null $reasonInteriorDesigner
 	 */
-	public function setReasonInteriorDesigner(bool $reasonInteriorDesigner): void {
+	public function setReasonInteriorDesigner(?bool $reasonInteriorDesigner): void {
 		$this->reasonInteriorDesigner = $reasonInteriorDesigner;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isHearWalkShop(): bool {
+	public function getHearWalkShop(): ?bool {
 		return $this->hearWalkShop;
 	}
 	
 	/**
-	 * @param bool $hearWalkShop
+	 * @param bool|null $hearWalkShop
 	 */
-	public function setHearWalkShop(bool $hearWalkShop): void {
+	public function setHearWalkShop(?bool $hearWalkShop): void {
 		$this->hearWalkShop = $hearWalkShop;
 	}
 	
@@ -566,114 +564,114 @@ class Registration implements ThingChildInterface {
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonPromotions(): bool {
+	public function getReasonPromotions(): ?bool {
 		return $this->reasonPromotions;
 	}
 	
 	/**
-	 * @param bool $reasonPromotions
+	 * @param bool|null $reasonPromotions
 	 */
-	public function setReasonPromotions(bool $reasonPromotions): void {
+	public function setReasonPromotions(?bool $reasonPromotions): void {
 		$this->reasonPromotions = $reasonPromotions;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonTheBrand(): bool {
+	public function getReasonTheBrand(): ?bool {
 		return $this->reasonTheBrand;
 	}
 	
 	/**
-	 * @param bool $reasonTheBrand
+	 * @param bool|null $reasonTheBrand
 	 */
-	public function setReasonTheBrand(bool $reasonTheBrand): void {
+	public function setReasonTheBrand(?bool $reasonTheBrand): void {
 		$this->reasonTheBrand = $reasonTheBrand;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonTechnology(): bool {
+	public function getReasonTechnology(): ?bool {
 		return $this->reasonTechnology;
 	}
 	
 	/**
-	 * @param bool $reasonTechnology
+	 * @param bool|null $reasonTechnology
 	 */
-	public function setReasonTechnology(bool $reasonTechnology): void {
+	public function setReasonTechnology(?bool $reasonTechnology): void {
 		$this->reasonTechnology = $reasonTechnology;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonJapanese(): bool {
+	public function getReasonJapanese(): ?bool {
 		return $this->reasonJapanese;
 	}
 	
 	/**
-	 * @param bool $reasonJapanese
+	 * @param bool|null $reasonJapanese
 	 */
-	public function setReasonJapanese(bool $reasonJapanese): void {
+	public function setReasonJapanese(?bool $reasonJapanese): void {
 		$this->reasonJapanese = $reasonJapanese;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonTheDesign(): bool {
+	public function getReasonTheDesign(): ?bool {
 		return $this->reasonTheDesign;
 	}
 	
 	/**
-	 * @param bool $reasonTheDesign
+	 * @param bool|null $reasonTheDesign
 	 */
-	public function setReasonTheDesign(bool $reasonTheDesign): void {
+	public function setReasonTheDesign(?bool $reasonTheDesign): void {
 		$this->reasonTheDesign = $reasonTheDesign;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonAffordable(): bool {
+	public function getReasonAffordable(): ?bool {
 		return $this->reasonAffordable;
 	}
 	
 	/**
-	 * @param bool $reasonAffordable
+	 * @param bool|null $reasonAffordable
 	 */
-	public function setReasonAffordable(bool $reasonAffordable): void {
+	public function setReasonAffordable(?bool $reasonAffordable): void {
 		$this->reasonAffordable = $reasonAffordable;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonDesignerSuggested(): bool {
+	public function getReasonDesignerSuggested(): ?bool {
 		return $this->reasonDesignerSuggested;
 	}
 	
 	/**
-	 * @param bool $reasonDesignerSuggested
+	 * @param bool|null $reasonDesignerSuggested
 	 */
-	public function setReasonDesignerSuggested(bool $reasonDesignerSuggested): void {
+	public function setReasonDesignerSuggested(?bool $reasonDesignerSuggested): void {
 		$this->reasonDesignerSuggested = $reasonDesignerSuggested;
 	}
 	
 	/**
-	 * @return bool
+	 * @return bool|null
 	 */
-	public function isReasonFriendFamilySuggested(): bool {
+	public function getReasonFriendFamilySuggested(): ?bool {
 		return $this->reasonFriendFamilySuggested;
 	}
 	
 	/**
-	 * @param bool $reasonFriendFamilySuggested
+	 * @param bool|null $reasonFriendFamilySuggested
 	 */
-	public function setReasonFriendFamilySuggested(bool $reasonFriendFamilySuggested): void {
+	public function setReasonFriendFamilySuggested(?bool $reasonFriendFamilySuggested): void {
 		$this->reasonFriendFamilySuggested = $reasonFriendFamilySuggested;
 	}
 	
