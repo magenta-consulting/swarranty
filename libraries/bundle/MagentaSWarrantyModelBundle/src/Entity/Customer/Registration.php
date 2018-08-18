@@ -466,6 +466,228 @@ class Registration implements ThingChildInterface {
     {
         $this->addressUnitNumber = $addressUnitNumber;
     }
-
-
+	
+	/**
+	 * @return null|string
+	 */
+	public function getAgeGroup(): ?string {
+		return $this->ageGroup;
+	}
+	
+	/**
+	 * @param null|string $ageGroup
+	 */
+	public function setAgeGroup(?string $ageGroup): void {
+		$this->ageGroup = $ageGroup;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isHearFromOnlineSearch(): bool {
+		return $this->hearFromOnlineSearch;
+	}
+	
+	/**
+	 * @param bool $hearFromOnlineSearch
+	 */
+	public function setHearFromOnlineSearch(bool $hearFromOnlineSearch): void {
+		$this->hearFromOnlineSearch = $hearFromOnlineSearch;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isHearFromOnlineAd(): bool {
+		return $this->hearFromOnlineAd;
+	}
+	
+	/**
+	 * @param bool $hearFromOnlineAd
+	 */
+	public function setHearFromOnlineAd(bool $hearFromOnlineAd): void {
+		$this->hearFromOnlineAd = $hearFromOnlineAd;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isHearFromFriendFamily(): bool {
+		return $this->hearFromFriendFamily;
+	}
+	
+	/**
+	 * @param bool $hearFromFriendFamily
+	 */
+	public function setHearFromFriendFamily(bool $hearFromFriendFamily): void {
+		$this->hearFromFriendFamily = $hearFromFriendFamily;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonInteriorDesigner(): bool {
+		return $this->reasonInteriorDesigner;
+	}
+	
+	/**
+	 * @param bool $reasonInteriorDesigner
+	 */
+	public function setReasonInteriorDesigner(bool $reasonInteriorDesigner): void {
+		$this->reasonInteriorDesigner = $reasonInteriorDesigner;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isHearWalkShop(): bool {
+		return $this->hearWalkShop;
+	}
+	
+	/**
+	 * @param bool $hearWalkShop
+	 */
+	public function setHearWalkShop(bool $hearWalkShop): void {
+		$this->hearWalkShop = $hearWalkShop;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getHearOthers(): ?string {
+		return $this->hearOthers;
+	}
+	
+	/**
+	 * @param null|string $hearOthers
+	 */
+	public function setHearOthers(?string $hearOthers): void {
+		$this->hearOthers = $hearOthers;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonPromotions(): bool {
+		return $this->reasonPromotions;
+	}
+	
+	/**
+	 * @param bool $reasonPromotions
+	 */
+	public function setReasonPromotions(bool $reasonPromotions): void {
+		$this->reasonPromotions = $reasonPromotions;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonTheBrand(): bool {
+		return $this->reasonTheBrand;
+	}
+	
+	/**
+	 * @param bool $reasonTheBrand
+	 */
+	public function setReasonTheBrand(bool $reasonTheBrand): void {
+		$this->reasonTheBrand = $reasonTheBrand;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonTechnology(): bool {
+		return $this->reasonTechnology;
+	}
+	
+	/**
+	 * @param bool $reasonTechnology
+	 */
+	public function setReasonTechnology(bool $reasonTechnology): void {
+		$this->reasonTechnology = $reasonTechnology;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonJapanese(): bool {
+		return $this->reasonJapanese;
+	}
+	
+	/**
+	 * @param bool $reasonJapanese
+	 */
+	public function setReasonJapanese(bool $reasonJapanese): void {
+		$this->reasonJapanese = $reasonJapanese;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonTheDesign(): bool {
+		return $this->reasonTheDesign;
+	}
+	
+	/**
+	 * @param bool $reasonTheDesign
+	 */
+	public function setReasonTheDesign(bool $reasonTheDesign): void {
+		$this->reasonTheDesign = $reasonTheDesign;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonAffordable(): bool {
+		return $this->reasonAffordable;
+	}
+	
+	/**
+	 * @param bool $reasonAffordable
+	 */
+	public function setReasonAffordable(bool $reasonAffordable): void {
+		$this->reasonAffordable = $reasonAffordable;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonDesignerSuggested(): bool {
+		return $this->reasonDesignerSuggested;
+	}
+	
+	/**
+	 * @param bool $reasonDesignerSuggested
+	 */
+	public function setReasonDesignerSuggested(bool $reasonDesignerSuggested): void {
+		$this->reasonDesignerSuggested = $reasonDesignerSuggested;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isReasonFriendFamilySuggested(): bool {
+		return $this->reasonFriendFamilySuggested;
+	}
+	
+	/**
+	 * @param bool $reasonFriendFamilySuggested
+	 */
+	public function setReasonFriendFamilySuggested(bool $reasonFriendFamilySuggested): void {
+		$this->reasonFriendFamilySuggested = $reasonFriendFamilySuggested;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getReasonOthers(): ?string {
+		return $this->reasonOthers;
+	}
+	
+	/**
+	 * @param null|string $reasonOthers
+	 */
+	public function setReasonOthers(?string $reasonOthers): void {
+		$this->reasonOthers = $reasonOthers;
+	}
 }
