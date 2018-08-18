@@ -184,6 +184,90 @@ class Registration implements ThingChildInterface {
 	 * @ORM\Column(type="string")
 	 */
 	protected $code;
+
+//	DIRTY FIELDS
+    /**
+     * @var string|null
+     * @ORM\Column(type="string")
+     */
+    protected $ageGroup;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $hearFromOnlineSearch;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $hearFromOnlineAd;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $hearFromFriendFamily;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonInteriorDesigner ;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $hearWalkShop;
+    /**
+     * @var string|null
+     * @ORM\Column(type="string")
+     */
+    protected $hearOthers;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonPromotions;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonTheBrand;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonTechnology;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonJapanese;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonTheDesign;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonAffordable;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonDesignerSuggested;
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", options={"default":false})
+     */
+    protected $reasonFriendFamilySuggested;
+    /**
+     * @var string|null
+     * @ORM\Column(type="string")
+     */
+    protected $reasonOthers;
+
+// END DIRTY FIELDS
 	
 	/**
 	 * @return \DateTime
