@@ -20,7 +20,7 @@ export class Survey {
     };
 
     getResult() {
-        return {
+        var res = {
             ageGroup: this.selectedAgeGroup,
             hearFrom: {
                 options: this.hearFrom ? this.hearFrom.filter(o => o.selected).map(o => o.value) : null,
@@ -31,6 +31,16 @@ export class Survey {
                 other: this.otherReason.selected ? this.otherReason.name : undefined
             }
         }
+        if (!res.ageGroup) {
+            return false;
+        }
+        if (!res.hearFrom.other && res.hearFrom.options.length == 0) {
+            return false;
+        }
+        if (!res.reason.other && res.reason.options.length == 0) {
+            return false;
+        }
+        return res;
     }
 }
 

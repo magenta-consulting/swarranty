@@ -1,13 +1,12 @@
 <div>
-  <p>survey works!</p>
-  
-  <ol>
+  <p>Age Group *</p>
+  <ul class="option-group">
     <li *ngFor="let option of survey.ageGroup">
       <input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}
     </li>
-  </ol>
-
-  <ol>
+  </ul>
+  <p>How did you know FUJIOH? (Multiple answers allowed) *</p>
+  <ul class="option-group">
     <li *ngFor="let option of survey.hearFrom">
       <span>
         <input name="hearFrom" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
@@ -15,11 +14,27 @@
     </li>
     <li>
       <span>
-        <input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Other:<br>
+        <input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Others (Enter comment)<br>
+        <div>Others (Please write comment if others is selected)</div>
         <input type="text" [(ngModel)]="survey.otherHearFrom.name">
       </span>
     </li>
-  </ol>
-
+  </ul>
+  <p>Why did you choose FUJIOH product? (Multiple answers allowed) *</p>
+  <ul class="option-group">
+    <li *ngFor="let option of survey.reason">
+      <span>
+        <input name="reason" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
+      </span>
+    </li>
+    <li>
+      <span>
+        <input type="reason" type="checkbox" value="other" [(ngModel)]="survey.otherReason.selected"> Others (Enter comment)<br>
+        <div>Others (Please write comment if others is selected)</div>
+        <input type="text" [(ngModel)]="survey.otherReason.name">
+      </span>
+    </li>
+  </ul>
+  <div *ngIf="!survey.getResult()" style="color: red">{{message}}</div>
   <button class="btn btn-success" (click)="submit()">Next</button>
 </div>
