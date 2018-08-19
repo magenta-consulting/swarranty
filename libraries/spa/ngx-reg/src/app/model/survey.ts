@@ -24,11 +24,13 @@ export class Survey {
             ageGroup: this.selectedAgeGroup,
             hearFrom: {
                 options: this.hearFrom ? this.hearFrom.filter(o => o.selected).map(o => o.value) : null,
-                other: this.otherHearFrom.selected ? this.otherHearFrom.name : undefined
+                blanks: this.hearFrom ? this.hearFrom.filter(o => !o.selected).map(o => o.value) : null,
+                other: this.otherHearFrom.selected ? this.otherHearFrom.name : ''
             },
             reason: {
                 options: this.reason? this.reason.filter(o => o.selected).map(o => o.value) : null,
-                other: this.otherReason.selected ? this.otherReason.name : undefined
+                blanks: this.reason? this.reason.filter(o => !o.selected).map(o => o.value) : null,
+                other: this.otherReason.selected ? this.otherReason.name : ''
             }
         }
         if (!res.ageGroup) {

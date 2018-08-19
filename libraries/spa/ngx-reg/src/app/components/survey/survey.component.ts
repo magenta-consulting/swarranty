@@ -24,10 +24,9 @@ export class SurveyComponent implements OnInit {
     if (!res) {
       this.message = "Please fill out required field";
     } else {
-      console.log('This shit gonna be sent to the server: ', res);
       // fetch some api
-      // localStorage.setItem('survey', '1');
-      // this.router.navigate(['registration']);
+      localStorage.setItem('survey', JSON.stringify(this.survey.getResult()));
+      this.router.navigate(['registration']);
     }
   }
 
@@ -68,27 +67,27 @@ export class SurveyComponent implements OnInit {
     this.survey.hearFrom = [
       {
         name: 'Online search',
-        value: 'online-search',
+        value: 'hearFromOnlineSearch',
         selected: false
       },
       {
         name: 'Online advertisement (Facebook/Instagram/etc.)',
-        value: 'online-ad',
+        value: 'hearFromOnlineAd',
         selected: false
       },
       {
         name: 'Introduced by friend/family',
-        value: 'friend-family',
+        value: 'hearFromFriendFamily',
         selected: false
       },
       {
         name: 'Introduced by interior designer',
-        value: 'interior-designer',
+        value: 'reasonInteriorDesigner',
         selected: false
       },
       {
         name: 'Walk in to the shop',
-        value: 'shop',
+        value: 'hearWalkShop',
         selected: false
       }
     ]
@@ -96,42 +95,42 @@ export class SurveyComponent implements OnInit {
     this.survey.reason = [
       {
         name: 'Because there were promotions going on',
-        value: 'promotion',
+        value: 'reasonPromotions',
         selected: false
       },
       {
         name: 'Because I liked the brand',
-        value: 'brand',
+        value: 'reasonTheBrand',
         selected: false
       },
       {
         name: 'Because I liked the technology (Suction/Easy cleaning/etc.)',
-        value: 'technology',
+        value: 'reasonTechnology',
         selected: false
       },
       {
         name: 'Because I liked the Japanese quality',
-        value: 'japanese-quality',
+        value: 'reasonJapanese',
         selected: false
       },
       {
         name: 'Because I liked the design',
-        value: 'design',
+        value: 'reasonTheDesign',
         selected: false
       },
       {
         name: 'Because price was affordable',
-        value: 'affordable-price',
+        value: 'reasonAffordable',
         selected: false
       },
       {
         name: 'Because my interior designer suggested to me',
-        value: 'interior-designer',
+        value: 'reasonDesignerSuggested',
         selected: false
       },
       {
         name: 'Because my friend/family suggested to me',
-        value: 'friend-family',
+        value: 'reasonFriendFamilySuggested',
         selected: false
       }
     ]
