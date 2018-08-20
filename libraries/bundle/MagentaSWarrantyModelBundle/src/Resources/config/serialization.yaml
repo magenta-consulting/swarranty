@@ -194,6 +194,39 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration:
         addressUnitNumber:
             groups: ['read_registration','write_registration']
 
+        ageGroup:
+            groups: ['read_registration','write_registration']
+        hearFromOnlineSearch:
+            groups: ['read_registration','write_registration']
+        hearFromOnlineAd:
+            groups: ['read_registration','write_registration']
+        hearFromFriendFamily:
+            groups: ['read_registration','write_registration']
+        reasonInteriorDesigner:
+            groups: ['read_registration','write_registration']
+        hearWalkShop:
+            groups: ['read_registration','write_registration']
+        hearOthers:
+            groups: ['read_registration','write_registration']
+        reasonPromotions:
+            groups: ['read_registration','write_registration']
+        reasonTheBrand:
+            groups: ['read_registration','write_registration']
+        reasonTechnology:
+            groups: ['read_registration','write_registration']
+        reasonJapanese:
+            groups: ['read_registration','write_registration']
+        reasonTheDesign:
+            groups: ['read_registration','write_registration']
+        reasonAffordable:
+            groups: ['read_registration','write_registration']
+        reasonDesignerSuggested:
+            groups: ['read_registration','write_registration']
+        reasonFriendFamilySuggested:
+            groups: ['read_registration','write_registration']
+        reasonOthers:
+            groups: ['read_registration','write_registration']
+
 Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet:
     attributes:
         id:
