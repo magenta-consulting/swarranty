@@ -30,8 +30,8 @@ class MagentaTwigExtension extends AbstractExtension {
 	public function getFunctions() {
 		return array(
 			new \Twig_SimpleFunction('currentOrganisation', array( $this, 'getCurrentOrganisation' )),
-			new \Twig_SimpleFunction('organisationBySubdomain', array( $this, 'organisationBySubdomain' ))
-		
+			new \Twig_SimpleFunction('organisationBySubdomain', array( $this, 'organisationBySubdomain' )),
+			new \Twig_SimpleFunction('privateMediumUrl', array( $this, 'privateMediumUrl' )),
 		);
 	}
 	
@@ -53,7 +53,7 @@ class MagentaTwigExtension extends AbstractExtension {
 	
 	public function downloadPdfUrl($type) {
 //		if($type === )
-		
+	
 	}
 	
 	public function privateMediumUrl($mediumId, $format = 'admin') {
