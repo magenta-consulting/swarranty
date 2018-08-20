@@ -61,6 +61,25 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->initiateNumber();
 	}
 	
+	public function getServiceNotesString() {
+		$noteStr = '';
+		/** @var ServiceNote $note */
+		foreach($this->serviceNotes as $note) {
+			$noteStr += $note->getDescription();
+		}
+		
+		return $noteStr;
+	}
+	
+	public function getAssigneeString() {
+		$assigneeStr = '';
+		if( ! empty($this->assignee) && ! empty($p = $this->assignee->getPerson())) {
+			$assigneeStr = $p->getName();
+		}
+		
+		return $assigneeStr;
+	}
+	
 	public function getOrganisation(): ?Organisation {
 		return $this->warranty->getOrganisation();
 	}

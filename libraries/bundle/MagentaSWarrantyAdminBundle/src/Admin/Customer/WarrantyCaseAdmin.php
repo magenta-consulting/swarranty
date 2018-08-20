@@ -390,7 +390,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 	
 	public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH) {
 		$statusFilter = $this->getRequest()->query->get('statusFilter');
-		if( ! empty($statusFilter)) {
+		if( ! empty($statusFilter) && ! array_key_exists('statusFilter', $parameters)) {
 			$parameters['statusFilter'] = $statusFilter;
 		}
 		

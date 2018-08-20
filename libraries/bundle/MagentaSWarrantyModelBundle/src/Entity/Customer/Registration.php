@@ -263,7 +263,7 @@ class Registration implements ThingChildInterface {
     protected $reasonFriendFamilySuggested;
     /**
      * @var string|null
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $reasonOthers;
 
