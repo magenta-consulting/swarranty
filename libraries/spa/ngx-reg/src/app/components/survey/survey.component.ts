@@ -25,11 +25,7 @@ export class SurveyComponent implements OnInit {
       this.message = "Please fill out required field";
     } else {
       // fetch some api
-<<<<<<< HEAD
-      // localStorage.setItem('survey', '1');
-=======
       localStorage.setItem('survey', JSON.stringify(this.survey.getResult()));
->>>>>>> refs/remotes/origin/master
       this.router.navigate(['registration']);
     }
   }
