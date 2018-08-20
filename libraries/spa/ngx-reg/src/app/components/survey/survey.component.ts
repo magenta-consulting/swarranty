@@ -10,6 +10,7 @@ import { Survey, Option } from '../../model/survey';
 export class SurveyComponent implements OnInit {
   survey: Survey = new Survey();
   message: string;
+  validating: boolean = false;
 
   constructor(
     private router: Router
@@ -20,6 +21,7 @@ export class SurveyComponent implements OnInit {
   }
 
   submit() {
+    this.validating = true;
     var res = this.survey.getResult();
     if (!res) {
       this.message = "Please fill out required field";
