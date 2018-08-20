@@ -35,11 +35,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppRoutingModule", function() { return AppRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
+/* harmony import */ var _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/registration/registration.component */ "./src/app/components/registration/registration.component.ts");
 /* harmony import */ var _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/uploads/uploads.component */ "./src/app/components/uploads/uploads.component.ts");
 /* harmony import */ var _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/send-email/send-email.component */ "./src/app/components/send-email/send-email.component.ts");
 /* harmony import */ var _components_success_success_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/success/success.component */ "./src/app/components/success/success.component.ts");
 /* harmony import */ var _service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./service/auth-guard.service */ "./src/app/service/auth-guard.service.ts");
+/* harmony import */ var _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/survey/survey.component */ "./src/app/components/survey/survey.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -48,19 +49,19 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 };
 
 
-
 // import component
+
 
 
 
 // import services
 
+
 var routes = [
-    { path: '', redirectTo: '/registration', pathMatch: 'full' },
     // { path: '', component:  AppComponent},
-    { path: 'registration', component: _registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"],
-        canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]]
-    },
+    { path: '', redirectTo: '/survey', pathMatch: 'full' },
+    { path: 'survey', component: _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_7__["SurveyComponent"], canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]] },
+    { path: 'registration', component: _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"] },
     { path: 'upload-receipt-image/:id', component: _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_3__["UploadsComponent"] },
     { path: 'send-email/:id', component: _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_4__["SendEmailComponent"] },
     { path: 'success/:id', component: _components_success_success_component__WEBPACK_IMPORTED_MODULE_5__["SuccessComponent"] },
@@ -176,15 +177,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _registration_registration_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./registration/registration.component */ "./src/app/registration/registration.component.ts");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/esm5/ng-select.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var angular_font_awesome__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! angular-font-awesome */ "./node_modules/angular-font-awesome/dist/angular-font-awesome.es5.js");
-/* harmony import */ var ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ngx-bootstrap/datepicker */ "./node_modules/ngx-bootstrap/datepicker/index.js");
-/* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ngx-bootstrap/modal */ "./node_modules/ngx-bootstrap/modal/index.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _directive_focus_directive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./directive/focus.directive */ "./src/app/directive/focus.directive.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/esm5/ng-select.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var angular_font_awesome__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! angular-font-awesome */ "./node_modules/angular-font-awesome/dist/angular-font-awesome.es5.js");
+/* harmony import */ var ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-bootstrap/datepicker */ "./node_modules/ngx-bootstrap/datepicker/index.js");
+/* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ngx-bootstrap/modal */ "./node_modules/ngx-bootstrap/modal/index.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _directive_focus_directive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./directive/focus.directive */ "./src/app/directive/focus.directive.ts");
+/* harmony import */ var _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/registration/registration.component */ "./src/app/components/registration/registration.component.ts");
 /* harmony import */ var _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/uploads/uploads.component */ "./src/app/components/uploads/uploads.component.ts");
 /* harmony import */ var _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/send-email/send-email.component */ "./src/app/components/send-email/send-email.component.ts");
 /* harmony import */ var _components_success_success_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/success/success.component */ "./src/app/components/success/success.component.ts");
@@ -193,6 +194,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _extensions_angular2_image_upload__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./extensions/angular2-image-upload */ "./src/app/extensions/angular2-image-upload/index.js");
 /* harmony import */ var _helper_helper__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./helper/helper */ "./src/app/helper/helper.ts");
 /* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/survey/survey.component */ "./src/app/components/survey/survey.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -210,8 +212,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
 // import components
+
 
 
 
@@ -222,6 +224,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -229,21 +232,22 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"],
-                _registration_registration_component__WEBPACK_IMPORTED_MODULE_3__["RegistrationComponent"],
-                _directive_focus_directive__WEBPACK_IMPORTED_MODULE_11__["FocusDirective"],
+                _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_11__["RegistrationComponent"],
+                _directive_focus_directive__WEBPACK_IMPORTED_MODULE_10__["FocusDirective"],
                 _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_12__["UploadsComponent"],
                 _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_13__["SendEmailComponent"],
-                _components_success_success_component__WEBPACK_IMPORTED_MODULE_14__["SuccessComponent"]
+                _components_success_success_component__WEBPACK_IMPORTED_MODULE_14__["SuccessComponent"],
+                _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_20__["SurveyComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
-                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_5__["NgSelectModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ReactiveFormsModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_10__["HttpClientModule"],
-                angular_font_awesome__WEBPACK_IMPORTED_MODULE_7__["AngularFontAwesomeModule"],
-                ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_8__["BsDatepickerModule"].forRoot(),
-                ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_9__["ModalModule"].forRoot(),
+                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_4__["NgSelectModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClientModule"],
+                angular_font_awesome__WEBPACK_IMPORTED_MODULE_6__["AngularFontAwesomeModule"],
+                ngx_bootstrap_datepicker__WEBPACK_IMPORTED_MODULE_7__["BsDatepickerModule"].forRoot(),
+                ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_8__["ModalModule"].forRoot(),
                 // import libs
                 _extensions_angular2_image_upload__WEBPACK_IMPORTED_MODULE_17__["ImageUploadModule"].forRoot(),
                 _agm_core__WEBPACK_IMPORTED_MODULE_19__["AgmCoreModule"].forRoot({
@@ -251,13 +255,384 @@ var AppModule = /** @class */ (function () {
                     libraries: ["places"]
                 }),
                 ng2_completer__WEBPACK_IMPORTED_MODULE_16__["Ng2CompleterModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"]
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"]
             ],
             providers: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_15__["AuthGuard"], _helper_helper__WEBPACK_IMPORTED_MODULE_18__["Helper"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_2__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/registration/registration.component.html":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/registration/registration.component.html ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <div class=\"col-md-6 offset-md-3 col-lg-4 offset-lg-4\">\n        <div class=\"text-center\">\n            <h3>Customer and Product Registration</h3>\n            <section>\n                <h5>Customer Details</h5>\n                <div *ngIf=\"!isPreview('customerName')\">\n                    <div class=\"input-group mb-2\">\n                        <input [(ngModel)]=\"customer.name\" type=\"text\" class=\"form-control\"\n                               placeholder=\"(*) Your Full name\"\n                               aria-label=\"Your Full name\"\n                               (keyup.enter)=\"updateField('customerName')\"\n                               (blur)=\"updateField('customerName')\">\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('customerName')\" (click)=\"editPreview('customerName')\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Full Name </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{customer.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && (customer.name == null || customer.name == '')\" class=\"alert alert-danger\"\n                     role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('customerTelephone')\">\n                    <div class=\"input-group mb-2\">\n                        <div class=\"input-group-prepend\">\n                            <span *ngIf=\"!isDialingCodeEditing\" (click)=\"editDialingCode()\" class=\"input-group-text\">+{{customer.dialingCode}}</span>\n                            <input #dialingCode [focus]=\"focusDialingCodeEM\" *ngIf=\"isDialingCodeEditing\"\n                                   style=\"width: 45px;\" type=\"number\" class=\"form-control mr-1\" value=\"65\"\n                                   aria-label=\"Country Dialing Code\"\n                                   (keyup.enter)=\"updateDialingCode(dialingCode.value)\"\n                                   (blur)=\"updateDialingCode(dialingCode.value)\">\n                        </div>\n                        <input type=\"number\" [(ngModel)]=\"customer.telephone\" class=\"form-control\"\n                               placeholder=\"(*) Contact Number\"\n                               aria-label=\"Contact Number\"\n                               (keyup.enter)=\"updateField('customerTelephone')\"\n                               (blur)=\"updateField('customerTelephone')\"\n                               (keypress)=\"checkPhone($event)\"\n                        />\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('customerTelephone')\" (click)=\"editPreview('customerTelephone')\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Contact Number </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>+{{customer.dialingCode}} {{ customer.telephone }}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && (!customer.telephone || customer.telephone.toString().length != 8)\"\n                     class=\"alert alert-danger\" role=\"alert\">\n                    <span *ngIf=\"!customer.telephone\">This field is required</span>\n                    <span *ngIf=\"customer.telephone && customer.telephone.toString().length != 8\">Contact number has 8 digits</span>\n                </div>\n                <div *ngIf=\"!isPreview('emailAddress')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.email\" type=\"text\" class=\"form-control\" placeholder=\"Email Address\"\n                           aria-label=\"Email Address\"\n                           (keyup.enter)=\"updateField('emailAddress')\"\n                           (focus)=\"typingEmail=true\"\n                           (blur)=\"updateField('emailAddress'); typingEmail=false;\"\n                           (change)=\"customer.email = customer.email.trim().toLowerCase()\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('emailAddress')\" (click)=\"editPreview('emailAddress')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Email Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.email}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"!isEmailValid() && !typingEmail\" class=\"alert alert-danger\" role=\"alert\">\n                    Email must be valid!\n                </div>\n                <div *ngIf=\"!isPreview('emailConfirm')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"emailConfirm\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Confirm Email Address\"\n                           aria-label=\"Confirm Email Address\"\n                           (keyup.enter)=\"updateField('emailConfirm')\"\n                           (blur)=\"updateField('emailConfirm'); typingConfirm=false\"\n                           (focus)=\"typingConfirm=true\"\n                           (change)=\"emailConfirm = emailConfirm.trim().toLowerCase()\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('emailConfirm')\" (click)=\"editPreview('emailConfirm')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Confirm Email Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{emailConfirm}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"customer.email && emailConfirm != customer.email && !typingConfirm && !typingEmail\"\n                     class=\"alert alert-danger\" role=\"alert\">\n                    The Confirmation Email must match your Email!\n                </div>\n                <div *ngIf=\"!isPreview('homeAddress')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.homeAddress\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Your Address\"\n                           aria-label=\"Your Address\"\n                           (keyup.enter)=\"updateField('homeAddress')\"\n                           (blur)=\"updateField('homeAddress')\"\n                           autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\" type=\"text\" #search\n                           [formControl]=\"searchControl\"\n                    >\n\n                </div>\n                <div *ngIf=\"isPreview('homeAddress')\" (click)=\"editPreview('homeAddress')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Your Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.homeAddress}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('addressUnitNumber')\" (click)=\"editPreview('addressUnitNumber')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Unit/Block/House Number </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.addressUnitNumber}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"!isPreview('addressUnitNumber')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.addressUnitNumber\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Unit/Block/House Number\"\n                           aria-label=\"Unit/Block/House Number\"\n                           (keyup.enter)=\"updateField('addressUnitNumber')\"\n                           (blur)=\"updateField('addressUnitNumber')\"\n                    >\n                </div>\n                <div *ngIf=\"!isPreview('homePostalCode')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.homePostalCode\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Postal Code\"\n                           aria-label=\"Postal Code\"\n                           (keyup.enter)=\"updateField('homePostalCode')\"\n                           (blur)=\"updateField('homePostalCode')\"\n                           type=\"number\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('homePostalCode')\" (click)=\"editPreview('homePostalCode')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Postal Code </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.homePostalCode}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n            </section>\n            <h3>Product Purchase Information</h3>\n            <section *ngFor=\"let warranty of warranties; index as i; first as isFirst\">\n                <div *ngIf=\"!isFirst\" class=\"remove-product mb-2\" (click)=\"removeWarranty(warranty)\">\n                    <fa size=\"lg\" name=\"minus-square\"></fa>\n                    Remove\n                </div>\n                <div *ngIf=\"!isPreview('productBrand'+i)\">\n                    <div class=\"input-group mb-2\">\n                        <ng-select class=\"mb-2\" (change)=\"selectBrand($event,warranty)\" [items]=\"warranty.brands\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Product Brand\"\n                                   [(ngModel)]=\"warranty.selectedBrand\"\n                                   (blur)=\"updateField('productBrand'+i)\">\n                        </ng-select>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('productBrand'+i)\" (click)=\"editPreview('productBrand'+i)\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Product Brand </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedBrand.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.selectedBrand == null\" class=\"alert alert-danger\" role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!warranty.isCategoryHidden\">\n                    <div *ngIf=\"!isPreview('productCategory'+i)\" class=\"input-group mb-2\">\n                        <ng-select (change)=\"selectCategory($event,warranty)\" class=\"mb-2\"\n                                   [items]=\"warranty.categories\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Product Category\"\n                                   [(ngModel)]=\"warranty.selectedCategory\"\n                                   (blur)=\"updateField('productCategory'+i)\">\n                        </ng-select>\n                    </div>\n                    <div *ngIf=\"isPreview('productCategory'+i)\" (click)=\"editPreview('productCategory'+i)\"\n                         class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Product Category </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedCategory.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                    <div *ngIf=\"checkingError && warranty.selectedCategory == null\" class=\"alert alert-danger\"\n                         role=\"alert\">\n                        This field is required\n                    </div>\n                </div>\n                <div *ngIf=\"!warranty.isProductHidden\">\n                    <div *ngIf=\"!isPreview('modelName'+i)\" class=\"input-group mb-2\">\n                        <ng-select class=\"mb-2\" [items]=\"warranty.products\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Model Name\"\n                                   [(ngModel)]=\"warranty.selectedProduct\"\n                                   (blur)=\"updateField('modelName'+i)\">\n                        </ng-select>\n                    </div>\n                    <div *ngIf=\"isPreview('modelName'+i)\" (click)=\"editPreview('modelName'+i)\"\n                         class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Model Name </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedProduct.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                    <div *ngIf=\"checkingError && warranty.selectedProduct == null\" class=\"alert alert-danger\"\n                         role=\"alert\">\n                        This field is required\n                    </div>\n                </div>\n                <div *ngIf=\"!isPreview('purchaseDate'+i)\">\n                    <div class=\"input-group mb-2\">\n                        <input [(ngModel)]=\"warranty.purchaseDate\" type=\"text\"\n                               placeholder=\"(*) Delivery Date (DD-MM-YYYY)\"\n                               class=\"form-control\"\n                               [bsConfig]=\"{ dateInputFormat: 'DD-MM-YYYY' }\"\n                               (ngModelChange)=\"updateField('purchaseDate'+i)\"\n                               bsDatepicker/>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('purchaseDate'+i)\" (click)=\"editPreview('purchaseDate'+i)\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Delivery Date </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.purchaseDate|date}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.purchaseDate == null\" class=\"alert alert-danger\" role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('productSerialNumber'+i)\" class=\"input-group mb-1\">\n                    <input [(ngModel)]=\"warranty.productSerialNumber\" type=\"text\" class=\"form-control\"\n                           placeholder=\"(*) Product Serial Number\"\n                           aria-label=\"Product Serial Number\"\n                           (keyup.enter)=\"updateField('productSerialNumber'+i)\"\n                           (blur)=\"updateField('productSerialNumber'+i)\">\n                </div>\n                <div *ngIf=\"!isPreview('productSerialNumber'+i)\" class=\"input-group mb-2\"><a href=\"{{organisation.psnLocationUrl}}\" target=\"_blank\">How\n                    to find the product serial number.</a></div>\n                <div *ngIf=\"isPreview('productSerialNumber'+i)\" (click)=\"editPreview('productSerialNumber'+i)\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Serial Number </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{warranty.productSerialNumber}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.productSerialNumber == null\" class=\"alert alert-danger\"\n                     role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('dealerName'+i)\" class=\"input-group mb-2\">\n                    <ng-select class=\"mb-2\" [items]=\"warranty.dealers\"\n                               bindLabel=\"name\"\n                               placeholder=\"Dealer's Name\"\n                               [(ngModel)]=\"warranty.selectedDealer\"\n                               (blur)=\"updateField('dealerName'+i)\">\n                    </ng-select>\n                    <!--<ng2-completer class=\"ng2-ipt mb-2\"-->\n                    <!--placeholder=\"Dealer's Name\"-->\n                    <!--[(ngModel)]=\"warranty.selectedDealer\"-->\n                    <!--[datasource]=\"dataDealers\"-->\n                    <!--inputClass=\"form-control\"-->\n                    <!--[minSearchLength]=\"0\"></ng2-completer>-->\n                </div>\n                <div *ngIf=\"isPreview('dealerName'+i)\" (click)=\"editPreview('dealerName'+i)\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Dealer's Name </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{warranty.selectedDealer.name}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n            </section>\n            <div *ngIf=\"!isFormPreview\" class=\"input-group mb-2\" style=\"cursor: pointer;\" (click)=\"addWarranty()\">\n                <fa size=\"lg\" name=\"plus-square\"></fa>\n                <span class=\"add-product-text\"> Add another Product</span>\n            </div>\n            <section *ngIf=\"!isFormPreview\" class=\"checkboxes\">\n                <div *ngIf=\"customer.email\" class=\"form-check\">\n                    <input type=\"checkbox\" aria-label=\"Checkbox for following text input\"\n                           id=\"newsletterSubscription\" [(ngModel)]=\"subscribeNewsletter\">\n                    <label class=\"form-check-label\" for=\"newsletterSubscription\">\n                        Keep me updated on new {{organisation.name}} product and promotions.\n                    </label>\n                </div>\n                <div class=\"form-check\">\n                    <input required=\"required\" type=\"checkbox\" [(ngModel)]=\"isAgreedToTermsAndPolicy\"\n                           aria-label=\"Checkbox for following text input\" id=\"agreeTos\">\n                    <label class=\"form-check-label\" for=\"agreeTos\">\n                        I have read and agree to the <a (click)=\"lgModal.show();getInforModal(1); false\">Warranty Terms\n                        and Conditions</a> and <a (click)=\"lgModal.show();getInforModal(2);false\">{{organisation.name}}\n                        Data Protection Policy</a>.\n                    </label>\n                </div>\n                <div *ngIf=\"!isAgreedToTermsAndPolicy && checkingError\" class=\"alert alert-danger\" role=\"alert\">\n                    Please read and agree to our Terms, Conditions and Policy.\n                </div>\n            </section>\n            <section>\n                <div class=\"input-group mb-2\">\n                    <button *ngIf=\"!isFormPreview\" (click)=\"submit()\" type=\"button\"\n                            class=\"btn btn-primary form-control\">REGISTER\n                    </button>\n                    <button *ngIf=\"isFormPreview\" (click)=\"submit()\" type=\"button\" class=\"btn btn-danger form-control\"\n                            [disabled]=\"!isOk() || processing\">CONFIRM\n                    </button>\n                </div>\n            </section>\n        </div>\n    </div>\n</div>\n\n<div bsModal #lgModal=\"bs-modal\" class=\"modal fade\" tabindex=\"-1\"\n     role=\"dialog\" aria-labelledby=\"dialog-sizes-name1\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 id=\"dialog-sizes-name1\" class=\"modal-title pull-left\">{{modalTitle}}</h4>\n                <button type=\"button\" class=\"close pull-right\" (click)=\"lgModal.hide()\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\" [innerHtml]=\"modalContent\">\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" (click)=\"lgModal.hide()\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/components/registration/registration.component.scss":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/registration/registration.component.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".add-product-text, .remove-product {\n  cursor: pointer;\n  display: inherit;\n  text-align: left;\n  padding-left: 3px; }\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none; }\n\n.preview-label {\n  flex: 0 0 101px; }\n\n.preview-label .input-group-text {\n  width: 101px; }\n\n.preview-text {\n  display: flex;\n  align-items: center; }\n\n.preview-label .input-group-text {\n  white-space: normal; }\n\n.preview-container {\n  cursor: pointer; }\n\ndiv.input-group ng-select {\n  width: 100%; }\n\n.alert.alert-danger {\n  text-align: left; }\n\na {\n  color: #0056b3 !important;\n  cursor: pointer; }\n\na:hover {\n  text-decoration: underline !important; }\n\ntable.checkboxes td {\n  text-align: left !important;\n  vertical-align: top;\n  padding-right: 15px; }\n\n.form-check {\n  text-align: left !important;\n  padding-left: 0px;\n  display: flex;\n  align-items: baseline; }\n\n.form-check-label {\n  padding-left: 10px; }\n\nagm-map {\n  height: 300px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/components/registration/registration.component.ts":
+/*!*******************************************************************!*\
+  !*** ./src/app/components/registration/registration.component.ts ***!
+  \*******************************************************************/
+/*! exports provided: RegistrationComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegistrationComponent", function() { return RegistrationComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _service_product_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../service/product.service */ "./src/app/service/product.service.ts");
+/* harmony import */ var _model_warranty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../model/warranty */ "./src/app/model/warranty.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _service_organisation_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../service/organisation.service */ "./src/app/service/organisation.service.ts");
+/* harmony import */ var _service_customer_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../service/customer.service */ "./src/app/service/customer.service.ts");
+/* harmony import */ var _model_registration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../model/registration */ "./src/app/model/registration.ts");
+/* harmony import */ var _service_registration_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../service/registration.service */ "./src/app/service/registration.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
+/* harmony import */ var ng2_completer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng2-completer */ "./node_modules/ng2-completer/esm5/ng2-completer.js");
+/* harmony import */ var _service_newsletter_subscription_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../service/newsletter-subscription.service */ "./src/app/service/newsletter-subscription.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+var RegistrationComponent = /** @class */ (function () {
+    function RegistrationComponent(productService, organisationService, customerService, registrationService, newsletterSubscriptionService, router, mapsAPILoader, ngZone, completerService) {
+        var _this = this;
+        this.productService = productService;
+        this.organisationService = organisationService;
+        this.customerService = customerService;
+        this.registrationService = registrationService;
+        this.newsletterSubscriptionService = newsletterSubscriptionService;
+        this.router = router;
+        this.mapsAPILoader = mapsAPILoader;
+        this.ngZone = ngZone;
+        this.completerService = completerService;
+        this.focusDialingCodeEM = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.customer = { id: null, name: null, dialingCode: 65 };
+        this.isAgreedToTermsAndPolicy = false;
+        this.processing = false;
+        this.warranties = [];
+        this.isDialingCodeEditing = false;
+        this.previewStates = {};
+        this.isFormPreview = false;
+        this.checkingError = false;
+        this.organisation = { id: null, name: null, tos: null, dataPolicy: null };
+        var warranty = new _model_warranty__WEBPACK_IMPORTED_MODULE_2__["Warranty"]();
+        warranty.id = null;
+        this.warranties.push(warranty);
+        productService.getBrands().subscribe(function (brands) { return warranty.brands = brands; });
+        productService.getDealers().subscribe(function (d) {
+            warranty.dealers = d;
+            _this.dataDealers = completerService.local(warranty.dealers, 'id', 'name');
+        });
+        organisationService.getOrganisation().subscribe(function (organisation) { return _this.organisation = organisation; });
+    }
+    RegistrationComponent.prototype.ngOnInit = function () {
+        if (!localStorage.getItem('survey')) {
+            this.router.navigate(['/survey']);
+            return;
+        }
+        this.initMap();
+    };
+    RegistrationComponent.prototype.ngAfterViewInit = function () {
+    };
+    RegistrationComponent.prototype.isPreview = function (field) {
+        if (!this.previewStates.hasOwnProperty(field)) {
+            this.previewStates[field] = true;
+        }
+        return this.previewStates[field] && this.isFormPreview;
+    };
+    RegistrationComponent.prototype.editPreview = function (field) {
+        this.previewStates[field] = false;
+    };
+    RegistrationComponent.prototype.updateField = function (field) {
+        this.previewStates[field] = true;
+    };
+    RegistrationComponent.prototype.isEmailValid = function () {
+        if (this.customer.email == null || this.customer.email.trim() === '') {
+            return true;
+        }
+        return (/^.+\@.+\..+$/.test(this.customer.email));
+    };
+    RegistrationComponent.prototype.isOk = function () {
+        if (this.customer.name == null || this.customer.name.trim() === '') {
+            return false;
+        }
+        if (!this.customer.telephone) {
+            return false;
+        }
+        if (this.customer.telephone && this.customer.telephone.toString().length != 8) {
+            return false;
+        }
+        if (!this.isEmailValid()) {
+            return false;
+        }
+        if (this.emailConfirm != null) {
+            if (this.emailConfirm.trim() !== this.customer.email.trim()) {
+                return false;
+            }
+        }
+        else {
+            if (this.customer.email != null) {
+                return false;
+            }
+        }
+        for (var i = 0; i < this.warranties.length; i++) {
+            var warranty = this.warranties[i];
+            if (warranty.selectedBrand == null || warranty.selectedCategory == null || warranty.selectedProduct == null) {
+                return false;
+            }
+            if (warranty.purchaseDate == null) {
+                return false;
+            }
+        }
+        return this.isAgreedToTermsAndPolicy;
+    };
+    RegistrationComponent.prototype.submit = function () {
+        var _this = this;
+        if (this.isFormPreview) {
+            this.processing = true;
+            // Confirmed
+            this.customerService.postCustomer(this.customer).subscribe(function (customer) {
+                var reg = new _model_registration__WEBPACK_IMPORTED_MODULE_6__["Registration"]();
+                reg.customer = customer['@id'];
+                reg['dialingCode'] = customer.dialingCode;
+                reg['email'] = customer.email;
+                reg['homeAddress'] = customer.homeAddress;
+                reg['addressUnitNumber'] = _this.customer.addressUnitNumber;
+                reg['homePostalCode'] = customer.homePostalCode;
+                reg['name'] = customer.name;
+                reg['organisation'] = customer.organisation;
+                reg['telephone'] = customer.telephone;
+                reg.submitted = false;
+                _this.attachSurvey(reg);
+                reg.warranties = [];
+                for (var _i = 0, _a = _this.warranties; _i < _a.length; _i++) {
+                    var w = _a[_i];
+                    var rw = { customer: reg.customer };
+                    rw.product = w.selectedProduct.id;
+                    rw.purchaseDate = w.purchaseDate;
+                    rw.productSerialNumber = w.productSerialNumber;
+                    rw.dealer = w.selectedDealer.id;
+                    reg.warranties.push(rw);
+                }
+                _this.registrationService.postRegistration(reg).subscribe(function (reg) {
+                    localStorage.setItem('regId', reg['@id']);
+                    var regId = reg['@id'];
+                    var cutstr = '/api/registrations/';
+                    console.log('regId', regId, cutstr.length);
+                    var regRId = regId.substring(cutstr.length);
+                    _this.router.navigate(["/upload-receipt-image/" + regRId]);
+                });
+                if (_this.customer.email != null && _this.customer.email.trim() != '' && _this.subscribeNewsletter) {
+                    _this.newsletterSubscriptionService.postNewsletterSubscription(_this.customer).subscribe(function (res) {
+                        console.log('Newsletter subscription successfully!');
+                    });
+                }
+            });
+        }
+        else {
+            if (this.isOk()) {
+                this.isFormPreview = true;
+            }
+            else {
+                this.processing = false;
+            }
+            this.checkingError = true;
+        }
+        // this.router.navigate(['/preview', {customer: this.customer, warranties: this.warranties}]);
+    };
+    RegistrationComponent.prototype.editDialingCode = function () {
+        this.isDialingCodeEditing = true;
+        this.focusDialingCodeEM.emit(true);
+    };
+    RegistrationComponent.prototype.updateDialingCode = function (value) {
+        this.customer.dialingCode = value;
+        this.isDialingCodeEditing = false;
+    };
+    RegistrationComponent.prototype.removeWarranty = function (w) {
+        var index = this.warranties.indexOf(w);
+        if (index > -1) {
+            this.warranties.splice(index, 1);
+            this.warranties = this.warranties;
+        }
+    };
+    RegistrationComponent.prototype.addWarranty = function () {
+        var _this = this;
+        var warranty = new _model_warranty__WEBPACK_IMPORTED_MODULE_2__["Warranty"]();
+        warranty.id = null;
+        this.warranties.push(warranty);
+        this.productService.getBrands().subscribe(function (brands) { return warranty.brands = brands; });
+        this.productService.getDealers().subscribe(function (d) {
+            warranty.dealers = d;
+            _this.dataDealers = _this.completerService.local(warranty.dealers, 'id', 'name');
+        });
+    };
+    RegistrationComponent.prototype.selectBrand = function (e, warranty) {
+        if (warranty.selectedBrand.id !== null) {
+            warranty.categories = [{ id: null, name: 'Loading' }];
+            warranty.isProductHidden = true;
+            warranty.isCategoryHidden = true;
+            this.productService.getCategories(warranty.selectedBrand.id).subscribe(function (cats) {
+                warranty.categories = cats;
+                warranty.isCategoryHidden = false;
+                warranty.selectedCategory = null;
+            });
+        }
+    };
+    RegistrationComponent.prototype.selectCategory = function (e, warranty) {
+        if (warranty.selectedCategory.id !== null) {
+            warranty.products = [{ id: null, name: 'Loading' }];
+            warranty.isProductHidden = true;
+            this.productService.getProductsByCategory(warranty.selectedCategory.id).subscribe(function (prods) {
+                warranty.products = prods;
+                warranty.isProductHidden = false;
+                warranty.selectedProduct = null;
+            });
+        }
+    };
+    RegistrationComponent.prototype.getInforModal = function (type) {
+        if (type == 1) {
+            this.modalTitle = 'Terms and Conditions';
+            this.modalContent = this.organisation.tos;
+        }
+        else if (type == 2) {
+            this.modalTitle = 'Data Protection Policy';
+            this.modalContent = this.organisation.dataPolicy;
+        }
+    };
+    RegistrationComponent.prototype.initMap = function () {
+        var _this = this;
+        //set google maps defaults
+        this.zoom = 4;
+        this.latitude = 39.8282;
+        this.longitude = -98.5795;
+        //create search FormControl
+        this.searchControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormControl"]();
+        //set current position
+        this.setCurrentPosition();
+        //load Places Autocomplete
+        this.mapsAPILoader.load().then(function () {
+            var autocomplete = new google.maps.places.Autocomplete(_this.searchElementRef.nativeElement, {
+                types: ["address"]
+            });
+            autocomplete.addListener("place_changed", function () {
+                _this.ngZone.run(function () {
+                    //get the place result
+                    var place = autocomplete.getPlace();
+                    //verify result
+                    if (place.geometry === undefined || place.geometry === null) {
+                        return;
+                    }
+                    // get address information
+                    _this.customer.homeAddress = place.formatted_address;
+                    //set latitude, longitude and zoom
+                    _this.latitude = place.geometry.location.lat();
+                    _this.longitude = place.geometry.location.lng();
+                    _this.zoom = 12;
+                });
+            });
+        });
+    };
+    RegistrationComponent.prototype.setCurrentPosition = function () {
+        var _this = this;
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                _this.latitude = position.coords.latitude;
+                _this.longitude = position.coords.longitude;
+                _this.zoom = 12;
+            });
+        }
+    };
+    RegistrationComponent.prototype.checkPhone = function (e) {
+        if (e.key.length == 1 && (e.key.toLowerCase() < '0' || e.key.toLowerCase() > '9')) {
+            return false;
+        }
+        if (this.customer.telephone && e.key.length == 1 && this.customer.telephone.toString().length == 8) {
+            return false;
+        }
+    };
+    RegistrationComponent.prototype.attachSurvey = function (reg) {
+        var survey = JSON.parse(localStorage.getItem('survey'));
+        if (!survey) {
+            this.router.navigate(['/survey']);
+            return;
+        }
+        reg['ageGroup'] = survey.ageGroup;
+        reg['hearOthers'] = survey.hearFrom.other;
+        reg['reasonOthers'] = survey.reason.other;
+        survey.hearFrom.options.forEach(function (option) {
+            reg[option] = true;
+        });
+        survey.hearFrom.blanks.forEach(function (option) {
+            reg[option] = false;
+        });
+        survey.reason.options.forEach(function (option) {
+            reg[option] = true;
+        });
+        survey.reason.blanks.forEach(function (option) {
+            reg[option] = false;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])("search"),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], RegistrationComponent.prototype, "searchElementRef", void 0);
+    RegistrationComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-registration',
+            template: __webpack_require__(/*! ./registration.component.html */ "./src/app/components/registration/registration.component.html"),
+            styles: [__webpack_require__(/*! ./registration.component.scss */ "./src/app/components/registration/registration.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_service_product_service__WEBPACK_IMPORTED_MODULE_1__["ProductService"],
+            _service_organisation_service__WEBPACK_IMPORTED_MODULE_4__["OrganisationService"],
+            _service_customer_service__WEBPACK_IMPORTED_MODULE_5__["CustomerService"],
+            _service_registration_service__WEBPACK_IMPORTED_MODULE_7__["RegistrationService"],
+            _service_newsletter_subscription_service__WEBPACK_IMPORTED_MODULE_11__["NewsletterSubscriptionService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _agm_core__WEBPACK_IMPORTED_MODULE_9__["MapsAPILoader"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"],
+            ng2_completer__WEBPACK_IMPORTED_MODULE_10__["CompleterService"]])
+    ], RegistrationComponent);
+    return RegistrationComponent;
 }());
 
 
@@ -412,7 +787,7 @@ var SendEmailComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"success-wrap\">\n    <div class=\"text-center\">\n        <h3>SUCCESSFULLY SUBMITTED</h3>\n        <p class=\"note\">If you have specified an email address earlier. A copy of this product registration will be sent to your email for your reference.</p>\n        <div class=\"success-list\"\n        *ngIf=\"!isLoading\">\n            <div *ngIf=\"prodList.length > 0\">\n                <div\n                *ngFor=\"let warranty of prodList; index as i;\"\n                class=\"success-item\">\n                    <p>Warranty Registration ID: {{warranty.number}}</p>\n                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>\n                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>\n                    <p>Product Category: {{warranty.product.name}}</p>\n                    <p>Model Name: {{warranty.product.modelNumber}}</p>\n                    <p>Serial Number: {{warranty.productSerialNumber}}</p>\n                </div>\n                <div>\n                    All hoods have a default motor warranty period of 3 years.\n                </div>\n            </div>\n            <div\n            *ngIf=\"prodList.length == 0\"\n            class=\"success-item\">\n                No data\n            </div>\n\n            <div class=\"text-center cancel-wrap\">\n                <button (click)=\"openModal(modalRemoveRegId)\" type=\"button\" class=\"btn btn-primary\">Register a new Product </button>\n            </div>\n            <ng-template #modalRemoveRegId>\n                <div class=\"modal-body text-center\">\n                    <p>Do you really want to redirect to page registration ?</p>\n                    <div class=\"cancel-wrap\">\n                        <button (click)=\"clearRegistration()\" type=\"button\" class=\"btn btn-primary\">YES</button>\n                        <button (click)=\"modalRef.hide()\" type=\"button\" class=\"btn btn-secondary btn-cancel\">NO</button>\n                    </div>\n                </div>\n            </ng-template>\n        </div>\n        <!-- Loading -->\n        <div\n        *ngIf=\"isLoading\"\n        class=\"text-center\">\n            <div class=\"lds-hourglass\"></div>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"success-wrap\">\n    <div class=\"text-center\">\n        <h3>SUCCESSFULLY SUBMITTED</h3>\n        <p class=\"note\">If you have specified an email address earlier. A copy of this product registration will be sent to your email for your reference.</p>\n        <div class=\"success-list\"\n        *ngIf=\"!isLoading\">\n            <div *ngIf=\"prodList.length > 0\">\n                <div\n                *ngFor=\"let warranty of prodList; index as i;\"\n                class=\"success-item\">\n                    <p>Warranty Registration ID: {{warranty.number}}</p>\n                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>\n                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>\n                    <p>Product Category: {{warranty.product.category.name}}</p>\n                    <p>Model Name: {{warranty.product.name}}</p>\n                    <p>Serial Number: {{warranty.productSerialNumber}}</p>\n                </div>\n                <div>\n                    All hoods have a default motor warranty period of 3 years.\n                </div>\n            </div>\n            <div\n            *ngIf=\"prodList.length == 0\"\n            class=\"success-item\">\n                No data\n            </div>\n\n            <div class=\"text-center cancel-wrap\">\n                <button (click)=\"openModal(modalRemoveRegId)\" type=\"button\" class=\"btn btn-primary\">Register a new Product </button>\n            </div>\n            <ng-template #modalRemoveRegId>\n                <div class=\"modal-body text-center\">\n                    <p>Do you really want to redirect to page registration ?</p>\n                    <div class=\"cancel-wrap\">\n                        <button (click)=\"clearRegistration()\" type=\"button\" class=\"btn btn-primary\">YES</button>\n                        <button (click)=\"modalRef.hide()\" type=\"button\" class=\"btn btn-secondary btn-cancel\">NO</button>\n                    </div>\n                </div>\n            </ng-template>\n        </div>\n        <!-- Loading -->\n        <div\n        *ngIf=\"isLoading\"\n        class=\"text-center\">\n            <div class=\"lds-hourglass\"></div>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -551,6 +926,190 @@ var SuccessComponent = /** @class */ (function () {
             ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_2__["BsModalService"]])
     ], SuccessComponent);
     return SuccessComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/survey/survey.component.html":
+/*!*********************************************************!*\
+  !*** ./src/app/components/survey/survey.component.html ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div>\n  <p>Age Group *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.ageGroup\">\n      <label><input name=\"ageGroup\" type=\"radio\" value=\"{{option.value}}\" [(ngModel)]=\"survey.selectedAgeGroup\"> {{option.name}}</label>\n    </li>\n  </ul>\n  <p>How did you know FUJIOH? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.hearFrom\">\n      <span>\n        <label><input name=\"hearFrom\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"hearFrom\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherHearFrom.selected\"> Others (Enter comment)<br></label>\n        <div>Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherHearFrom.name\">\n      </span>\n    </li>\n  </ul>\n  <p>Why did you choose FUJIOH product? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.reason\">\n      <span>\n        <label><input name=\"reason\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"reason\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherReason.selected\"> Others (Enter comment)<br></label>\n        <div>Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherReason.name\">\n      </span>\n    </li>\n  </ul>\n  <div *ngIf=\"!survey.getResult()\" style=\"color: red\">{{message}}</div>\n  <button class=\"btn btn-success\" (click)=\"submit()\">Next</button>\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/components/survey/survey.component.scss":
+/*!*********************************************************!*\
+  !*** ./src/app/components/survey/survey.component.scss ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".option-group {\n  list-style-type: none;\n  padding: 0px; }\n"
+
+/***/ }),
+
+/***/ "./src/app/components/survey/survey.component.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/components/survey/survey.component.ts ***!
+  \*******************************************************/
+/*! exports provided: SurveyComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SurveyComponent", function() { return SurveyComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _model_survey__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../model/survey */ "./src/app/model/survey.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SurveyComponent = /** @class */ (function () {
+    function SurveyComponent(router) {
+        this.router = router;
+        this.survey = new _model_survey__WEBPACK_IMPORTED_MODULE_2__["Survey"]();
+    }
+    SurveyComponent.prototype.ngOnInit = function () {
+        this.buildOptions();
+    };
+    SurveyComponent.prototype.submit = function () {
+        var res = this.survey.getResult();
+        if (!res) {
+            this.message = "Please fill out required field";
+        }
+        else {
+            // fetch some api
+            localStorage.setItem('survey', JSON.stringify(this.survey.getResult()));
+            this.router.navigate(['registration']);
+        }
+    };
+    SurveyComponent.prototype.buildOptions = function () {
+        this.survey.ageGroup = [
+            {
+                name: '19 and below',
+                value: '19-and-below',
+                selected: false
+            },
+            {
+                name: '20-29',
+                value: '20-29',
+                selected: false
+            },
+            {
+                name: '30-39',
+                value: '30-39',
+                selected: false
+            },
+            {
+                name: '40-49',
+                value: '40-49',
+                selected: false
+            },
+            {
+                name: '50-59',
+                value: '50-59',
+                selected: false
+            },
+            {
+                name: '60 and above',
+                value: '60-and-above',
+                selected: false
+            }
+        ];
+        this.survey.hearFrom = [
+            {
+                name: 'Online search',
+                value: 'hearFromOnlineSearch',
+                selected: false
+            },
+            {
+                name: 'Online advertisement (Facebook/Instagram/etc.)',
+                value: 'hearFromOnlineAd',
+                selected: false
+            },
+            {
+                name: 'Introduced by friend/family',
+                value: 'hearFromFriendFamily',
+                selected: false
+            },
+            {
+                name: 'Introduced by interior designer',
+                value: 'reasonInteriorDesigner',
+                selected: false
+            },
+            {
+                name: 'Walk in to the shop',
+                value: 'hearWalkShop',
+                selected: false
+            }
+        ];
+        this.survey.reason = [
+            {
+                name: 'Because there were promotions going on',
+                value: 'reasonPromotions',
+                selected: false
+            },
+            {
+                name: 'Because I liked the brand',
+                value: 'reasonTheBrand',
+                selected: false
+            },
+            {
+                name: 'Because I liked the technology (Suction/Easy cleaning/etc.)',
+                value: 'reasonTechnology',
+                selected: false
+            },
+            {
+                name: 'Because I liked the Japanese quality',
+                value: 'reasonJapanese',
+                selected: false
+            },
+            {
+                name: 'Because I liked the design',
+                value: 'reasonTheDesign',
+                selected: false
+            },
+            {
+                name: 'Because price was affordable',
+                value: 'reasonAffordable',
+                selected: false
+            },
+            {
+                name: 'Because my interior designer suggested to me',
+                value: 'reasonDesignerSuggested',
+                selected: false
+            },
+            {
+                name: 'Because my friend/family suggested to me',
+                value: 'reasonFriendFamilySuggested',
+                selected: false
+            }
+        ];
+    };
+    SurveyComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-survey',
+            template: __webpack_require__(/*! ./survey.component.html */ "./src/app/components/survey/survey.component.html"),
+            styles: [__webpack_require__(/*! ./survey.component.scss */ "./src/app/components/survey/survey.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+    ], SurveyComponent);
+    return SurveyComponent;
 }());
 
 
@@ -1385,6 +1944,73 @@ var Registration = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/model/survey.ts":
+/*!*********************************!*\
+  !*** ./src/app/model/survey.ts ***!
+  \*********************************/
+/*! exports provided: Survey, Option */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Survey", function() { return Survey; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Option", function() { return Option; });
+var HearFrom = /** @class */ (function () {
+    function HearFrom() {
+    }
+    return HearFrom;
+}());
+var Survey = /** @class */ (function () {
+    function Survey() {
+        this.otherHearFrom = {
+            name: '',
+            value: 'other',
+            selected: false
+        };
+        this.otherReason = {
+            name: '',
+            value: 'other',
+            selected: false
+        };
+    }
+    Survey.prototype.getResult = function () {
+        var res = {
+            ageGroup: this.selectedAgeGroup,
+            hearFrom: {
+                options: this.hearFrom ? this.hearFrom.filter(function (o) { return o.selected; }).map(function (o) { return o.value; }) : null,
+                blanks: this.hearFrom ? this.hearFrom.filter(function (o) { return !o.selected; }).map(function (o) { return o.value; }) : null,
+                other: this.otherHearFrom.selected ? this.otherHearFrom.name : ''
+            },
+            reason: {
+                options: this.reason ? this.reason.filter(function (o) { return o.selected; }).map(function (o) { return o.value; }) : null,
+                blanks: this.reason ? this.reason.filter(function (o) { return !o.selected; }).map(function (o) { return o.value; }) : null,
+                other: this.otherReason.selected ? this.otherReason.name : ''
+            }
+        };
+        if (!res.ageGroup) {
+            return false;
+        }
+        if (!res.hearFrom.other && res.hearFrom.options.length == 0) {
+            return false;
+        }
+        if (!res.reason.other && res.reason.options.length == 0) {
+            return false;
+        }
+        return res;
+    };
+    return Survey;
+}());
+
+var Option = /** @class */ (function () {
+    function Option() {
+    }
+    return Option;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/model/warranty.ts":
 /*!***********************************!*\
   !*** ./src/app/model/warranty.ts ***!
@@ -1426,342 +2052,6 @@ var Warranty = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/registration/registration.component.html":
-/*!**********************************************************!*\
-  !*** ./src/app/registration/registration.component.html ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\n    <div class=\"col-md-6 offset-md-3 col-lg-4 offset-lg-4\">\n        <div class=\"text-center\">\n            <h3>Customer and Product Registration</h3>\n            <section>\n                <h5>Customer Details</h5>\n                <div *ngIf=\"!isPreview('customerName')\">\n                    <div class=\"input-group mb-2\">\n                        <input [(ngModel)]=\"customer.name\" type=\"text\" class=\"form-control\"\n                               placeholder=\"(*) Your Full name\"\n                               aria-label=\"Your Full name\"\n                               (keyup.enter)=\"updateField('customerName')\"\n                               (blur)=\"updateField('customerName')\">\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('customerName')\" (click)=\"editPreview('customerName')\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Full Name </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{customer.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && (customer.name == null || customer.name == '')\" class=\"alert alert-danger\"\n                     role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('customerTelephone')\">\n                    <div class=\"input-group mb-2\">\n                        <div class=\"input-group-prepend\">\n                            <span *ngIf=\"!isDialingCodeEditing\" (click)=\"editDialingCode()\" class=\"input-group-text\">+{{customer.dialingCode}}</span>\n                            <input #dialingCode [focus]=\"focusDialingCodeEM\" *ngIf=\"isDialingCodeEditing\"\n                                   style=\"width: 45px;\" type=\"number\" class=\"form-control mr-1\" value=\"65\"\n                                   aria-label=\"Country Dialing Code\"\n                                   (keyup.enter)=\"updateDialingCode(dialingCode.value)\"\n                                   (blur)=\"updateDialingCode(dialingCode.value)\">\n                        </div>\n                        <input type=\"number\" [(ngModel)]=\"customer.telephone\" class=\"form-control\"\n                               placeholder=\"(*) Contact Number\"\n                               aria-label=\"Contact Number\"\n                               (keyup.enter)=\"updateField('customerTelephone')\"\n                               (blur)=\"updateField('customerTelephone')\"\n                        />\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('customerTelephone')\" (click)=\"editPreview('customerTelephone')\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Contact Number </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>+{{customer.dialingCode}} {{ customer.telephone }}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && (!customer.telephone || customer.telephone.toString().length != 8)\"\n                     class=\"alert alert-danger\" role=\"alert\">\n                    <span *ngIf=\"!customer.telephone\">This field is required</span>\n                    <span *ngIf=\"customer.telephone && customer.telephone.toString().length != 8\">Contact number has 8 digits</span>\n                </div>\n                <div *ngIf=\"!isPreview('emailAddress')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.email\" type=\"text\" class=\"form-control\" placeholder=\"Email Address\"\n                           aria-label=\"Email Address\"\n                           (keyup.enter)=\"updateField('emailAddress')\"\n                           (focus)=\"typingEmail=true\"\n                           (blur)=\"updateField('emailAddress'); typingEmail=false;\"\n                           (change)=\"customer.email = customer.email.trim().toLowerCase()\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('emailAddress')\" (click)=\"editPreview('emailAddress')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Email Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.email}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"!isEmailValid() && !typingEmail\" class=\"alert alert-danger\" role=\"alert\">\n                    Email must be valid!\n                </div>\n                <div *ngIf=\"!isPreview('emailConfirm')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"emailConfirm\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Confirm Email Address\"\n                           aria-label=\"Confirm Email Address\"\n                           (keyup.enter)=\"updateField('emailConfirm')\"\n                           (blur)=\"updateField('emailConfirm'); typingConfirm=false\"\n                           (focus)=\"typingConfirm=true\"\n                           (change)=\"emailConfirm = emailConfirm.trim().toLowerCase()\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('emailConfirm')\" (click)=\"editPreview('emailConfirm')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Confirm Email Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{emailConfirm}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"customer.email && emailConfirm != customer.email && !typingConfirm && !typingEmail\"\n                     class=\"alert alert-danger\" role=\"alert\">\n                    The Confirmation Email must match your Email!\n                </div>\n                <div *ngIf=\"!isPreview('homeAddress')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.homeAddress\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Your Address\"\n                           aria-label=\"Your Address\"\n                           (keyup.enter)=\"updateField('homeAddress')\"\n                           (blur)=\"updateField('homeAddress')\"\n                           autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"off\" type=\"text\" #search\n                           [formControl]=\"searchControl\"\n                    >\n\n                </div>\n                <div *ngIf=\"isPreview('homeAddress')\" (click)=\"editPreview('homeAddress')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Your Address </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.homeAddress}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('addressUnitNumber')\" (click)=\"editPreview('addressUnitNumber')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Unit/Block/House Number </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.addressUnitNumber}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"!isPreview('addressUnitNumber')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.addressUnitNumber\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Unit/Block/House Number\"\n                           aria-label=\"Unit/Block/House Number\"\n                           (keyup.enter)=\"updateField('addressUnitNumber')\"\n                           (blur)=\"updateField('addressUnitNumber')\"\n                    >\n                </div>\n                <div *ngIf=\"!isPreview('homePostalCode')\" class=\"input-group mb-2\">\n                    <input [(ngModel)]=\"customer.homePostalCode\" type=\"text\" class=\"form-control\"\n                           placeholder=\"Postal Code\"\n                           aria-label=\"Postal Code\"\n                           (keyup.enter)=\"updateField('homePostalCode')\"\n                           (blur)=\"updateField('homePostalCode')\"\n                           type=\"number\"\n                    >\n                </div>\n                <div *ngIf=\"isPreview('homePostalCode')\" (click)=\"editPreview('homePostalCode')\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Postal Code </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{customer.homePostalCode}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n            </section>\n            <h3>Product Purchase Information</h3>\n            <section *ngFor=\"let warranty of warranties; index as i; first as isFirst\">\n                <div *ngIf=\"!isFirst\" class=\"remove-product mb-2\" (click)=\"removeWarranty(warranty)\">\n                    <fa size=\"lg\" name=\"minus-square\"></fa>\n                    Remove\n                </div>\n                <div *ngIf=\"!isPreview('productBrand'+i)\">\n                    <div class=\"input-group mb-2\">\n                        <ng-select class=\"mb-2\" (change)=\"selectBrand($event,warranty)\" [items]=\"warranty.brands\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Product Brand\"\n                                   [(ngModel)]=\"warranty.selectedBrand\"\n                                   (blur)=\"updateField('productBrand'+i)\">\n                        </ng-select>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('productBrand'+i)\" (click)=\"editPreview('productBrand'+i)\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Product Brand </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedBrand.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.selectedBrand == null\" class=\"alert alert-danger\" role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!warranty.isCategoryHidden\">\n                    <div *ngIf=\"!isPreview('productCategory'+i)\" class=\"input-group mb-2\">\n                        <ng-select (change)=\"selectCategory($event,warranty)\" class=\"mb-2\"\n                                   [items]=\"warranty.categories\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Product Category\"\n                                   [(ngModel)]=\"warranty.selectedCategory\"\n                                   (blur)=\"updateField('productCategory'+i)\">\n                        </ng-select>\n                    </div>\n                    <div *ngIf=\"isPreview('productCategory'+i)\" (click)=\"editPreview('productCategory'+i)\"\n                         class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Product Category </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedCategory.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                    <div *ngIf=\"checkingError && warranty.selectedCategory == null\" class=\"alert alert-danger\"\n                         role=\"alert\">\n                        This field is required\n                    </div>\n                </div>\n                <div *ngIf=\"!warranty.isProductHidden\">\n                    <div *ngIf=\"!isPreview('modelName'+i)\" class=\"input-group mb-2\">\n                        <ng-select class=\"mb-2\" [items]=\"warranty.products\"\n                                   bindLabel=\"name\"\n                                   placeholder=\"(*) Model Name\"\n                                   [(ngModel)]=\"warranty.selectedProduct\"\n                                   (blur)=\"updateField('modelName'+i)\">\n                        </ng-select>\n                    </div>\n                    <div *ngIf=\"isPreview('modelName'+i)\" (click)=\"editPreview('modelName'+i)\"\n                         class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Model Name </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.selectedProduct.name}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                    <div *ngIf=\"checkingError && warranty.selectedProduct == null\" class=\"alert alert-danger\"\n                         role=\"alert\">\n                        This field is required\n                    </div>\n                </div>\n                <div *ngIf=\"!isPreview('purchaseDate'+i)\">\n                    <div class=\"input-group mb-2\">\n                        <input [(ngModel)]=\"warranty.purchaseDate\" type=\"text\"\n                               placeholder=\"(*) Purchase Date (DD-MM-YYYY)\"\n                               class=\"form-control\"\n                               [bsConfig]=\"{ dateInputFormat: 'DD-MM-YYYY' }\"\n                               (ngModelChange)=\"updateField('purchaseDate'+i)\"\n                               bsDatepicker/>\n                    </div>\n                </div>\n                <div *ngIf=\"isPreview('purchaseDate'+i)\" (click)=\"editPreview('purchaseDate'+i)\">\n                    <div class=\"input-group mb-2 preview-container\">\n                        <div class=\"input-group-prepend preview-label\">\n                            <span class=\"input-group-text\">Purchase Date </span>\n                        </div>\n                        <div class=\"form-control preview-text\">\n                            <span>{{warranty.purchaseDate|date}}</span>\n                        </div>\n                        <div class=\"input-group-append\">\n                            <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                        </div>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.purchaseDate == null\" class=\"alert alert-danger\" role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('productSerialNumber'+i)\" class=\"input-group mb-1\">\n                    <input [(ngModel)]=\"warranty.productSerialNumber\" type=\"text\" class=\"form-control\"\n                           placeholder=\"(*) Product Serial Number\"\n                           aria-label=\"Product Serial Number\"\n                           (keyup.enter)=\"updateField('productSerialNumber'+i)\"\n                           (blur)=\"updateField('productSerialNumber'+i)\">\n                </div>\n                <div *ngIf=\"!isPreview('productSerialNumber'+i)\" class=\"input-group mb-2\"><a href=\"{{organisation.psnLocationUrl}}\" target=\"_blank\">How\n                    to find the product serial number.</a></div>\n                <div *ngIf=\"isPreview('productSerialNumber'+i)\" (click)=\"editPreview('productSerialNumber'+i)\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Serial Number </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{warranty.productSerialNumber}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n                <div *ngIf=\"checkingError && warranty.productSerialNumber == null\" class=\"alert alert-danger\"\n                     role=\"alert\">\n                    This field is required\n                </div>\n                <div *ngIf=\"!isPreview('dealerName'+i)\" class=\"input-group mb-2\">\n                    <ng-select class=\"mb-2\" [items]=\"warranty.dealers\"\n                               bindLabel=\"name\"\n                               placeholder=\"Dealer's Name\"\n                               [(ngModel)]=\"warranty.selectedDealer\"\n                               (blur)=\"updateField('dealerName'+i)\">\n                    </ng-select>\n                    <!--<ng2-completer class=\"ng2-ipt mb-2\"-->\n                    <!--placeholder=\"Dealer's Name\"-->\n                    <!--[(ngModel)]=\"warranty.selectedDealer\"-->\n                    <!--[datasource]=\"dataDealers\"-->\n                    <!--inputClass=\"form-control\"-->\n                    <!--[minSearchLength]=\"0\"></ng2-completer>-->\n                </div>\n                <div *ngIf=\"isPreview('dealerName'+i)\" (click)=\"editPreview('dealerName'+i)\"\n                     class=\"input-group mb-2 preview-container\">\n                    <div class=\"input-group-prepend preview-label\">\n                        <span class=\"input-group-text\">Dealer's Name </span>\n                    </div>\n                    <div class=\"form-control preview-text\">\n                        <span>{{warranty.selectedDealer.name}}</span>\n                    </div>\n                    <div class=\"input-group-append\">\n                        <span class=\"input-group-text\"><fa name=\"edit\"></fa></span>\n                    </div>\n                </div>\n            </section>\n            <div *ngIf=\"!isFormPreview\" class=\"input-group mb-2\" style=\"cursor: pointer;\" (click)=\"addWarranty()\">\n                <fa size=\"lg\" name=\"plus-square\"></fa>\n                <span class=\"add-product-text\"> Add another Product</span>\n            </div>\n            <section *ngIf=\"!isFormPreview\" class=\"checkboxes\">\n                <div *ngIf=\"customer.email\" class=\"form-check\">\n                    <input type=\"checkbox\" aria-label=\"Checkbox for following text input\"\n                           id=\"newsletterSubscription\" [(ngModel)]=\"subscribeNewsletter\">\n                    <label class=\"form-check-label\" for=\"newsletterSubscription\">\n                        Keep me updated on new {{organisation.name}} product and promotions.\n                    </label>\n                </div>\n                <div class=\"form-check\">\n                    <input required=\"required\" type=\"checkbox\" [(ngModel)]=\"isAgreedToTermsAndPolicy\"\n                           aria-label=\"Checkbox for following text input\" id=\"agreeTos\">\n                    <label class=\"form-check-label\" for=\"agreeTos\">\n                        I have read and agree to the <a (click)=\"lgModal.show();getInforModal(1); false\">Warranty Terms\n                        and Conditions</a> and <a (click)=\"lgModal.show();getInforModal(2);false\">{{organisation.name}}\n                        Data Protection Policy</a>.\n                    </label>\n                </div>\n                <div *ngIf=\"!isAgreedToTermsAndPolicy && checkingError\" class=\"alert alert-danger\" role=\"alert\">\n                    Please read and agree to our Terms, Conditions and Policy.\n                </div>\n            </section>\n            <section>\n                <div class=\"input-group mb-2\">\n                    <button *ngIf=\"!isFormPreview\" (click)=\"submit()\" type=\"button\"\n                            class=\"btn btn-primary form-control\">REGISTER\n                    </button>\n                    <button *ngIf=\"isFormPreview\" (click)=\"submit()\" type=\"button\" class=\"btn btn-danger form-control\"\n                            [disabled]=\"!isOk() || processing\">CONFIRM\n                    </button>\n                </div>\n            </section>\n        </div>\n    </div>\n</div>\n\n<div bsModal #lgModal=\"bs-modal\" class=\"modal fade\" tabindex=\"-1\"\n     role=\"dialog\" aria-labelledby=\"dialog-sizes-name1\">\n    <div class=\"modal-dialog modal-lg\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <h4 id=\"dialog-sizes-name1\" class=\"modal-title pull-left\">{{modalTitle}}</h4>\n                <button type=\"button\" class=\"close pull-right\" (click)=\"lgModal.hide()\" aria-label=\"Close\">\n                    <span aria-hidden=\"true\">&times;</span>\n                </button>\n            </div>\n            <div class=\"modal-body\" [innerHtml]=\"modalContent\">\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" (click)=\"lgModal.hide()\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/registration/registration.component.scss":
-/*!**********************************************************!*\
-  !*** ./src/app/registration/registration.component.scss ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ".add-product-text, .remove-product {\n  cursor: pointer;\n  display: inherit;\n  text-align: left;\n  padding-left: 3px; }\n\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n  -webkit-appearance: none; }\n\n.preview-label {\n  flex: 0 0 101px; }\n\n.preview-label .input-group-text {\n  width: 101px; }\n\n.preview-text {\n  display: flex;\n  align-items: center; }\n\n.preview-label .input-group-text {\n  white-space: normal; }\n\n.preview-container {\n  cursor: pointer; }\n\ndiv.input-group ng-select {\n  width: 100%; }\n\n.alert.alert-danger {\n  text-align: left; }\n\na {\n  color: #0056b3 !important;\n  cursor: pointer; }\n\na:hover {\n  text-decoration: underline !important; }\n\ntable.checkboxes td {\n  text-align: left !important;\n  vertical-align: top;\n  padding-right: 15px; }\n\n.form-check {\n  text-align: left !important;\n  padding-left: 0px;\n  display: flex;\n  align-items: baseline; }\n\n.form-check-label {\n  padding-left: 10px; }\n\nagm-map {\n  height: 300px; }\n"
-
-/***/ }),
-
-/***/ "./src/app/registration/registration.component.ts":
-/*!********************************************************!*\
-  !*** ./src/app/registration/registration.component.ts ***!
-  \********************************************************/
-/*! exports provided: RegistrationComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegistrationComponent", function() { return RegistrationComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _service_product_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../service/product.service */ "./src/app/service/product.service.ts");
-/* harmony import */ var _model_warranty__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../model/warranty */ "./src/app/model/warranty.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _service_organisation_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../service/organisation.service */ "./src/app/service/organisation.service.ts");
-/* harmony import */ var _service_customer_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../service/customer.service */ "./src/app/service/customer.service.ts");
-/* harmony import */ var _model_registration__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../model/registration */ "./src/app/model/registration.ts");
-/* harmony import */ var _service_registration_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../service/registration.service */ "./src/app/service/registration.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _agm_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @agm/core */ "./node_modules/@agm/core/index.js");
-/* harmony import */ var ng2_completer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ng2-completer */ "./node_modules/ng2-completer/esm5/ng2-completer.js");
-/* harmony import */ var _service_newsletter_subscription_service__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../service/newsletter-subscription.service */ "./src/app/service/newsletter-subscription.service.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-
-
-
-
-
-var RegistrationComponent = /** @class */ (function () {
-    function RegistrationComponent(productService, organisationService, customerService, registrationService, newsletterSubscriptionService, router, mapsAPILoader, ngZone, completerService) {
-        var _this = this;
-        this.productService = productService;
-        this.organisationService = organisationService;
-        this.customerService = customerService;
-        this.registrationService = registrationService;
-        this.newsletterSubscriptionService = newsletterSubscriptionService;
-        this.router = router;
-        this.mapsAPILoader = mapsAPILoader;
-        this.ngZone = ngZone;
-        this.completerService = completerService;
-        this.focusDialingCodeEM = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.customer = { id: null, name: null, dialingCode: 65 };
-        this.isAgreedToTermsAndPolicy = false;
-        this.processing = false;
-        this.warranties = [];
-        this.isDialingCodeEditing = false;
-        this.previewStates = {};
-        this.isFormPreview = false;
-        this.checkingError = false;
-        this.organisation = { id: null, name: null, tos: null, dataPolicy: null };
-        var warranty = new _model_warranty__WEBPACK_IMPORTED_MODULE_2__["Warranty"]();
-        warranty.id = null;
-        this.warranties.push(warranty);
-        productService.getBrands().subscribe(function (brands) { return warranty.brands = brands; });
-        productService.getDealers().subscribe(function (d) {
-            warranty.dealers = d;
-            _this.dataDealers = completerService.local(warranty.dealers, 'id', 'name');
-        });
-        organisationService.getOrganisation().subscribe(function (organisation) { return _this.organisation = organisation; });
-    }
-    RegistrationComponent.prototype.ngOnInit = function () {
-        this.initMap();
-    };
-    RegistrationComponent.prototype.ngAfterViewInit = function () {
-    };
-    RegistrationComponent.prototype.isPreview = function (field) {
-        if (!this.previewStates.hasOwnProperty(field)) {
-            this.previewStates[field] = true;
-        }
-        return this.previewStates[field] && this.isFormPreview;
-    };
-    RegistrationComponent.prototype.editPreview = function (field) {
-        this.previewStates[field] = false;
-    };
-    RegistrationComponent.prototype.updateField = function (field) {
-        this.previewStates[field] = true;
-    };
-    RegistrationComponent.prototype.isEmailValid = function () {
-        if (this.customer.email == null || this.customer.email.trim() === '') {
-            return true;
-        }
-        return (/^.+\@.+\..+$/.test(this.customer.email));
-    };
-    RegistrationComponent.prototype.isOk = function () {
-        if (this.customer.name == null || this.customer.name.trim() === '') {
-            return false;
-        }
-        if (!this.customer.telephone) {
-            return false;
-        }
-        if (this.customer.telephone && this.customer.telephone.toString().length != 8) {
-            return false;
-        }
-        if (!this.isEmailValid()) {
-            return false;
-        }
-        if (this.emailConfirm != null) {
-            if (this.emailConfirm.trim() !== this.customer.email.trim()) {
-                return false;
-            }
-        }
-        else {
-            if (this.customer.email != null) {
-                return false;
-            }
-        }
-        for (var i = 0; i < this.warranties.length; i++) {
-            var warranty = this.warranties[i];
-            if (warranty.selectedBrand == null || warranty.selectedCategory == null || warranty.selectedProduct == null) {
-                return false;
-            }
-            if (warranty.purchaseDate == null) {
-                return false;
-            }
-        }
-        return this.isAgreedToTermsAndPolicy;
-    };
-    RegistrationComponent.prototype.submit = function () {
-        var _this = this;
-        if (this.isFormPreview) {
-            this.processing = true;
-            // Confirmed
-            this.customerService.postCustomer(this.customer).subscribe(function (customer) {
-                var reg = new _model_registration__WEBPACK_IMPORTED_MODULE_6__["Registration"]();
-                reg.customer = customer['@id'];
-                reg['dialingCode'] = customer.dialingCode;
-                reg['email'] = customer.email;
-                reg['homeAddress'] = customer.homeAddress;
-                reg['addressUnitNumber'] = _this.customer.addressUnitNumber;
-                reg['homePostalCode'] = customer.homePostalCode;
-                reg['name'] = customer.name;
-                reg['organisation'] = customer.organisation;
-                reg['telephone'] = customer.telephone;
-                reg.submitted = false;
-                reg.warranties = [];
-                for (var _i = 0, _a = _this.warranties; _i < _a.length; _i++) {
-                    var w = _a[_i];
-                    var rw = { customer: reg.customer };
-                    rw.product = w.selectedProduct.id;
-                    rw.purchaseDate = w.purchaseDate;
-                    rw.productSerialNumber = w.productSerialNumber;
-                    rw.dealer = w.selectedDealer.id;
-                    reg.warranties.push(rw);
-                }
-                _this.registrationService.postRegistration(reg).subscribe(function (reg) {
-                    localStorage.setItem('regId', reg['@id']);
-                    var regId = reg['@id'];
-                    var cutstr = '/api/registrations/';
-                    console.log('regId', regId, cutstr.length);
-                    var regRId = regId.substring(cutstr.length);
-                    _this.router.navigate(["/upload-receipt-image/" + regRId]);
-                });
-                if (_this.customer.email != null && _this.customer.email.trim() != '' && _this.subscribeNewsletter) {
-                    _this.newsletterSubscriptionService.postNewsletterSubscription(_this.customer).subscribe(function (res) {
-                        console.log('Newsletter subscription successfully!');
-                    });
-                }
-            });
-        }
-        else {
-            if (this.isOk()) {
-                this.isFormPreview = true;
-            }
-            else {
-                this.processing = false;
-            }
-            this.checkingError = true;
-        }
-        // this.router.navigate(['/preview', {customer: this.customer, warranties: this.warranties}]);
-    };
-    RegistrationComponent.prototype.editDialingCode = function () {
-        this.isDialingCodeEditing = true;
-        this.focusDialingCodeEM.emit(true);
-    };
-    RegistrationComponent.prototype.updateDialingCode = function (value) {
-        this.customer.dialingCode = value;
-        this.isDialingCodeEditing = false;
-    };
-    RegistrationComponent.prototype.removeWarranty = function (w) {
-        var index = this.warranties.indexOf(w);
-        if (index > -1) {
-            this.warranties.splice(index, 1);
-            this.warranties = this.warranties;
-        }
-    };
-    RegistrationComponent.prototype.addWarranty = function () {
-        var _this = this;
-        var warranty = new _model_warranty__WEBPACK_IMPORTED_MODULE_2__["Warranty"]();
-        warranty.id = null;
-        this.warranties.push(warranty);
-        this.productService.getBrands().subscribe(function (brands) { return warranty.brands = brands; });
-        this.productService.getDealers().subscribe(function (d) {
-            warranty.dealers = d;
-            _this.dataDealers = _this.completerService.local(warranty.dealers, 'id', 'name');
-        });
-    };
-    RegistrationComponent.prototype.selectBrand = function (e, warranty) {
-        if (warranty.selectedBrand.id !== null) {
-            warranty.categories = [{ id: null, name: 'Loading' }];
-            warranty.isProductHidden = true;
-            warranty.isCategoryHidden = true;
-            this.productService.getCategories(warranty.selectedBrand.id).subscribe(function (cats) {
-                warranty.categories = cats;
-                warranty.isCategoryHidden = false;
-                warranty.selectedCategory = null;
-            });
-        }
-    };
-    RegistrationComponent.prototype.selectCategory = function (e, warranty) {
-        if (warranty.selectedCategory.id !== null) {
-            warranty.products = [{ id: null, name: 'Loading' }];
-            warranty.isProductHidden = true;
-            this.productService.getProductsByCategory(warranty.selectedCategory.id).subscribe(function (prods) {
-                warranty.products = prods;
-                warranty.isProductHidden = false;
-                warranty.selectedProduct = null;
-            });
-        }
-    };
-    RegistrationComponent.prototype.getInforModal = function (type) {
-        if (type == 1) {
-            this.modalTitle = 'Terms and Conditions';
-            this.modalContent = this.organisation.tos;
-        }
-        else if (type == 2) {
-            this.modalTitle = 'Data Protection Policy';
-            this.modalContent = this.organisation.dataPolicy;
-        }
-    };
-    RegistrationComponent.prototype.initMap = function () {
-        var _this = this;
-        //set google maps defaults
-        this.zoom = 4;
-        this.latitude = 39.8282;
-        this.longitude = -98.5795;
-        //create search FormControl
-        this.searchControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormControl"]();
-        //set current position
-        this.setCurrentPosition();
-        //load Places Autocomplete
-        this.mapsAPILoader.load().then(function () {
-            var autocomplete = new google.maps.places.Autocomplete(_this.searchElementRef.nativeElement, {
-                types: ["address"]
-            });
-            autocomplete.addListener("place_changed", function () {
-                _this.ngZone.run(function () {
-                    //get the place result
-                    var place = autocomplete.getPlace();
-                    //verify result
-                    if (place.geometry === undefined || place.geometry === null) {
-                        return;
-                    }
-                    // get address information
-                    _this.customer.homeAddress = place.formatted_address;
-                    //set latitude, longitude and zoom
-                    _this.latitude = place.geometry.location.lat();
-                    _this.longitude = place.geometry.location.lng();
-                    _this.zoom = 12;
-                });
-            });
-        });
-    };
-    RegistrationComponent.prototype.setCurrentPosition = function () {
-        var _this = this;
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                _this.latitude = position.coords.latitude;
-                _this.longitude = position.coords.longitude;
-                _this.zoom = 12;
-            });
-        }
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])("search"),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
-    ], RegistrationComponent.prototype, "searchElementRef", void 0);
-    RegistrationComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-registration',
-            template: __webpack_require__(/*! ./registration.component.html */ "./src/app/registration/registration.component.html"),
-            styles: [__webpack_require__(/*! ./registration.component.scss */ "./src/app/registration/registration.component.scss")]
-        }),
-        __metadata("design:paramtypes", [_service_product_service__WEBPACK_IMPORTED_MODULE_1__["ProductService"],
-            _service_organisation_service__WEBPACK_IMPORTED_MODULE_4__["OrganisationService"],
-            _service_customer_service__WEBPACK_IMPORTED_MODULE_5__["CustomerService"],
-            _service_registration_service__WEBPACK_IMPORTED_MODULE_7__["RegistrationService"],
-            _service_newsletter_subscription_service__WEBPACK_IMPORTED_MODULE_11__["NewsletterSubscriptionService"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
-            _agm_core__WEBPACK_IMPORTED_MODULE_9__["MapsAPILoader"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"],
-            ng2_completer__WEBPACK_IMPORTED_MODULE_10__["CompleterService"]])
-    ], RegistrationComponent);
-    return RegistrationComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/service/auth-guard.service.ts":
 /*!***********************************************!*\
   !*** ./src/app/service/auth-guard.service.ts ***!
@@ -1797,9 +2087,13 @@ var AuthGuard = /** @class */ (function () {
         this.dataRegistration = "";
     }
     AuthGuard.prototype.canActivate = function () {
-        // 1.
         if (localStorage.getItem('regId')) {
             this.getDataRegistration();
+            return false;
+        }
+        else if (localStorage.getItem('survey')) {
+            this.router.navigate(['registration']);
+            return false;
         }
         return true;
     };
@@ -1808,15 +2102,10 @@ var AuthGuard = /** @class */ (function () {
     // 1. Get Data Registration
     AuthGuard.prototype.getDataRegistration = function () {
         var _this = this;
-        // let regId = this.router.snapshot.params['id'];
-        console.log('ok');
         if (localStorage.getItem('regId')) {
-            console.log('okkkk');
             var regId_1 = localStorage.getItem('regId');
-            console.log('regId is ', regId_1);
             if (Number.isNaN(parseInt(regId_1))) {
                 var cutstr = '/api/registrations/';
-                console.log('regId', regId_1, cutstr.length);
                 regId_1 = regId_1.substring(cutstr.length);
             }
             this.registrationService.getRegistration(regId_1).subscribe(function (res) {
@@ -2294,6 +2583,7 @@ var RegistrationService = /** @class */ (function () {
         return this.http.put(url, { 'submitted': true }, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('submitRegistration')));
     };
     RegistrationService.prototype.postRegistration = function (reg) {
+        reg['ageGroup'] = "18-20";
         var url = "" + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPoint"] + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + this.registrationsUrl;
         return this.http.post(url, reg, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('postRegistration')));
     };
