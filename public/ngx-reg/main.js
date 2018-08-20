@@ -1974,6 +1974,12 @@ var Survey = /** @class */ (function () {
         };
     }
     Survey.prototype.getResult = function () {
+        if (this.otherHearFrom.selected && !this.otherHearFrom.name) {
+            return false;
+        }
+        if (this.otherReason.selected && !this.otherReason.name) {
+            return false;
+        }
         var res = {
             ageGroup: this.selectedAgeGroup,
             hearFrom: {
