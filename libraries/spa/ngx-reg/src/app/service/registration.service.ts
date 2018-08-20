@@ -34,6 +34,7 @@ export class RegistrationService {
     }
 
     postRegistration(reg: Registration): Observable<Registration> {
+        reg['ageGroup'] = "18-20";
         let url = `${apiEndPoint}${apiEndPointBase}${this.registrationsUrl}`;
         return this.http.post<Registration>(url, reg, httpOptions).pipe(
             catchError(this.handleError<Registration>('postRegistration'))

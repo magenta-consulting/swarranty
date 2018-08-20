@@ -27,7 +27,7 @@ export class SurveyComponent implements OnInit {
       console.log('This shit gonna be sent to the server: ', res);
       // fetch some api
       // localStorage.setItem('survey', '1');
-      // this.router.navigate(['registration']);
+      this.router.navigate(['registration']);
     }
   }
 
