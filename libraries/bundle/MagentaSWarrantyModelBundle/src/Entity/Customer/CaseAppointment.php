@@ -163,6 +163,14 @@ class CaseAppointment extends FullTextSearch {
 	 */
 	protected $appointmentAt;
 	
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="time", nullable=true)
+	 */
+	protected
+		$appointmentFrom;
+	
 	/**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="time", nullable=true)
@@ -353,5 +361,19 @@ class CaseAppointment extends FullTextSearch {
 	 */
 	public function setAppointmentTo(?\DateTime $appointmentTo): void {
 		$this->appointmentTo = $appointmentTo;
+	}
+	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getAppointmentFrom(): ?\DateTime {
+		return $this->appointmentFrom;
+	}
+	
+	/**
+	 * @param \DateTime|null $appointmentFrom
+	 */
+	public function setAppointmentFrom(?\DateTime $appointmentFrom): void {
+		$this->appointmentFrom = $appointmentFrom;
 	}
 }

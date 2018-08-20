@@ -327,14 +327,25 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'query'    => $canReceiveCaseMemberQuery
 			])
 			->add('serviceNote.description', null, [ 'label' => 'form.label_service_note' ])
-			->add('appointmentAt', DateTimePickerType::class, [
+			->add('appointmentAt', DatePickerType::class, [
 				'required'              => false,
-				'format'                => 'dd-MM-yyyy, H:m',
-				'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+				'format'                => 'dd-MM-yyyy',
+				'placeholder'           => 'dd-mm-yyyy',
 				'datepicker_use_button' => false,
 			])
+			->add('appointmentFrom', TimeType::class, [
+				'required'    => false,
+				'placeholder' => array(
+					'hour'   => 'Hour',
+					'minute' => 'Minute'
+				),
+				'minutes'     => [ 0, 15, 30, 45 ]
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
+			])
 			->add('appointmentTo', TimeType::class, [
-				'required' => false,
+				'required'    => false,
 				'placeholder' => array(
 					'hour'   => 'Hour',
 					'minute' => 'Minute'
@@ -345,13 +356,19 @@ class CaseAppointmentAdmin extends BaseAdmin {
 //					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 //					'datepicker_use_button' => false,
 			]);
-			
 		
-		$formMapper->add('visitedAt', DateTimePickerType::class, [
-			'required'              => false,
-			'format'                => 'dd-MM-yyyy, H:m',
-			'placeholder'           => 'dd-mm-yyyy, hour:minutes',
-			'datepicker_use_button' => false,
+		
+		$formMapper->add('visitedAt', TimeType::class, [
+			'required'    => false,
+			'placeholder' => array(
+				'hour'   => 'Hour',
+				'minute' => 'Minute'
+			),
+			'minutes'     => [ 0, 15, 30, 45 ]
+
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 		]);
 //		$formMapper->end();
 	}

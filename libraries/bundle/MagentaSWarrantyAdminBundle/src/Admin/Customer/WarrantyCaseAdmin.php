@@ -616,11 +616,22 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'btn_add'     => false,
 					'query'       => $canReceiveCaseMemberQuery
 				])
-				->add('appointmentAt', DateTimePickerType::class, [
+				->add('appointmentAt', DatePickerType::class, [
 					'required'              => false,
 					'format'                => 'dd-MM-yyyy, H:m',
 					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 					'datepicker_use_button' => false,
+				])
+				->add('appointmentFrom', TimeType::class, [
+					'required'    => false,
+					'placeholder' => array(
+						'hour'   => 'Hour',
+						'minute' => 'Minute'
+					),
+					'minutes'     => [ 0, 15, 30, 45 ]
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 				])
 				->add('appointmentTo', TimeType::class, [
 					'required'    => false,
