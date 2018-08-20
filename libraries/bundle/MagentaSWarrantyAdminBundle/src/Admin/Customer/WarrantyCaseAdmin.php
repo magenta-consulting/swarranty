@@ -684,6 +684,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		parent::preValidate($object);
 		$apmts   = $object->getAppointments();
 		$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
+		
+		if( ! empty($from = $object->getAppointmentFrom())) {
+			$object->getAppointmentAt()->setTime((int) $from->format('H'), (int) $from->format('i'));
+		};
 		/** @var CaseAppointment $apmt */
 		foreach($apmts as $apmt) {
 			if( ! empty($apmt)) {
@@ -695,6 +699,13 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					if( ! empty($note->getId())) {
 						$manager->remove($note);
 						$manager->flush($note);
+					}
+				}
+				if( ! empty($from = $apmt->getAppointmentFrom())) {
+					$apmt->getAppointmentAt()->setTime((int) $from->format('H'), (int) $from->format('i'));
+					if( ! empty($apmt->getVisitedAt())) {
+						$apmtAt = $apmt->getAppointmentAt();
+						$apmt->getVisitedAt()->setDate((int) $apmtAt->format('Y'), (int) $apmtAt->format('m'), (int) $apmtAt->format('d'));
 					}
 				}
 				$object->addAppointment($apmt);
