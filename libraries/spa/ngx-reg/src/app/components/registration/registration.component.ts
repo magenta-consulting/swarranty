@@ -93,6 +93,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        if (!localStorage.getItem('survey')) {
+            this.router.navigate(['/survey']);
+            return;
+        }
         this.initMap();
     }
 
@@ -337,6 +341,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     attachSurvey(reg: Registration) {
         var survey : any = JSON.parse(localStorage.getItem('survey'));
         if (!survey) {
+            this.router.navigate(['/survey']);
             return;
         }
         reg['ageGroup'] = survey.ageGroup;
