@@ -2,19 +2,19 @@
   <p>Age Group *</p>
   <ul class="option-group">
     <li *ngFor="let option of survey.ageGroup">
-      <input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}
+      <label><input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}</label>
     </li>
   </ul>
   <p>How did you know FUJIOH? (Multiple answers allowed) *</p>
   <ul class="option-group">
     <li *ngFor="let option of survey.hearFrom">
       <span>
-        <input name="hearFrom" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
+        <label><input name="hearFrom" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}</label>
       </span>
     </li>
     <li>
       <span>
-        <input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Others (Enter comment)<br>
+        <label><input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Others (Enter comment)<br></label>
         <div>Others (Please write comment if others is selected)</div>
         <input type="text" [(ngModel)]="survey.otherHearFrom.name">
       </span>
@@ -24,12 +24,12 @@
   <ul class="option-group">
     <li *ngFor="let option of survey.reason">
       <span>
-        <input name="reason" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}
+        <label><input name="reason" type="checkbox" value="{{option.value}}" [(ngModel)]="option.selected"> {{option.name}}</label>
       </span>
     </li>
     <li>
       <span>
-        <input type="reason" type="checkbox" value="other" [(ngModel)]="survey.otherReason.selected"> Others (Enter comment)<br>
+        <label><input type="reason" type="checkbox" value="other" [(ngModel)]="survey.otherReason.selected"> Others (Enter comment)<br></label>
         <div>Others (Please write comment if others is selected)</div>
         <input type="text" [(ngModel)]="survey.otherReason.name">
       </span>

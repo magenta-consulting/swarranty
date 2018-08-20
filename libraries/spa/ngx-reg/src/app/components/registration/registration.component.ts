@@ -93,6 +93,10 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit() {
+        if (!localStorage.getItem('survey')) {
+            this.router.navigate(['/survey']);
+            return;
+        }
         this.initMap();
     }
 
@@ -171,6 +175,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 reg['organisation'] = customer.organisation;
                 reg['telephone'] = customer.telephone;
                 reg.submitted = false;
+                this.attachSurvey(reg);
                 reg.warranties = [];
                 for (let w of this.warranties) {
                     let rw = {customer: reg.customer} as Warranty;
@@ -331,5 +336,28 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         if (this.customer.telephone && e.key.length == 1 && this.customer.telephone.toString().length == 8) {
             return false;
         }
+    }
+
+    attachSurvey(reg: Registration) {
+        var survey : any = JSON.parse(localStorage.getItem('survey'));
+        if (!survey) {
+            this.router.navigate(['/survey']);
+            return;
+        }
+        reg['ageGroup'] = survey.ageGroup;
+        reg['hearOthers'] = survey.hearFrom.other;
+        reg['reasonOthers'] = survey.reason.other;
+        survey.hearFrom.options.forEach(option => {
+            reg[option] = true;
+        });
+        survey.hearFrom.blanks.forEach(option => {
+            reg[option] = false;
+        });
+        survey.reason.options.forEach(option => {
+            reg[option] = true;
+        });
+        survey.reason.blanks.forEach(option => {
+            reg[option] = false;
+        });
     }
 }
