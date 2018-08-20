@@ -1,11 +1,11 @@
 <div>
-  <p>Age Group *</p>
+  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(1) >= 0">Age Group *</p>
   <ul class="option-group">
     <li *ngFor="let option of survey.ageGroup">
       <label><input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}</label>
     </li>
   </ul>
-  <p>How did you know FUJIOH? (Multiple answers allowed) *</p>
+  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(2) >= 0">How did you know FUJIOH? (Multiple answers allowed) *</p>
   <ul class="option-group">
     <li *ngFor="let option of survey.hearFrom">
       <span>
@@ -15,12 +15,12 @@
     <li>
       <span>
         <label><input type="hearFrom" type="checkbox" value="other" [(ngModel)]="survey.otherHearFrom.selected"> Others (Enter comment)<br></label>
-        <div>Others (Please write comment if others is selected)</div>
-        <input type="text" [(ngModel)]="survey.otherHearFrom.name">
+        <div [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(3) >= 0">Others (Please write comment if others is selected)</div>
+        <input type="text" [(ngModel)]="survey.otherHearFrom.name" (keyup)="survey.otherHearFrom.selected = true">
       </span>
     </li>
   </ul>
-  <p>Why did you choose FUJIOH product? (Multiple answers allowed) *</p>
+  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(4) >= 0">Why did you choose FUJIOH product? (Multiple answers allowed) *</p>
   <ul class="option-group">
     <li *ngFor="let option of survey.reason">
       <span>
@@ -30,11 +30,11 @@
     <li>
       <span>
         <label><input type="reason" type="checkbox" value="other" [(ngModel)]="survey.otherReason.selected"> Others (Enter comment)<br></label>
-        <div>Others (Please write comment if others is selected)</div>
-        <input type="text" [(ngModel)]="survey.otherReason.name">
+        <div [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(5) >= 0">Others (Please write comment if others is selected)</div>
+        <input type="text" [(ngModel)]="survey.otherReason.name" (keyup)="survey.otherReason.selected = true">
       </span>
     </li>
   </ul>
-  <div *ngIf="!survey.getResult()" style="color: red">{{message}}</div>
+  <div *ngIf="validating && !survey.getResult()" class="red">{{message}}</div>
   <button class="btn btn-success" (click)="submit()">Next</button>
 </div>

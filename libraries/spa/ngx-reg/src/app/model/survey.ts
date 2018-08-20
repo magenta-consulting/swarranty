@@ -19,12 +19,18 @@ export class Survey {
         selected: false
     };
 
-    getResult() {
+    // 1 - Missing age group
+    // 2 - Missing hear from
+    // 3 - Missing other hear from when other is checked
+    // 4 - Missing reason
+    // 5 - Missing other reason when other is checked
+    getResultOrErrorCode() {
+        var errors = [];
         if (this.otherHearFrom.selected && !this.otherHearFrom.name) {
-            return false;
+            errors.push(3);
         }
         if (this.otherReason.selected && !this.otherReason.name) {
-            return false;
+            errors.push(5);
         }
         var res = {
             ageGroup: this.selectedAgeGroup,
@@ -40,15 +46,27 @@ export class Survey {
             }
         }
         if (!res.ageGroup) {
-            return false;
+            errors.push(1);
         }
         if (!res.hearFrom.other && res.hearFrom.options.length == 0) {
-            return false;
+            errors.push(2);
         }
         if (!res.reason.other && res.reason.options.length == 0) {
-            return false;
+            errors.push(4);
         }
-        return res;
+        return {
+            res: res,
+            errors: errors
+        };
+    }
+
+    getResult() {
+        var res = this.getResultOrErrorCode();
+        if (res.errors.length > 0) {
+            return false;
+        } else {
+            return res.res;
+        }
     }
 }
 
