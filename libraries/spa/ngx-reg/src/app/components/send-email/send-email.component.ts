@@ -95,7 +95,7 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
     clearRegistration() {
         this.modalRef.hide();
         localStorage.removeItem('regId');
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/']);
     }
 
     openModal(template: TemplateRef<any>) {

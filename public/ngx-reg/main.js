@@ -58,9 +58,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 var routes = [
-    // { path: '', component:  AppComponent},
-    { path: '', redirectTo: '/registration', pathMatch: 'full' },
-    { path: 'registration', component: _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"], canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]] },
+    { path: '', component: _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"], canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]] },
     { path: 'survey', component: _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_7__["SurveyComponent"] },
     { path: 'upload-receipt-image/:id', component: _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_3__["UploadsComponent"] },
     { path: 'send-email/:id', component: _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_4__["SendEmailComponent"] },
@@ -727,7 +725,7 @@ var SendEmailComponent = /** @class */ (function () {
     SendEmailComponent.prototype.clearRegistration = function () {
         this.modalRef.hide();
         localStorage.removeItem('regId');
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/']);
     };
     SendEmailComponent.prototype.openModal = function (template) {
         this.modalRef = this.modalService.show(template);
@@ -879,7 +877,7 @@ var SuccessComponent = /** @class */ (function () {
     SuccessComponent.prototype.clearRegistration = function () {
         this.modalRef.hide();
         localStorage.removeItem('regId');
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/']);
     };
     SuccessComponent.prototype.openModal = function (template) {
         this.modalRef = this.modalService.show(template);
@@ -962,7 +960,7 @@ var SurveyComponent = /** @class */ (function () {
         var _this = this;
         this.registrationService.currentRegistration.subscribe(function (reg) {
             if (!reg) {
-                _this.router.navigate(['/registration']);
+                _this.router.navigate(['/']);
             }
         });
         this.buildOptions();
@@ -1307,7 +1305,7 @@ var UploadsComponent = /** @class */ (function () {
     UploadsComponent.prototype.clearRegistration = function () {
         this.modalRef.hide();
         localStorage.removeItem('regId');
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/']);
     };
     UploadsComponent.prototype.openModal = function (template) {
         this.modalRef = this.modalService.show(template);
