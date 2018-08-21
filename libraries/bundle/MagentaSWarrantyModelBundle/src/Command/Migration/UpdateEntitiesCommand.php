@@ -65,22 +65,6 @@ EOT
 						$em->persist($object);
 						$output->writeln('Flushing object ' . $object->getFullText());
 						$em->flush($object);
-						
-					}
-				}
-				
-				if($class === Product::class) {
-					$repo    = $this->registry->getRepository($class);
-					$objects = $repo->findAll();
-					$output->writeln(sprintf('>>>>> Swap model name and number for %s ', $class));
-					/** @var Product $object */
-					foreach($objects as $object) {
-						$number = $object->getModelNumber();
-						$name   = $object->getName();
-						$object->setModelNumber($name);
-						$object->setName($number);
-						$em->persist($object);
-						$output->writeln(sprintf('model Name %s has been swapped with model Number %s', $name, $number));
 					}
 				}
 

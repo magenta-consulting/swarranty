@@ -122,15 +122,21 @@ class CustomerAdminController extends BaseCRUDAdminController {
 				->setCellValue('D1', "Contact Number")
 				->setCellValue('E1', "Address")
 				->setCellValue('F1', "Age Group")
-				->setCellValue('G1', "Know from")
-				->setCellValue('H1', "Reasons to choose FUJIOH")
-//				->setCellValue('I1', "Case Description")
-//				->setCellValue('J1', "Service Notes")
-//				->setCellValue('K1', "Special Notes")
-//				->setCellValue('L1', "Technicians")
-//				->setCellValue('M1', "Service Zones")
-//				->setCellValue('N1', "Customer Name")//			            ->setCellValue('O1', "Technician Name(s)")
-			;
+				->setCellValue('G1', "Online Search")
+				->setCellValue('H1', "Online Ad")
+				->setCellValue('I1', "Friend/Family")
+				->setCellValue('J1', "Interior Designer")
+				->setCellValue('K1', "Walk-in")
+				->setCellValue('L1', "Others")
+				->setCellValue('M1', "Promotions")
+				->setCellValue('N1', "Brand")
+				->setCellValue('O1', "Tech")
+				->setCellValue('P1', "Japanese")
+				->setCellValue('Q1', "Design")
+				->setCellValue('R1', "Price")
+				->setCellValue('S1', "Interior Designer")
+				->setCellValue('T1', "Friends and Family")
+				->setCellValue('U1', "Others");
 			
 			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 			$phpExcelObject->setActiveSheetIndex(0);
@@ -153,60 +159,65 @@ class CustomerAdminController extends BaseCRUDAdminController {
 				$sWriter->writeCellAndGoRight($customer->getTelephone());
 				$sWriter->writeCellAndGoRight($customer->getHomeAddress());
 				
-				$ageGroup = '';
+				
+				$ageGroup       = '';
+				$hfOnlineSearch = '';
+				$hfOnlineAd     = '';
+				$hfOnlineFF     = '';
+				$hfID           = '';
+				$hfWalkIn       = '';
+				$hfOthers       = '';
+				
+				$rPromotion = '';
+				$rBrand     = '';
+				$rTech      = '';
+				$rJap       = '';
+				$rDesign    = '';
+				$rPrice     = '';
+				$rID        = '';
+				$rFF        = '';
+				$rOthers    = '';
+				
 				/** @var Registration $reg */
 				$reg = $customer->getRegistrations()->last();
 				if( ! empty($reg)) {
-					$ageGroup = $reg->getAgeGroup();
-					$hfOnlineSearch = $reg->getHearFromOnlineSearch();
-					$hfOnlineAd = $reg->getHearFromOnlineAd();
-					$hfOnlineFF = $reg->getHearFromFriendFamily();
-//					$hfOnlineAd = $reg->getHearFrom;
-				}
-				$closedAtStr = '';
-				if( ! empty($customer->getClosedAt())) {
-					$closedAtStr = $customer->getClosedAt()->format('d-m-Y');
-				}
-				$sWriter->writeCellAndGoRight($closedAtStr);
-				$brand        = '';
-				$category     = '';
-				$modelName    = '';
-				$zoneStr      = '';
-				$customerName = '';
-				/** @var Warranty $w */
-				if( ! empty($w = $customer->getWarranty())) {
-					/** @var Product $p */
-					if( ! empty($p = $w->getProduct())) {
-						/** @var Brand $b */
-						if( ! empty($b = $p->getBrand())) {
-							$brand = $b->getName();
-						}
-						if( ! empty($c = $p->getCategory())) {
-							$category = $c->getName();
-						}
-						$modelName = $p->getName();
-					}
+					$ageGroup       = $reg->getAgeGroup();
+					$hfOnlineSearch = $reg->isHearFromOnlineSearch() ? 'yes' : '';
+					$hfOnlineAd     = $reg->isHearFromOnlineAd() ? 'yes' : '';
+					$hfOnlineFF     = $reg->isHearFromFriendFamily() ? 'yes' : '';
+					$hfID           = $reg->isHearFromInteriorDesigner() ? 'yes' : '';
+					$hfWalkIn       = $reg->isHearFromShopWalkIn() ? 'yes' : '';
+					$hfOthers       = $reg->getHearOthers();
 					
-					if( ! empty($customer = $w->getCustomer())) {
-						$customerName = $customer->getName();
-					}
+					$rPromotion = $reg->isReasonPromotions() ? 'yes' : '';
+					$rBrand     = $reg->isReasonTheBrand() ? 'yes' : '';
+					$rTech      = $reg->isReasonTechnology() ? 'yes' : '';
+					$rJap       = $reg->isReasonJapanese() ? 'yes' : '';
+					$rDesign    = $reg->isReasonDesignerSuggested() ? 'yes' : '';
+					$rPrice     = $reg->isReasonAffordable() ? 'yes' : '';
+					$rID        = $reg->isReasonInteriorDesigner() ? 'yes' : '';
+					$rFF        = $reg->isReasonFriendFamilySuggested() ? 'yes' : '';
+					$rOthers    = $reg->getReasonOthers();
+					
 				}
 				
-				/** @var ServiceZone $zone */
-				if( ! empty($zone = $customer->getServiceZone())) {
-					$zoneStr = $zone->getName();
-				}
+				$sWriter->writeCellAndGoRight($ageGroup);
+				$sWriter->writeCellAndGoRight($hfOnlineSearch);
+				$sWriter->writeCellAndGoRight($hfOnlineAd);
+				$sWriter->writeCellAndGoRight($hfOnlineFF);
+				$sWriter->writeCellAndGoRight($hfID);
+				$sWriter->writeCellAndGoRight($hfWalkIn);
+				$sWriter->writeCellAndGoRight($hfOthers);
 				
-				$sWriter->writeCellAndGoRight($brand);
-				$sWriter->writeCellAndGoRight($category);
-				$sWriter->writeCellAndGoRight($modelName);
-				$sWriter->writeCellAndGoRight($customer->getDescription());
-				$sWriter->writeCellAndGoRight($customer->getServiceNotesString());
-				$sWriter->writeCellAndGoRight($customer->getSpecialRemarks());
-				$sWriter->writeCellAndGoRight($customer->getAssigneeString());
-				$sWriter->writeCellAndGoRight($zoneStr);
-				$sWriter->writeCellAndGoRight($customerName);
-				
+				$sWriter->writeCellAndGoRight($rPromotion);
+				$sWriter->writeCellAndGoRight($rBrand);
+				$sWriter->writeCellAndGoRight($rTech);
+				$sWriter->writeCellAndGoRight($rJap);
+				$sWriter->writeCellAndGoRight($rDesign);
+				$sWriter->writeCellAndGoRight($rPrice);
+				$sWriter->writeCellAndGoRight($rID);
+				$sWriter->writeCellAndGoRight($rFF);
+				$sWriter->writeCellAndGoRight($rOthers);
 			}
 			
 			// create the writer
