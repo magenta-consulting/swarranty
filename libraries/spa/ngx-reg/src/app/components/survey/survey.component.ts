@@ -24,7 +24,7 @@ export class SurveyComponent implements OnInit {
   ngOnInit() {
     this.registrationService.currentRegistration.subscribe(reg => {
       if (!reg) {
-        this.router.navigate(['/registration']);
+        this.router.navigate(['/']);
       }
     })
     this.buildOptions();
