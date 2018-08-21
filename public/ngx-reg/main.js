@@ -59,9 +59,9 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 var routes = [
     // { path: '', component:  AppComponent},
-    { path: '', redirectTo: '/survey', pathMatch: 'full' },
-    { path: 'survey', component: _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_7__["SurveyComponent"], canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]] },
-    { path: 'registration', component: _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"] },
+    { path: '', redirectTo: '/registration', pathMatch: 'full' },
+    { path: 'registration', component: _components_registration_registration_component__WEBPACK_IMPORTED_MODULE_2__["RegistrationComponent"], canActivate: [_service_auth_guard_service__WEBPACK_IMPORTED_MODULE_6__["AuthGuard"]] },
+    { path: 'survey', component: _components_survey_survey_component__WEBPACK_IMPORTED_MODULE_7__["SurveyComponent"] },
     { path: 'upload-receipt-image/:id', component: _components_uploads_uploads_component__WEBPACK_IMPORTED_MODULE_3__["UploadsComponent"] },
     { path: 'send-email/:id', component: _components_send_email_send_email_component__WEBPACK_IMPORTED_MODULE_4__["SendEmailComponent"] },
     { path: 'success/:id', component: _components_success_success_component__WEBPACK_IMPORTED_MODULE_5__["SuccessComponent"] },
@@ -366,10 +366,6 @@ var RegistrationComponent = /** @class */ (function () {
         organisationService.getOrganisation().subscribe(function (organisation) { return _this.organisation = organisation; });
     }
     RegistrationComponent.prototype.ngOnInit = function () {
-        if (!localStorage.getItem('survey')) {
-            this.router.navigate(['/survey']);
-            return;
-        }
         this.initMap();
     };
     RegistrationComponent.prototype.ngAfterViewInit = function () {
@@ -443,7 +439,6 @@ var RegistrationComponent = /** @class */ (function () {
                 reg['organisation'] = customer.organisation;
                 reg['telephone'] = customer.telephone;
                 reg.submitted = false;
-                _this.attachSurvey(reg);
                 reg.warranties = [];
                 for (var _i = 0, _a = _this.warranties; _i < _a.length; _i++) {
                     var w = _a[_i];
@@ -455,19 +450,13 @@ var RegistrationComponent = /** @class */ (function () {
                         rw.dealer = w.selectedDealer.id;
                     reg.warranties.push(rw);
                 }
-                _this.registrationService.postRegistration(reg).subscribe(function (reg) {
-                    localStorage.setItem('regId', reg['@id']);
-                    var regId = reg['@id'];
-                    var cutstr = '/api/registrations/';
-                    console.log('regId', regId, cutstr.length);
-                    var regRId = regId.substring(cutstr.length);
-                    _this.router.navigate(["/upload-receipt-image/" + regRId]);
-                });
                 if (_this.customer.email != null && _this.customer.email.trim() != '' && _this.subscribeNewsletter) {
                     _this.newsletterSubscriptionService.postNewsletterSubscription(_this.customer).subscribe(function (res) {
                         console.log('Newsletter subscription successfully!');
                     });
                 }
+                _this.registrationService.saveRegistration(reg);
+                _this.router.navigate(['/survey']);
             });
         }
         else {
@@ -590,28 +579,6 @@ var RegistrationComponent = /** @class */ (function () {
         if (this.customer.telephone && e.key.length == 1 && this.customer.telephone.toString().length == 8) {
             return false;
         }
-    };
-    RegistrationComponent.prototype.attachSurvey = function (reg) {
-        var survey = JSON.parse(localStorage.getItem('survey'));
-        if (!survey) {
-            this.router.navigate(['/survey']);
-            return;
-        }
-        reg['ageGroup'] = survey.ageGroup;
-        reg['hearOthers'] = survey.hearFrom.other;
-        reg['reasonOthers'] = survey.reason.other;
-        survey.hearFrom.options.forEach(function (option) {
-            reg[option] = true;
-        });
-        survey.hearFrom.blanks.forEach(function (option) {
-            reg[option] = false;
-        });
-        survey.reason.options.forEach(function (option) {
-            reg[option] = true;
-        });
-        survey.reason.blanks.forEach(function (option) {
-            reg[option] = false;
-        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])("search"),
@@ -940,7 +907,7 @@ var SuccessComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(1) >= 0\">Age Group *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.ageGroup\">\n      <label><input name=\"ageGroup\" type=\"radio\" value=\"{{option.value}}\" [(ngModel)]=\"survey.selectedAgeGroup\"> {{option.name}}</label>\n    </li>\n  </ul>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(2) >= 0\">How did you know FUJIOH? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.hearFrom\">\n      <span>\n        <label><input name=\"hearFrom\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"hearFrom\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherHearFrom.selected\"> Others (Enter comment)<br></label>\n        <div [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(3) >= 0\">Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherHearFrom.name\" (keyup)=\"survey.otherHearFrom.selected = true\">\n      </span>\n    </li>\n  </ul>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(4) >= 0\">Why did you choose FUJIOH product? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.reason\">\n      <span>\n        <label><input name=\"reason\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"reason\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherReason.selected\"> Others (Enter comment)<br></label>\n        <div [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(5) >= 0\">Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherReason.name\" (keyup)=\"survey.otherReason.selected = true\">\n      </span>\n    </li>\n  </ul>\n  <div *ngIf=\"validating && !survey.getResult()\" class=\"red\">{{message}}</div>\n  <button class=\"btn btn-success\" (click)=\"submit()\">Next</button>\n</div>"
+module.exports = "<div>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(1) >= 0\">Age Group *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.ageGroup\">\n      <label><input name=\"ageGroup\" type=\"radio\" value=\"{{option.value}}\" [(ngModel)]=\"survey.selectedAgeGroup\"> {{option.name}}</label>\n    </li>\n  </ul>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(2) >= 0\">How did you know FUJIOH? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.hearFrom\">\n      <span>\n        <label><input name=\"hearFrom\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"hearFrom\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherHearFrom.selected\"> Others (Enter comment)<br></label>\n        <div [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(3) >= 0\">Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherHearFrom.name\" (keyup)=\"survey.otherHearFrom.selected = true\">\n      </span>\n    </li>\n  </ul>\n  <p [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(4) >= 0\">Why did you choose FUJIOH product? (Multiple answers allowed) *</p>\n  <ul class=\"option-group\">\n    <li *ngFor=\"let option of survey.reason\">\n      <span>\n        <label><input name=\"reason\" type=\"checkbox\" value=\"{{option.value}}\" [(ngModel)]=\"option.selected\"> {{option.name}}</label>\n      </span>\n    </li>\n    <li>\n      <span>\n        <label><input type=\"reason\" type=\"checkbox\" value=\"other\" [(ngModel)]=\"survey.otherReason.selected\"> Others (Enter comment)<br></label>\n        <div [class.red]=\"validating && survey.getResultOrErrorCode().errors.indexOf(5) >= 0\">Others (Please write comment if others is selected)</div>\n        <input type=\"text\" [(ngModel)]=\"survey.otherReason.name\" (keyup)=\"survey.otherReason.selected = true\">\n      </span>\n    </li>\n  </ul>\n  <div *ngIf=\"validating && !survey.getResult()\" class=\"red\">{{message}}</div>\n  <button *ngIf=\"!submiting\" class=\"btn btn-success\" (click)=\"submit()\">Next</button>\n  <button *ngIf=\"submiting\" class=\"btn btn-success\" disabled>Submiting...</button>\n</div>"
 
 /***/ }),
 
@@ -968,6 +935,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _model_survey__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../model/survey */ "./src/app/model/survey.ts");
+/* harmony import */ var _service_registration_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../service/registration.service */ "./src/app/service/registration.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -980,16 +948,26 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var SurveyComponent = /** @class */ (function () {
-    function SurveyComponent(router) {
+    function SurveyComponent(router, registrationService) {
         this.router = router;
+        this.registrationService = registrationService;
         this.survey = new _model_survey__WEBPACK_IMPORTED_MODULE_2__["Survey"]();
         this.validating = false;
+        this.submiting = false;
     }
     SurveyComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.registrationService.currentRegistration.subscribe(function (reg) {
+            if (!reg) {
+                _this.router.navigate(['/registration']);
+            }
+        });
         this.buildOptions();
     };
     SurveyComponent.prototype.submit = function () {
+        var _this = this;
         this.validating = true;
         var res = this.survey.getResult();
         if (!res) {
@@ -997,9 +975,38 @@ var SurveyComponent = /** @class */ (function () {
         }
         else {
             // fetch some api
-            localStorage.setItem('survey', JSON.stringify(this.survey.getResult()));
-            this.router.navigate(['registration']);
+            this.submiting = true;
+            this.registrationService.currentRegistration.subscribe(function (reg) {
+                _this.registration = reg;
+                _this.attachSurvey(res, reg);
+                _this.registrationService.postRegistration(reg).subscribe(function (reg) {
+                    localStorage.setItem('regId', reg['@id']);
+                    var regId = reg['@id'];
+                    var cutstr = '/api/registrations/';
+                    console.log('regId', regId, cutstr.length);
+                    var regRId = regId.substring(cutstr.length);
+                    _this.router.navigate(["/upload-receipt-image/" + regRId]);
+                });
+            });
         }
+    };
+    SurveyComponent.prototype.attachSurvey = function (survey, reg) {
+        reg['ageGroup'] = survey.ageGroup;
+        reg['hearOthers'] = survey.hearFrom.other;
+        reg['reasonOthers'] = survey.reason.other;
+        survey.hearFrom.options.forEach(function (option) {
+            reg[option] = true;
+        });
+        survey.hearFrom.blanks.forEach(function (option) {
+            reg[option] = false;
+        });
+        survey.reason.options.forEach(function (option) {
+            reg[option] = true;
+        });
+        survey.reason.blanks.forEach(function (option) {
+            reg[option] = false;
+        });
+        return reg;
     };
     SurveyComponent.prototype.buildOptions = function () {
         this.survey.ageGroup = [
@@ -1110,7 +1117,8 @@ var SurveyComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./survey.component.html */ "./src/app/components/survey/survey.component.html"),
             styles: [__webpack_require__(/*! ./survey.component.scss */ "./src/app/components/survey/survey.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _service_registration_service__WEBPACK_IMPORTED_MODULE_3__["RegistrationService"]])
     ], SurveyComponent);
     return SurveyComponent;
 }());
@@ -2118,10 +2126,6 @@ var AuthGuard = /** @class */ (function () {
             this.getDataRegistration();
             return false;
         }
-        else if (localStorage.getItem('survey')) {
-            this.router.navigate(['registration']);
-            return false;
-        }
         return true;
     };
     /* =========================================== */
@@ -2603,8 +2607,13 @@ var httpOptions = {
 var RegistrationService = /** @class */ (function () {
     function RegistrationService(http) {
         this.http = http;
+        this.registrationSource = new rxjs__WEBPACK_IMPORTED_MODULE_3__["BehaviorSubject"](null);
+        this.currentRegistration = this.registrationSource.asObservable();
         this.registrationsUrl = '/registrations';
     }
+    RegistrationService.prototype.saveRegistration = function (reg) {
+        this.registrationSource.next(reg);
+    };
     RegistrationService.prototype.submitRegistration = function (regId) {
         var url = "" + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPoint"] + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + this.registrationsUrl + "/" + regId;
         return this.http.put(url, { 'submitted': true }, httpOptions).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["catchError"])(this.handleError('submitRegistration')));

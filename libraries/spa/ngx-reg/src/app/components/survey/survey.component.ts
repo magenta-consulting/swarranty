@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Survey, Option } from '../../model/survey';
+import { RegistrationService } from '../../service/registration.service';
+import { Registration } from '../../model/registration';
 
 @Component({
   selector: 'app-survey',
@@ -9,14 +11,22 @@ import { Survey, Option } from '../../model/survey';
 })
 export class SurveyComponent implements OnInit {
   survey: Survey = new Survey();
+  registration: Registration
   message: string;
   validating: boolean = false;
+  submiting: boolean = false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private registrationService: RegistrationService
   ) { }
 
   ngOnInit() {
+    this.registrationService.currentRegistration.subscribe(reg => {
+      if (!reg) {
+        this.router.navigate(['/registration']);
+      }
+    })
     this.buildOptions();
   }
 
@@ -27,9 +37,39 @@ export class SurveyComponent implements OnInit {
       this.message = "Please fill out required field";
     } else {
       // fetch some api
-      localStorage.setItem('survey', JSON.stringify(this.survey.getResult()));
-      this.router.navigate(['registration']);
+      this.submiting = true;
+      this.registrationService.currentRegistration.subscribe(reg => {
+        this.registration = reg;
+        this.attachSurvey(res, reg);
+        this.registrationService.postRegistration(reg).subscribe(reg => {
+            localStorage.setItem('regId', reg['@id']);
+            let regId = reg['@id'];
+            let cutstr = '/api/registrations/';
+            console.log('regId', regId, cutstr.length);
+            let regRId = regId.substring(cutstr.length);
+            this.router.navigate([`/upload-receipt-image/${regRId}`]);
+        });
+      });
     }
+  }
+
+  attachSurvey(survey, reg: Registration) {
+    reg['ageGroup'] = survey.ageGroup;
+    reg['hearOthers'] = survey.hearFrom.other;
+    reg['reasonOthers'] = survey.reason.other;
+    survey.hearFrom.options.forEach(option => {
+        reg[option] = true;
+    });
+    survey.hearFrom.blanks.forEach(option => {
+        reg[option] = false;
+    });
+    survey.reason.options.forEach(option => {
+        reg[option] = true;
+    });
+    survey.reason.blanks.forEach(option => {
+        reg[option] = false;
+    });
+    return reg;
   }
 
   buildOptions() {

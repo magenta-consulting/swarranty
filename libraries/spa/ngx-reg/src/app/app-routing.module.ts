@@ -14,9 +14,9 @@ import { SurveyComponent } from './components/survey/survey.component';
 
 const routes: Routes = [
     // { path: '', component:  AppComponent},
-    { path: '', redirectTo: '/survey', pathMatch: 'full' },
-    { path: 'survey', component: SurveyComponent, canActivate: [ AuthGuard ] },
-    { path: 'registration', component: RegistrationComponent },
+    { path: '', redirectTo: '/registration', pathMatch: 'full' },
+    { path: 'registration', component: RegistrationComponent, canActivate: [ AuthGuard ] },
+    { path: 'survey', component: SurveyComponent },
     { path: 'upload-receipt-image/:id', component: UploadsComponent },
     { path: 'send-email/:id', component: SendEmailComponent },
     { path: 'success/:id', component: SuccessComponent },
