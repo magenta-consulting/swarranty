@@ -26,3 +26,11 @@ services:
         arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
         tags:
             - {name: "console.command", command: "magenta:migration:update-entities"}
+
+
+    magenta_config.command.switch_name_number:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Migration\SwitchProductNameNumberCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+        - {name: "console.command", command: "magenta:migration:switch-name-number"}
