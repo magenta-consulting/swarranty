@@ -99,7 +99,7 @@ export class ProductService {
                 let collection = res['hydra:member'];
                 let prods: Product[] = [];
                 for (let item of collection) {
-                    prods.push({id: item['@id'], name: item['name']} as Product);
+                    prods.push({id: item['@id'], name: item['name'], modelNumber: item['modelNumber']} as Product);
                 }
 
                 return prods;
