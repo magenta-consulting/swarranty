@@ -23,9 +23,6 @@ export class AuthGuard implements CanActivate {
         if (localStorage.getItem('regId')) {
             this.getDataRegistration();
             return false;
-        } else if (localStorage.getItem('survey')) {
-            this.router.navigate(['registration']);
-            return false;
         }
         return true;
     }

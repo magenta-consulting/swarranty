@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map, tap} from 'rxjs/operators';
 
-import {Observable, of} from 'rxjs';
+import {Observable, of, BehaviorSubject} from 'rxjs';
 import {Brand} from '../model/brand';
 import {apiEndPoint, apiEndPointBase, organisationPath} from '../../environments/environment';
 import {BrandCategory} from '../model/brand-category';
@@ -20,10 +20,17 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class RegistrationService {
+    private registrationSource = new BehaviorSubject<Registration>(null);
+    currentRegistration = this.registrationSource.asObservable();
+
     registrationsUrl = '/registrations';
     registration: Registration;
 
     constructor(private http: HttpClient) {
+    }
+
+    saveRegistration(reg: Registration) {
+        this.registrationSource.next(reg);
     }
 
     submitRegistration(regId): Observable<Registration> {

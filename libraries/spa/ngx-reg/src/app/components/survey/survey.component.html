@@ -36,5 +36,6 @@
     </li>
   </ul>
   <div *ngIf="validating && !survey.getResult()" class="red">{{message}}</div>
-  <button class="btn btn-success" (click)="submit()">Next</button>
+  <button *ngIf="!submiting" class="btn btn-success" (click)="submit()">Next</button>
+  <button *ngIf="submiting" class="btn btn-success" disabled>Submiting...</button>
 </div>
