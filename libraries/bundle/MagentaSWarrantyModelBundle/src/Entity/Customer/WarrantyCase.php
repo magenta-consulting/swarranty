@@ -58,7 +58,6 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->serviceSheets   = new ArrayCollection();
 		$this->serviceNotes    = new ArrayCollection();
 		$this->assigneeHistory = new ArrayCollection();
-		$this->initiateNumber();
 	}
 	
 	public function getServiceNotesString() {

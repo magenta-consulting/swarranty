@@ -480,7 +480,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {
-				
 				$formMapper
 					->with('form_group.selected_warranty', [ 'class' => 'col-md-6' ]);
 
@@ -587,6 +586,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$formMapper
 			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceZone', ModelType::class, [
+			'required'    => false,
 			'btn_add'     => false,
 			'placeholder' => 'Select a Zone',
 			'property'    => 'name'
