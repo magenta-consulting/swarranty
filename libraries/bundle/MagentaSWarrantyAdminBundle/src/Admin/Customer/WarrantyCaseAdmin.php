@@ -480,7 +480,6 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		if( ! $this->isAppendFormElement()) {
 			if(true || ! $parent instanceof WarrantyAdmin) {
-				
 				$formMapper
 					->with('form_group.selected_warranty', [ 'class' => 'col-md-6' ]);
 
@@ -587,6 +586,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		$formMapper
 			->with('form_group.case_assignment', [ 'class' => 'col-md-6' ]);
 		$formMapper->add('serviceZone', ModelType::class, [
+			'required'    => false,
 			'btn_add'     => false,
 			'placeholder' => 'Select a Zone',
 			'property'    => 'name'
@@ -616,11 +616,22 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					'btn_add'     => false,
 					'query'       => $canReceiveCaseMemberQuery
 				])
-				->add('appointmentAt', DateTimePickerType::class, [
+				->add('appointmentAt', DatePickerType::class, [
 					'required'              => false,
 					'format'                => 'dd-MM-yyyy, H:m',
 					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
 					'datepicker_use_button' => false,
+				])
+				->add('appointmentFrom', TimeType::class, [
+					'required'    => false,
+					'placeholder' => array(
+						'hour'   => 'Hour',
+						'minute' => 'Minute'
+					),
+					'minutes'     => [ 0, 15, 30, 45 ]
+//					'format'                => 'dd-MM-yyyy, H:m',
+//					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+//					'datepicker_use_button' => false,
 				])
 				->add('appointmentTo', TimeType::class, [
 					'required'    => false,
@@ -673,6 +684,10 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		parent::preValidate($object);
 		$apmts   = $object->getAppointments();
 		$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
+		
+		if( ! empty($from = $object->getAppointmentFrom())) {
+			$object->getAppointmentAt()->setTime((int) $from->format('H'), (int) $from->format('i'));
+		};
 		/** @var CaseAppointment $apmt */
 		foreach($apmts as $apmt) {
 			if( ! empty($apmt)) {
@@ -684,6 +699,13 @@ class WarrantyCaseAdmin extends BaseAdmin {
 					if( ! empty($note->getId())) {
 						$manager->remove($note);
 						$manager->flush($note);
+					}
+				}
+				if( ! empty($from = $apmt->getAppointmentFrom())) {
+					$apmt->getAppointmentAt()->setTime((int) $from->format('H'), (int) $from->format('i'));
+					if( ! empty($apmt->getVisitedAt())) {
+						$apmtAt = $apmt->getAppointmentAt();
+						$apmt->getVisitedAt()->setDate((int) $apmtAt->format('Y'), (int) $apmtAt->format('m'), (int) $apmtAt->format('d'));
 					}
 				}
 				$object->addAppointment($apmt);

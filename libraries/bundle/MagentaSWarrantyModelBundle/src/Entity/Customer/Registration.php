@@ -111,20 +111,20 @@ class Registration implements ThingChildInterface {
 	protected $customer;
 	
 	//	Customer Info
-
+	
 	/**
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
 	protected $name;
-
-    /**
-     * @var string|null
-     * @ORM\Column(type="string",nullable=true)
-     */
-    protected $addressUnitNumber;
-
-    /**
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $addressUnitNumber;
+	
+	/**
 	 * @var \DateTime|null
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
@@ -175,97 +175,97 @@ class Registration implements ThingChildInterface {
 	
 	/**
 	 * @var boolean
-	 * @ORM\Column(type="boolean", options={"default":false})
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
 	 */
 	protected $submitted = false;
 	
 	/**
 	 * @var string|null
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", nullable=true)
 	 */
 	protected $code;
 
 //	DIRTY FIELDS
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $ageGroup;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromOnlineSearch;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromOnlineAd;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearFromFriendFamily;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonInteriorDesigner ;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $hearWalkShop;
-    /**
-     * @var string|null
-     * @ORM\Column(type="string")
-     */
-    protected $hearOthers;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonPromotions;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTheBrand;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTechnology;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonJapanese;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonTheDesign;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonAffordable;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonDesignerSuggested;
-    /**
-     * @var boolean|null
-     * @ORM\Column(type="boolean", options={"default":false})
-     */
-    protected $reasonFriendFamilySuggested;
-    /**
-     * @var string|null
-     * @ORM\Column(type="string", nullable=true)
-     */
-    protected $reasonOthers;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $ageGroup;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromOnlineSearch;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromOnlineAd;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearFromFriendFamily;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonInteriorDesigner;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $hearWalkShop;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $hearOthers;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean",nullable=true,  options={"default":false})
+	 */
+	protected $reasonPromotions;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTheBrand;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTechnology;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonJapanese;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonTheDesign;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonAffordable;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonDesignerSuggested;
+	/**
+	 * @var boolean|null
+	 * @ORM\Column(type="boolean", nullable=true, options={"default":false})
+	 */
+	protected $reasonFriendFamilySuggested;
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string", nullable=true)
+	 */
+	protected $reasonOthers;
 
 // END DIRTY FIELDS
 	

@@ -26,9 +26,9 @@
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
                     <!-- Button trigger modal -->
                     <span class="img-thumbnail"
-                          data-src="{{ media_endpoint }}/media/{{ value.id }}/binaries/reference/view.json"
+                          data-src="{{ privateMediumUrl(value.id,'reference') }}"
                           data-toggle="modal" data-target="#admin-modal">
-                                    <img src="{{ media_endpoint }}/media/{{ value.id }}/binaries/admin/view.json"
+                                    <img src="{{ privateMediumUrl(value.id,'admin') }}"
                                          class="img-polaroid media-object"/>
                     </span>
                 </div>

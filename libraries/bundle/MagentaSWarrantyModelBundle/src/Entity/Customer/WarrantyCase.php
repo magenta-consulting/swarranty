@@ -58,7 +58,6 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->serviceSheets   = new ArrayCollection();
 		$this->serviceNotes    = new ArrayCollection();
 		$this->assigneeHistory = new ArrayCollection();
-		$this->initiateNumber();
 	}
 	
 	public function getServiceNotesString() {
@@ -437,6 +436,13 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	 */
 	protected
 		$appointmentAt;
+	
+	/**
+	 * @var \DateTime|null
+	 * @ORM\Column(type="time", nullable=true)
+	 */
+	protected
+		$appointmentFrom;
 	
 	/**
 	 * @var \DateTime|null
@@ -992,4 +998,17 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->specialRemarks = $specialRemarks;
 	}
 	
+	/**
+	 * @return \DateTime|null
+	 */
+	public function getAppointmentFrom(): ?\DateTime {
+		return $this->appointmentFrom;
+	}
+	
+	/**
+	 * @param \DateTime|null $appointmentFrom
+	 */
+	public function setAppointmentFrom(?\DateTime $appointmentFrom): void {
+		$this->appointmentFrom = $appointmentFrom;
+	}
 }

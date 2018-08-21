@@ -162,7 +162,8 @@ form:
     label_customer: Customer
     label_status: Status
     label_appointment_time: Appointment Time
-    label_appointment_at: Appointment Time (From)
+    label_appointment_from:  Appointment Time (From)
+    label_appointment_at: Appointment Date
     label_appointment_to: Appointment Time (To)
     label_appointments: Appointments
     label_service_zone: Service Zone
