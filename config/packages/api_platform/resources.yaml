@@ -203,6 +203,7 @@ resources:
                 groups:
                     - read_brand_category
                     - read_brand
+                    - read_product
                     - read_thing
             denormalization_context:
                 groups:
