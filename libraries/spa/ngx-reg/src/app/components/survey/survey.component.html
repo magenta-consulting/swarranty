@@ -1,11 +1,11 @@
 <div>
-  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(1) >= 0">Age Group *</p>
+  <b [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(1) >= 0">Age Group *</b>
   <ul class="option-group">
     <li *ngFor="let option of survey.ageGroup">
       <label><input name="ageGroup" type="radio" value="{{option.value}}" [(ngModel)]="survey.selectedAgeGroup"> {{option.name}}</label>
     </li>
   </ul>
-  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(2) >= 0">How did you know FUJIOH? (Multiple answers allowed) *</p>
+  <b [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(2) >= 0">How did you know FUJIOH? (Multiple answers allowed) *</b>
   <ul class="option-group">
     <li *ngFor="let option of survey.hearFrom">
       <span>
@@ -20,7 +20,7 @@
       </span>
     </li>
   </ul>
-  <p [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(4) >= 0">Why did you choose FUJIOH product? (Multiple answers allowed) *</p>
+  <b [class.red]="validating && survey.getResultOrErrorCode().errors.indexOf(4) >= 0">Why did you choose FUJIOH product? (Multiple answers allowed) *</b>
   <ul class="option-group">
     <li *ngFor="let option of survey.reason">
       <span>

@@ -12,6 +12,7 @@ export class Product {
     subCategories: BrandSubCategory;
     customer: Customer;
     warranties: Warranty[];
+    modelNumber: string;
 
     constructor() {
         this.brand = null;

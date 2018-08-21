@@ -244,8 +244,8 @@
                 <div *ngIf="!warranty.isProductHidden">
                     <div *ngIf="!isPreview('modelName'+i)" class="input-group mb-2">
                         <ng-select class="mb-2" [items]="warranty.products"
-                                   bindLabel="name"
-                                   placeholder="(*) Model Name"
+                                   bindLabel="modelNumber"
+                                   placeholder="(*) Model Number"
                                    [(ngModel)]="warranty.selectedProduct"
                                    (blur)="updateField('modelName'+i)">
                         </ng-select>
@@ -253,10 +253,10 @@
                     <div *ngIf="isPreview('modelName'+i)" (click)="editPreview('modelName'+i)"
                          class="input-group mb-2 preview-container">
                         <div class="input-group-prepend preview-label">
-                            <span class="input-group-text">Model Name </span>
+                            <span class="input-group-text">Model Number </span>
                         </div>
                         <div class="form-control preview-text">
-                            <span>{{warranty.selectedProduct.name}}</span>
+                            <span>{{warranty.selectedProduct.modelNumber}}</span>
                         </div>
                         <div class="input-group-append">
                             <span class="input-group-text"><fa name="edit"></fa></span>

@@ -254,6 +254,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 warranty.products = prods;
                 warranty.isProductHidden = false;
                 warranty.selectedProduct = null;
+                console.log(warranty);
             });
         }
     }
