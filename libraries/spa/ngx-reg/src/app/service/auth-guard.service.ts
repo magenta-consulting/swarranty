@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
         if (localStorage.getItem('regId')) {
             let regId = localStorage.getItem('regId');
             if (Number.isNaN(parseInt(regId))) {
-                let cutstr = '/api/registrations/';
+                let cutstr = apiEndPointBase + '/registrations/';
                 regId = regId.substring(cutstr.length);
             }
 

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Survey, Option } from '../../model/survey';
 import { RegistrationService } from '../../service/registration.service';
 import { Registration } from '../../model/registration';
+import { apiEndPointBase } from '../../../environments/environment';
 
 @Component({
   selector: 'app-survey',
@@ -22,11 +23,10 @@ export class SurveyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.registrationService.currentRegistration.subscribe(reg => {
-      if (!reg) {
-        this.router.navigate(['/']);
-      }
-    })
+    this.registration = this.registrationService.currentRegistration;
+    if (!this.registration) {
+      this.router.navigate(['/']);
+    }
     this.buildOptions();
   }
 
@@ -38,17 +38,14 @@ export class SurveyComponent implements OnInit {
     } else {
       // fetch some api
       this.submiting = true;
-      this.registrationService.currentRegistration.subscribe(reg => {
-        this.registration = reg;
-        this.attachSurvey(res, reg);
-        this.registrationService.postRegistration(reg).subscribe(reg => {
-            localStorage.setItem('regId', reg['@id']);
-            let regId = reg['@id'];
-            let cutstr = '/api/registrations/';
-            console.log('regId', regId, cutstr.length);
-            let regRId = regId.substring(cutstr.length);
-            this.router.navigate([`/upload-receipt-image/${regRId}`]);
-        });
+      this.attachSurvey(res, this.registration);
+      this.registrationService.postRegistration(this.registration).subscribe(reg => {
+          localStorage.setItem('regId', reg['@id']);
+          let regId = reg['@id'];
+          let cutstr = apiEndPointBase + '/registrations/';
+          console.log('regId', regId, cutstr.length);
+          let regRId = regId.substring(cutstr.length);
+          this.router.navigate([`upload-receipt-image/${regRId}`]);
       });
     }
   }

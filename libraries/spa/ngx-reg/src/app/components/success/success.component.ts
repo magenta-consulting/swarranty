@@ -48,7 +48,7 @@ export class SuccessComponent implements OnInit, AfterViewInit {
     if (localStorage.getItem('regId')) {
       let regId: any = localStorage.getItem('regId');
       if (Number.isNaN(parseInt(regId))) {
-        let cutstr = '/api/registrations/';
+        let cutstr = apiEndPointBase + '/registrations/';
         console.log('regId', regId, cutstr.length);
         regId = parseInt(regId.substring(cutstr.length));
       } else {
