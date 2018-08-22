@@ -783,6 +783,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var ngx_bootstrap_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-bootstrap/modal */ "./node_modules/ngx-bootstrap/modal/index.js");
 /* harmony import */ var _service_product_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../service/product.service */ "./src/app/service/product.service.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -792,6 +793,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -826,7 +828,7 @@ var SuccessComponent = /** @class */ (function () {
         if (localStorage.getItem('regId')) {
             var regId = localStorage.getItem('regId');
             if (Number.isNaN(parseInt(regId))) {
-                var cutstr = '/api/registrations/';
+                var cutstr = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + '/registrations/';
                 console.log('regId', regId, cutstr.length);
                 regId = parseInt(regId.substring(cutstr.length));
             }
@@ -935,6 +937,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _model_survey__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../model/survey */ "./src/app/model/survey.ts");
 /* harmony import */ var _service_registration_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../service/registration.service */ "./src/app/service/registration.service.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -948,6 +951,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var SurveyComponent = /** @class */ (function () {
     function SurveyComponent(router, registrationService) {
         this.router = router;
@@ -957,12 +961,10 @@ var SurveyComponent = /** @class */ (function () {
         this.submiting = false;
     }
     SurveyComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.registrationService.currentRegistration.subscribe(function (reg) {
-            if (!reg) {
-                _this.router.navigate(['/']);
-            }
-        });
+        this.registration = this.registrationService.currentRegistration;
+        if (!this.registration) {
+            this.router.navigate(['/']);
+        }
         this.buildOptions();
     };
     SurveyComponent.prototype.submit = function () {
@@ -975,17 +977,14 @@ var SurveyComponent = /** @class */ (function () {
         else {
             // fetch some api
             this.submiting = true;
-            this.registrationService.currentRegistration.subscribe(function (reg) {
-                _this.registration = reg;
-                _this.attachSurvey(res, reg);
-                _this.registrationService.postRegistration(reg).subscribe(function (reg) {
-                    localStorage.setItem('regId', reg['@id']);
-                    var regId = reg['@id'];
-                    var cutstr = '/api/registrations/';
-                    console.log('regId', regId, cutstr.length);
-                    var regRId = regId.substring(cutstr.length);
-                    _this.router.navigate(["/upload-receipt-image/" + regRId]);
-                });
+            this.attachSurvey(res, this.registration);
+            this.registrationService.postRegistration(this.registration).subscribe(function (reg) {
+                localStorage.setItem('regId', reg['@id']);
+                var regId = reg['@id'];
+                var cutstr = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + '/registrations/';
+                console.log('regId', regId, cutstr.length);
+                var regRId = regId.substring(cutstr.length);
+                _this.router.navigate(["upload-receipt-image/" + regRId]);
             });
         }
     };
@@ -2100,6 +2099,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var _product_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./product.service */ "./src/app/service/product.service.ts");
 /* harmony import */ var _registration_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./registration.service */ "./src/app/service/registration.service.ts");
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../environments/environment */ "./src/environments/environment.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2109,6 +2109,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -2135,7 +2136,7 @@ var AuthGuard = /** @class */ (function () {
         if (localStorage.getItem('regId')) {
             var regId_1 = localStorage.getItem('regId');
             if (Number.isNaN(parseInt(regId_1))) {
-                var cutstr = '/api/registrations/';
+                var cutstr = _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + '/registrations/';
                 regId_1 = regId_1.substring(cutstr.length);
             }
             this.registrationService.getRegistration(regId_1).subscribe(function (res) {
@@ -2606,12 +2607,10 @@ var httpOptions = {
 var RegistrationService = /** @class */ (function () {
     function RegistrationService(http) {
         this.http = http;
-        this.registrationSource = new rxjs__WEBPACK_IMPORTED_MODULE_3__["BehaviorSubject"](null);
-        this.currentRegistration = this.registrationSource.asObservable();
         this.registrationsUrl = '/registrations';
     }
     RegistrationService.prototype.saveRegistration = function (reg) {
-        this.registrationSource.next(reg);
+        this.currentRegistration = reg;
     };
     RegistrationService.prototype.submitRegistration = function (regId) {
         var url = "" + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPoint"] + _environments_environment__WEBPACK_IMPORTED_MODULE_4__["apiEndPointBase"] + this.registrationsUrl + "/" + regId;
