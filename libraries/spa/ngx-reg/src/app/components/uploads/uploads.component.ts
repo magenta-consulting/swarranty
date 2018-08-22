@@ -105,14 +105,12 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             prod.imageUrl.push(apiEndPointMedia + '/media/' + prodImg.id + binariesMedia);
           }
         }
+        console.log(res);
       },
       error => {
         console.log('Error', error);
         this.prodList = [];
         this.isLoading = false;
-      },
-      () => {
-        console.log('Complete Request');
       }
     );
   }
