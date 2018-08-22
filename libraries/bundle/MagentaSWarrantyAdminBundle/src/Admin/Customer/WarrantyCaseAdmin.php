@@ -618,8 +618,8 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				])
 				->add('appointmentAt', DatePickerType::class, [
 					'required'              => false,
-					'format'                => 'dd-MM-yyyy, H:m',
-					'placeholder'           => 'dd-mm-yyyy, hour:minutes',
+					'format'                => 'dd-MM-yyyy',
+					'placeholder'           => 'dd-mm-yyyy',
 					'datepicker_use_button' => false,
 				])
 				->add('appointmentFrom', TimeType::class, [
