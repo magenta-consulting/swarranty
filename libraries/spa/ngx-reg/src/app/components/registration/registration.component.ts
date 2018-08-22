@@ -183,7 +183,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
                 if (this.customer.email != null && this.customer.email.trim() != '' && this.subscribeNewsletter) {
                     this.newsletterSubscriptionService.postNewsletterSubscription(this.customer).subscribe(res => {
-                        console.log('Newsletter subscription successfully!');
                     })                    
                 }
 
@@ -254,7 +253,6 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
                 warranty.products = prods;
                 warranty.isProductHidden = false;
                 warranty.selectedProduct = null;
-                console.log(warranty);
             });
         }
     }

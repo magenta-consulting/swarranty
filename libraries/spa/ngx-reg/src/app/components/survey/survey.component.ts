@@ -43,7 +43,7 @@ export class SurveyComponent implements OnInit {
           localStorage.setItem('regId', reg['@id']);
           let regId = reg['@id'];
           let cutstr = apiEndPointBase + '/registrations/';
-          console.log('regId', regId, cutstr.length);
+          // console.log('regId', regId, cutstr.length);
           let regRId = regId.substring(cutstr.length);
           this.router.navigate([`upload-receipt-image/${regRId}`]);
       });

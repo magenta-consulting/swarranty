@@ -59,7 +59,7 @@ export class RegistrationService {
             map((res) => {
 
                 let dataRegistration: Registration = res;
-                console.log('dataRegistration', dataRegistration);
+                // console.log('dataRegistration', dataRegistration);
                 return dataRegistration;
             }),
             catchError(this.handleError('getRegistration', []))
@@ -80,9 +80,9 @@ export class RegistrationService {
             }
 
             // TODO: send the error to remote logging infrastructure
-            console.error('error', error); // log to console instead
+            // console.error('error', error); // log to console instead
             // TODO: better job of transforming error for user consumption
-            console.log(`${operation} failed: ${error.message}`);
+            // console.log(`${operation} failed: ${error.message}`);
 
             // Let the app keep running by returning an empty result.
             return of(result as T);

@@ -87,13 +87,15 @@ export class SuccessComponent implements OnInit, AfterViewInit {
           },
           error => {
             // var details = error.json();
-            console.log(error);
+            // console.log(error);
             this.verifyFail = true;
 
             // hide button click
             this.isClick = true;
           },
-          () => console.log("Finished")
+          () => {
+            // console.log("Finished")
+          }
         );
     } else {
       // this.dataCustomer = [];

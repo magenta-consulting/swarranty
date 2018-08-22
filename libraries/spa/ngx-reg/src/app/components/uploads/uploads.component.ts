@@ -56,7 +56,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
   /** Actions in this Comp */
 
   submitRegistration() {
-    console.log('submitting');
+    // console.log('submitting');
     let regId = this.route.snapshot.params['id'];
     this.regService.submitRegistration(regId).subscribe(
       res => {
@@ -72,10 +72,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/success/' + regId]);
       },
       error => {
-        console.log('Error', error);
+        // console.log('Error', error);
       },
       () => {
-        console.log('Complete Request');
       }
     );
   }
@@ -105,10 +104,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
             prod.imageUrl.push(apiEndPointMedia + '/media/' + prodImg.id + binariesMedia);
           }
         }
-        console.log(res);
       },
       error => {
-        console.log('Error', error);
+        // console.log('Error', error);
         this.prodList = [];
         this.isLoading = false;
       }
@@ -132,7 +130,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
   };
 
   onUploadFinished(file: FileHolder) {
-    console.log('finished', file);
+    // console.log('finished', file);
 
     // 1.
     // this.getDataWarranties();
@@ -156,13 +154,13 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     if (v_confirm == true) {
       this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
         res => {
-          console.log('res', res);
+          // console.log('res', res);
         },
         error => {
-          console.log('Error', error);
+          // console.log('Error', error);
         },
         () => {
-          console.log('Complete Request');
+          // console.log('Complete Request');
         }
       );
     }
@@ -170,7 +168,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
   }
 
   onUploadStateChanged(state: boolean) {
-    console.log('state', state);
+    // console.log('state', state);
   }
 
   // clear localStorage and then redirect to page registration
