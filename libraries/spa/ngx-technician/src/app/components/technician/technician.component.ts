@@ -90,7 +90,7 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
                 this.currentServiceSheet = sheet;
             }
         });
-        this.currentServiceSheet!.images.forEach(img => {
+        if (this.currentServiceSheet != null) this.currentServiceSheet.images.forEach(img => {
             this.imageUrls.push(apiEndPointMedia + '/media/' + img.id + binariesMedia)
         });
     }

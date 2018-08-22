@@ -20,17 +20,15 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class RegistrationService {
-    private registrationSource = new BehaviorSubject<Registration>(null);
-    currentRegistration = this.registrationSource.asObservable();
+    currentRegistration: Registration;
 
     registrationsUrl = '/registrations';
-    registration: Registration;
 
     constructor(private http: HttpClient) {
     }
 
     saveRegistration(reg: Registration) {
-        this.registrationSource.next(reg);
+        this.currentRegistration = reg;
     }
 
     submitRegistration(regId): Observable<Registration> {
