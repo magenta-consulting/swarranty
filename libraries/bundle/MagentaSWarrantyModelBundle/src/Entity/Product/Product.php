@@ -20,6 +20,10 @@ class Product extends Thing {
 		$this->warranties = new ArrayCollection();
 	}
 	
+	function __toString() {
+		return $this->id . ' ' . $this->name;
+	}
+	
 	public function generateSearchText() {
 		$subcat = empty($this->subCategory) ? '' : $this->subCategory->getName();
 		$cat    = empty($this->category) ? 'No Category' : $this->category->getName();
@@ -41,11 +45,14 @@ class Product extends Thing {
 	 * @param Media|null $image
 	 */
 	public function setImage(?Media $image): void {
-		if( ! empty($image)) {
-			$image->setImageProduct($this);
-		}
 		if( ! empty($this->image)) {
 			$this->image->setImageProduct(null);
+		}
+		if( ! empty($image)) {
+			// ugly fix for the lack of a proper Transformer
+			if(empty($image->getImageProduct()) || empty($image->getImageProduct()->getId())) {
+				$image->setImageProduct($this);
+			}
 		}
 		$this->image = $image;
 	}

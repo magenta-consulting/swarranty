@@ -28,7 +28,7 @@ class WarrantyCaseListener {
 	private function updateInfAfterOperation(WarrantyCase $case, LifecycleEventArgs $event) {
 		$this->updateInfo($case, $event);
 		$manager = $event->getEntityManager();
-//		$manager->flush();
+		$manager->flush($case);
 	}
 	
 	private function updateInfo(WarrantyCase $case, LifecycleEventArgs $event) {
@@ -160,7 +160,10 @@ class WarrantyCaseListener {
 	public function postUpdateHandler(WarrantyCase $case, LifecycleEventArgs $event) {
 //		$this->handleAdminEmail($case);
 		$this->updateInfAfterOperation($case, $event);
-//		$manager = $event->getEntityManager();
+		$manager = $event->getEntityManager();
+		$uow     = $manager->getUnitOfWork();
+//		$uow->computeChangeSet($manager->getClassMetadata(WarrantyCase::class), $case);
+//		$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(WarrantyCase::class), $case);
 	}
 	
 	public function prePersistHandler(WarrantyCase $case, LifecycleEventArgs $event) {
