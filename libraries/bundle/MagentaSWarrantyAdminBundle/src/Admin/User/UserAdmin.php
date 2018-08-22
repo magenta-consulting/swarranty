@@ -228,10 +228,10 @@ class UserAdmin extends BaseAdmin {
 			$formMapper
 				->with('General')
 //                ->add('username')
-				->add('email', null, [ 'label' => 'list.label_email' ])
+				->add('email', null, [ 'label' => 'form.label_email' ])
 //                ->add('admin')
 				->add('plainPassword', TextType::class, [
-					'label'    => 'list.label_plain_password',
+					'label'    => 'form.label_password',
 					'required' => ( ! $this->getSubject() || is_null($this->getSubject()->getId())),
 				])
 				->end()

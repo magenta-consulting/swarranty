@@ -232,6 +232,7 @@ form:
     label_role: Role
 
 breadcrumb:
+    link_user_list: Users
     link_message_template_list: Communication Templates
     link_message_template_create: Create
     link_child_case_list: Child Cases
