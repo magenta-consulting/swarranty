@@ -18,7 +18,14 @@ services:
         public: false
         arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
         tags:
-            - {name: "console.command", command: "magenta:product:generate-search-text"}
+        - {name: "console.command", command: "magenta:product:generate-search-text"}
+
+    magenta_config.command.import_product:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Product\ImportProductCommand
+        public: false
+        arguments: ['@service_container','@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+        - {name: "console.command", command: "magenta:product:import"}
 
     magenta_config.command.update_entities:
         class: Magenta\Bundle\SWarrantyModelBundle\Command\Migration\UpdateEntitiesCommand
