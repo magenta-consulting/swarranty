@@ -142,6 +142,8 @@ EOT
 			$product = new Product();
 			$product->setBrand($brand);
 			$product->setCategory($cat);
+			$product->setName($name);
+			$product->setModelNumber($number);
 			$product->setWarrantyPeriod(12);
 			$product->setExtendedWarrantyPeriod(3);
 			$this->entityManager->persist($product);
