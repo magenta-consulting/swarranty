@@ -95,7 +95,7 @@ class UserAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -203,8 +203,7 @@ class UserAdmin extends BaseAdmin {
 					'multiple' => true,
 					'required' => false,
 				])
-				->end()
-			;
+				->end();
 			$formMapper->end();
 		}
 
@@ -239,8 +238,12 @@ class UserAdmin extends BaseAdmin {
 				->with('Profile');
 			
 			$formMapper
-				->add('firstname', null, [ 'required' => false ])
-				->add('roles', null, [ 'required' => false ]);
+				->add('person.givenName', null, [ 'required' => false, 'label' => 'form.label_given_name' ])
+				->add('person.familyName', null, [
+					'required' => false,
+					'label'    => 'form.label_family_name'
+				])//				->add('roles', null, [ 'required' => false ])
+			;
 			
 			$formMapper->end();
 		}
