@@ -60,6 +60,20 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$this->assigneeHistory = new ArrayCollection();
 	}
 	
+	public function getCurrentAppointment() {
+		if(empty($this->appointmentAt)) {
+			return null;
+		}
+		/** @var CaseAppointment $apmt */
+		foreach($this->appointments as $apmt) {
+			if($apmt->getAppointmentAt()->format('d-m-Y H:i:s') === $this->getAppointmentAt()->format('d-m-Y H:i:s')) {
+				return $apmt;
+			}
+		}
+		
+		return null;
+	}
+	
 	public function getServiceNotesString() {
 		$noteStr = '';
 		/** @var ServiceNote $note */
@@ -181,6 +195,12 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 				$this->completed = false;
 				$this->closed    = false;
 				$this->status    = self::STATUS_RESPONDED;
+				$apmt            = $this->getCurrentAppointment();
+				if( ! empty($apmt)) {
+					if(empty($apmt->getVisitedAt())) {
+						$apmt->setVisitedAt(new \DateTime());
+					}
+				}
 				break;
 			
 			case self::STATUS_COMPLETED:
@@ -190,6 +210,12 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 				$this->completed = true;
 				$this->closed    = false;
 				$this->status    = self::STATUS_COMPLETED;
+				$apmt            = $this->getCurrentAppointment();
+				if( ! empty($apmt)) {
+					if(empty($apmt->getVisitedAt())) {
+						$apmt->setVisitedAt(new \DateTime());
+					}
+				}
 				break;
 			
 			case self::STATUS_REOPENED:
