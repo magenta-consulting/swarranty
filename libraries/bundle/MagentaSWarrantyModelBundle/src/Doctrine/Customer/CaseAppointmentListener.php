@@ -35,7 +35,8 @@ class CaseAppointmentListener {
 		$uow     = $manager->getUnitOfWork();
 		$case    = $apmt->getCase();
 		$w       = $case->getWarranty();
-		$ss      = $apmt->getServiceSheet();
+		$apmt->initiateServiceSheet();
+		$ss = $apmt->getServiceSheet();
 		$case->addServiceSheet($ss);
 		
 		$org  = $w->getOrganisation();

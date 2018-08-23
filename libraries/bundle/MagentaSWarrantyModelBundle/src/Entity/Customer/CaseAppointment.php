@@ -38,9 +38,7 @@ class CaseAppointment extends FullTextSearch {
 	
 	public function __construct() {
 		$this->createdAt = new \DateTime();
-		if(empty($this->serviceSheet)) {
-			$this->serviceSheet = $this->createServiceSheet();
-		}
+		$this->initiateServiceSheet();
 	}
 	
 	/**
@@ -64,6 +62,14 @@ class CaseAppointment extends FullTextSearch {
 		}
 		
 		return '';
+	}
+	
+	public function initiateServiceSheet() {
+		if(empty($this->serviceSheet)) {
+			$this->createServiceSheet();
+		}
+		
+		return $this->serviceSheet;
 	}
 	
 	public function createServiceSheet() {

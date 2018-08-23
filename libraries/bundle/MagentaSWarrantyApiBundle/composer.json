@@ -15,6 +15,7 @@
   "require": {
     "magenta-consulting/swarranty-model-bundle": "^0.1",
     "api-platform/api-pack": "^1.1",
+    "nelmio/cors-bundle": "^1.5",
     "magenta-consulting/swarranty-jwt-bundle": "^0.1",
     "endroid/qr-code-bundle": "^3.2"
   },

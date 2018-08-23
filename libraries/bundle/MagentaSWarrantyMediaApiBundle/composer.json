@@ -16,6 +16,7 @@
     "magenta-consulting/swarranty-model-bundle": "^0.1",
     "magenta-consulting/swarranty-jwt-bundle": "^0.1",
     "nelmio/api-doc-bundle": "^2.13",
+    "nelmio/cors-bundle": "^1.5",
     "friendsofsymfony/rest-bundle": "^2.3",
     "symfony/twig-bundle": "^4.1"
   },
