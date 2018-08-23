@@ -205,8 +205,8 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     updateNote() {
         this.isSaving['note'] = true;
         let note = {
-            appointment: `/api/case-appointments/${this.case.currentAppointment.id}`,
-            case: `/api/warranty-cases/${this.case.id}`,
+            appointment: `${apiEndPointBase}/case-appointments/${this.case.currentAppointment.id}`,
+            case: `${apiEndPointBase}/warranty-cases/${this.case.id}`,
             description: this.currentAppointmentNote.description,
             id: this.currentAppointmentNote.id
         }
@@ -219,8 +219,8 @@ export class TechnicianComponent implements OnInit, AfterViewInit {
     addNote() {
         this.isSaving['note'] = true;
         let note = {
-            appointment: `/api/case-appointments/${this.case.currentAppointment.id}`,
-            case: `/api/warranty-cases/${this.case.id}`,
+            appointment: `${apiEndPointBase}/case-appointments/${this.case.currentAppointment.id}`,
+            case: `${apiEndPointBase}/warranty-cases/${this.case.id}`,
             description: this.noteDescription
         }
         this.noteService.add(note).subscribe(res => {
