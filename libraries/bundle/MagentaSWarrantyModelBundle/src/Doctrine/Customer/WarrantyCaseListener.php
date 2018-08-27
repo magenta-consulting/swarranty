@@ -189,8 +189,8 @@ class WarrantyCaseListener {
 	}
 	
 	public function postLoadHandler(WarrantyCase $case, LifecycleEventArgs $args) {
-			$manager = $args->getEntityManager();
-		if(empty($case->getNumberMonthlyIncrement())) {
+		$manager = $args->getEntityManager();
+		if(empty($case->getNumber()) || empty($case->getNumberMonthlyIncrement())) {
 			/** @var WarrantyCaseRepository $repo */
 			$repo          = $this->container->get('doctrine')->getRepository(WarrantyCase::class);
 			$caseIncrement = $repo->determineCaseMonthlyIncrement($case);

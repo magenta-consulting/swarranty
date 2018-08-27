@@ -35,7 +35,7 @@ class WarrantyCaseRepository extends ServiceEntityRepository {
 		$qb->andWhere('_case.createdAt BETWEEN :monthStart AND :monthEnd')
 		   ->setParameter('monthStart', $monthStart->format('Y-m-d'))
 		   ->setParameter('monthEnd', $monthEnd->format('Y-m-d'))
-		   ->orderBy('_case.id', 'ASC');;
+		   ->orderBy('_case.id', 'ASC');
 		
 		$query = $qb->getQuery();
 		$dql = $query->getDQL();
