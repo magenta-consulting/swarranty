@@ -19,7 +19,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="Magenta\Bundle\SWarrantyModelBundle\Repository\WarrantyCaseRepository")
  * @ORM\Table(name="customer__case")
  */
 class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
@@ -244,18 +244,11 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	public
 	function initiateNumber() {
 		if(empty($this->number)) {
-			$now          = new \DateTime();
-			$this->number = User::generateCharacterCode();
-			if( ! empty($this->warranty)) {
-				if( ! empty($this->warranty->getPurchaseDate())) {
-					$this->number .= '-' . $this->warranty->getPurchaseDate()->format('my');
-				} else {
-					$this->number .= '-' . $this->warranty->getId();
-				}
-			} else {
-				throw new \Exception('Warranty cannot be null');
+			if(empty($this->numberMonthlyIncrement)) {
+				return null;
 			}
-			$this->number .= '-' . $now->format('my');
+			$this->number = User::generateCharacterCode($this->numberMonthlyIncrement);
+			$this->number .= '-' . $this->createdAt->format('-m-y');
 		}
 	}
 	
@@ -553,6 +546,13 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	 */
 	protected
 		$number;
+	
+	/**
+	 * @var int|null
+	 * @ORM\Column(type="integer",nullable=true)
+	 */
+	protected
+		$numberMonthlyIncrement;
 	
 	/**
 	 * @var string|null
@@ -1036,5 +1036,19 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 	 */
 	public function setAppointmentFrom(?\DateTime $appointmentFrom): void {
 		$this->appointmentFrom = $appointmentFrom;
+	}
+	
+	/**
+	 * @return int|null
+	 */
+	public function getNumberMonthlyIncrement(): ?int {
+		return $this->numberMonthlyIncrement;
+	}
+	
+	/**
+	 * @param int|null $numberMonthlyIncrement
+	 */
+	public function setNumberMonthlyIncrement(?int $numberMonthlyIncrement): void {
+		$this->numberMonthlyIncrement = $numberMonthlyIncrement;
 	}
 }

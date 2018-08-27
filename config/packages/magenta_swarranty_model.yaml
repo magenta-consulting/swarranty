@@ -197,6 +197,9 @@ doctrine:
                                     class: "Magenta\\Bundle\\SWarrantyModelBundle\\Doctrine\\Customer\\WarrantyCaseListener"
                                     event:
                                         -
+                                            type: postLoad
+                                            method: postLoadHandler
+                                        -
                                             type: postPersist
                                             method: postPersistHandler
                                         -

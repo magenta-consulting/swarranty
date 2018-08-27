@@ -112,7 +112,7 @@ class CustomerAdmin extends BaseAdmin {
 	public function configureRoutes(RouteCollection $collection) {
 		parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-		
+	
 	}
 	
 	public function getTemplate($name) {
@@ -185,7 +185,7 @@ class CustomerAdmin extends BaseAdmin {
 			->add('telephone', null, [ 'label' => 'form.label_telephone' ])
 			->add('addressUnitNumber', null, [ 'label' => 'form.label_address_unit_number' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
-			->add('homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ])
+			->add('homePostalCode', null, [ 'required' => false, 'label' => 'form.label_postal_code' ])
 //			->add('person.familyName',null,['label' => 'form.label_family_name' ])
 //		           ->add('person.givenName',null,['label' => 'form.label_given_name' ])
 			->add('enabled', null, [ 'label' => 'form.label_enabled' ]);

@@ -326,11 +326,12 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
 			->add('customer.dialingCode', NumberType::class, [ 'label' => 'form.label_dialing_code' ])
 			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ])
-			->add('customer.homeAddress', null, [ 'required' => true, 'label' => 'form.label_address' ])
-			->add('customer.homePostalCode', null, [ 'required' => true, 'label' => 'form.label_postal_code' ]);
+			->add('customer.homeAddress', null, [ 'required' => false, 'label' => 'form.label_address' ])
+			->add('customer.homePostalCode', null, [ 'required' => false, 'label' => 'form.label_postal_code' ]);
 		$formMapper->end();
 		$formMapper
 			->with('form_group.warranty_details', [ 'class' => 'col-md-3' ]);
+		$formMapper->add('number', null, [ 'label' => 'form.label_number' ]);
 		$formMapper->add('product', ModelType::class, [
 //			'route'              => [
 //				'name'       => 'sonata_admin_retrieve_autocomplete_items',

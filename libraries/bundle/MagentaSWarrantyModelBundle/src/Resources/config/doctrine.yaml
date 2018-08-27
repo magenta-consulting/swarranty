@@ -1,4 +1,9 @@
 services:
+    Magenta\Bundle\SWarrantyModelBundle\Repository\:
+        resource: '../../Repository'
+        autowire: true
+        tags: ['doctrine.repository_service']
+
     magenta_doctrine_entity_listener_person:
         class: Magenta\Bundle\SWarrantyModelBundle\Doctrine\Person\PersonListener
         arguments:

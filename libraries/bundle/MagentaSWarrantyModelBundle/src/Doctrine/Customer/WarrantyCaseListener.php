@@ -12,6 +12,7 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
+use Magenta\Bundle\SWarrantyModelBundle\Repository\WarrantyCaseRepository;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -187,4 +188,19 @@ class WarrantyCaseListener {
 	
 	}
 	
+	public function postLoadHandler(WarrantyCase $case, LifecycleEventArgs $args) {
+			$manager = $args->getEntityManager();
+		if(empty($case->getNumberMonthlyIncrement())) {
+			/** @var WarrantyCaseRepository $repo */
+			$repo          = $this->container->get('doctrine')->getRepository(WarrantyCase::class);
+			$caseIncrement = $repo->determineCaseMonthlyIncrement($case);
+			if( ! empty($caseIncrement)) {
+				$case->setNumberMonthlyIncrement($caseIncrement);
+				$case->initiateNumber();
+				$manager->persist($case);
+				$manager->flush($case);
+			}
+		}
+		
+	}
 }
