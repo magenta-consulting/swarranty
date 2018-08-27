@@ -279,7 +279,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		           ->add('warranty.product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 		           ->add('warranty.product.image', 'image', [ 'label' => 'form.label_model_image' ])
 		           ->add('warranty.purchaseDate', null, [
-			           'label'  => 'form.label_purchase_date',
+			           'label'  => 'form.label_delivery_date',
 			           'format' => 'd - m - Y'
 		           ])
 		           ->add('warranty.createdAt', null, [

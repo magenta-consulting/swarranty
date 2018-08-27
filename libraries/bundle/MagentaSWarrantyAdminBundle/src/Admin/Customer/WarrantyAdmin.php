@@ -209,7 +209,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
 			->add('purchaseDate', null, [
-				'label'  => 'form.label_purchase_date',
+				'label'  => 'form.label_delivery_date',
 				'format' => 'd - m - Y'
 			])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
@@ -280,7 +280,7 @@ class WarrantyAdmin extends BaseAdmin {
 //			->add('dealer.name', null, [ 'editable' => false, 'label' => 'form.label_dealer' ])
 //			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])
 //			->add('product.name', null, [ 'editable' => false, 'label' => 'form.label_model_name' ])
-			->add('purchaseDate', 'date', [ 'editable' => false, 'label' => 'form.label_purchase_date' ])
+			->add('purchaseDate', 'date', [ 'editable' => false, 'label' => 'form.label_delivery_date' ])
 			->add('createdAt', 'date', [ 'editable' => false, 'label' => 'form.label_submission_date' ])
 			->add('expiryDate', 'date', [ 'editable' => false, 'label' => 'form.label_expiry_date' ]);
 		
@@ -390,7 +390,7 @@ class WarrantyAdmin extends BaseAdmin {
 			'format'                => 'dd-MM-yyyy',
 			'placeholder'           => 'dd-mm-yyyy',
 			'datepicker_use_button' => false,
-			'label'                 => 'form.label_purchase_date',
+			'label'                 => 'form.label_delivery_date',
 		]);
 		
 		$formMapper->add('createdAt', DatePickerType::class, [

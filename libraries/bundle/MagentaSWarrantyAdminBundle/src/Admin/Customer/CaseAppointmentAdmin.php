@@ -205,7 +205,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 			->add('product.name', null, [ 'label' => 'form.label_model_name' ])
 			->add('product.modelNumber', null, [ 'label' => 'form.label_model_number' ])
 			->add('product.image', 'image', [ 'label' => 'form.label_model_image' ])
-			->add('purchaseDate', null, [ 'label' => 'form.label_purchase_date', 'format' => 'd - m - Y' ])
+			->add('purchaseDate', null, [ 'label' => 'form.label_delivery_date', 'format' => 'd - m - Y' ])
 			->add('createdAt', null, [ 'label' => 'form.label_warranty_submission_date', 'format' => 'd - m - Y' ])
 			->add('product.warrantyPeriod', null, [
 				'editable' => true,

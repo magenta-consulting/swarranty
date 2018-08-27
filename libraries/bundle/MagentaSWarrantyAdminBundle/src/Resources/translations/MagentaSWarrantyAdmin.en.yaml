@@ -146,6 +146,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+
     label_type: Type
     label_subject: Subject
     label_content: Content
@@ -213,6 +214,7 @@ form:
     label_model_number: Model Number
     label_model_image: Model Image
     label_purchase_date: Purchased On
+    label_delivery_date: Delivery Date
     label_submission_date: Registered On
     label_expiry_date: Expiry Date
     label_warranty_expiry: Warranty Expiry
