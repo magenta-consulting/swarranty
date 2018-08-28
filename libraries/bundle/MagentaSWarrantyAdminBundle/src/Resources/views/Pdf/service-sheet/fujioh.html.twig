@@ -198,32 +198,12 @@
                         </table>
                     </p>
                     <p>
-                        <table border="1px" class="fullwidth title-180">
-                            <tr>
-                                <td title style="border-right: none; border-bottom: none"><b>Fault Analysis: </b></td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="border: none">&nbsp;</td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="border: none">&nbsp;</td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="border: none">&nbsp;</td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="border: none">&nbsp;</td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td style="border: none">&nbsp;</td>
-                                <td style="border: none">&nbsp;</td>
-                            </tr>
-                        </table>
+                        <div style="border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
+                            <b>Fault Analysis: </b>
+                            {% for note in case.serviceNotes %}
+                                <p style="margin-bottom: 0px">{{ note.description }}</p>
+                            {% endfor %}
+                        </div>
                     </p>
                     <p>
                     <table class="fullwidth bordered">
