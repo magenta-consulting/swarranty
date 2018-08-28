@@ -52,7 +52,7 @@ class RegistrationEmailSubscriber implements EventSubscriberInterface {
 			if( ! empty($c) && ! empty($email = $c->getEmail()) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				if($regEmail->type === RegistrationEmail::TYPE_VERIFICATION) {
 					$msg = $reg->prepareEmailVerificationMessage();
-				} else {
+				} elseif($regEmail->type === RegistrationEmail::TYPE_CONFIRMATION) {
 					$msg = $reg->prepareRegCopyMessage();
 				}
 				$customer = $reg->getCustomer();

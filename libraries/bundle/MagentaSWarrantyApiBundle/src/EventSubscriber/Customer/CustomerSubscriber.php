@@ -48,6 +48,8 @@ class CustomerSubscriber implements EventSubscriberInterface {
 		}
 		
 		return;
+		
+		// just disable the rest
 		$cr        = $this->registry->getRepository(Customer::class);
 		$customers = $cr->findBy([
 			'telephone'    => $customer->getTelephone(),
