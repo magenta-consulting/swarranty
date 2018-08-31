@@ -218,6 +218,7 @@ class WarrantyAdmin extends BaseAdmin {
 				'label'    => 'form.label_default_warranty_period'
 			])
 			->add('product.extendedWarrantyPeriod', null, [ 'label' => 'form.label_extended_warranty_period' ])
+			->add('productSerialNumber', null, [ 'label' => 'form.label_product_serial_number' ])
 			->add('expiryDate', null, [ 'label' => 'form.label_warranty_expiry', 'format' => 'd - m - Y' ])
 			->add('dealer.name', null, [ 'label' => 'form.label_dealer' ])
 			->end();
@@ -231,6 +232,7 @@ class WarrantyAdmin extends BaseAdmin {
 		           ->add('customer.name', null, [ 'label' => 'form.label_name' ])
 		           ->add('customer.telephone', null, [ 'label' => 'form.label_telephone' ])
 		           ->add('customer.email', null, [ 'label' => 'form.label_email' ])
+		           ->add('customer.addressUnitNumber', null, [ 'label' => 'form.label_address_unit_number' ])
 		           ->add('customer.homeAddress', null, [ 'label' => 'form.label_address' ])
 		           ->add('customer.homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 		           ->end()
@@ -326,6 +328,10 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('customer.email', null, [ 'label' => 'form.label_email' ])
 			->add('customer.dialingCode', NumberType::class, [ 'label' => 'form.label_dialing_code' ])
 			->add('customer.telephone', null, [ 'required' => true, 'label' => 'form.label_telephone' ])
+			->add('customer.addressUnitNumber', null, [
+				'required' => false,
+				'label'    => 'form.label_address_unit_number'
+			])
 			->add('customer.homeAddress', null, [ 'required' => false, 'label' => 'form.label_address' ])
 			->add('customer.homePostalCode', null, [ 'required' => false, 'label' => 'form.label_postal_code' ]);
 		$formMapper->end();
@@ -386,6 +392,10 @@ class WarrantyAdmin extends BaseAdmin {
 			'class'          => null
 		]);
 		$formMapper->add('extendedWarrantyPeriodApproved', null, []);
+		$formMapper->add('productSerialNumber', null, [
+			'required' => true,
+			'label'    => 'form.label_product_serial_number',
+		]);
 		$formMapper->add('purchaseDate', DatePickerType::class, [
 			'required'              => true,
 			'format'                => 'dd-MM-yyyy',

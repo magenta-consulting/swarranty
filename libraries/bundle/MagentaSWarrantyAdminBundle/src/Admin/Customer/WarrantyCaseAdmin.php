@@ -685,12 +685,14 @@ class WarrantyCaseAdmin extends BaseAdmin {
 		
 		/** @var User $user */
 		$user = $this->getLoggedInUser();
-		if( ! empty($person = $user->getPerson())) {
-			if( ! empty($member = $person->getMemberOfOrganisation($this->getCurrentOrganisation()))) {
-				$object->setCreator($member);
-				$object->setCreatorName($person->getName());
+		if(empty($object->getCreator())) {
+			if( ! empty($person = $user->getPerson())) {
+				if( ! empty($member = $person->getMemberOfOrganisation($this->getCurrentOrganisation()))) {
+					$object->setCreator($member);
+					$object->setCreatorName($person->getName());
+				}
 			}
-		};;
+		}
 		
 		$apmts   = $object->getAppointments();
 		$manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
