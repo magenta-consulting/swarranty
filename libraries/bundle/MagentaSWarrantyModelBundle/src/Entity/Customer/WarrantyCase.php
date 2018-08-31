@@ -248,7 +248,7 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 				return null;
 			}
 			$this->number = User::generateCharacterCode($this->numberMonthlyIncrement);
-			$this->number .= '-' . $this->createdAt->format('-m-y');
+			$this->number .= '-' . $this->createdAt->format('m-y');
 		}
 	}
 	
