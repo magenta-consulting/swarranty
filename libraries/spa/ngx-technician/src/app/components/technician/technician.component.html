@@ -200,10 +200,12 @@
                             <div class="input-group mb-2">
                                 <input [(ngModel)]="note.description" type="text" class="form-control" placeholder="Description"
                                     aria-label="Description"
-                                    (keyup.enter)="updateNote()"
-                                    (blur)="isEditing['description'] = false">
-                                    <div *ngIf="isSaving['note']">Saving...</div>
+                                    (keyup.enter)="updateNote()">
+                                <div>
+                                    <button *ngIf="!isSaving['note']" (click)="updateNote()" class="btn btn-success">Save</button>
+                                    <button *ngIf="isSaving['note']" class="btn btn-success" disabled>Saving...</button>
                                 </div>
+                            </div>
                         </div>
                         <div *ngIf="!isEditing['description']" (click)="isEditing['description'] = true">
                             <div class="input-group mb-2 preview-container">
@@ -239,8 +241,11 @@
             </ng-container>
         </div>
         <div *ngIf="currentAppointmentNote == null">
-            <input type="text" class="ipt full" placeholder="Add New Case Notes/Service Rendered" [(ngModel)]="noteDescription" (keyup.enter)="addNote()"/>
-            <div *ngIf="isSaving['note']">Saving...</div>
+            <input type="text" class="ipt full form-control" style="width: 100%" placeholder="Add New Case Notes/Service Rendered" [(ngModel)]="noteDescription" (keyup.enter)="addNote()"/>
+            <div>
+                <button *ngIf="!isSaving['note']" class="btn btn-success" (click)="addNote()">Save</button>
+                <button *ngIf="isSaving['note']" class="btn btn-success" disabled>Saving...</button>
+            </div>
         </div>
     </div>
     <div class="tech-blk">
