@@ -117,6 +117,9 @@ Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase:
 
         createdAt:
             groups: ['read_case','write_case']
+        creatorName:
+            groups: ['read_case','write_case']
+
         serviceZone:
             groups: ['read_case','write_case']
         description:
