@@ -131,6 +131,12 @@ class WarrantyCaseListener {
 			}
 			
 		}
+		
+		if( ! empty($creator = $case->getCreator())) {
+			if( ! empty($creatorPerson = $creator->getPerson())) {
+				$case->setCreatorName($creatorPerson->getName());
+			}
+		};
 	}
 	
 	public function updateInfBeforeOperation(WarrantyCase $case, LifecycleEventArgs $event) {
