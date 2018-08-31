@@ -78,7 +78,7 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface {
 		$noteStr = '';
 		/** @var ServiceNote $note */
 		foreach($this->serviceNotes as $note) {
-			$noteStr += $note->getDescription();
+			$noteStr .= $note->getDescription();
 		}
 		
 		return $noteStr;
