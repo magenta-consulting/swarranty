@@ -10,6 +10,7 @@ export const environment = {
 export const apiEndPoint = 'http://dev-swarranty.magentapulse.com';
 export const apiEndPointBase = '/api';
 export const organisationPath = '/organisations';
+export const baseUrl = '/warranty/registration';
 export const MEDIA_PREFIX = '/media';
 // export const apiEndPointMedia   = 'http://swarranty.magenta-dev.com';
 export const apiEndPointMedia   = 'http://dev-swarranty.magentapulse.com/media-api';

@@ -19,6 +19,7 @@ import { ImageUploadModule, FileHolder, UploadMetadata } from "../../extensions/
 import { Helper } from "../../helper/helper";
 import { RegistrationService } from "../../service/registration.service";
 import { Customer } from "../../model/customer";
+import { baseUrl } from '../../../environments/environment';
 
 @Component({
   selector: 'uploads',
@@ -46,7 +47,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // 1.
     this.getDataWarranties();
 
-    this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + location.protocol + '//' + window.location.hostname + '/upload-receipt-image/' + this.route.snapshot.params['id'] + '.png';
+    this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + location.protocol + '//' + window.location.hostname + baseUrl + '/upload-receipt-image/' + this.route.snapshot.params['id'] + '.png';
   }
 
   ngAfterViewInit() {
