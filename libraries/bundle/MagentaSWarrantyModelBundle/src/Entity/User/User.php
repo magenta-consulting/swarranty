@@ -73,11 +73,13 @@ class User extends AbstractUser {
 				return $object->getDecisionStatus() !== DecisionMakingInterface::STATUS_REJECTED;
 				//return $object->getDecisionStatus() === null || $object->getDecisionStatus() === DecisionMakingInterface::STATUS_NEW;
 			}
+			// TODO handle these cases
 			if(in_array($permission, [
 				'DECIDE',
 				'DECIDE_ALL',
 				'DECISION_APPROVE',
 				'DECISION_REJECT',
+				'DECISION_RESET',
 				'DECISION_' . WarrantyCase::DECISION_COMPLETE,
 				'DECISION_' . WarrantyCase::DECISION_UNCOMPLETE,
 				'DECISION_' . WarrantyCase::DECISION_CLOSE,
