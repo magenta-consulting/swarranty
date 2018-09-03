@@ -278,6 +278,7 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
+			->add('customer.addressUnitNumber', null, [ 'editable' => true, 'label' => 'form.label_address_unit_number' ])
 			->add('customer.homeAddress', null, [ 'editable' => true, 'label' => 'form.label_address' ])
 //			->add('dealer.name', null, [ 'editable' => false, 'label' => 'form.label_dealer' ])
 //			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])

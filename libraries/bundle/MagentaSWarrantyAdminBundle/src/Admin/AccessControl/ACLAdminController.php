@@ -17,6 +17,13 @@ use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class ACLAdminController extends BaseCRUDAdminController {
 	
+	public function listAction() {
+		$this->admin->setTemplate('list', '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list.html.twig');
+		$this->admin->setTemplate('inner_list_row', '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list_inner_row.html.twig');
+		
+		return parent::listAction();
+	}
+	
 	public function setACEntryAction($id, $code, $permission, $action = 'enable', Request $request) {
 //		$request = $this->getRequest();
 		$code = strtoupper($code);

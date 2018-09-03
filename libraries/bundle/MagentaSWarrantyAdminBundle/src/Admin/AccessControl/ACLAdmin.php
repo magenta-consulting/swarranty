@@ -72,17 +72,6 @@ class ACLAdmin extends BaseAdmin {
 		
 	}
 	
-	public function getTemplate($name) {
-		$_name = strtoupper($name);
-		if($_name === 'LIST') {
-			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list.html.twig';
-		} elseif($_name === 'INNER_LIST_ROW') {
-			return '@MagentaSWarrantyAdmin/Admin/AccessControl/ACL/CRUD/list_inner_row.html.twig';
-		}
-		
-		return parent::getTemplate($name);
-	}
-	
 	protected function configureShowFields(ShowMapper $showMapper) {
 	
 	}
@@ -115,7 +104,7 @@ class ACLAdmin extends BaseAdmin {
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 	$formMapper->add('name');
-		
+	
 	}
 	
 	/**
