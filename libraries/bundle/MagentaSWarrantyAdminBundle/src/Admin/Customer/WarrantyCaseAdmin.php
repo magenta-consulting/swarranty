@@ -810,8 +810,5 @@ class WarrantyCaseAdmin extends BaseAdmin {
 			'label'       => 'form.label_closed_on',
 			'show_filter' => true
 		]);
-		
 	}
-	
-	
 }
