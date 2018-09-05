@@ -34,7 +34,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 	public function listAction() {
 		$this->admin->setTemplate('base_list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
 		$this->admin->setTemplate('base_list_field', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list_field.html.twig');
-		
+		$this->admin->setTemplate('button_create', '@MagentaSWarrantyAdmin/empty.html.twig');
 		return parent::listAction();
 	}
 	

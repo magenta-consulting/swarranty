@@ -300,7 +300,7 @@
                            (keyup.enter)="updateField('productSerialNumber'+i)"
                            (blur)="updateField('productSerialNumber'+i)">
                 </div>
-                <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-2"><a href="{{organisation.psnLocationUrl}}" target="_blank">How
+                <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-2"><a href="{{organisation.psnLocationUrl}}" target="_blank">Where
                     to find the product serial number.</a></div>
                 <div *ngIf="isPreview('productSerialNumber'+i)" (click)="editPreview('productSerialNumber'+i)"
                      class="input-group mb-2 preview-container">
