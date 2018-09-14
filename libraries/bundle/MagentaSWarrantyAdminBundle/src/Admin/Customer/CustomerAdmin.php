@@ -169,7 +169,7 @@ class CustomerAdmin extends BaseAdmin {
 			->add('email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
 			->add('homeAddress', null, [ 'editable' => true, 'label' => 'form.label_address' ])
-			
+			->add('subscribedToNewsletter','boolean',['label' => 'form.label_subscribed'])
 			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);

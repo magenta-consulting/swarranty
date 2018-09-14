@@ -23,6 +23,10 @@ class Customer extends Thing {
 		$this->registrations = new ArrayCollection();
 	}
 	
+	public function isSubscribedToNewsletter() {
+		return ! empty($this->newsletterSubscription);
+	}
+	
 	public function generateFullText() {
 		parent::generateFullText();
 		

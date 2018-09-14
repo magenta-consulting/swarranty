@@ -146,7 +146,7 @@ form_field:
     label_customer_email: Customer Email
 
 form:
-
+    label_subscribed: Subscribed
     label_type: Type
     label_subject: Subject
     label_content: Content
