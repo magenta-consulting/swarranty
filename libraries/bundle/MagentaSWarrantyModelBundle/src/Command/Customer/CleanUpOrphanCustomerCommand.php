@@ -92,10 +92,10 @@ class CleanUpOrphanCustomerCommand extends Command {
 					/** @var Customer $c */
 					$c    = $duplicatedCustomers[ $i ];
 					$regs = $c->getRegistrations();
-					
+					$output->writeln('....... Processing Merging of ' . $c->getEmail());
 					/** @var Registration $reg */
 					foreach($regs as $reg) {
-						$output->writeln('customer merging for Registration ', $reg->getId() . ' ' . $reg->getEmail());
+						$output->writeln('customer merging for Registration ');
 						$c->removeRegistration($reg);
 						$originalCustomer->addRegistration($reg);
 						$manager->persist($reg);
@@ -104,7 +104,7 @@ class CleanUpOrphanCustomerCommand extends Command {
 					$warranties = $c->getWarranties();
 					/** @var Warranty $w */
 					foreach($warranties as $w) {
-						$output->writeln('customer merging for Warranty ', $w->getFullText());
+						$output->writeln('customer merging for Warranty ');
 						$c->removeWarranty($w);
 						$originalCustomer->addWarranty($w);
 						$manager->persist($w);
