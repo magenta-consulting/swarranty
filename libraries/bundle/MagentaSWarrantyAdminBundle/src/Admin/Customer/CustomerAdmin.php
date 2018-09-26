@@ -126,6 +126,9 @@ class CustomerAdmin extends BaseAdmin {
 			->with('form_group.customer_details', [ 'class' => 'col-md-6' ])
 			->add('name', null, [ 'label' => 'form.label_name' ])
 			->add('email', null, [ 'label' => 'form.label_email' ])
+			->add('dialingCode', null, [ 'label' => 'form.label_dialing_code' ])
+			->add('telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
+			->add('addressUnitNumber', null, [ 'label' => 'form.label_address_unit_number' ])
 			->add('homeAddress', null, [ 'label' => 'form.label_address' ])
 			->add('homePostalCode', null, [ 'label' => 'form.label_postal_code' ])
 			->end()
@@ -158,6 +161,7 @@ class CustomerAdmin extends BaseAdmin {
 //                ,
 //                    'view_tos' => array('template' => '::admin/product/tos.html.twig')
 		));
+		
 		$listMapper->add('_action', 'actions', [
 				'actions' => $actions,
 				'label'   => 'form.label_action'
@@ -168,6 +172,7 @@ class CustomerAdmin extends BaseAdmin {
 			->add('name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
+			->add('addressUnitNumber', null, [ 'label' => 'form.label_address_unit_number' ])
 			->add('homeAddress', null, [ 'editable' => true, 'label' => 'form.label_address' ])
 			->add('subscribedToNewsletter','boolean',['label' => 'form.label_subscribed'])
 			->add('enabled', null, [ 'editable' => true, 'label' => 'form.label_enabled' ]);

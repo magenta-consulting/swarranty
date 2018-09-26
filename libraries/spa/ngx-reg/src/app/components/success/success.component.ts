@@ -106,7 +106,8 @@ export class SuccessComponent implements OnInit, AfterViewInit {
   // clear localStorage and then redirect to page registration
   clearRegistration() {
     this.modalRef.hide();
-    localStorage.removeItem('regId');
+    // localStorage.removeItem('regId');
+      localStorage.clear();
     this.router.navigate(['/']);
   }
 

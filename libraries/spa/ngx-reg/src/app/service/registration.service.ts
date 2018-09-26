@@ -76,7 +76,8 @@ export class RegistrationService {
         return (error: any): Observable<T> => {
 
             if (operation === 'getRegistration') {
-                localStorage.removeItem('regId');
+                // localStorage.removeItem('regId');
+                localStorage.clear();
             }
 
             // TODO: send the error to remote logging infrastructure

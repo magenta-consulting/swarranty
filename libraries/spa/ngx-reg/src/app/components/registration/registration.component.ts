@@ -29,7 +29,7 @@ import {RegistrationService} from '../../service/registration.service';
 import {FormControl} from '@angular/forms';
 import {MapsAPILoader} from '@agm/core';
 import {CompleterService, CompleterData} from 'ng2-completer';
-import { NewsletterSubscriptionService } from '../../service/newsletter-subscription.service';
+import {NewsletterSubscriptionService} from '../../service/newsletter-subscription.service';
 
 import {} from 'googlemaps';
 
@@ -40,6 +40,7 @@ import {} from 'googlemaps';
 })
 export class RegistrationComponent implements OnInit, AfterViewInit {
     focusDialingCodeEM = new EventEmitter<boolean>();
+    focusPhoneNumberEM = new EventEmitter<boolean>();
 
     customer: Customer = {id: null, name: null, dialingCode: 65} as Customer;
     emailConfirm: string;
@@ -56,6 +57,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
     previewStates: any = {};
     isFormPreview = false;
     checkingError = false;
+    phoneNumberError = false;
     organisation: Organisation = {id: null, name: null, tos: null, dataPolicy: null} as Organisation;
 
     modalTitle: string;
@@ -110,6 +112,22 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
         this.previewStates[field] = false;
     }
 
+    checkPhoneNotEnoughNumbers(event): void {
+        let srcElement = event.srcElement;
+        if (srcElement == null) {
+            srcElement = event.target;
+        }
+
+        if (srcElement.value.length !== 8) {
+            this.focusPhoneNumberEM.emit(true);
+            this.updateField('customerTelephone');
+            this.phoneNumberError = true;
+        } else {
+            this.phoneNumberError = false;
+        }
+        // event.
+    }
+
     updateField(field: string): void {
         this.previewStates[field] = true;
     }
@@ -140,7 +158,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
             }
         } else {
             if (this.customer.email != null) {
-                return false;                
+                return false;
             }
         }
         for (let i = 0; i < this.warranties.length; i++) {
@@ -183,7 +201,7 @@ export class RegistrationComponent implements OnInit, AfterViewInit {
 
                 if (this.customer.email != null && this.customer.email.trim() != '' && this.subscribeNewsletter) {
                     this.newsletterSubscriptionService.postNewsletterSubscription(this.customer).subscribe(res => {
-                    })                    
+                    })
                 }
 
                 this.registrationService.saveRegistration(reg);

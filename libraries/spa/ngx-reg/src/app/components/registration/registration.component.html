@@ -43,8 +43,9 @@
                         <input type="number" [(ngModel)]="customer.telephone" class="form-control"
                                placeholder="(*) Contact Number"
                                aria-label="Contact Number"
+                               [focus]="focusPhoneNumberEM"
                                (keyup.enter)="updateField('customerTelephone')"
-                               (blur)="updateField('customerTelephone')"
+                               (blur)="updateField('customerTelephone'); checkPhoneNotEnoughNumbers($event)"
                                (keypress)="checkPhone($event)"
                         />
                     </div>
@@ -62,10 +63,10 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="checkingError && (!customer.telephone || customer.telephone.toString().length != 8)"
+                <div *ngIf="phoneNumberError || (checkingError && (!customer.telephone || customer.telephone.toString().length != 8))"
                      class="alert alert-danger" role="alert">
                     <span *ngIf="!customer.telephone">This field is required</span>
-                    <span *ngIf="customer.telephone && customer.telephone.toString().length != 8">Contact number has 8 digits</span>
+                    <span *ngIf="customer.telephone && customer.telephone.toString().length != 8">Contact number must contain 8 digits</span>
                 </div>
                 <div *ngIf="!isPreview('emailAddress')" class="input-group mb-2">
                     <input [(ngModel)]="customer.email" type="text" class="form-control" placeholder="Email Address"

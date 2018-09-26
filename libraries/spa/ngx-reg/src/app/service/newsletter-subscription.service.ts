@@ -13,11 +13,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class NewsletterSubscriptionService {
-  
+
   constructor(
     private http: HttpClient
   ) { }
-  
+
   postNewsletterSubscription(customer: Customer): Observable<any> {
     let url = `${apiEndPoint}${apiEndPointBase}/newsletter-subscriptions`;
     return this.http.post(url, {
@@ -28,7 +28,7 @@ export class NewsletterSubscriptionService {
       catchError(this.handleError<any>('postNewsletterSubscription'))
     );
   }
-  
+
   /**
   * Handle Http operation that failed.
   * Let the app continue.
@@ -37,19 +37,20 @@ export class NewsletterSubscriptionService {
   */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      
+
       if (operation === 'getRegistration') {
-        localStorage.removeItem('regId');
+        // localStorage.removeItem('regId');
+          localStorage.clear();
       }
-      
+
       // TODO: send the error to remote logging infrastructure
       // console.error('error', error); // log to console instead
       // TODO: better job of transforming error for user consumption
       // console.log(`${operation} failed: ${error.message}`);
-      
+
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
-  
+
 }

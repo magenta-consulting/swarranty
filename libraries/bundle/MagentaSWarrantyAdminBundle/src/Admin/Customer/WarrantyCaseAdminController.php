@@ -35,6 +35,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 		$this->admin->setTemplate('base_list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
 		$this->admin->setTemplate('base_list_field', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list_field.html.twig');
 		$this->admin->setTemplate('button_create', '@MagentaSWarrantyAdmin/empty.html.twig');
+		
 		return parent::listAction();
 	}
 	
@@ -114,22 +115,27 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 			
 			$phpExcelObject->setActiveSheetIndex(0);
 			$activeSheet = $phpExcelObject->getActiveSheet();
-			
-			$activeSheet
-				->setCellValue('A1', "ID")
-				->setCellValue('B1', "Number")
-				->setCellValue('C1', "Priority")
-				->setCellValue('D1', "Date Created")
-				->setCellValue('E1', "Date Closed")
-				->setCellValue('F1', "Product Brand")
-				->setCellValue('G1', "Product Category")
-				->setCellValue('H1', "Product Model Name")
-				->setCellValue('I1', "Case Description")
-				->setCellValue('J1', "Service Notes")
-				->setCellValue('K1', "Special Notes")
-				->setCellValue('L1', "Technicians")
-				->setCellValue('M1', "Service Zones")
-				->setCellValue('N1', "Customer Name")//			            ->setCellValue('O1', "Technician Name(s)")
+
+//			$activeSheet
+//				->setCellValue('A1', "ID")
+//				->setCellValue('B1', "Number")
+//				->setCellValue('C1', "Priority")
+//				->setCellValue('D1', "Date Created")
+//				->setCellValue('E1', "Date Closed")
+//				->setCellValue('F1', "Product Brand")
+//				->setCellValue('G1', "Product Category")
+//				->setCellValue('H1', "Product Model Number")
+//			Product Serial NUmbers, Date of DElivery,
+//				->setCellValue('I1', "Case Description")
+//				->setCellValue('J1', "Service Notes")
+//				->setCellValue('K1', "Special Notes")
+//				->setCellValue('L1', "Technicians")
+//				->setCellValue('M1', "Service Zones")
+//				->setCellValue('N1', "Customer Name")//			            ->setCellValue('O1', "Technician Name(s)")
+//				->setCellValue('O1', "Customer Unit/Block")
+//				->setCellValue('P1', "Customer Address")
+//				->setCellValue('Q1', "Customer Contact Number")
+//				6.2 In the excel downoad file we also need to have the Customer's Address (all 3 lines),  contact number
 			;
 			
 			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
@@ -141,6 +147,31 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 			
 			$source = $this->admin->getDataSourceIterator();
 			$repo   = $this->getDoctrine()->getRepository(WarrantyCase::class);
+			$sWriter->goFirstColumn();
+			$sWriter->goFirstRow();
+			$sWriter
+				->writeCellAndGoRight('ID')
+				->writeCellAndGoRight('Number')
+				->writeCellAndGoRight('Priority')
+				->writeCellAndGoRight('Date Created')
+				->writeCellAndGoRight('Date Closed')
+				->writeCellAndGoRight('Product Brand')
+				->writeCellAndGoRight('Product Category')
+				->writeCellAndGoRight('Product Model Number')
+				->writeCellAndGoRight('Product Serial Numbers')
+				->writeCellAndGoRight('Date of Delivery')
+				->writeCellAndGoRight('Case Description')
+				->writeCellAndGoRight('Service Notes')
+				->writeCellAndGoRight('Special Notes')
+				->writeCellAndGoRight('Technicians')
+				->writeCellAndGoRight('Service Zones')
+				->writeCellAndGoRight('Customer Name')
+				->writeCellAndGoRight("Unit/Block")
+				->writeCellAndGoRight("Customer Address")
+				->writeCellAndGoRight("Contact Number");
+			
+			$sWriter->goLeft();
+			
 			foreach($source as $data) {
 				$case = $repo->find($data['id']);
 				$sWriter->goDown();
@@ -158,9 +189,12 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 				$sWriter->writeCellAndGoRight($closedAtStr);
 				$brand        = '';
 				$category     = '';
-				$modelName    = '';
+				$modelNumber  = '';
 				$zoneStr      = '';
 				$customerName = '';
+				$serialNumber = '';
+				$purchaseDate = '';
+				
 				/** @var Warranty $w */
 				if( ! empty($w = $case->getWarranty())) {
 					/** @var Product $p */
@@ -172,9 +206,13 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 						if( ! empty($c = $p->getCategory())) {
 							$category = $c->getName();
 						}
-						$modelName = $p->getName();
+						$modelNumber = '' . $p->getModelNumber();
 					}
 					
+					$serialNumber = '' . $w->getProductSerialNumber();
+					if( ! empty($dop = $w->getPurchaseDate())) {
+						$purchaseDate = $dop->format('d - m - Y');
+					}
 					if( ! empty($customer = $w->getCustomer())) {
 						$customerName = $customer->getName();
 					}
@@ -187,13 +225,18 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 				
 				$sWriter->writeCellAndGoRight($brand);
 				$sWriter->writeCellAndGoRight($category);
-				$sWriter->writeCellAndGoRight($modelName);
-				$sWriter->writeCellAndGoRight($case->getDescription());
-				$sWriter->writeCellAndGoRight($case->getServiceNotesString());
-				$sWriter->writeCellAndGoRight($case->getSpecialRemarks());
+				$sWriter->writeCellAndGoRight($modelNumber);
+				$sWriter->writeCellAndGoRight($serialNumber);
+				$sWriter->writeCellAndGoRight($purchaseDate);
+				$sWriter->writeCellAndGoRight(! empty($desc = $case->getDescription()) ? strip_tags($desc) : '');
+				$sWriter->writeCellAndGoRight(! empty($note = $case->getServiceNotesString()) ? strip_tags($note) : '');
+				$sWriter->writeCellAndGoRight(! empty($remarks = $case->getSpecialRemarks()) ? strip_tags($remarks) : '');
 				$sWriter->writeCellAndGoRight($case->getAssigneeString());
 				$sWriter->writeCellAndGoRight($zoneStr);
 				$sWriter->writeCellAndGoRight($customerName);
+				$sWriter->writeCellAndGoRight($customer->getAddressUnitNumber());
+				$sWriter->writeCellAndGoRight($customer->getHomeAddress());
+				$sWriter->writeCellAndGoRight($customer->getTelephone());
 				
 			}
 			

@@ -44,7 +44,7 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
         this.isLoading = true;
         if(localStorage.getItem('regId')) {
             let regId = parseInt(localStorage.getItem('regId'));
-    
+
             this.productService.getApiCustomer(regId).subscribe(res => {
                 this.isLoading = false;
                 this.dataCustomer = res;
@@ -63,7 +63,7 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
                 "registrationId": regId,
                 "type": "verification"
             }
-    
+
             this.productService.postVerifyEmail(params)
             .subscribe(
                 res => {
@@ -79,7 +79,7 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
                     // var details = error.json();
                     // console.log(error);
                     this.verifyFail = true;
-                    
+
                     // hide button click
                     this.isClick = true;
                 },
@@ -96,7 +96,8 @@ export class SendEmailComponent implements OnInit, AfterViewInit {
     // clear localStorage and then redirect to page registration
     clearRegistration() {
         this.modalRef.hide();
-        localStorage.removeItem('regId');
+        // localStorage.removeItem('regId');
+        localStorage.clear();
         this.router.navigate(['/']);
     }
 

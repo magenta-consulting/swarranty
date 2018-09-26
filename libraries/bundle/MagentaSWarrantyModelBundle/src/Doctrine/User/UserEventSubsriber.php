@@ -71,8 +71,8 @@ class UserEventSubsriber implements EventSubscriber {
 			$this->recomputeChangeSet($args->getObjectManager(), $object);
 		}
 		
-		//////// MODIF 001 ///////
-		if($object instanceof OrganizationMember) {
+		//////// MODIF 002 ///////
+		if($object instanceof OrganizationMember) { // this should be placed in Org...Member class
 			/** @var Person $person */
 			if( ! empty($person = $object->getPerson())) {
 				if( ! empty($user = $person->getUser()) && ! empty($user->getPlainPassword())) {
@@ -82,7 +82,7 @@ class UserEventSubsriber implements EventSubscriber {
 				}
 			}
 		}
-		//////// END MODIF 001 ///////
+		//////// END MODIF 002 ///////
 	}
 	
 	/**

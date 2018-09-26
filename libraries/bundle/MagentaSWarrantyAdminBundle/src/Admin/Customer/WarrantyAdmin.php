@@ -45,6 +45,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface as RoutingUrlGeneratorInterface;
 
 class WarrantyAdmin extends BaseAdmin {
 	
@@ -278,7 +279,10 @@ class WarrantyAdmin extends BaseAdmin {
 			->add('customer.name', null, [ 'editable' => true, 'label' => 'form.label_name' ])
 			->add('customer.email', null, [ 'editable' => true, 'label' => 'form.label_email' ])
 			->add('customer.telephone', null, [ 'editable' => true, 'label' => 'form.label_telephone' ])
-			->add('customer.addressUnitNumber', null, [ 'editable' => true, 'label' => 'form.label_address_unit_number' ])
+			->add('customer.addressUnitNumber', null, [
+				'editable' => true,
+				'label'    => 'form.label_address_unit_number'
+			])
 			->add('customer.homeAddress', null, [ 'editable' => true, 'label' => 'form.label_address' ])
 //			->add('dealer.name', null, [ 'editable' => false, 'label' => 'form.label_dealer' ])
 //			->add('product.brand.name', null, [ 'editable' => false, 'label' => 'form.label_brand' ])
@@ -290,6 +294,15 @@ class WarrantyAdmin extends BaseAdmin {
 		$listMapper->add('receiptImages', 'image', [ 'editable' => true, 'label' => 'form.label_receipt_images' ]);
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
+	}
+	
+	public function generateUrl($name, array $parameters = [], $absolute = RoutingUrlGeneratorInterface::ABSOLUTE_PATH) {
+		$request = $this->getRequest();
+		if( ! empty($status = $request->query->get('statusFilter'))) {
+			$parameters['statusFilter'] = $status;
+		}
+		
+		return parent::generateUrl($name, $parameters, $absolute);
 	}
 	
 	protected function configureFormFields(FormMapper $formMapper) {
