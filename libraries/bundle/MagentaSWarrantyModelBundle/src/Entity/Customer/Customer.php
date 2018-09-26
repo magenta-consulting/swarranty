@@ -53,21 +53,31 @@ class Customer extends Thing {
 	 */
 	protected $warranties;
 	
-	public function addWarranties(Warranty $w) {
+	public function addWarranty(Warranty $w) {
 		$this->warranties->add($w);
 		$w->setCustomer($this);
 	}
 	
-	public function removeWarranties(Warranty $w) {
+	public function removeWarranty(Warranty $w) {
 		$this->warranties->removeElement($w);
 		$w->setCustomer(null);
 	}
 	
 	/**
 	 * @var Collection
-	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", mappedBy="customer", cascade={"persist","merge"}, orphanRemoval=true)
+	 * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", mappedBy="customer", cascade={"persist","merge"})
 	 */
 	protected $registrations;
+	
+	public function addRegistration(Registration $r) {
+		$this->registrations->add($r);
+		$r->setCustomer($this);
+	}
+	
+	public function removeRegistration(Registration $r) {
+		$this->registrations->removeElement($r);
+		$r->setCustomer(null);
+	}
 	
 	/**
 	 * @var Organisation|null

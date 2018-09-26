@@ -12,6 +12,8 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Command\Customer;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserManipulator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
@@ -54,6 +56,7 @@ class CleanUpOrphanCustomerCommand extends Command {
 	 * {@inheritdoc}
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		$manager = $this->entityManager;
 		$output->writeln('Cleaning up orphan Customers');
 		$customerRepo = $this->registry->getRepository(Customer::class);
 		$customers    = $customerRepo->findAll();
@@ -61,8 +64,54 @@ class CleanUpOrphanCustomerCommand extends Command {
 		foreach($customers as $c) {
 			if($c->getRegistrations()->count() === 0) {
 				$output->writeln($c->getName());
+				$this->entityManager->remove($c);
+				$this->entityManager->flush();
 			}
 		}
 		
+		$qb = $this->entityManager->createQueryBuilder();
+		
+		$qb->select('COUNT(c) as count, c as object')
+		   ->from(Customer::class, 'c')
+		   ->groupBy('c.email')
+		   ->having('COUNT(c) > 1');
+		
+		$results = $qb->getQuery()->getResult();
+		
+		foreach($results as $r) {
+			/** @var Customer $c */
+			$c     = $r['object'];
+			$email = $c->getEmail();
+			
+			$duplicatedCustomers = $customerRepo->findBy([ 'email' => $email ]);
+			if(count($duplicatedCustomers) > 0) {
+				/** @var Customer $originalCustomer */
+				$originalCustomer = $duplicatedCustomers[0];
+				
+				for($i = count($duplicatedCustomers); $i > 0; $i --) {
+					/** @var Customer $c */
+					$c    = $duplicatedCustomers[ $i ];
+					$regs = $c->getRegistrations();
+					
+					/** @var Registration $reg */
+					foreach($regs as $reg) {
+						$c->removeRegistration($reg);
+						$originalCustomer->addRegistration($reg);
+						$manager->persist($reg);
+					}
+					
+					$warranties = $c->getWarranties();
+					/** @var Warranty $w */
+					foreach($warranties as $w) {
+						$c->removeWarranty($w);
+						$originalCustomer->addWarranty($w);
+						$manager->persist($w);
+					}
+				}
+				
+				$originalCustomer->getRegistrations();
+				$originalCustomer->getWarranties();
+			}
+		}
 	}
 }

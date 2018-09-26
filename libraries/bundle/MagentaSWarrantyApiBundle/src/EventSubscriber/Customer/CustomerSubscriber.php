@@ -47,33 +47,36 @@ class CustomerSubscriber implements EventSubscriberInterface {
 			return;
 		}
 		
-		return;
-		
 		// just disable the rest
-		$cr        = $this->registry->getRepository(Customer::class);
-		$customers = $cr->findBy([
-			'telephone'    => $customer->getTelephone(),
-			'dialingCode'  => $customer->getDialingCode(),
-			'organisation' => $customer->getOrganisation()
-		]);
+//		return;
 		
-		if($cc = count($customers) === 0) {
-			return;
-		} elseif($cc === 1) {
-			$event->setControllerResult($customers[0]);
-		} else {
-			$event->setControllerResult($customers[0]);
-			/** @var Customer $c */
-			foreach($customers as $c) {
-				if($c->getEmail() === $customer->getEmail()) {
-					$c->setEmail(strtolower(trim($c->getEmail())));
-					$event->setControllerResult($c);
-					
-					return;
+		$cr = $this->registry->getRepository(Customer::class);
+		if( ! empty($email = $customer->getEmail())) {
+			$customers = $cr->findBy([
+//				'telephone'    => $customer->getTelephone(),
+//				'dialingCode'  => $customer->getDialingCode(),
+				'email'        => $email,
+				'organisation' => $customer->getOrganisation()
+			]);
+			
+			if($cc = count($customers) === 0) {
+				return;
+			} elseif($cc === 1) {
+				$event->setControllerResult($customers[0]);
+			} else {
+				$event->setControllerResult($customers[0]);
+				/** @var Customer $c */
+				foreach($customers as $c) {
+					if($c->getEmail() === $customer->getEmail() && $c->getRegistrations()->count() > 0) {
+						$c->setEmail(strtolower(trim($c->getEmail())));
+						$event->setControllerResult($c);
+						
+						return;
+					}
 				}
 			}
+			
 		}
-		
 	}
 	
 }

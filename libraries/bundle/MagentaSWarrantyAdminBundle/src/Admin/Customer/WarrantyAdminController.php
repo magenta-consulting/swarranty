@@ -41,8 +41,8 @@ class WarrantyAdminController extends BaseCRUDAdminController {
 		/** @var Customer $customer */
 		if( ! empty($customer = $customerRepo->find($customerId))) {
 			$oldC = $object->getCustomer();
-			$oldC->removeWarranties($object);
-			$customer->addWarranties($object);
+			$oldC->removeWarranty($object);
+			$customer->addWarranty($object);
 		}
 		$this->admin->getModelManager()->update($object);
 		

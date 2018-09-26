@@ -38,20 +38,20 @@ class WarrantyListener {
 		if($cc = count($customers) === 0) {
 			return;
 		} elseif($cc === 1) {
-			$customer->removeWarranties($warranty);
-//			$customers[0]->addWarranties($warranty);
+			$customer->removeWarranty($warranty);
+//			$customers[0]->addWarranty($warranty);
 			$warranty->setCustomer($customers[0]);
 			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Warranty::class), $warranty);
 		} else {
-			$customer->removeWarranties($warranty);
-//			$customers[0]->addWarranties($warranty);
+			$customer->removeWarranty($warranty);
+//			$customers[0]->addWarranty($warranty);
 			$warranty->setCustomer($customers[0]);
 			$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Warranty::class), $warranty);
 			/** @var Customer $c */
 			foreach($customers as $c) {
 				if($c->getEmail() === $customer->getEmail()) {
-					$customer->removeWarranties($warranty);
-//					$c->addWarranties($warranty);
+					$customer->removeWarranty($warranty);
+//					$c->addWarranty($warranty);
 					$warranty->setCustomer($c);
 					$uow->recomputeSingleEntityChangeSet($manager->getClassMetadata(Warranty::class), $warranty);
 					

@@ -484,8 +484,8 @@ class WarrantyAdmin extends BaseAdmin {
 		$cc = count($customers);
 		if($cc > 0) {
 			$object->setCustomer(null);
-			$c->removeWarranties($object);
-			$customers[0]->addWarranties($object);
+			$c->removeWarranty($object);
+			$customers[0]->addWarranty($object);
 			$object->setCustomer($customers[0]);
 		}
 		if($cc > 1) {
@@ -493,8 +493,8 @@ class WarrantyAdmin extends BaseAdmin {
 			foreach($customers as $_c) {
 				if($_c->getEmail() === $c->getEmail()) {
 					$object->setCustomer(null);
-					$customers[0]->removeWarranties($object);
-					$_c->addWarranties($object);
+					$customers[0]->removeWarranty($object);
+					$_c->addWarranty($object);
 					$object->setCustomer($_c);
 					
 				}
