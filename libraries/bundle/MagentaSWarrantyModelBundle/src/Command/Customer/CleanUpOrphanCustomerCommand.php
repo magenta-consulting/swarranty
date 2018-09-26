@@ -88,7 +88,7 @@ class CleanUpOrphanCustomerCommand extends Command {
 				/** @var Customer $originalCustomer */
 				$originalCustomer = $duplicatedCustomers[0];
 				
-				for($i = count($duplicatedCustomers); $i > 0; $i --) {
+				for($i = count($duplicatedCustomers) - 1; $i > 0; $i --) {
 					/** @var Customer $c */
 					$c    = $duplicatedCustomers[ $i ];
 					$regs = $c->getRegistrations();
