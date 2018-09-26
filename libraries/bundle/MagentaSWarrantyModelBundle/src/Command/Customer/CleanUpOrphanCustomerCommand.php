@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Magenta\Bundle\SWarrantyModelBundle\Command\User;
+namespace Magenta\Bundle\SWarrantyModelBundle\Command\Customer;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;

@@ -41,3 +41,10 @@ services:
         arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
         tags:
         - {name: "console.command", command: "magenta:migration:switch-name-number"}
+
+    magenta_config.command.clean_up_orphan_customer:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Customer\CleanUpOrphanCustomerCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+        - {name: "console.command", command: "magenta:customer:clean-up-orphan"}
