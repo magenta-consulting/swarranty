@@ -55,11 +55,13 @@ class CleanUpOrphanCustomerCommand extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$output->writeln('Cleaning up orphan Customers');
-		$customerRepo     = $this->registry->getRepository(Customer::class);
-		$orhphanCustomers = $customerRepo->findBy([ 'registrations' => null ]);
+		$customerRepo = $this->registry->getRepository(Customer::class);
+		$customers    = $customerRepo->findAll();
 		/** @var Customer $c */
-		foreach($orhphanCustomers as $c) {
-			$output->writeln($c->getName());
+		foreach($customers as $c) {
+			if($c->getRegistrations()->count() === 0) {
+				$output->writeln($c->getName());
+			}
 		}
 		
 	}
