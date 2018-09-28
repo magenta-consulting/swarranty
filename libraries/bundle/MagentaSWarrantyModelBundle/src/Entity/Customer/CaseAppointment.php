@@ -191,6 +191,24 @@ class CaseAppointment extends FullTextSearch {
 	protected $visitedAt;
 	
 	/**
+	 * @var float|null
+	 * @ORM\Column(type="float",options={"default":0}, precision=2)
+	 */
+	protected $amountCollected = 0;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $partsReplaced;
+	
+	/**
+	 * @var string|null
+	 * @ORM\Column(type="string",nullable=true)
+	 */
+	protected $productIssue;
+	
+	/**
 	 * @var string|null
 	 * @ORM\Column(type="string",nullable=true)
 	 */
@@ -381,5 +399,47 @@ class CaseAppointment extends FullTextSearch {
 	 */
 	public function setAppointmentFrom(?\DateTime $appointmentFrom): void {
 		$this->appointmentFrom = $appointmentFrom;
+	}
+	
+	/**
+	 * @return float|null
+	 */
+	public function getAmountCollected(): ?float {
+		return $this->amountCollected;
+	}
+	
+	/**
+	 * @param float|null $amountCollected
+	 */
+	public function setAmountCollected(?float $amountCollected): void {
+		$this->amountCollected = $amountCollected;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getPartsReplaced(): ?string {
+		return $this->partsReplaced;
+	}
+	
+	/**
+	 * @param null|string $partsReplaced
+	 */
+	public function setPartsReplaced(?string $partsReplaced): void {
+		$this->partsReplaced = $partsReplaced;
+	}
+	
+	/**
+	 * @return null|string
+	 */
+	public function getProductIssue(): ?string {
+		return $this->productIssue;
+	}
+	
+	/**
+	 * @param null|string $productIssue
+	 */
+	public function setProductIssue(?string $productIssue): void {
+		$this->productIssue = $productIssue;
 	}
 }

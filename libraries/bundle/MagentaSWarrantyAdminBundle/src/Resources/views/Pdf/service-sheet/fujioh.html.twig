@@ -111,22 +111,22 @@
                             <td title>Address: </td>
                             <td content>
                                 <div class="multiline">
-                                    {{ case.warranty.customer.homeAddress | default }}
+                                    {{ case.warranty.customer.addressUnitNumber }}
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td title>&nbsp;</td>
-                            <td content></td>
+                            <td content>{{ case.warranty.customer.homeAddress  }}</td>
                         </tr>
                         <tr>
                             <td title>&nbsp;</td>
                             <td content></td>
                         </tr>
-                        <tr>
-                            <td title>&nbsp;</td>
-                            <td content></td>
-                        </tr>
+                        {#<tr>#}
+                            {#<td title>&nbsp;</td>#}
+                            {#<td content></td>#}
+                        {#</tr>#}
                         <tr>
                             <td title>Receive Date: </td>
                             <td content>
@@ -156,8 +156,8 @@
                     </table>
                     <table class="fullwidth title-200">
                         <tr>
-                            <td title>Date of Installation: </td>
-                            <td content></td>
+                            <td title>Delivery Date: </td>
+                            <td content>{{ case.warranty.purchaseDate|date('d-m-Y') }}</td>
                         </tr>
                         <tr>
                             <td title>Installed by: </td>
@@ -325,22 +325,31 @@
                         (ii) Fujioh Int'l Tdg Pte Ltd reserves all rights to change the above terms and conditions without prior notice.
                     </p>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             <b>Attended By,</b>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4">
                             <b>Acknowledged By,</b>
                         </div>
                     </div>
-                    <div class="row" style="height: 100px"></div>
+
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-4">
                             Fujioh's Technican Name & Signature
                         </div>
-                        <div class="col-6">
+                        <div class="col-4"></div>
+                        <div class="col-4">
                             Customer Signature & Date
                         </div>
                     </div>
+                <div class="row" style="height: 70px; border-bottom: 1px;"></div>
+                <div class="row" style="height: 30px">
+                    <div class="col-4" style="border-top: solid 1px;"></div>
+                    <div class="col-4"></div>
+                    <div class="col-4" style="border-top: solid 1px;"></div>
+                </div>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseCRUDAdminController;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
@@ -163,6 +164,9 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 				->writeCellAndGoRight('Case Description')
 				->writeCellAndGoRight('Service Notes')
 				->writeCellAndGoRight('Special Notes')
+				->writeCellAndGoRight('Total Amount Collected')
+				->writeCellAndGoRight('Parts Replaced')
+				->writeCellAndGoRight('Product Issue')
 				->writeCellAndGoRight('Technicians')
 				->writeCellAndGoRight('Service Zones')
 				->writeCellAndGoRight('Customer Name')
@@ -187,13 +191,16 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 					$closedAtStr = $case->getClosedAt()->format('d-m-Y');
 				}
 				$sWriter->writeCellAndGoRight($closedAtStr);
-				$brand        = '';
-				$category     = '';
-				$modelNumber  = '';
-				$zoneStr      = '';
-				$customerName = '';
-				$serialNumber = '';
-				$purchaseDate = '';
+				$brand                = '';
+				$category             = '';
+				$modelNumber          = '';
+				$zoneStr              = '';
+				$customerName         = '';
+				$serialNumber         = '';
+				$purchaseDate         = '';
+				$totalAmountCollected = 0;
+				$partsReplaced        = '';
+				$productIssue         = '';
 				
 				/** @var Warranty $w */
 				if( ! empty($w = $case->getWarranty())) {
@@ -218,6 +225,20 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 					}
 				}
 				
+				$apmts = $case->getAppointments();
+				if($apmts->count() > 0) {
+					/** @var CaseAppointment $apmt */
+					foreach($apmts as $apmt) {
+						$totalAmountCollected += $apmt->getAmountCollected();
+						if( ! empty($_partsReplaced = $apmt->getPartsReplaced())) {
+							$partsReplaced .= ', ' . $_partsReplaced;
+						}
+						if( ! empty($_productIssue = $apmt->getPartsReplaced())) {
+							$productIssue .= ', ' . $_productIssue;
+						}
+					}
+				}
+				
 				/** @var ServiceZone $zone */
 				if( ! empty($zone = $case->getServiceZone())) {
 					$zoneStr = $zone->getName();
@@ -231,6 +252,11 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController {
 				$sWriter->writeCellAndGoRight(! empty($desc = $case->getDescription()) ? strip_tags($desc) : '');
 				$sWriter->writeCellAndGoRight(! empty($note = $case->getServiceNotesString()) ? strip_tags($note) : '');
 				$sWriter->writeCellAndGoRight(! empty($remarks = $case->getSpecialRemarks()) ? strip_tags($remarks) : '');
+				
+				$sWriter->writeCellAndGoRight($totalAmountCollected);
+				$sWriter->writeCellAndGoRight($partsReplaced);
+				$sWriter->writeCellAndGoRight($productIssue);
+				
 				$sWriter->writeCellAndGoRight($case->getAssigneeString());
 				$sWriter->writeCellAndGoRight($zoneStr);
 				$sWriter->writeCellAndGoRight($customerName);

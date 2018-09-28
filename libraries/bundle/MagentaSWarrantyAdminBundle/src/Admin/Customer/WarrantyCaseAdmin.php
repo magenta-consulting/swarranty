@@ -347,7 +347,7 @@ class WarrantyCaseAdmin extends BaseAdmin {
 				'label' => 'form.label_case_detail'
 			])
 			->add('serviceNotes', 'serviceNotes', [
-				'label'               => 'form.label_service_notes',
+				'label'               => 'form.label_fault_analysis',
 				'associated_property' => 'description'
 			])
 			->add('specialRemarks', 'html', [

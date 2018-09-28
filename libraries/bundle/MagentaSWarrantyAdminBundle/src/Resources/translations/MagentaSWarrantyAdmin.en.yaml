@@ -146,6 +146,9 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_amount_collected: Amount Collected
+    label_parts_replaced: Parts Replaced
+    label_product_issue: Product Issue
     label_subscribed: Subscribed
     label_type: Type
     label_subject: Subject
@@ -160,6 +163,7 @@ form:
     label_assign_technician: Assign Technician
     label_assignee_history: Technician(s)
     label_service_notes: Service Notes
+    label_fault_analysis: Fault Analysis
     label_service_note: Service Note
     label_customer: Customer
     label_status: Status

@@ -47,7 +47,9 @@ use Sonata\MediaBundle\Form\Type\MediaType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -276,7 +278,7 @@ class CaseAppointmentAdmin extends BaseAdmin {
 //				'editable' => true,
 				'label' => 'form.label_case_detail'
 			])
-			->add('serviceNotes', null, [ 'label' => 'form.label_service_notes' ])
+			->add('serviceNotes', null, [ 'label' => 'form.label_fault_analysis' ])
 			->add('assigneeHistory', null, [ 'label' => 'form.label_assignee_history' ])
 			->add('serviceZone.name', null, [ 'label' => 'form.label_service_zone' ]);
 		
@@ -327,6 +329,19 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'query'    => $canReceiveCaseMemberQuery
 			])
 			->add('serviceNote.description', null, [ 'label' => 'form.label_service_note' ])
+			->add('amountCollected', MoneyType::class, [
+				'label'    => 'form.label_amount_collected',
+				'required' => false,
+				'currency' => 'SGD'
+			])
+			->add('partsReplaced', TextareaType::class, [
+				'label'    => 'form.label_parts_replaced',
+				'required' => false
+			])
+			->add('productIssue', TextareaType::class, [
+				'label'    => 'form.label_product_issue',
+				'required' => false
+			])
 			->add('appointmentAt', DatePickerType::class, [
 				'required'              => false,
 				'format'                => 'dd-MM-yyyy',
