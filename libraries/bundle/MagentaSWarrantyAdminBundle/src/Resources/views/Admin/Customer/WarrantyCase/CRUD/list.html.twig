@@ -32,3 +32,57 @@
 {%- block actions -%}
     {#{% include '@SonataAdmin/CRUD/action_buttons.html.twig' %}#}
 {%- endblock -%}
+
+{%- block javascripts -%}
+{{ parent() }}
+    <script>
+        (function ($) {
+
+            /* ----------------------------------------------- */
+            /* ----------------------------------------------- */
+            /* OnLoad Page */
+            $(document).ready(function ($) {
+                registerBatchActionEvents($('input[name="idx[]"]'));
+            });
+
+
+            registerBatchActionEvents = function ($ace) {
+                $ace.on('ifChanged change', function (e) {
+                    let $iCheck = $(this);
+                    let $parent = $(this).parents('.ace-container');
+                    let enableUrl = $parent.data('enableUrl');
+                    let removeUrl = $parent.data('removeUrl');
+                    let statusUrl = $parent.data('statusUrl');
+
+                    // console.log('url is ', url, 'is checked', $(this).is(":checked"));
+                    let isChecked = $(this).is(":checked");
+                    let $iCheckContainer = $(this).parents('.icheckbox_square-blue');
+                    // $iCheckContainer.hide();
+                    $parent.append('<i class="fa fa-spinner fa-spin" style="font-size:24px"></i>');
+                    let $loading = $parent.children().last();
+                    alert('hello');
+                    {#if (isChecked) {#}
+                        {# ACEntry::STATUS_GRANTED #}
+                        {#postACE('GRANTED', enableUrl, statusUrl, function (resp) {#}
+                            {#$loading.remove();#}
+                            {#$iCheckContainer.show();#}
+                        {#});#}
+                    {#} else {#}
+                        {# ACEntry::STATUS_EMPTY #}
+                        {#postACE('EMPTY', removeUrl, statusUrl, function (resp) {#}
+                            {#$loading.remove();#}
+                            {#$iCheckContainer.show();#}
+                        {#});#}
+                    {#}#}
+                });
+            }
+
+            /* OnLoad Window */
+            init = function () {
+
+            };
+            window.onload = init;
+
+        })(jQuery);
+    </script>
+{%- endblock -%}
