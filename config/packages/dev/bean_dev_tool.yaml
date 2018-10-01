@@ -1,6 +1,6 @@
 bean_dev_tool:
-    library_source: E:\wamp31\www\libraries\swarranty\
-    library_workspace: E:\wamp31\www\swarranty\sw-dev\libraries\
+    library_source: D:\workspace\libraries\swarranty\
+    library_workspace: D:\workspace\magenta\swarranty\dev\libraries\
     components: ~
     bundles:
         - MagentaSWarrantyModelBundle

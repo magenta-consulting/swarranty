@@ -295,15 +295,15 @@ class WarrantyAdmin extends BaseAdmin {
 
 //		$listMapper->add('positions', null, [ 'template' => '::admin/user/list__field_positions.html.twig' ]);
 	}
-	
-	public function generateUrl($name, array $parameters = [], $absolute = RoutingUrlGeneratorInterface::ABSOLUTE_PATH) {
-		$request = $this->getRequest();
-		if( ! empty($status = $request->query->get('statusFilter'))) {
-			$parameters['statusFilter'] = $status;
-		}
-		
-		return parent::generateUrl($name, $parameters, $absolute);
-	}
+
+    public function generateUrl($name, array $parameters = array(), $absolute = RoutingUrlGeneratorInterface::ABSOLUTE_PATH) {
+        $statusFilter = $this->getRequest()->query->get('statusFilter');
+        if( ! empty($statusFilter) && ! array_key_exists('statusFilter', $parameters)) {
+            $parameters['statusFilter'] = $statusFilter;
+        }
+
+        return parent::generateUrl($name, $parameters, $absolute);
+    }
 	
 	protected function configureFormFields(FormMapper $formMapper) {
 		$c = $this->getConfigurationPool()->getContainer();
