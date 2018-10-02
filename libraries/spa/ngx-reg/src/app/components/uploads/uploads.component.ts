@@ -138,9 +138,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
   }
 
   onRemoved(file: FileHolder) {
-    let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
-    let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
-
     let v_confirm = false;
     // check android or ios
     if (navigator.userAgent.toLowerCase().indexOf("android") > -1
@@ -151,19 +148,40 @@ export class UploadsComponent implements OnInit, AfterViewInit {
       v_confirm = confirm('Do you really want to remove this image ?');
       // console.log('removed', file);
     }
-    // After Asking.
-    if (v_confirm == true) {
-      this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
-        res => {
-          // console.log('res', res);
-        },
-        error => {
-          // console.log('Error', error);
-        },
-        () => {
-          // console.log('Complete Request');
-        }
-      );
+    if(file.serverResponse && file.serverResponse.response) {
+      let imgId = JSON.parse(file.serverResponse.response._body).id;
+      // After Asking.
+      if (v_confirm == true) {
+        this.productService.deleteWarrantyImg(parseInt(imgId)).subscribe(
+          res => {
+            // console.log('res', res);
+          },
+          error => {
+            // console.log('Error', error);
+          },
+          () => {
+            // console.log('Complete Request');
+          }
+        );
+      }
+    } else {
+      let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
+      let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
+      
+      // After Asking.
+      if (v_confirm == true) {
+        this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
+          res => {
+            // console.log('res', res);
+          },
+          error => {
+            // console.log('Error', error);
+          },
+          () => {
+            // console.log('Complete Request');
+          }
+        );
+      }
     }
 
   }
