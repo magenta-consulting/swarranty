@@ -148,6 +148,8 @@ export class UploadsComponent implements OnInit, AfterViewInit {
       v_confirm = confirm('Do you really want to remove this image ?');
       // console.log('removed', file);
     }
+
+    // for case img just uploaded
     if(file.serverResponse && file.serverResponse.response) {
       let imgId = JSON.parse(file.serverResponse.response._body).id;
       // After Asking.
