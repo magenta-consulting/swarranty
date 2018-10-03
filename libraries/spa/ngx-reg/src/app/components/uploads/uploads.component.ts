@@ -152,6 +152,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // for case img just uploaded
     if(file.serverResponse && file.serverResponse.response) {
       let imgId = JSON.parse(file.serverResponse.response._body).id;
+      if (imgId == null) {
+        return;
+      }
       // After Asking.
       if (v_confirm == true) {
         this.productService.deleteWarrantyImg(parseInt(imgId)).subscribe(
@@ -169,6 +172,9 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     } else {
       let splitUrlMedia = this.helper.explode('/media/', file.src, undefined);
       let imgId = this.helper.explode(binariesMedia, splitUrlMedia[1], undefined);
+      if (imgId == null) {
+        return;
+      }
       
       // After Asking.
       if (v_confirm == true) {
