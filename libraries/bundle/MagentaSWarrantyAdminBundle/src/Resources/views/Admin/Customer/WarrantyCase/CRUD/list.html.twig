@@ -24,8 +24,9 @@
     <a href="{{ admin.generateUrl('list',{'statusFilter':'ALL'}) }}"
        class="list-action btn btn-default {{ app.request.get('statusFilter') == 'ALL' or app.request.get('statusFilter') == ''?'active':'' }}">All</a>
 
-    <a href="{{ admin.generateUrl('export', admin.modelmanager.paginationparameters(admin.datagrid, 0) + {'format' : 'html'}) }}"
-       class="list-action btn btn-primary"><i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+    <a href="{{ admin.generateUrl('export', admin.modelmanager.paginationparameters(admin.datagrid, 0) + {'format' : 'pdf'}) }}"
+       class="download-service-sheet list-action btn btn-primary"><i class="fa fa-arrow-circle-o-down"
+                                                                     aria-hidden="true"></i>
         Generate Service Sheets</a>
 {% endblock %}
 
@@ -34,7 +35,7 @@
 {%- endblock -%}
 
 {%- block javascripts -%}
-{{ parent() }}
+    {{ parent() }}
     <script>
         (function ($) {
 
@@ -43,6 +44,21 @@
             /* OnLoad Page */
             $(document).ready(function ($) {
                 registerBatchActionEvents($('input[name="idx[]"]'));
+                $('.download-service-sheet').click(function (e) {
+                    e.preventDefault();
+                    let checkedCount = $('[name="idx[]"]:checked').length;
+                    let isChecked = checkedCount > 0;
+
+                    if (isChecked) {
+                        let $form = $(this).parents('form');
+                        $form.find('select[name="action"]').val("service-sheet");
+
+                        $form.submit();
+                    } else {
+                        window.location.href = $(this).attr('href');
+                    }
+
+                });
             });
 
 
@@ -62,17 +78,17 @@
                     let $loading = $parent.children().last();
                     // alert('hello');
                     {#if (isChecked) {#}
-                        {# ACEntry::STATUS_GRANTED #}
-                        {#postACE('GRANTED', enableUrl, statusUrl, function (resp) {#}
-                            {#$loading.remove();#}
-                            {#$iCheckContainer.show();#}
-                        {#});#}
+                    {# ACEntry::STATUS_GRANTED #}
+                    {#postACE('GRANTED', enableUrl, statusUrl, function (resp) {#}
+                    {#$loading.remove();#}
+                    {#$iCheckContainer.show();#}
+                    {#});#}
                     {#} else {#}
-                        {# ACEntry::STATUS_EMPTY #}
-                        {#postACE('EMPTY', removeUrl, statusUrl, function (resp) {#}
-                            {#$loading.remove();#}
-                            {#$iCheckContainer.show();#}
-                        {#});#}
+                    {# ACEntry::STATUS_EMPTY #}
+                    {#postACE('EMPTY', removeUrl, statusUrl, function (resp) {#}
+                    {#$loading.remove();#}
+                    {#$iCheckContainer.show();#}
+                    {#});#}
                     {#}#}
                 });
             }
