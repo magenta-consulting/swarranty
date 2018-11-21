@@ -28,92 +28,49 @@ use Symfony\Component\Console\Question\Question;
  * @author Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author Luis Cordova <cordoval@gmail.com>
  */
-class CleanUpOrphanCustomerCommand extends Command {
-	protected static $defaultName = 'magenta:customer:clean-up-orphan';
-	
-	/** @var RegistryInterface */
-	private $registry;
-	
-	/** @var EntityManager */
-	private $entityManager;
-	
-	public function __construct(RegistryInterface $registry, EntityManager $em) {
-		parent::__construct();
-		$this->registry      = $registry;
-		$this->entityManager = $em;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function configure() {
-		$this
-			->setName(self::$defaultName)
-			->setDescription('Clean up orphan Customers.');
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		$manager = $this->entityManager;
-		$output->writeln('Cleaning up orphan Customers');
-		$customerRepo = $this->registry->getRepository(Customer::class);
-		$customers    = $customerRepo->findAll();
-		/** @var Customer $c */
-		foreach($customers as $c) {
-			if($c->getRegistrations()->count() === 0) {
-				$output->writeln($c->getName());
-				$this->entityManager->remove($c);
-				$this->entityManager->flush();
-			}
-		}
-		
-		$qb = $this->entityManager->createQueryBuilder();
-		
-		$qb->select('COUNT(c) as count, c as object')
-		   ->from(Customer::class, 'c')
-		   ->groupBy('c.email')
-		   ->having('COUNT(c) > 1');
-		
-		$results = $qb->getQuery()->getResult();
-		
-		foreach($results as $r) {
-			/** @var Customer $c */
-			$c     = $r['object'];
-			$email = $c->getEmail();
-			
-			$duplicatedCustomers = $customerRepo->findBy([ 'email' => $email ]);
-			if(count($duplicatedCustomers) > 0) {
-				/** @var Customer $originalCustomer */
-				$originalCustomer = $duplicatedCustomers[0];
-				
-				for($i = count($duplicatedCustomers) - 1; $i > 0; $i --) {
-					/** @var Customer $c */
-					$c    = $duplicatedCustomers[ $i ];
-					$regs = $c->getRegistrations();
-					$output->writeln('....... Processing Merging of ' . $c->getEmail());
-					/** @var Registration $reg */
-					foreach($regs as $reg) {
-						$output->writeln('customer merging for Registration ');
-						$c->removeRegistration($reg);
-						$originalCustomer->addRegistration($reg);
-						$manager->persist($reg);
-					}
-					
-					$warranties = $c->getWarranties();
-					/** @var Warranty $w */
-					foreach($warranties as $w) {
-						$output->writeln('customer merging for Warranty ');
-						$c->removeWarranty($w);
-						$originalCustomer->addWarranty($w);
-						$manager->persist($w);
-					}
-				}
-				
-				$output->writeln('Flushing');
-				$manager->flush();
-			}
-		}
-	}
+class CleanUpOrphanCustomerCommand extends Command
+{
+    protected static $defaultName = 'magenta:customer:clean-up-orphan';
+    
+    /** @var RegistryInterface */
+    private $registry;
+    
+    /** @var EntityManager */
+    private $entityManager;
+    
+    public function __construct(RegistryInterface $registry, EntityManager $em)
+    {
+        parent::__construct();
+        $this->registry = $registry;
+        $this->entityManager = $em;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this
+            ->setName(self::$defaultName)
+            ->setDescription('Clean up orphan Customers.');
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $manager = $this->entityManager;
+        $output->writeln('Cleaning up orphan Customers');
+        $customerRepo = $this->registry->getRepository(Customer::class);
+        $customers = $customerRepo->findAll();
+        /** @var Customer $c */
+        foreach ($customers as $c) {
+            if ($c->getRegistrations()->count() === 0 && $c->getWarranties()->count() === 0) {
+                $output->writeln($c->getName());
+                $this->entityManager->remove($c);
+            }
+        }
+        $this->entityManager->flush();
+    }
 }

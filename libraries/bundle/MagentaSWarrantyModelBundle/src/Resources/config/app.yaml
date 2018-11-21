@@ -48,3 +48,10 @@ services:
         arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
         tags:
         - {name: "console.command", command: "magenta:customer:clean-up-orphan"}
+
+    magenta_config.command.clean_up_duplicated_customer:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\Customer\CleanUpDuplicatedCustomerCommand
+        public: false
+        arguments: ['@doctrine','@doctrine.orm.default_entity_manager']
+        tags:
+        - {name: "console.command", command: "magenta:customer:clean-up-duplicates"}
