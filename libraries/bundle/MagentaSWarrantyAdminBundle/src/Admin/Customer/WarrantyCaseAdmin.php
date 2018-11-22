@@ -65,13 +65,13 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class WarrantyCaseAdmin extends BaseAdmin
 {
-
+    
     const CHILDREN = [
         WarrantyChildCaseAdmin::class => 'parent'
     ];
-
+    
     protected $action;
-
+    
     protected $datagridValues = array(
         // display the first page (default = 1)
 //        '_page' => 1,
@@ -80,16 +80,16 @@ class WarrantyCaseAdmin extends BaseAdmin
         // name of the ordered field (default = the model's id field, if any)
         '_sort_by' => 'updatedAt',
     );
-
+    
     public function configure()
     {
         parent::configure();
         $this->setTemplate('edit', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/edit.html.twig');
         $this->setTemplate('list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
         $this->setTemplate('decide', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/decide.html.twig');
-
+        
     }
-
+    
     protected function filterQueryByOrganisation(ProxyQuery $query, Organisation $organisation)
     {
         $pool = $this->getConfigurationPool();
@@ -98,16 +98,16 @@ class WarrantyCaseAdmin extends BaseAdmin
         /** @var Expr $expr */
         $expr = $query->getQueryBuilder()->expr();
         $warrantyAlias = $query->entityJoin([['fieldName' => 'warranty']]);
-
+        
         /** @var QueryBuilder $qb */
         $qb = $query->getQueryBuilder();
         $qb->join($warrantyAlias . '.customer', 'customer')
             ->join('customer.organisation', 'organisation');
-
-
+        
+        
         return $query->andWhere($expr->eq('organisation.id', $organisation->getId()));
     }
-
+    
     public function getNewInstance()
     {
         /** @var WarrantyCase $object */
@@ -120,26 +120,26 @@ class WarrantyCaseAdmin extends BaseAdmin
             $parentWarrantyCase = $parent->getSubject();
             $object->setWarranty($parentWarrantyCase->getWarranty());
         }
-
+        
         if (empty($w = $object->getWarranty())) {
             $object->setWarranty($w = new Warranty());
         }
-
+        
         if (empty($w->getCustomer())) {
             $w->setCustomer(new Customer());
         }
-
+        
         if (empty($w->getProduct())) {
             $p = new Product();
             $p->setBrand(new Brand());
             $p->setImage(new Media());
             $w->setProduct($p);
         }
-
-
+        
+        
         return $object;
     }
-
+    
     protected function getAccess()
     {
         return array_merge(parent::getAccess(), [
@@ -149,7 +149,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             'reopen' => 'DECISION_' . WarrantyCase::DECISION_REOPEN
         ]);
     }
-
+    
     /**
      * @param string $name
      * @param WarrantyCase $object
@@ -162,10 +162,10 @@ class WarrantyCaseAdmin extends BaseAdmin
                 return false;
             }
         }
-
+        
         return parent::isGranted($name, $object);
     }
-
+    
     /**
      * @param WarrantyCase $object
      *
@@ -177,7 +177,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             ? $object->getWarranty()->getCustomer()->getName() . ' - ' . $object->getWarranty()->getProduct()->getName()
             : 'Warranty Case'; // shown in the breadcrumb on the create view
     }
-
+    
     public function createQuery($context = 'list')
     {
         /** @var ProxyQueryInterface $query */
@@ -212,41 +212,41 @@ class WarrantyCaseAdmin extends BaseAdmin
                 $query->andWhere($expr->like($rootAlias . '.status', $expr->literal(WarrantyCase::STATUS_CLOSED)));
                 break;
         }
-
+        
         //        $query->andWhere()
-
-
+        
+        
         return $query;
-
+        
     }
-
+    
     public function getPersistentParameters()
     {
         $parameters = parent::getPersistentParameters();
         if (!$this->hasRequest()) {
             return $parameters;
         }
-
+        
         if (!empty($this->subject) && !empty($caseId = $this->subject->getId())) {
             $parameters = array_merge($parameters, ['case' => $caseId]);
         }
-
+        
         if (empty($org = $this->getCurrentOrganisation(true))) {
             return $parameters;
         }
-
+        
         return array_merge($parameters, array(
             'organisation' => $org->getId()
         ));
     }
-
+    
     public function configureRoutes(RouteCollection $collection)
     {
         parent::configureRoutes($collection);
 //		$collection->add('show_user_profile', $this->getRouterIdParameter() . '/show-user-profile');
-
+    
     }
-
+    
     public function setTemplate($name, $template)
     {
         $_name = strtoupper($name);
@@ -259,7 +259,7 @@ class WarrantyCaseAdmin extends BaseAdmin
 //
         parent::setTemplate($name, $template);
     }
-
+    
     protected function configureShowFields(ShowMapper $showMapper)
     {
         $showMapper
@@ -267,12 +267,12 @@ class WarrantyCaseAdmin extends BaseAdmin
             ->add('serviceZone.name')
             ->add('assignee.person.name')
             ->end();
-
+        
         $showMapper
             ->with('form_group.service_images', ['class' => 'col-md-6'])
 //			->add('receiptImages', 'image', [ 'label' => 'form.label_reference_number' ])
             ->end();
-
+        
         $showMapper->with('form_group.warranty_details', ['class' => 'col-md-6'])
             ->add('code', null, ['label' => 'form.label_reference_number'])
             ->add('warranty.product.brand', null, [
@@ -309,7 +309,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             ])
             ->add('warranty.dealer.name', null, ['label' => 'form.label_dealer'])
             ->end();
-
+        
         $showMapper->with('form_group.customer_details', ['class' => 'col-md-6'])
             ->add('warranty.customer.name', null, ['label' => 'form.label_name'])
             ->add('warranty.customer.telephone', null, ['label' => 'form.label_telephone'])
@@ -318,7 +318,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             ->add('warranty.customer.homePostalCode', null, ['label' => 'form.label_postal_code'])
             ->end();
     }
-
+    
     protected function configureBatchActions($actions)
     {
         $actions['service-sheet'] = [
@@ -326,7 +326,7 @@ class WarrantyCaseAdmin extends BaseAdmin
         ];
         return array_merge(parent::configureBatchActions($actions), $actions);
     }
-
+    
     /**
      * {@inheritdoc}
      */
@@ -347,7 +347,7 @@ class WarrantyCaseAdmin extends BaseAdmin
                 'label' => 'form.label_action'
             ]
         );
-
+        
         $listMapper
             ->add('number', 'number', ['label' => 'form.label_number'])
             ->add('priority', 'choice', [
@@ -379,7 +379,7 @@ class WarrantyCaseAdmin extends BaseAdmin
                 'associated_property' => 'assigneeName'
             ])
             ->add('serviceZone.name', null, ['label' => 'form.label_service_zone']);
-
+        
         $listMapper
             ->add('warranty.customer', 'customer', ['label' => 'form.label_customer'])
             ->add('status', null, ['label' => 'form.label_status'])
@@ -408,18 +408,18 @@ class WarrantyCaseAdmin extends BaseAdmin
 ////			'html'
 //		];
 //	}
-
+    
     public function generateUrl($name, array $parameters = array(), $absolute = UrlGeneratorInterface::ABSOLUTE_PATH)
     {
         $statusFilter = $this->getRequest()->query->get('statusFilter');
         if (!empty($statusFilter) && !array_key_exists('statusFilter', $parameters)) {
             $parameters['statusFilter'] = $statusFilter;
         }
-
+        
         return parent::generateUrl($name, $parameters, $absolute);
     }
-
-
+    
+    
     protected function getAutocompleteRouteParameters()
     {
         /** @var WarrantyCase $case */
@@ -431,13 +431,13 @@ class WarrantyCaseAdmin extends BaseAdmin
             return array_merge($params, ['customer' => $w->getCustomer()->getId()]);
         }
     }
-
+    
     protected function configureFormFields(FormMapper $formMapper)
     {
         $parent = $this->getParent();
 //		$link_parameters = $this->getParentFieldDescription()->getOption('link_parameters', array());
         $c = $this->getConfigurationPool()->getContainer();
-
+        
         $formMapper
             ->with('form_group.product_details', ['class' => 'col-md-6']);
         $formMapper->add('warranty.product.image', ProductDetailType::class, [
@@ -482,7 +482,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             'class' => null
         ]);
         $formMapper->end();
-
+        
         $formMapper
             ->with('form_group.service_images', ['class' => 'col-md-6']);
         $formMapper->add('serviceSheets', CollectionType::class,
@@ -501,7 +501,7 @@ class WarrantyCaseAdmin extends BaseAdmin
             )
         );
         $formMapper->end();
-
+        
         if (!$this->isAppendFormElement()) {
             if (true || !$parent instanceof WarrantyAdmin) {
                 $formMapper
@@ -521,16 +521,16 @@ class WarrantyCaseAdmin extends BaseAdmin
 //			'btn_add'  => false,
                     'to_string_callback' => function (Warranty $entity) {
 //				$entity->generateSearchText();
-
+                        
                         return $entity->getSearchText();
                     },
                     'callback' => function (WarrantyAdmin $admin, $property, $field) {
-
+                        
                         return true;
                     },
                 ]);
                 $formMapper->end();
-
+                
                 $formMapper
                     ->with('form_group.customer_details', ['class' => 'col-md-6']);
                 $formMapper->add('warranty.customer.name', ProductDetailType::class, [
@@ -579,10 +579,10 @@ class WarrantyCaseAdmin extends BaseAdmin
 //			'class'          => null
                 ]);
                 $formMapper->end();
-
+                
                 $formMapper
                     ->with('form_group.case_details', ['class' => 'col-md-6']);
-
+                
                 $formMapper
                     ->add('description', CKEditorType::class, [
                         'required' => false,
@@ -593,7 +593,7 @@ class WarrantyCaseAdmin extends BaseAdmin
 //
 //				$formMapper
 //					->with('form_group.case_details', [ 'class' => 'col-md-6' ]);
-
+                
                 $formMapper
                     ->add('specialRemarks', CKEditorType::class, [
                         'required' => false,
@@ -601,12 +601,12 @@ class WarrantyCaseAdmin extends BaseAdmin
                     ]);
                 $formMapper->end();
             } else {
-
-
+            
+            
             }
         }
-
-
+        
+        
         $formMapper
             ->with('form_group.case_assignment', ['class' => 'col-md-6']);
         $formMapper->add('serviceZone', ModelType::class, [
@@ -629,8 +629,8 @@ class WarrantyCaseAdmin extends BaseAdmin
                 $expr->like('entries.permission', $expr->literal(ACEntry::PERMISSION_RECEIVE)),
                 $expr->isInstanceOf('module', CaseModule::class)
             ));
-
-
+            
+            
             $formMapper
                 ->add('assignee', ModelType::class, [
                     'required' => false,
@@ -700,14 +700,14 @@ class WarrantyCaseAdmin extends BaseAdmin
 //		);
         $formMapper->end();
     }
-
+    
     /**
      * @param WarrantyCase $object
      */
     public function preValidate($object)
     {
         parent::preValidate($object);
-
+        
         /** @var User $user */
         $user = $this->getLoggedInUser();
         if (empty($object->getCreator())) {
@@ -718,13 +718,19 @@ class WarrantyCaseAdmin extends BaseAdmin
                 }
             }
         }
-
+        
         $apmts = $object->getAppointments();
         $manager = $this->getConfigurationPool()->getContainer()->get('doctrine.orm.default_entity_manager');
-
+        
         if (!empty($from = $object->getAppointmentFrom())) {
+            if (empty($object->getAppointmentAt())) {
+                /** @var CaseAppointment $_apmt */
+                $_apmt = $apmts->last();
+                $object->setAppointmentAt($_apmt->getAppointmentAt());
+            }
             $object->getAppointmentAt()->setTime((int)$from->format('H'), (int)$from->format('i'));
         };
+        
         /** @var CaseAppointment $apmt */
         foreach ($apmts as $apmt) {
             if (!empty($apmt)) {
@@ -748,7 +754,7 @@ class WarrantyCaseAdmin extends BaseAdmin
                 $object->addAppointment($apmt);
             }
         }
-
+        
         $sss = $object->getServiceSheets();
         /** @var ServiceSheet $ss */
         foreach ($sss as $ss) {
@@ -761,11 +767,11 @@ class WarrantyCaseAdmin extends BaseAdmin
                         $ss->addImage($m);
                     }
                 }
-
+                
             }
         }
     }
-
+    
     /**
      * @param WarrantyCase $object
      */
@@ -776,7 +782,7 @@ class WarrantyCaseAdmin extends BaseAdmin
 //			$object->setEnabled(true);
 //		}
     }
-
+    
     /**
      * @param WarrantyCase $object
      */
@@ -784,13 +790,13 @@ class WarrantyCaseAdmin extends BaseAdmin
     {
         parent::preUpdate($object);
     }
-
+    
     ///////////////////////////////////
     ///
     ///
     ///
     ///////////////////////////////////
-
+    
     /**
      * {@inheritdoc}
      */
@@ -816,7 +822,7 @@ class WarrantyCaseAdmin extends BaseAdmin
                     'datepicker_use_button' => false,
                 ],
             ],
-
+            
             'label' => 'form.label_opened_on',
             'show_filter' => true
         ]);
@@ -834,7 +840,7 @@ class WarrantyCaseAdmin extends BaseAdmin
                     'datepicker_use_button' => false,
                 ],
             ],
-
+            
             'label' => 'form.label_closed_on',
             'show_filter' => true
         ]);

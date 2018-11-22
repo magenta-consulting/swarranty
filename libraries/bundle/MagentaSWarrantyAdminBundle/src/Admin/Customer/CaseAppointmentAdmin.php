@@ -328,7 +328,9 @@ class CaseAppointmentAdmin extends BaseAdmin {
 				'btn_add'  => false,
 				'query'    => $canReceiveCaseMemberQuery
 			])
-			->add('serviceNote.description', null, [ 'label' => 'form.label_service_note' ])
+			->add('serviceNote.description', null, [
+			    'label' => 'form.label_fault_analysis'
+            ])
 			->add('amountCollected', MoneyType::class, [
 				'label'    => 'form.label_amount_collected',
 				'required' => false,
