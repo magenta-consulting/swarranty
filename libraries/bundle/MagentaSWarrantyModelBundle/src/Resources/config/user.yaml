@@ -14,6 +14,14 @@ services:
         arguments: ['@magenta_user.util.user_manipulator']
         tags:
             - {name: "console.command", command: "magenta:user:create"}
+
+    magenta_user.command.change_password:
+        class: Magenta\Bundle\SWarrantyModelBundle\Command\User\ChangePasswordCommand
+        public: false
+        arguments: ['@magenta_user.util.user_manipulator']
+        tags:
+            - {name: "console.command", command: "magenta:user:change-password"}
+
     magenta_user.command.promote_user:
         class: Magenta\Bundle\SWarrantyModelBundle\Command\User\PromoteUserCommand
         arguments: ['@magenta_user.util.user_manipulator']

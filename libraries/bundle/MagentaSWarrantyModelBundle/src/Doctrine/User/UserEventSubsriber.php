@@ -28,98 +28,105 @@ use Magenta\Bundle\SWarrantyModelBundle\Util\User\PasswordUpdaterInterface;
  * @author Christophe Coevoet <stof@notk.org>
  * @author David Buchmann <mail@davidbu.ch>
  */
-class UserEventSubsriber implements EventSubscriber {
-	private $passwordUpdater;
-	private $canonicalFieldsUpdater;
-	
-	public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater) {
-		$this->passwordUpdater        = $passwordUpdater;
-		$this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getSubscribedEvents() {
-		return array(
-			'prePersist',
-			'preUpdate',
-		);
-	}
-	
-	/**
-	 * Pre persist listener based on doctrine common.
-	 *
-	 * @param LifecycleEventArgs $args
-	 */
-	public function prePersist(LifecycleEventArgs $args) {
-		$object = $args->getObject();
-		if($object instanceof UserInterface) {
-			$this->updateUserFields($object);
-		}
-	}
-	
-	/**
-	 * Pre update listener based on doctrine common.
-	 *
-	 * @param LifecycleEventArgs $args
-	 */
-	public function preUpdate(LifecycleEventArgs $args) {
-		$object = $args->getObject();
-		if($object instanceof UserInterface) {
-			$this->updateUserFields($object);
-			$this->recomputeChangeSet($args->getObjectManager(), $object);
-		}
-		
-		//////// MODIF 002 ///////
-		if($object instanceof OrganizationMember) { // this should be placed in Org...Member class
-			/** @var Person $person */
-			if( ! empty($person = $object->getPerson())) {
-				if( ! empty($user = $person->getUser()) && ! empty($user->getPlainPassword())) {
-					$this->updateUserFields($user);
-					$this->recomputeChangeSet($args->getObjectManager(), $user);
-					$args->getObjectManager()->persist($user);
-				}
-			}
-		}
-		//////// END MODIF 002 ///////
-	}
-	
-	/**
-	 * Updates the user properties.
-	 *
-	 * @param UserInterface $user
-	 */
-	private function updateUserFields(UserInterface $user) {
-		//////// MODIF 001 ///////
-		if($user instanceof User) {
-			if( ! empty($person = $user->getPerson())) {
-				$user->setEmail($person->getEmail());
-				$user->setUsername($person->getEmail());
-			}
-		}
-		//////// END MODIF 001 ///////
-		$this->canonicalFieldsUpdater->updateCanonicalFields($user);
-		$this->passwordUpdater->hashPassword($user);
-	}
-	
-	/**
-	 * Recomputes change set for Doctrine implementations not doing it automatically after the event.
-	 *
-	 * @param ObjectManager $om
-	 * @param UserInterface $user
-	 */
-	private function recomputeChangeSet(ObjectManager $om, UserInterface $user) {
-		$meta = $om->getClassMetadata(get_class($user));
-		
-		if($om instanceof EntityManager) {
-			$om->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $user);
-			
-			return;
-		}
-		
-		if($om instanceof DocumentManager) {
-			$om->getUnitOfWork()->recomputeSingleDocumentChangeSet($meta, $user);
-		}
-	}
+class UserEventSubsriber implements EventSubscriber
+{
+    private $passwordUpdater;
+    private $canonicalFieldsUpdater;
+
+    public function __construct(PasswordUpdaterInterface $passwordUpdater, CanonicalFieldsUpdater $canonicalFieldsUpdater)
+    {
+        $this->passwordUpdater = $passwordUpdater;
+        $this->canonicalFieldsUpdater = $canonicalFieldsUpdater;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubscribedEvents()
+    {
+        return [
+            'prePersist',
+            'preUpdate',
+        ];
+    }
+
+    /**
+     * Pre persist listener based on doctrine common.
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof UserInterface) {
+            $this->updateUserFields($object);
+        }
+    }
+
+    /**
+     * Pre update listener based on doctrine common.
+     *
+     * @param LifecycleEventArgs $args
+     */
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $object = $args->getObject();
+        if ($object instanceof UserInterface) {
+            $this->updateUserFields($object);
+            $this->recomputeChangeSet($args->getObjectManager(), $object);
+        }
+
+        //////// MODIF 002 ///////
+        if ($object instanceof OrganizationMember) { // this should be placed in Org...Member class
+            /** @var Person $person */
+            if (!empty($person = $object->getPerson())) {
+                if (!empty($user = $person->getUser()) && !empty($user->getPlainPassword())) {
+                    $this->updateUserFields($user);
+                    $this->recomputeChangeSet($args->getObjectManager(), $user);
+                    $args->getObjectManager()->persist($user);
+                }
+            }
+        }
+        //////// END MODIF 002 ///////
+    }
+
+    /**
+     * Updates the user properties.
+     *
+     * @param UserInterface $user
+     */
+    private function updateUserFields(UserInterface $user)
+    {
+        //////// MODIF 001 ///////
+        if ($user instanceof User) {
+            if (!empty($person = $user->getPerson())) {
+                $user->setEmail($person->getEmail());
+                $user->setUsername($person->getEmail());
+            }
+        }
+        //////// END MODIF 001 ///////
+        $this->canonicalFieldsUpdater->updateCanonicalFields($user);
+        $this->passwordUpdater->hashPassword($user);
+    }
+
+    /**
+     * Recomputes change set for Doctrine implementations not doing it automatically after the event.
+     *
+     * @param ObjectManager $om
+     * @param UserInterface $user
+     */
+    private function recomputeChangeSet(ObjectManager $om, UserInterface $user)
+    {
+        $meta = $om->getClassMetadata(get_class($user));
+
+        if ($om instanceof EntityManager) {
+            $om->getUnitOfWork()->recomputeSingleEntityChangeSet($meta, $user);
+
+            return;
+        }
+
+        if ($om instanceof DocumentManager) {
+            $om->getUnitOfWork()->recomputeSingleDocumentChangeSet($meta, $user);
+        }
+    }
 }
