@@ -24,6 +24,7 @@ if ($debug) {
     Debug::enable();
 }
 
+$request = Request::createFromGlobals();
 Request::setTrustedProxies(
 // trust *all* requests
     ['127.0.0.1', $request->server->get('REMOTE_ADDR')],
