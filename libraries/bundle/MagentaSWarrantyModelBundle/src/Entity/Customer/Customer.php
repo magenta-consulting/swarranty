@@ -5,11 +5,9 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 
 /**
@@ -18,13 +16,12 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  */
 class Customer extends Thing
 {
-    
     public function __construct()
     {
         $this->warranties = new ArrayCollection();
         $this->registrations = new ArrayCollection();
     }
-    
+
     public function mergeWith(Customer $customer)
     {
         $c = $this;
@@ -37,7 +34,7 @@ class Customer extends Thing
             $c->removeRegistration($reg);
             $originalCustomer->addRegistration($reg);
         }
-        
+
         $warranties = $c->getWarranties();
         $toBePersisted[] = $warranties;
         /** @var Warranty $w */
@@ -45,148 +42,149 @@ class Customer extends Thing
             $c->removeWarranty($w);
             $originalCustomer->addWarranty($w);
         }
-        
+
         $c->setEnabled(false);
+
         return $toBePersisted;
     }
-    
+
     public function isSubscribedToNewsletter()
     {
         return !empty($this->newsletterSubscription);
     }
-    
+
     public function generateFullText()
     {
         parent::generateFullText();
-        
-        return $this->fullText .= ' ' . sprintf('email:%s phone:%s address:%s postal:%s', $this->email, $this->telephone, $this->homeAddress, $this->homePostalCode);
+
+        return $this->fullText .= ' '.sprintf('email:%s phone:%s address:%s postal:%s', $this->email, $this->telephone, $this->homeAddress, $this->homePostalCode);
     }
-    
+
     public function initiateEmailVerificationToken()
     {
         if (empty($this->emailVerificationToken)) {
             $this->emailVerificationToken = User::generateCharacterCode(null, 16);
         }
-        
+
         return $this->emailVerificationToken;
     }
-    
+
     /**
      * @var NewsletterSubscription|null
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\NewsletterSubscription", mappedBy="customer", cascade={"persist","merge"})
      */
     protected $newsletterSubscription;
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty", mappedBy="customer", cascade={"persist","merge"})
      */
     protected $warranties;
-    
+
     public function addWarranty(Warranty $w)
     {
         $this->warranties->add($w);
         $w->setCustomer($this);
     }
-    
+
     public function removeWarranty(Warranty $w)
     {
         $this->warranties->removeElement($w);
         $w->setCustomer(null);
     }
-    
+
     /**
      * @var Collection
      * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration", mappedBy="customer", cascade={"persist","merge"})
      */
     protected $registrations;
-    
+
     public function addRegistration(Registration $r)
     {
         $this->registrations->add($r);
         $r->setCustomer($this);
     }
-    
+
     public function removeRegistration(Registration $r)
     {
         $this->registrations->removeElement($r);
         $r->setCustomer(null);
     }
-    
+
     /**
      * @var Organisation|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation", inversedBy="customers", cascade={"persist","merge"})
      * @ORM\JoinColumn(name="id_organisation", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $organisation;
-    
+
     /**
      * @var Person|null
      * @ORM\ManyToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person", cascade={"persist", "merge"}, inversedBy="customers")
      * @ORM\JoinColumn(name="id_person", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $person;
-    
+
     /**
      * @var boolean|null
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $emailVerified = false;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $name;
-    
+
     /**
      * @var \DateTime|null
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $birthDate;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $email;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $emailVerificationToken;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $homeAddress;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $homePostalCode;
-    
+
     /**
      * @var integer|null
      * @ORM\Column(type="integer",nullable=true)
      */
     protected $dialingCode = 65;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $telephone;
-    
+
     /**
      * @var string|null
      * @ORM\Column(type="string",nullable=true)
      */
     protected $addressUnitNumber;
-    
+
     /**
      * @return \DateTime|null
      */
@@ -194,7 +192,7 @@ class Customer extends Thing
     {
         return $this->birthDate;
     }
-    
+
     /**
      * @param \DateTime|null $birthDate
      */
@@ -202,7 +200,7 @@ class Customer extends Thing
     {
         $this->birthDate = $birthDate;
     }
-    
+
     /**
      * @return null|string
      */
@@ -210,7 +208,7 @@ class Customer extends Thing
     {
         return $this->email;
     }
-    
+
     /**
      * @param null|string $email
      */
@@ -218,7 +216,7 @@ class Customer extends Thing
     {
         $this->email = $email;
     }
-    
+
     /**
      * @return null|string
      */
@@ -226,7 +224,7 @@ class Customer extends Thing
     {
         return $this->homeAddress;
     }
-    
+
     /**
      * @param null|string $homeAddress
      */
@@ -234,7 +232,7 @@ class Customer extends Thing
     {
         $this->homeAddress = $homeAddress;
     }
-    
+
     /**
      * @return null|string
      */
@@ -242,7 +240,7 @@ class Customer extends Thing
     {
         return $this->telephone;
     }
-    
+
     /**
      * @param null|string $telephone
      */
@@ -250,7 +248,7 @@ class Customer extends Thing
     {
         $this->telephone = $telephone;
     }
-    
+
     /**
      * @return Person|null
      */
@@ -258,7 +256,7 @@ class Customer extends Thing
     {
         return $this->person;
     }
-    
+
     /**
      * @param Person|null $person
      */
@@ -266,7 +264,7 @@ class Customer extends Thing
     {
         $this->person = $person;
     }
-    
+
     /**
      * @return null|string
      */
@@ -274,7 +272,7 @@ class Customer extends Thing
     {
         return $this->homePostalCode;
     }
-    
+
     /**
      * @param null|string $homePostalCode
      */
@@ -282,7 +280,7 @@ class Customer extends Thing
     {
         $this->homePostalCode = $homePostalCode;
     }
-    
+
     /**
      * @return Collection
      */
@@ -290,7 +288,7 @@ class Customer extends Thing
     {
         return $this->warranties;
     }
-    
+
     /**
      * @param Collection $warranties
      */
@@ -298,7 +296,7 @@ class Customer extends Thing
     {
         $this->warranties = $warranties;
     }
-    
+
     /**
      * @return null|integer
      */
@@ -306,15 +304,15 @@ class Customer extends Thing
     {
         return $this->dialingCode;
     }
-    
+
     /**
-     * @param null|integer $dialingCode
+     * @param null|int $dialingCode
      */
     public function setDialingCode(?int $dialingCode): void
     {
         $this->dialingCode = $dialingCode;
     }
-    
+
     /**
      * @return Collection
      */
@@ -322,7 +320,7 @@ class Customer extends Thing
     {
         return $this->registrations;
     }
-    
+
     /**
      * @param Collection $registrations
      */
@@ -330,7 +328,7 @@ class Customer extends Thing
     {
         $this->registrations = $registrations;
     }
-    
+
     /**
      * @return boolean|null
      */
@@ -338,15 +336,15 @@ class Customer extends Thing
     {
         return $this->emailVerified;
     }
-    
+
     /**
-     * @param boolean|null $emailVerified
+     * @param bool|null $emailVerified
      */
     public function setEmailVerified(?bool $emailVerified): void
     {
         $this->emailVerified = $emailVerified;
     }
-    
+
     /**
      * @return null|string
      */
@@ -354,7 +352,7 @@ class Customer extends Thing
     {
         return $this->emailVerificationToken;
     }
-    
+
     /**
      * @param null|string $emailVerificationToken
      */
@@ -362,7 +360,7 @@ class Customer extends Thing
     {
         $this->emailVerificationToken = $emailVerificationToken;
     }
-    
+
     /**
      * @return null|string
      */
@@ -370,7 +368,7 @@ class Customer extends Thing
     {
         return $this->addressUnitNumber;
     }
-    
+
     /**
      * @param null|string $addressUnitNumber
      */
@@ -378,6 +376,4 @@ class Customer extends Thing
     {
         $this->addressUnitNumber = $addressUnitNumber;
     }
-    
-    
 }
