@@ -12,16 +12,10 @@ namespace Magenta\Bundle\SWarrantyModelBundle\Command\Customer;
 
 use Doctrine\ORM\EntityManager;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Customer;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Registration;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
-use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserManipulator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * @author Matthieu Bontemps <matthieu@knplabs.com>
@@ -31,20 +25,20 @@ use Symfony\Component\Console\Question\Question;
 class CleanUpOrphanCustomerCommand extends Command
 {
     protected static $defaultName = 'magenta:customer:clean-up-orphan';
-    
+
     /** @var RegistryInterface */
     private $registry;
-    
+
     /** @var EntityManager */
     private $entityManager;
-    
+
     public function __construct(RegistryInterface $registry, EntityManager $em)
     {
         parent::__construct();
         $this->registry = $registry;
         $this->entityManager = $em;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -54,7 +48,7 @@ class CleanUpOrphanCustomerCommand extends Command
             ->setName(self::$defaultName)
             ->setDescription('Clean up orphan Customers.');
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -66,7 +60,7 @@ class CleanUpOrphanCustomerCommand extends Command
         $customers = $customerRepo->findAll();
         /** @var Customer $c */
         foreach ($customers as $c) {
-            if ($c->getRegistrations()->count() === 0 && $c->getWarranties()->count() === 0) {
+            if (0 === $c->getRegistrations()->count() && 0 === $c->getWarranties()->count()) {
                 $output->writeln($c->getName());
                 $this->entityManager->remove($c);
             }

@@ -14,7 +14,5 @@
         <property name="imageServiceSheet" serialized-name="id_image_service_sheet"
                   type="magenta_customer_service_sheet_id" expose="true" since-version="1.0"
                   groups="sonata_api_read,sonata_api_write"/>
-
-
     </class>
 </serializer>
