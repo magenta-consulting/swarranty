@@ -106,7 +106,10 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
         $pCat = 'N.A';
         if (!empty($reg = $this->registration)) {
             $dor = $reg->getCreatedAt()->format('d-m-Y');
+        } else {
+            $dor = $this->createdAt->format('d-m-Y');
         }
+        
         $product = $this->product;
         if (!empty($cat = $product->getCategory())) {
             $pCat = $cat->getName();
@@ -343,43 +346,43 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
     protected $createdAt;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $warrantyApprovalNotified = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $extendedWarrantyPeriodApproved = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $approved = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $rejected = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $enabled = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":false})
      */
     protected $expired = false;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", options={"default":true})
      */
     protected $new = true;
@@ -387,13 +390,13 @@ class Warranty extends FullTextSearch implements ThingChildInterface, DecisionMa
     /**
      * in months.
      *
-     * @var integer|null
+     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $warrantyPeriod;
 
     /**
-     * @var integer|null
+     * @var int|null
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $extendedWarrantyPeriod;
