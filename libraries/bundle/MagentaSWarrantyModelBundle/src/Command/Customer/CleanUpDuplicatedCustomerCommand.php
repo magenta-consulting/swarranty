@@ -19,9 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * @author Matthieu Bontemps <matthieu@knplabs.com>
- * @author Thibault Duplessis <thibault.duplessis@gmail.com>
- * @author Luis Cordova <cordoval@gmail.com>
+ * @author Peter Bean <peter@magenta-wellness.com>
  */
 class CleanUpDuplicatedCustomerCommand extends Command
 {
