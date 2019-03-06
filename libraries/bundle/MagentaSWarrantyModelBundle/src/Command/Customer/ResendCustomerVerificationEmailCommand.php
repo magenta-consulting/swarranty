@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ResendCustomerVerificationEmailCommand extends Command
 {
-    protected static $defaultName = 'magenta:customer:clean-up-duplicates';
+    protected static $defaultName = 'magenta:customer:resend-customer-verification-email';
 
     /** @var RegistryInterface */
     private $registry;
@@ -39,7 +39,7 @@ class ResendCustomerVerificationEmailCommand extends Command
         parent::__construct();
         $this->registry = $registry;
         $this->entityManager = $em;
-        $this->mailer - $mailer;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -49,7 +49,7 @@ class ResendCustomerVerificationEmailCommand extends Command
     {
         $this
             ->setName(self::$defaultName)
-            ->setDescription('Clean up orphan Customers.');
+            ->setDescription('Resend Customer Verification Emails.');
     }
 
     /**
@@ -58,7 +58,7 @@ class ResendCustomerVerificationEmailCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $manager = $this->entityManager;
-        $output->writeln('Cleaning up duplicated Customers');
+        $output->writeln('Resend Customer Verification Emails');
         $customerRepo = $this->registry->getRepository(Customer::class);
 
         $customers = $customerRepo->findBy(['emailVerified' => false,
@@ -73,7 +73,7 @@ class ResendCustomerVerificationEmailCommand extends Command
             $email = $c->getEmail();
 
             if (empty($email)) {
-                $output->write('Empty Email');
+                $output->write('Empty Email from '.$c->getName());
 
                 return;
             }

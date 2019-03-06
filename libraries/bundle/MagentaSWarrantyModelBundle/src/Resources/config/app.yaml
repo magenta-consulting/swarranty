@@ -61,5 +61,5 @@ services:
         public: false
         arguments: ['@doctrine','@doctrine.orm.default_entity_manager','@mailer']
         tags:
-            - {name: "console.command", command: "magenta:customer:clean-up-duplicates"}
+            - {name: "console.command", command: "magenta:customer:resend-customer-verification-email"}
 
