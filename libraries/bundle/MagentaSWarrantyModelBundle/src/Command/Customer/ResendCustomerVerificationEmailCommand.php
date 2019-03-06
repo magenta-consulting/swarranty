@@ -80,6 +80,10 @@ class ResendCustomerVerificationEmailCommand extends Command
 
             /** @var Registration $reg */
             $reg = $c->getRegistrations()->last();
+            if (empty($reg)) {
+                $output->writeln('empty reg '.$c->getName());
+                continue;
+            }
             $msg = $reg->prepareEmailVerificationMessage();
             $email = $msg['recipient'];
             $customer = $reg->getCustomer();
