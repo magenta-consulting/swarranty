@@ -63,6 +63,9 @@ class ResendCustomerVerificationEmailCommand extends Command
 
         $customers = $customerRepo->findBy(['emailVerified' => false,
         ]);
+        if (0 === count($customers)) {
+            $output->write('No Email to work with');
+        }
 
         /** @var Customer $customer */
         foreach ($customers as $customer) {
@@ -98,6 +101,7 @@ class ResendCustomerVerificationEmailCommand extends Command
                 */
             ;
 
+            $output->writeln('Sending email to '.$email);
             $this->mailer->send($message);
 
             $output->writeln('Flushing');
