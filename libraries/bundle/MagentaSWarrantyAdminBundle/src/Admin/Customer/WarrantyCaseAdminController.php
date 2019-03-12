@@ -4,37 +4,25 @@ namespace Magenta\Bundle\SWarrantyAdminBundle\Admin\Customer;
 
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseCRUDAdminController;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\Warranty;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\WarrantyCase;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Brand;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\System\DecisionMakingInterface;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
 use Magenta\Bundle\SWarrantyModelBundle\Service\SpreadsheetWriter;
-use Magenta\Bundle\SWarrantyModelBundle\Service\User\UserService;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\FormView;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\PropertyPath;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Exception\InvalidArgumentException;
 
 class WarrantyCaseAdminController extends BaseCRUDAdminController
 {
-
     public function listAction()
     {
         $this->admin->setTemplate('base_list', '@MagentaSWarrantyAdmin/Admin/Customer/WarrantyCase/CRUD/list.html.twig');
@@ -46,7 +34,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
 
     /**
      * @param ProxyQueryInterface $selectedModelQuery
-     * @param Request $request
+     * @param Request             $request
      *
      * @return RedirectResponse
      */
@@ -71,17 +59,17 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
             }
 
             $htmlDisplayUrl = $this->get('router')->generate('service_sheet', [
-                'cases' => $cases
+                'cases' => $cases,
             ], RouterInterface::ABSOLUTE_URL);
-            $response = new RedirectResponse($this->getParameter('PDF_API_BASE_URL') . $this->getParameter('PDF_DOWNLOAD_PREFIX') . str_replace('?', '%3F', $htmlDisplayUrl) . '/' . 'service-sheets_' . $d->format('d-m-Y'));
+            $response = new RedirectResponse($this->getParameter('PDF_API_BASE_URL').$this->getParameter('PDF_DOWNLOAD_PREFIX').str_replace('?', '%3F', $htmlDisplayUrl).'/'.'service-sheets_'.$d->format('d-m-Y'));
 
             return $response;
         } catch (\Exception $e) {
-            $this->addFlash('sonata_flash_error', 'flash_batch_merge_error ' . $e->getMessage() . ' -> ' . $e->getTraceAsString());
+            $this->addFlash('sonata_flash_error', 'flash_batch_merge_error '.$e->getMessage().' -> '.$e->getTraceAsString());
 
             return new RedirectResponse(
                 $this->admin->generateUrl('list', [
-                    'filter' => $this->admin->getFilterParameters()
+                    'filter' => $this->admin->getFilterParameters(),
                 ])
             );
         }
@@ -90,7 +78,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
 
         return new RedirectResponse(
             $this->admin->generateUrl('list', [
-                'filter' => $this->admin->getFilterParameters()
+                'filter' => $this->admin->getFilterParameters(),
             ])
         );
     }
@@ -108,18 +96,17 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
     public function exportAction(Request $request)
     {
         /**
-         * @var ContainerInterface $c
+         * @var ContainerInterface
          */
         $c = $this->container;
 
-//		$this->admin->checkAccess('export');
+        //		$this->admin->checkAccess('export');
         $format = $request->get('format');
 
         $adminExporter = $this->get('sonata.admin.admin_exporter');
         $allowedExportFormats = array_merge($adminExporter->getAvailableFormats($this->admin), ['pdf']);
-//		$filename             = $adminExporter->getExportFilename($this->admin, $format);
-//		$exporter             = $this->get('sonata.exporter.exporter');
-
+        //		$filename             = $adminExporter->getExportFilename($this->admin, $format);
+        //		$exporter             = $this->get('sonata.exporter.exporter');
 
         if (!in_array($format, $allowedExportFormats)) {
             throw new \RuntimeException(
@@ -132,7 +119,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
             );
         }
 
-        if ($format === 'xls') {
+        if ('xls' === $format) {
             $format = 'xlsx';
         }
         $filename = sprintf(
@@ -142,7 +129,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
             $format
         );
 
-        if ($format === 'pdf') {
+        if ('pdf' === $format) {
             $d = new \DateTime();
 
             $source = $this->admin->getDataSourceIterator();
@@ -153,47 +140,47 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
             }
 
             $htmlDisplayUrl = $c->get('router')->generate('service_sheet', [
-                'cases' => $cases
+                'cases' => $cases,
             ], RouterInterface::ABSOLUTE_URL);
-            $response = new RedirectResponse($c->getParameter('PDF_API_BASE_URL') . $c->getParameter('PDF_DOWNLOAD_PREFIX') . str_replace('?', '%3F', $htmlDisplayUrl) . '/' . 'service-sheets_' . $d->format('d-m-Y'));
+            $pdfUrl = $c->getParameter('PDF_API_BASE_URL').$c->getParameter('PDF_DOWNLOAD_PREFIX').str_replace('?', '%3F', $htmlDisplayUrl).'/'.'service-sheets_'.$d->format('d-m-Y');
+            $response = new RedirectResponse($pdfUrl);
 
             return $response;
-        } else if ($format === 'xlsx') {
+        } elseif ('xlsx' === $format) {
             // ask the service for a Excel5
             $phpExcelObject = new Spreadsheet();
 
-            $phpExcelObject->getProperties()->setCreator("Solution")
-                ->setLastModifiedBy("Solution")
-                ->setTitle("Download - Raw Data")
-                ->setSubject("Order Item - Raw Data")
-                ->setDescription("Raw Data")
-                ->setKeywords("office 2005 openxml php")
-                ->setCategory("Raw Data Download");
+            $phpExcelObject->getProperties()->setCreator('Solution')
+                ->setLastModifiedBy('Solution')
+                ->setTitle('Download - Raw Data')
+                ->setSubject('Order Item - Raw Data')
+                ->setDescription('Raw Data')
+                ->setKeywords('office 2005 openxml php')
+                ->setCategory('Raw Data Download');
 
             $phpExcelObject->setActiveSheetIndex(0);
             $activeSheet = $phpExcelObject->getActiveSheet();
 
-//			$activeSheet
-//				->setCellValue('A1', "ID")
-//				->setCellValue('B1', "Number")
-//				->setCellValue('C1', "Priority")
-//				->setCellValue('D1', "Date Created")
-//				->setCellValue('E1', "Date Closed")
-//				->setCellValue('F1', "Product Brand")
-//				->setCellValue('G1', "Product Category")
-//				->setCellValue('H1', "Product Model Number")
-//			Product Serial NUmbers, Date of DElivery,
-//				->setCellValue('I1', "Case Description")
-//				->setCellValue('J1', "Service Notes")
-//				->setCellValue('K1', "Special Notes")
-//				->setCellValue('L1', "Technicians")
-//				->setCellValue('M1', "Service Zones")
-//				->setCellValue('N1', "Customer Name")//			            ->setCellValue('O1', "Technician Name(s)")
-//				->setCellValue('O1', "Customer Unit/Block")
-//				->setCellValue('P1', "Customer Address")
-//				->setCellValue('Q1', "Customer Contact Number")
-//				6.2 In the excel downoad file we also need to have the Customer's Address (all 3 lines),  contact number
-            ;
+            //			$activeSheet
+            //				->setCellValue('A1', "ID")
+            //				->setCellValue('B1', "Number")
+            //				->setCellValue('C1', "Priority")
+            //				->setCellValue('D1', "Date Created")
+            //				->setCellValue('E1', "Date Closed")
+            //				->setCellValue('F1', "Product Brand")
+            //				->setCellValue('G1', "Product Category")
+            //				->setCellValue('H1', "Product Model Number")
+            //			Product Serial NUmbers, Date of DElivery,
+            //				->setCellValue('I1', "Case Description")
+            //				->setCellValue('J1', "Service Notes")
+            //				->setCellValue('K1', "Special Notes")
+            //				->setCellValue('L1', "Technicians")
+            //				->setCellValue('M1', "Service Zones")
+            //				->setCellValue('N1', "Customer Name")//			            ->setCellValue('O1', "Technician Name(s)")
+            //				->setCellValue('O1', "Customer Unit/Block")
+            //				->setCellValue('P1', "Customer Address")
+            //				->setCellValue('Q1', "Customer Contact Number")
+            //				6.2 In the excel downoad file we also need to have the Customer's Address (all 3 lines),  contact number
 
             // Set active sheet index to the first sheet, so Excel opens this as the first sheet
             $phpExcelObject->setActiveSheetIndex(0);
@@ -226,9 +213,9 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
                 ->writeCellAndGoRight('Technicians')
                 ->writeCellAndGoRight('Service Zones')
                 ->writeCellAndGoRight('Customer Name')
-                ->writeCellAndGoRight("Unit/Block")
-                ->writeCellAndGoRight("Customer Address")
-                ->writeCellAndGoRight("Contact Number");
+                ->writeCellAndGoRight('Unit/Block')
+                ->writeCellAndGoRight('Customer Address')
+                ->writeCellAndGoRight('Contact Number');
 
             $sWriter->goLeft();
 
@@ -269,10 +256,10 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
                         if (!empty($c = $p->getCategory())) {
                             $category = $c->getName();
                         }
-                        $modelNumber = '' . $p->getModelNumber();
+                        $modelNumber = ''.$p->getModelNumber();
                     }
 
-                    $serialNumber = '' . $w->getProductSerialNumber();
+                    $serialNumber = ''.$w->getProductSerialNumber();
                     if (!empty($dop = $w->getPurchaseDate())) {
                         $purchaseDate = $dop->format('d - m - Y');
                     }
@@ -287,10 +274,10 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
                     foreach ($apmts as $apmt) {
                         $totalAmountCollected += $apmt->getAmountCollected();
                         if (!empty($_partsReplaced = $apmt->getPartsReplaced())) {
-                            $partsReplaced .= ', ' . $_partsReplaced;
+                            $partsReplaced .= ', '.$_partsReplaced;
                         }
                         if (!empty($_productIssue = $apmt->getPartsReplaced())) {
-                            $productIssue .= ', ' . $_productIssue;
+                            $productIssue .= ', '.$_productIssue;
                         }
                     }
                 }
@@ -319,14 +306,13 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
                 $sWriter->writeCellAndGoRight($customer->getAddressUnitNumber());
                 $sWriter->writeCellAndGoRight($customer->getHomeAddress());
                 $sWriter->writeCellAndGoRight($customer->getTelephone());
-
             }
 
             // create the writer
             $writer = new Xlsx($phpExcelObject);
-//			$writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
+            //			$writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
             // create the response
-//			$response = $this->get('phpexcel')->createStreamedResponse($writer);
+            //			$response = $this->get('phpexcel')->createStreamedResponse($writer);
             $response = new StreamedResponse(
                 function () use ($writer) {
                     $writer->save('php://output');
@@ -339,7 +325,7 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
             $response->headers->set('Pragma', 'public');
             $response->headers->set('Cache-Control', 'maxage=1');
 
-            $response->headers->set('Content-Disposition', 'attachment;filename=' . $filename);
+            $response->headers->set('Content-Disposition', 'attachment;filename='.$filename);
 
             return $response;
         }
@@ -347,11 +333,9 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
         return parent::exportAction($request);
     }
 
-    protected
-    function getDecision(
+    protected function getDecision(
         $action
-    ): ?string
-    {
+    ): ?string {
         $d = parent::getDecision($action);
         if (empty($d)) {
             $d = strtoupper($action);
@@ -360,12 +344,10 @@ class WarrantyCaseAdminController extends BaseCRUDAdminController
         return $d;
     }
 
-    protected
-    function preRenderDecision(
+    protected function preRenderDecision(
         $action, $object
-    )
-    {
-        if ($action !== 'show') {
+    ) {
+        if ('show' !== $action) {
             return $this->redirect($this->admin->generateObjectUrl('edit', $object, []));
         }
     }
