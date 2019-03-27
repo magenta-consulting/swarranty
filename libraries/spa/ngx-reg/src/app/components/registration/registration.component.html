@@ -120,8 +120,8 @@
                 </div>
                 <div *ngIf="!isPreview('homeAddress')" class="input-group mb-2">
                     <input [(ngModel)]="customer.homeAddress" type="text" class="form-control"
-                           placeholder="Your Address"
-                           aria-label="Your Address"
+                           placeholder="Your Address (incl. /Block/House Number)"
+                           aria-label="Your Address (incl. /Block/House Number)"
                            (keyup.enter)="updateField('homeAddress')"
                            (blur)="updateField('homeAddress')"
                            autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search
@@ -132,7 +132,7 @@
                 <div *ngIf="isPreview('homeAddress')" (click)="editPreview('homeAddress')"
                      class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
-                        <span class="input-group-text">Your Address </span>
+                        <span class="input-group-text">Your Address (incl. /Block/House Number) </span>
                     </div>
                     <div class="form-control preview-text">
                         <span>{{customer.homeAddress}}</span>
@@ -144,7 +144,7 @@
                 <div *ngIf="isPreview('addressUnitNumber')" (click)="editPreview('addressUnitNumber')"
                      class="input-group mb-2 preview-container">
                     <div class="input-group-prepend preview-label">
-                        <span class="input-group-text">Unit/Block/House Number </span>
+                        <span class="input-group-text">Unit Number </span>
                     </div>
                     <div class="form-control preview-text">
                         <span>{{customer.addressUnitNumber}}</span>
@@ -155,8 +155,8 @@
                 </div>
                 <div *ngIf="!isPreview('addressUnitNumber')" class="input-group mb-2">
                     <input [(ngModel)]="customer.addressUnitNumber" type="text" class="form-control"
-                           placeholder="Unit/Block/House Number"
-                           aria-label="Unit/Block/House Number"
+                           placeholder="Unit Number"
+                           aria-label="Unit Number"
                            (keyup.enter)="updateField('addressUnitNumber')"
                            (blur)="updateField('addressUnitNumber')"
                     >

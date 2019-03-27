@@ -1,3 +1,4 @@
+/// <reference types="@types/googlemaps" />
 import {
     AfterViewInit,
     Component,
@@ -31,7 +32,7 @@ import {MapsAPILoader} from '@agm/core';
 import {CompleterService, CompleterData} from 'ng2-completer';
 import {NewsletterSubscriptionService} from '../../service/newsletter-subscription.service';
 
-import {} from 'googlemaps';
+// import {} from 'googlemaps';
 
 @Component({
     selector: 'app-registration',
