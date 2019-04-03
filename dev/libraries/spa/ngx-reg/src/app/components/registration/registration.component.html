@@ -1,0 +1,399 @@
+<div class="row">
+    <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+        <div class="text-center">
+            <h3>Customer and Product Registration</h3>
+            <section>
+                <h5>Customer Details</h5>
+                <div *ngIf="!isPreview('customerName')">
+                    <div class="input-group mb-2">
+                        <input [(ngModel)]="customer.name" type="text" class="form-control"
+                               placeholder="(*) Your Full name"
+                               aria-label="Your Full name"
+                               (keyup.enter)="updateField('customerName')"
+                               (blur)="updateField('customerName')">
+                    </div>
+                </div>
+                <div *ngIf="isPreview('customerName')" (click)="editPreview('customerName')">
+                    <div class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Full Name </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>{{customer.name}}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="checkingError && (customer.name == null || customer.name == '')" class="alert alert-danger"
+                     role="alert">
+                    This field is required
+                </div>
+                <div *ngIf="!isPreview('customerTelephone')">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span *ngIf="!isDialingCodeEditing" (click)="editDialingCode()" class="input-group-text">+{{customer.dialingCode}}</span>
+                            <input #dialingCode [focus]="focusDialingCodeEM" *ngIf="isDialingCodeEditing"
+                                   style="width: 45px;" type="number" class="form-control mr-1" value="65"
+                                   aria-label="Country Dialing Code"
+                                   (keyup.enter)="updateDialingCode(dialingCode.value)"
+                                   (blur)="updateDialingCode(dialingCode.value)">
+                        </div>
+                        <input type="number" [(ngModel)]="customer.telephone" class="form-control"
+                               placeholder="(*) Contact Number"
+                               aria-label="Contact Number"
+                               [focus]="focusPhoneNumberEM"
+                               (keyup.enter)="updateField('customerTelephone')"
+                               (blur)="updateField('customerTelephone'); checkPhoneNotEnoughNumbers($event)"
+                               (keypress)="checkPhone($event)"
+                        />
+                    </div>
+                </div>
+                <div *ngIf="isPreview('customerTelephone')" (click)="editPreview('customerTelephone')">
+                    <div class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Contact Number </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>+{{customer.dialingCode}} {{ customer.telephone }}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="phoneNumberError || (checkingError && (!customer.telephone || customer.telephone.toString().length != 8))"
+                     class="alert alert-danger" role="alert">
+                    <span *ngIf="!customer.telephone">This field is required</span>
+                    <span *ngIf="customer.telephone && customer.telephone.toString().length != 8">Contact number must contain 8 digits</span>
+                </div>
+                <div *ngIf="!isPreview('emailAddress')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.email" type="text" class="form-control" placeholder="Email Address"
+                           aria-label="Email Address"
+                           (keyup.enter)="updateField('emailAddress')"
+                           (focus)="typingEmail=true"
+                           (blur)="updateField('emailAddress'); typingEmail=false;"
+                           (change)="customer.email = customer.email.trim().toLowerCase()"
+                    >
+                </div>
+                <div *ngIf="isPreview('emailAddress')" (click)="editPreview('emailAddress')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Email Address </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{customer.email}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="!isEmailValid() && !typingEmail" class="alert alert-danger" role="alert">
+                    Email must be valid!
+                </div>
+                <div *ngIf="!isPreview('emailConfirm')" class="input-group mb-2">
+                    <input [(ngModel)]="emailConfirm" type="text" class="form-control"
+                           placeholder="Confirm Email Address"
+                           aria-label="Confirm Email Address"
+                           (keyup.enter)="updateField('emailConfirm')"
+                           (blur)="updateField('emailConfirm'); typingConfirm=false"
+                           (focus)="typingConfirm=true"
+                           (change)="emailConfirm = emailConfirm.trim().toLowerCase()"
+                    >
+                </div>
+                <div *ngIf="isPreview('emailConfirm')" (click)="editPreview('emailConfirm')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Confirm Email Address </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{emailConfirm}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="customer.email && emailConfirm != customer.email && !typingConfirm && !typingEmail"
+                     class="alert alert-danger" role="alert">
+                    The Confirmation Email must match your Email!
+                </div>
+                <div *ngIf="!isPreview('homeAddress')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.homeAddress" type="text" class="form-control"
+                           placeholder="Your Address (incl. /Block/House Number)"
+                           aria-label="Your Address (incl. /Block/House Number)"
+                           (keyup.enter)="updateField('homeAddress')"
+                           (blur)="updateField('homeAddress')"
+                           autocorrect="off" autocapitalize="off" spellcheck="off" type="text" #search
+                           [formControl]="searchControl"
+                    >
+
+                </div>
+                <div *ngIf="isPreview('homeAddress')" (click)="editPreview('homeAddress')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Your Address (incl. /Block/House Number) </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{customer.homeAddress}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="isPreview('addressUnitNumber')" (click)="editPreview('addressUnitNumber')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Unit Number </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{customer.addressUnitNumber}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="!isPreview('addressUnitNumber')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.addressUnitNumber" type="text" class="form-control"
+                           placeholder="Unit Number"
+                           aria-label="Unit Number"
+                           (keyup.enter)="updateField('addressUnitNumber')"
+                           (blur)="updateField('addressUnitNumber')"
+                    >
+                </div>
+                <div *ngIf="!isPreview('homePostalCode')" class="input-group mb-2">
+                    <input [(ngModel)]="customer.homePostalCode" type="text" class="form-control"
+                           placeholder="Postal Code"
+                           aria-label="Postal Code"
+                           (keyup.enter)="updateField('homePostalCode')"
+                           (blur)="updateField('homePostalCode')"
+                           type="number"
+                    >
+                </div>
+                <div *ngIf="isPreview('homePostalCode')" (click)="editPreview('homePostalCode')"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Postal Code </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{customer.homePostalCode}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+            </section>
+            <h3>Product Purchase Information</h3>
+            <section *ngFor="let warranty of warranties; index as i; first as isFirst">
+                <div *ngIf="!isFirst" class="remove-product mb-2" (click)="removeWarranty(warranty)">
+                    <fa size="lg" name="minus-square"></fa>
+                    Remove
+                </div>
+                <div *ngIf="!isPreview('productBrand'+i)">
+                    <div class="input-group mb-2">
+                        <ng-select class="mb-2" (change)="selectBrand($event,warranty)" [items]="warranty.brands"
+                                   bindLabel="name"
+                                   placeholder="(*) Product Brand"
+                                   [(ngModel)]="warranty.selectedBrand"
+                                   (blur)="updateField('productBrand'+i)">
+                        </ng-select>
+                    </div>
+                </div>
+                <div *ngIf="isPreview('productBrand'+i)" (click)="editPreview('productBrand'+i)">
+                    <div class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Product Brand </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>{{warranty.selectedBrand.name}}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="checkingError && warranty.selectedBrand == null" class="alert alert-danger" role="alert">
+                    This field is required
+                </div>
+                <div *ngIf="!warranty.isCategoryHidden">
+                    <div *ngIf="!isPreview('productCategory'+i)" class="input-group mb-2">
+                        <ng-select (change)="selectCategory($event,warranty)" class="mb-2"
+                                   [items]="warranty.categories"
+                                   bindLabel="name"
+                                   placeholder="(*) Product Category"
+                                   [(ngModel)]="warranty.selectedCategory"
+                                   (blur)="updateField('productCategory'+i)">
+                        </ng-select>
+                    </div>
+                    <div *ngIf="isPreview('productCategory'+i)" (click)="editPreview('productCategory'+i)"
+                         class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Product Category </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>{{warranty.selectedCategory.name}}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                    <div *ngIf="checkingError && warranty.selectedCategory == null" class="alert alert-danger"
+                         role="alert">
+                        This field is required
+                    </div>
+                </div>
+                <div *ngIf="!warranty.isProductHidden">
+                    <div *ngIf="!isPreview('modelName'+i)" class="input-group mb-2">
+                        <ng-select class="mb-2" [items]="warranty.products"
+                                   bindLabel="modelNumber"
+                                   placeholder="(*) Model Number"
+                                   [(ngModel)]="warranty.selectedProduct"
+                                   (blur)="updateField('modelName'+i)">
+                        </ng-select>
+                    </div>
+                    <div *ngIf="isPreview('modelName'+i)" (click)="editPreview('modelName'+i)"
+                         class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Model Number </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>{{warranty.selectedProduct.modelNumber}}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                    <div *ngIf="checkingError && warranty.selectedProduct == null" class="alert alert-danger"
+                         role="alert">
+                        This field is required
+                    </div>
+                </div>
+                <div *ngIf="!isPreview('purchaseDate'+i)">
+                    <div class="input-group mb-2">
+                        <input [(ngModel)]="warranty.purchaseDate" type="text"
+                               placeholder="(*) Delivery Date (DD-MM-YYYY)"
+                               class="form-control"
+                               [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+                               (ngModelChange)="updateField('purchaseDate'+i)"
+                               bsDatepicker/>
+                    </div>
+                </div>
+                <div *ngIf="isPreview('purchaseDate'+i)" (click)="editPreview('purchaseDate'+i)">
+                    <div class="input-group mb-2 preview-container">
+                        <div class="input-group-prepend preview-label">
+                            <span class="input-group-text">Delivery Date </span>
+                        </div>
+                        <div class="form-control preview-text">
+                            <span>{{warranty.purchaseDate|date}}</span>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><fa name="edit"></fa></span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="checkingError && warranty.purchaseDate == null" class="alert alert-danger" role="alert">
+                    This field is required
+                </div>
+                <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-1">
+                    <input [(ngModel)]="warranty.productSerialNumber" type="text" class="form-control"
+                           placeholder="(*) Product Serial Number"
+                           aria-label="Product Serial Number"
+                           (keyup.enter)="updateField('productSerialNumber'+i)"
+                           (blur)="updateField('productSerialNumber'+i)">
+                </div>
+                <div *ngIf="!isPreview('productSerialNumber'+i)" class="input-group mb-2"><a href="{{organisation.psnLocationUrl}}" target="_blank">Where
+                    to find the product serial number.</a></div>
+                <div *ngIf="isPreview('productSerialNumber'+i)" (click)="editPreview('productSerialNumber'+i)"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Serial Number </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{warranty.productSerialNumber}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+                <div *ngIf="checkingError && warranty.productSerialNumber == null" class="alert alert-danger"
+                     role="alert">
+                    This field is required
+                </div>
+                <div *ngIf="!isPreview('dealerName'+i)" class="input-group mb-2">
+                    <ng-select class="mb-2" [items]="warranty.dealers"
+                               bindLabel="name"
+                               placeholder="Dealer's Name"
+                               [(ngModel)]="warranty.selectedDealer"
+                               (blur)="updateField('dealerName'+i)">
+                    </ng-select>
+                </div>
+                <div *ngIf="isPreview('dealerName'+i)" (click)="editPreview('dealerName'+i)"
+                     class="input-group mb-2 preview-container">
+                    <div class="input-group-prepend preview-label">
+                        <span class="input-group-text">Dealer's Name </span>
+                    </div>
+                    <div class="form-control preview-text">
+                        <span>{{warranty.selectedDealer ? warranty.selectedDealer.name : ''}}</span>
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text"><fa name="edit"></fa></span>
+                    </div>
+                </div>
+            </section>
+            <div *ngIf="!isFormPreview" class="input-group mb-2" style="cursor: pointer;" (click)="addWarranty()">
+                <fa size="lg" name="plus-square"></fa>
+                <span class="add-product-text"> Add another Product</span>
+            </div>
+            <section *ngIf="!isFormPreview" class="checkboxes">
+                <div *ngIf="customer.email" class="form-check">
+                    <input type="checkbox" aria-label="Checkbox for following text input"
+                           id="newsletterSubscription" [(ngModel)]="subscribeNewsletter">
+                    <label class="form-check-label" for="newsletterSubscription">
+                        Keep me updated on new {{organisation.name}} product and promotions.
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input required="required" type="checkbox" [(ngModel)]="isAgreedToTermsAndPolicy"
+                           aria-label="Checkbox for following text input" id="agreeTos">
+                    <label class="form-check-label" for="agreeTos">
+                        I have read and agree to the <a (click)="lgModal.show();getInforModal(1); false">Warranty Terms
+                        and Conditions</a> and <a (click)="lgModal.show();getInforModal(2);false">{{organisation.name}}
+                        Data Protection Policy</a>.
+                    </label>
+                </div>
+                <div *ngIf="!isAgreedToTermsAndPolicy && checkingError" class="alert alert-danger" role="alert">
+                    Please read and agree to our Terms, Conditions and Policy.
+                </div>
+            </section>
+            <section>
+                <div class="input-group mb-2">
+                    <button *ngIf="!isFormPreview" (click)="submit()" type="button"
+                            class="btn btn-primary form-control">REGISTER
+                    </button>
+                    <button *ngIf="isFormPreview" (click)="submit()" type="button" class="btn btn-danger form-control"
+                            [disabled]="!isOk() || processing">CONFIRM
+                    </button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div bsModal #lgModal="bs-modal" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">{{modalTitle}}</h4>
+                <button type="button" class="close pull-right" (click)="lgModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" [innerHtml]="modalContent">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="lgModal.hide()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

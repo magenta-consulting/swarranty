@@ -1,0 +1,48 @@
+<div class="success-wrap">
+    <div class="text-center">
+        <h3>SUCCESSFULLY SUBMITTED</h3>
+        <p class="note">If you have specified an email address earlier. A copy of this product registration will be sent to your email for your reference.</p>
+        <div class="success-list"
+        *ngIf="!isLoading">
+            <div *ngIf="prodList.length > 0">
+                <div
+                *ngFor="let warranty of prodList; index as i;"
+                class="success-item">
+                    <p>Warranty Registration ID: {{warranty.number}}</p>
+                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>
+                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>
+                    <p>Product Category: {{warranty.product.category.name}}</p>
+                    <p>Model Number: {{warranty.product.modelNumber}}</p>
+                    <p>Serial Number: {{warranty.productSerialNumber}}</p>
+                </div>
+                <div>
+                    All hoods have a default motor warranty period of 3 years.
+                </div>
+            </div>
+            <div
+            *ngIf="prodList.length == 0"
+            class="success-item">
+                No data
+            </div>
+
+            <div class="text-center cancel-wrap">
+                <button (click)="openModal(modalRemoveRegId)" type="button" class="btn btn-primary">Register a new Product </button>
+            </div>
+            <ng-template #modalRemoveRegId>
+                <div class="modal-body text-center">
+                    <p>Do you really want to redirect to page registration ?</p>
+                    <div class="cancel-wrap">
+                        <button (click)="clearRegistration()" type="button" class="btn btn-primary">YES</button>
+                        <button (click)="modalRef.hide()" type="button" class="btn btn-secondary btn-cancel">NO</button>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+        <!-- Loading -->
+        <div
+        *ngIf="isLoading"
+        class="text-center">
+            <div class="lds-hourglass"></div>
+        </div>
+    </div>
+</div>

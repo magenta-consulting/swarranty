@@ -1,0 +1,78 @@
+.blk-upload {
+  .col-right {
+    .upload-inner {
+      width: 80%;
+      margin: 0 auto;
+    }
+  }
+  .col-left {
+    min-height: 349px;
+    position: relative;
+    h5 {
+      width: 70%;
+      margin: 0 auto;
+    }
+    .upload-inner {
+      // position: absolute;
+      // top: 50%;
+      // left: 0;
+      // right: 0;
+      // z-index: 1;
+      // transform: translateY(-50%);
+      position: relative;
+      &::before {
+        content: "";
+        display: block;
+        width: 1px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        background-color: #ddd;
+      }
+      &::after {
+        content: "OR";
+        display: block;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 13px;
+        font-weight: bold;
+        position: absolute;
+        right: -15px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #fff;
+        border-radius: 50%;
+        color: #000;
+        z-index: 2;
+      }
+    }
+  }
+}
+.blk-upload {
+  position: relative;
+  h3 {
+    margin-bottom: 20px;
+  }
+  h5 {
+    margin-bottom: 10px;
+  }
+  img {
+    width: 180px;
+    display: block;
+    margin: 0 auto;
+  }
+  .upload-itm {
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #ddd;
+    &:last-child {
+      border-bottom: none;
+    }
+    p {
+      margin-bottom: 5px;
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "_from": "bootstrap-modal-ios",
+  "_id": "bootstrap-modal-ios@1.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-Xdew03y6UC/sTfngckstWsWs23KlgSjovBhYzEJ03UuPCaa/8mA8fpyV989eIOAOdqMVCI7Mz8lhqO/Ugj3Uyg==",
+  "_location": "/bootstrap-modal-ios",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "bootstrap-modal-ios",
+    "name": "bootstrap-modal-ios",
+    "escapedName": "bootstrap-modal-ios",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/bootstrap-modal-ios/-/bootstrap-modal-ios-1.0.1.tgz",
+  "_shasum": "0d3aa9c7d1c31b2af4128bfec25b106c6c907d08",
+  "_spec": "bootstrap-modal-ios",
+  "_where": "/home/nguyentruong/workspace/magenta/swarranty/dev/libraries/spa/ngx-reg",
+  "author": {
+    "name": "Radoslav Sharapanov",
+    "email": "spacest@gmail.com",
+    "url": "http://github.com/radogado"
+  },
+  "bugs": {
+    "url": "https://github.com/radogado/bootstrap-modal-ios/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  },
+  "deprecated": false,
+  "description": "Bootstrap Modal for iOS stops page scrolling while a modal is displayed and adjusts the overlay position according to iOS Safari toolbars.",
+  "devDependencies": {},
+  "homepage": "https://github.com/radogado/bootstrap-modal-ios#readme",
+  "keywords": [
+    "bootstrap",
+    "modal",
+    "ios",
+    "safari",
+    "fixed",
+    "position"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "bootstrap-modal-ios",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radogado/bootstrap-modal-ios.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.1"
+}

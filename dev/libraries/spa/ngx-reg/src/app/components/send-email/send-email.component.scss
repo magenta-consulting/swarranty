@@ -1,0 +1,22 @@
+.email-note {
+    width: 400px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+    p {
+        margin-bottom: 0;
+    }
+}
+.send-email-wrap {
+    .note {
+        width: 500px;
+        margin: 0 auto;
+    }
+    h3 {
+        margin-bottom: 30px;
+    }
+}

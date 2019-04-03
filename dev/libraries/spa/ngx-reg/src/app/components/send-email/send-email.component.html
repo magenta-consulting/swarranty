@@ -1,0 +1,44 @@
+<div class="send-email-wrap">
+    <div
+    *ngIf="!isLoading"
+    class="text-center">
+        <h3>Almost There! Just One More Step:)</h3>
+        <div
+        *ngIf="dataCustomer.email && dataCustomer.email != ''"
+        class="email-note">
+            <p>An email has been sent to <a href="mailto:{{dataCustomer.email}}">{{dataCustomer.email}}</a> </p>
+            <p>Please check your email to verify your email address and receive the Registration Confirmation.</p>
+        </div>
+        <div
+        *ngIf="dataVerify != '' "
+        class="note alert alert-success">
+            {{dataVerify}}
+        </div>
+        <div
+        *ngIf="verifyFail"
+        class="note alert alert-danger">
+            Error! Pls contact admin to help via <a href="mailto: peter@magenta-wellness.com">peter@magenta-wellness.com</a>.
+        </div>
+        <p
+        *ngIf="!isClick"
+        class="note">If you have waited for over 30 seconds and have not received an email. Please check your spam or junk mailbox. If it’s still not in there, click <a href="javascript:;" (click)="resendEmail($event)">Resend </a></p>
+        <div class="text-center cancel-wrap">
+            <button (click)="openModal(modalRemoveRegId)" type="button" class="btn btn-secondary">Cancel</button>
+        </div>
+        <ng-template #modalRemoveRegId>
+            <div class="modal-body text-center">
+                <p>Do you really want to redirect to page registration ?</p>
+                <div class="cancel-wrap">
+                    <button (click)="clearRegistration()" type="button" class="btn btn-primary">YES</button>
+                    <button (click)="modalRef.hide()" type="button" class="btn btn-secondary btn-cancel">NO</button>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <!-- Loading -->
+    <div
+    *ngIf="isLoading"
+    class="text-center">
+        <div class="lds-hourglass"></div>
+    </div>
+</div>

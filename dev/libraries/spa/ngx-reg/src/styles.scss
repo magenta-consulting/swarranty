@@ -1,0 +1,243 @@
+/* You can add global styles to this file, and also import other style files */
+.ng-dropdown-panel.ng-select-bottom {
+  left: 0%;
+}
+
+ng-select {
+  text-align: left;
+}
+
+.fa-lg {
+  font-size: 2em;
+}
+
+.fa-plus-square {
+  color: #28a745;
+}
+
+.fa-minus-square {
+  color: #dc3545;
+}
+.ng2-ipt {
+  width: 100%;
+  &:focus {
+    outline: none;
+  }
+}
+.form-control {
+  outline: none;
+  &:focus {
+    outline: none;
+  }
+}
+.completer-dropdown {
+  width: 100% !important;
+  text-align: left;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid #ccc !important;
+  margin-top: 1px !important;
+  border-top-color: transparent;
+}
+.completer-row:hover {
+  background: #ebf5ff !important;
+  color: #333 !important;
+}
+// .completer-input {
+//   display: block;
+//     width: 100%;
+//     padding: .375rem .75rem;
+//     font-size: 1rem;
+//     line-height: 1.5;
+//     color: #495057;
+//     background-color: #fff;
+//     background-clip: padding-box;
+//     border: 1px solid #ced4da;
+//     border-radius: .25rem;
+//     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+// }
+.lds-hourglass {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+.lds-hourglass:after {
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  width: 0;
+  height: 0;
+  margin: 6px;
+  margin-top: 50px;
+  box-sizing: border-box;
+  border: 26px solid #007bff;
+  border-color: #007bff transparent #007bff transparent;
+  animation: lds-hourglass 1.2s infinite;
+}
+
+@keyframes lds-hourglass {
+  0% {
+    transform: rotate(0);
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  }
+  50% {
+    transform: rotate(900deg);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  100% {
+    transform: rotate(1800deg);
+  }
+}
+.custome-upload{
+  .img-ul-button {
+    background: #007bff !important;
+    text-transform: none !important;
+    width: 100%;
+  }
+  .img-ul-file-upload {
+    padding: 0 !important;
+  }
+  .img-ul-drag-box-msg,
+  .img-ul-clear {
+    display: none !important;
+  }
+  .img-ul-image {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .img-ul-image {
+    border: 1px solid #ddd;
+  }
+  .img-ul-container {
+    padding: 0 !important;
+  }
+  .img-ul-x-mark,
+  .img-ul-close {
+    width: 14px!important;
+    height: 14px!important;
+  }
+  .img-ul-close {
+    &::before, &::after {
+      height: 8px !important;
+      right: 0 !important;
+    }
+  }
+}
+.btn-cancel {
+  margin-left: 15px;
+}
+.cancel-wrap {
+  margin-top: 15px;
+}
+// CSS RESPONSIVE
+
+.custome-upload.warning {
+  .img-ul-button {
+    background: #ffc107 !important;
+  }
+}
+
+.custome-upload {
+  .img-ul-button {
+    background: #007bff !important;
+    text-transform: none !important;
+    width: 100%;
+  }
+  .img-ul-file-upload {
+    padding: 0 !important;
+  }
+  .img-ul-drag-box-msg,
+  .img-ul-clear {
+    display: none !important;
+  }
+  .img-ul-image {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  .img-ul-image {
+    border: 1px solid #ddd;
+  }
+  .img-ul-container {
+    padding: 0;
+  }
+  .img-ul-x-mark,
+  .img-ul-close {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .img-ul-close {
+    &::before, &::after {
+      height: 8px !important;
+      right: 0 !important;
+    }
+  }
+}
+
+// CSS RESPONSIVE
+
+@media (max-width: 1200px) {
+  h3 {
+    font-size: 22px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 992px) {
+  .blk-upload {
+    .col-left {
+      display: none;
+    }
+    .col-right {
+      -ms-flex: 0 0 100%;
+      flex: 0 0 100%;
+      max-width: 100%;
+      .upload-inner {
+        width: 300px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  h3 {
+    font-size: 20px;
+  }
+  h5 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .send-email-wrap {
+    .note {
+      width: 100% !important;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .blk-upload {
+    .col-right {
+      .upload-inner {
+        width: 100% !important;
+      }
+    }
+  }
+  .email-note {
+    width: 100% !important;
+  }
+  .success-list {
+    .success-item {
+      width: 100% !important;
+    }
+  }
+  .success-wrap {
+    .note {
+      width: 100% !important;
+    }
+  }
+}

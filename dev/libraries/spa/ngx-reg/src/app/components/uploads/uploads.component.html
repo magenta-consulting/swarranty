@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-md-10 offset-md-1 blk-upload">
+        <div
+                *ngIf="!isLoading"
+                class=" text-center">
+            <h3>Upload Receipt</h3>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-left">
+                    <div
+                            *ngIf="qrCodeImg != ''"
+                            class="upload-inner">
+                        <h5>Scan this QR Code to open this page on your phone</h5>
+                        <img src={{qrCodeImg}} alt=""/>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-12 col-right">
+                    <div class="upload-inner ">
+                        <h5> Use this form to upload/ capture pictures from your device </h5>
+                        <div class="upload-lst"
+                             *ngIf="prodList.length != 0">
+                            <div
+                                    *ngFor="let prod of prodList; index as i;"
+                                    class="upload-itm">
+                                <div class="inner">
+                                    <p>Product Category: {{prod.product.category.name}}</p>
+                                    <p>Model Number: {{prod.product.modelNumber}}</p>
+                                    <p>Serial Number: {{prod.productSerialNumber}}</p>
+                                </div>
+
+                                <!--<button type="button" class="btn btn-warning form-control">Upload/Take a Picture Now</button>-->
+
+                                <!--<image-upload-->
+                                <!--class="custome-upload warning d-block d-sm-none"-->
+                                <!--url="prod.uploadUrl"-->
+                                <!--partName="binaryContent"-->
+                                <!--[beforeUpload]="onBeforeUpload"-->
+                                <!--(removed)="onRemoved($event)"-->
+                                <!--(uploadFinished)="onUploadFinished($event, prod.id)"-->
+                                <!--(uploadStateChanged)="onUploadStateChanged($event)"-->
+                                <!--buttonCaption="Take a Picture Now"></image-upload>-->
+
+                                <image-upload
+                                        class="custome-upload"
+                                        [url]=prod.uploadUrl
+                                        partName="binaryContent"
+                                        [uploadedFiles]="prod.imageUrl"
+                                        [beforeUpload]="onBeforeUpload"
+                                        (removed)="onRemoved($event)"
+                                        (uploadFinished)="onUploadFinished($event)"
+                                        (uploadStateChanged)="onUploadStateChanged($event)"
+                                        buttonCaption="Upload a Picture Now"></image-upload>
+                            </div>
+                        </div>
+
+                        <div class="upload-lst"
+                             *ngIf="prodList.length == 0">
+                            <h5>No data</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button (click)="submitRegistration()" type="button" class="btn btn-primary">
+                        Submit
+                    </button>
+
+                    <button (click)="openModal(modalRemoveRegId)" type="button" class="btn btn-secondary btn-cancel">Cancel</button>
+                </div>
+
+                <ng-template #modalRemoveRegId>
+                    <div class="modal-body text-center">
+                        <p>Do you really want to redirect to page registration ?</p>
+                        <div class="cancel-wrap">
+                            <button (click)="clearRegistration()" type="button" class="btn btn-primary">YES</button>
+                            <button (click)="modalRef.hide()" type="button" class="btn btn-secondary btn-cancel">NO</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div
+                *ngIf="isLoading"
+                class="text-center">
+            <div class="lds-hourglass"></div>
+        </div>
+    </div>
+</div>
