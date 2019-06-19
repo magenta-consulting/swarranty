@@ -3,16 +3,7 @@
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Person\Person;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Dealer;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\Product;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Product\ServiceZone;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearch;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearchInterface;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\System\Thing;
-
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\OrganisationMember;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
@@ -23,7 +14,6 @@ use Magenta\Bundle\SWarrantyModelBundle\Entity\User\User;
  */
 class CaseAppointment extends FullTextSearch
 {
-
     const STATUS_NEW = 'NEW';
     const STATUS_VIEWED = 'VIEWED';
     const STATUS_VISITED = 'VISITED';
@@ -97,7 +87,6 @@ class CaseAppointment extends FullTextSearch
 
     public function generateFullText()
     {
-
         if (!empty($this->assignee)) {
             $name = $this->assignee->getPerson()->getName();
         } else {
@@ -111,7 +100,6 @@ class CaseAppointment extends FullTextSearch
         }
 
         $this->fullText = $name.' - '.$at;
-
     }
 
     public function generateSearchText()
@@ -186,20 +174,17 @@ class CaseAppointment extends FullTextSearch
      */
     protected $appointmentAt;
 
+    /**
+     * @var \DateTime|null
+     * @ORM\Column(type="time", nullable=true)
+     */
+    protected $appointmentFrom;
 
     /**
      * @var \DateTime|null
      * @ORM\Column(type="time", nullable=true)
      */
-    protected
-        $appointmentFrom;
-
-    /**
-     * @var \DateTime|null
-     * @ORM\Column(type="time", nullable=true)
-     */
-    protected
-        $appointmentTo;
+    protected $appointmentTo;
 
     /**
      * @var \DateTime|null
