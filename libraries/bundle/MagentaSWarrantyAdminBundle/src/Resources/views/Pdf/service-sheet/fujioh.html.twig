@@ -113,7 +113,7 @@
             </tr>
             <tr>
               <td title>Home Contact: </td>
-              <td content></td>
+              <td content> {{ case.warranty.customer.telephone }} </td>
             </tr>
             <tr>
               <td title>Mobile Contact: </td>
@@ -123,17 +123,22 @@
               <td title>Address: </td>
               <td content>
                 <div class="multiline">
-                  {{ case.warranty.customer.addressUnitNumber }}
+                  {% set postalCode = case.warranty.customer.homePostalCode %}
+                  {{ case.warranty.customer.homeAddress | replace({(postalCode): ''})   }}
                 </div>
               </td>
             </tr>
             <tr>
               <td title>&nbsp;</td>
-              <td content>{{ case.warranty.customer.homeAddress  }}</td>
+              <td content>
+                {{ case.warranty.customer.addressUnitNumber }}
+                </td>
             </tr>
             <tr>
               <td title>&nbsp;</td>
-              <td content></td>
+              <td content>
+                {{ postalCode }}
+              </td>
             </tr>
             {#<tr>#}
             {#<td title>&nbsp;</td>#}
@@ -148,7 +153,7 @@
           </table>
         </div>
         <div class="col-6">
-          <table class="fullwidth title-100">
+          <table class="fullwidth title-200">
             <tr>
               <td title>Model No: </td>
               <td content>{{ case.warranty.product.modelNumber }}</td>
@@ -169,15 +174,15 @@
           <table class="fullwidth title-200">
             <tr>
               <td title>Delivery Date: </td>
-              <td content>{{ case.warranty.purchaseDate|date('d-m-Y') }}</td>
+              <td content colspan="5">{{ case.warranty.purchaseDate|date('d-m-Y') }}</td>
             </tr>
             <tr>
               <td title>Installed by: </td>
-              <td content></td>
+              <td content colspan="5"></td>
             </tr>
             <tr>
               <td title>Warranty Card No: </td>
-              <td content> {{ case.warranty.number }} </td>
+              <td content colspan="5"> {{ case.warranty.number }} </td>
             </tr>
             <tr>
               <td title>Warranty: </td>
@@ -185,15 +190,22 @@
                 <input type="checkbox" name="warranty" value="Yes" id="warranty-yes"
                        {% if not case.isWarrantyExpired %}checked="checked"{% endif %}
                 ><label for="warranty-yes">Yes</label>
+
                 <input type="checkbox" name="warranty" value="No" id="warranty-no"
                        {% if case.isWarrantyExpired %}checked="checked"{% endif %}
                 ><label for="warranty-no">No</label>
+              </td>
+              <td style="vertical-align: top" rowspan="2" colspan="2">
+                <div style="text-align: center;">Special Request:</div>
+                {{ case.specialRemarks }}
               </td>
             </tr>
             <tr>
               <td title>Date & Time of Service: </td>
               <td content>
                 {{ case.appointmentAt | date('d/m/Y H:i') }} - {{ case.appointmentTo | date('H:i') }}
+              </td>
+              <td colspan="2">
               </td>
             </tr>
           </table>
@@ -202,12 +214,19 @@
       <div class="row">
         <div class="col-12">
 
-          <table border="1px" class="fullwidth title-180">
-            <tr>
-              <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>
-              <td style="border-left: none;border-bottom:none;">{{ case.description|raw }} </td>
-            </tr>
-          </table>
+{#          <table border="1px" class="fullwidth title-180">#}
+{#            <tr>#}
+{#              <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>#}
+{#              <td style="border-left: none;border-bottom:none;"> </td>#}
+{#            </tr>#}
+{#          </table>#}
+
+            <div style="margin-bottom: 5px; border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
+                <b>Fault Analysis: </b>
+
+                    <p style="margin-bottom: 0px">{{ case.description|raw }}</p>
+
+            </div>
 
 
           <div style="border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
@@ -225,6 +244,7 @@
             </tr>
             <tr>
               <th>Parts</th>
+              <th>Part Code</th>
               <th>Quantity</th>
               <th>Amount</th>
               <th>Remarks</th>
@@ -233,23 +253,6 @@
             <tbody>
             <tr>
               <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
-            <tr>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
               <td>&nbsp;</td>
@@ -267,11 +270,11 @@
                 </tr>
                 <tr>
                   <td title>Services/Labour: </td>
-                  <td content>$</td>
+                  <td content>${{ case.currentAppointment.serviceCost }}</td>
                 </tr>
                 <tr>
                   <td title>Total: </td>
-                  <td content>$</td>
+                  <td content>${{ case.currentAppointment.amountCollected }}</td>
                 </tr>
               </table>
             </div>
@@ -284,7 +287,7 @@
                     </tr>
                     <tr>
                       <td title style="width: 180px">Transport/Inspection: </td>
-                      <td content>$</td>
+                      <td content>${{ case.currentAppointment.transportAndInspectionCost }}</td>
                     </tr>
                   </table>
                 </div>
@@ -295,7 +298,7 @@
                     </tr>
                     <tr>
                       <td title style="width: 60px">Parts: </td>
-                      <td content>$</td>
+                      <td content>${{ case.currentAppointment.partsCost }}</td>
                     </tr>
                   </table>
                 </div>
@@ -333,7 +336,7 @@
           <div class="row">
             <div>
               <b><u>Customer Acknowledgement</u></b><br>
-              I comfirm that the above work/services has been completed to my satisfaction and acknowledge the following conditions :
+              I confirm that the above work/services has been completed to my satisfaction and acknowledge the following conditions :
             </div>
             <div style="margin-top:10px;">
               (i) Fujioh Int'l Tdg Pte Ltd provides one (1) month warranty on service and three(3) months on parts replaced.</div>

@@ -6,17 +6,17 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Magenta\Bundle\SWarrantyAdminBundle\Admin\BaseAdmin;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\CaseAppointment;
+use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceNote;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet;
-use Magenta\Bundle\SWarrantyModelBundle\Entity\Media\Media;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\ModelType;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Datagrid\ProxyQuery;
-use Sonata\MediaBundle\Form\Type\MediaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class ServiceSheetAdmin extends BaseAdmin
+class ReplacedPartAdmin extends BaseAdmin
 {
     protected function configureDatagridFilters(DatagridMapper $filter)
     {
@@ -38,11 +38,8 @@ class ServiceSheetAdmin extends BaseAdmin
 
     public function getNewInstance()
     {
-        /** @var ServiceSheet $object */
+        /** @var ServiceNote $object */
         $object = parent::getNewInstance();
-        if (0 === $object->getImages()->count()) {
-            $object->addImage(new Media());
-        }
 
         return $object;
     }
@@ -90,45 +87,20 @@ class ServiceSheetAdmin extends BaseAdmin
         $qb = $apmtQuery->getQueryBuilder();
         $caseId = $this->getRequest()->query->getInt('case', 0);
         if (empty($caseId)) {
-            /** @var ServiceSheet $ss */
+            /** @var ServiceNote $ss */
             if (!empty($ss = $this->subject)) {
                 if (!empty($case = $ss->getCase())) {
                     $caseId = $case->getId();
                 }
             }
         }
+
         $apmtQuery->andWhere($expr->eq('o.case', $caseId));
-
-        $formMapper
-            ->add('images', CollectionType::class,
-                [
-                    // each entry in the array will be an "media" field
-                    'entry_type' => MediaType::class,
-                    'allow_add' => true,
-                    'allow_delete' => true,
-//					'source'        => $c->getParameter('MEDIA_API_BASE_URL') . $c->getParameter('MEDIA_API_PREFIX'),
-                    // these options are passed to each "media" type
-                    'entry_options' => [
-                        'new_on_update' => false,
-                        'attr' => ['class' => 'receipt-image'],
-                        'context' => 'service_sheet',
-                        'provider' => 'sonata.media.provider.image',
-                    ],
-
-                    'label' => 'form.label_image',
-//					'class'         => Media::class
-                ]);
-
-        if ($caseId > 0) {
-            //			$formMapper->add('appointment', ModelType::class, [
-//				'required'    => false,
-//				'query'       => $apmtQuery,
-//				'placeholder' => 'Select Appointment',
-//				'property'    => 'searchText',
-//				'btn_add'     => false
-//
-//			]);
-        }
+        $formMapper->add('name', TextType::class, ['required' => false]);
+        $formMapper->add('code', TextType::class, ['required' => false]);
+        $formMapper->add('quantity', NumberType::class, ['required' => false]);
+        $formMapper->add('amount', MoneyType::class, ['required' => false]);
+        $formMapper->add('remarks', TextType::class, ['required' => false]);
     }
 
     protected function verifyDirectParent(
@@ -137,7 +109,7 @@ class ServiceSheetAdmin extends BaseAdmin
     }
 
     /**
-     * @param ServiceSheet $object
+     * @param ServiceNote $object
      */
     public function preValidate(
         $object

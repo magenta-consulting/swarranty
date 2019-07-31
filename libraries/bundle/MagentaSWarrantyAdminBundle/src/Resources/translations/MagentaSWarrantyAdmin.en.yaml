@@ -91,6 +91,7 @@ layout:
 
 # Admin strings
 sidebar_left:
+    replacedpart: Replaced Part Detail
     messagetemplate: Communication Template
     caseappointment: Customer Appointment
     servicesheet: Service Sheet
@@ -148,6 +149,13 @@ form_field:
     label_customer_email: Customer Email
 
 form:
+    label_code: Code
+    label_quantity: Quantity
+    label_amount: Amount
+    label_remarks: Remarks
+    label_transport_inspection_cost: Transport/Inspection Cost
+    label_parts_cost: Parts Cost
+    label_service_cost: Service Cost
     label_amount_collected: Amount Collected
     label_parts_replaced: Parts Replaced
     label_product_issue: Product Issue

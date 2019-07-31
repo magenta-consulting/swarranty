@@ -11,6 +11,8 @@ parameters:
     PDF_API_BASE_URL:  '%env(resolve:PDF_API_BASE_URL)%'
     PDF_DOWNLOAD_PREFIX: '%env(resolve:PDF_DOWNLOAD_PREFIX)%'
 
+    sonata.media.thumbnail.format: Magenta\Bundle\SWarrantyModelBundle\SonataMedia\Thumbnail\FormatThumbnail
+
 doctrine:
     dbal:
         types:
@@ -416,6 +418,7 @@ sonata_media:
         service_sheet:
             providers:
                 - sonata.media.provider.image
+                - sonata.media.provider.file
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
@@ -423,6 +426,7 @@ sonata_media:
         receipt_image:
             providers:
                 - sonata.media.provider.image
+                - sonata.media.provider.file
             download:
                 strategy: sonata.media.security.public_strategy
                 mode: http
@@ -481,6 +485,39 @@ sonata_media:
     providers:
         image:
             filesystem: sonata.media.filesystem.s3
+        file:
+            filesystem: sonata.media.filesystem.s3
+            allowed_mime_types:
+                - application/octet-stream
+                - binary/octet-stream
+                - application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                - image/jpeg
+                - image/gif
+                - image/tiff
+                # Defaults:
+                - application/pdf
+                - application/x-pdf
+                - application/rtf
+                - text/html
+                - text/rtf
+                - text/plain
+                - application/excel
+                - application/msword
+                - application/vnd.ms-excel
+                - application/vnd.ms-powerpoint
+                - application/vnd.ms-powerpoint
+                - application/vnd.oasis.opendocument.text
+                - application/vnd.oasis.opendocument.graphics
+                - application/vnd.oasis.opendocument.presentation
+                - application/vnd.oasis.opendocument.spreadsheet
+                - application/vnd.oasis.opendocument.chart
+                - application/vnd.oasis.opendocument.formula
+                - application/vnd.oasis.opendocument.database
+                - application/vnd.oasis.opendocument.image
+                - text/comma-separated-values
+                - text/xml
+                - application/xml
+                - application/zip
 
     filesystem:
         local:

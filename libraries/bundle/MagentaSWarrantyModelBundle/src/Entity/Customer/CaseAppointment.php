@@ -2,6 +2,8 @@
 
 namespace Magenta\Bundle\SWarrantyModelBundle\Entity\Customer;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\Organisation\Organisation;
 use Magenta\Bundle\SWarrantyModelBundle\Entity\System\FullTextSearch;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,6 +31,7 @@ class CaseAppointment extends FullTextSearch
 
     public function __construct()
     {
+        $this->replacedParts = new ArrayCollection();
         $this->createdAt = new \DateTime();
         $this->initiateServiceSheet();
     }
@@ -130,6 +133,12 @@ class CaseAppointment extends FullTextSearch
     }
 
     /**
+     * @var Collection|null
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ReplacedPart", mappedBy="appointment", cascade={"persist","merge"})
+     */
+    protected $replacedParts;
+
+    /**
      * @var ServiceSheet|null
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", mappedBy="appointment", cascade={"persist","merge"})
      */
@@ -191,6 +200,24 @@ class CaseAppointment extends FullTextSearch
      * @ORM\Column(type="datetime", nullable=true)
      */
     protected $visitedAt;
+
+    /**
+     * @var float|null
+     * @ORM\Column(type="float",options={"default":0}, precision=2)
+     */
+    protected $serviceCost = 0;
+
+    /**
+     * @var float|null
+     * @ORM\Column(type="float",options={"default":0}, precision=2)
+     */
+    protected $transportAndInspectionCost = 0;
+
+    /**
+     * @var float|null
+     * @ORM\Column(type="float",options={"default":0}, precision=2)
+     */
+    protected $partsCost = 0;
 
     /**
      * @var float|null
@@ -474,5 +501,69 @@ class CaseAppointment extends FullTextSearch
     public function setProductIssue(?string $productIssue): void
     {
         $this->productIssue = $productIssue;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getReplacedParts(): ?Collection
+    {
+        return $this->replacedParts;
+    }
+
+    /**
+     * @param Collection|null $replacedParts
+     */
+    public function setReplacedParts(?Collection $replacedParts): void
+    {
+        $this->replacedParts = $replacedParts;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getServiceCost(): ?float
+    {
+        return $this->serviceCost;
+    }
+
+    /**
+     * @param float|null $serviceCost
+     */
+    public function setServiceCost(?float $serviceCost): void
+    {
+        $this->serviceCost = $serviceCost;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getTransportAndInspectionCost(): ?float
+    {
+        return $this->transportAndInspectionCost;
+    }
+
+    /**
+     * @param float|null $transportAndInspectionCost
+     */
+    public function setTransportAndInspectionCost(?float $transportAndInspectionCost): void
+    {
+        $this->transportAndInspectionCost = $transportAndInspectionCost;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getPartsCost(): ?float
+    {
+        return $this->partsCost;
+    }
+
+    /**
+     * @param float|null $partsCost
+     */
+    public function setPartsCost(?float $partsCost): void
+    {
+        $this->partsCost = $partsCost;
     }
 }
