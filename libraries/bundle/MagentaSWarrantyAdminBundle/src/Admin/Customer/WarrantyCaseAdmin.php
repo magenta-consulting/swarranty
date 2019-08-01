@@ -696,6 +696,10 @@ class WarrantyCaseAdmin extends BaseAdmin
         /** @var CaseAppointment $apmt */
         foreach ($apmts as $apmt) {
             if (!empty($apmt)) {
+                foreach ($apmt->getReplacedParts() as $part) {
+                    $apmt->addReplacedPart($part);
+                }
+
                 $note = $apmt->getServiceNote();
                 if (!empty($note) && empty($note->getDescription())) {
                     $apmt->setServiceNote(null);

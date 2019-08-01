@@ -138,6 +138,18 @@ class CaseAppointment extends FullTextSearch
      */
     protected $replacedParts;
 
+    public function addReplacedPart(ReplacedPart $part)
+    {
+        $this->replacedParts->add($part);
+        $part->setAppointment($this);
+    }
+
+    public function removeReplacedPart(ReplacedPart $part)
+    {
+        $this->replacedParts->removeElement($part);
+        $part->setAppointment(null);
+    }
+
     /**
      * @var ServiceSheet|null
      * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ServiceSheet", mappedBy="appointment", cascade={"persist","merge"})

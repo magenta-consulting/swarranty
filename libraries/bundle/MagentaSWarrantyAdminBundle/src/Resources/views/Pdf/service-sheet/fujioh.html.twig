@@ -186,7 +186,7 @@
             </tr>
             <tr>
               <td title>Warranty: </td>
-              <td>
+              <td colspan="2">
                 <input type="checkbox" name="warranty" value="Yes" id="warranty-yes"
                        {% if not case.isWarrantyExpired %}checked="checked"{% endif %}
                 ><label for="warranty-yes">Yes</label>
@@ -195,7 +195,7 @@
                        {% if case.isWarrantyExpired %}checked="checked"{% endif %}
                 ><label for="warranty-no">No</label>
               </td>
-              <td style="vertical-align: top" rowspan="2" colspan="2">
+              <td style="vertical-align: top" rowspan="2" colspan="3">
                 <div style="text-align: center;">Special Request:</div>
                 {{ case.specialRemarks }}
               </td>
@@ -204,8 +204,6 @@
               <td title>Date & Time of Service: </td>
               <td content>
                 {{ case.appointmentAt | date('d/m/Y H:i') }} - {{ case.appointmentTo | date('H:i') }}
-              </td>
-              <td colspan="2">
               </td>
             </tr>
           </table>
@@ -251,13 +249,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-              <td>&nbsp;</td>
-            </tr>
+            {% for part in case.currentAppointment.replacedParts %}
+              <tr>
+                <td>{{part.name}}</td>
+                <td>{{part.code}}</td>
+                <td>{{ part.quantity }}</td>
+                <td>{{part.amount}}</td>
+                <td>{{ part.remarks }}</td>
+              </tr>
+            {% endfor %}
             </tbody>
           </table>
 
