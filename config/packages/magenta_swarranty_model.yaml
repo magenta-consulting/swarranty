@@ -1,3 +1,11 @@
+services:
+    sonata_media_resizer:
+        class: Magenta\Bundle\SWarrantyModelBundle\SonataMedia\Resizer\SimpleResizer
+        arguments:
+            - '@sonata.media.adapter.image.gd'
+            - '%sonata.media.resizer.simple.adapter.mode%'
+            - '@sonata.media.metadata.proxy'
+
 parameters:
     s3_version: latest
     s3_bucket_name: magenta-consulting
@@ -485,6 +493,7 @@ sonata_media:
     providers:
         image:
             filesystem: sonata.media.filesystem.s3
+            resizer: sonata_media_resizer
         file:
             filesystem: sonata.media.filesystem.s3
             allowed_mime_types:

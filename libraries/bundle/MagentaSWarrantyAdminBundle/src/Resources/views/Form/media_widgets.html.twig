@@ -24,13 +24,20 @@
             {% if value is not empty and value.providerReference %}
                 <div class="pull-left" style="margin-right: 5px">
                     {#{% thumbnail value, 'admin' with {'class': 'img-polaroid media-object'} %}#}
+                    {% if value.contentType != 'application/pdf' %}
                     <!-- Button trigger modal -->
                     <span class="img-thumbnail"
                           data-src="{{ privateMediumUrl(value.id,'reference') }}"
                           data-toggle="modal" data-target="#admin-modal">
-                                    <img src="{{ privateMediumUrl(value.id,'reference') }}"
+                                    <img src="{{ privateMediumUrl(value.id,'admin') }}"
                                          class="img-polaroid media-object" width="200"/>
                     </span>
+                    {% else %}
+                        <a href="{{ privateMediumUrl(value.id,'reference') }}" target="_blank">
+                                    <img src="{{ privateMediumUrl(value.id,'admin') }}"
+                                         class="img-polaroid media-object" width="200"/>
+                        </a>
+                    {% endif %}
                 </div>
             {% else %}
                 <div class="pull-left" style="margin-right: 5px">
