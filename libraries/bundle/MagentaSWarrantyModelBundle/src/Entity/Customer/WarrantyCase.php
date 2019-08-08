@@ -258,8 +258,8 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface
     }
 
     /**
-     * @var ServiceNote|null
-     * @ORM\OneToOne(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ReplacedPart", mappedBy="case", cascade={"persist","merge"})
+     * @var ArrayCollection|null
+     * @ORM\OneToMany(targetEntity="Magenta\Bundle\SWarrantyModelBundle\Entity\Customer\ReplacedPart", mappedBy="case", cascade={"persist","merge"})
      */
     protected $replacedParts;
 
@@ -1004,17 +1004,17 @@ class WarrantyCase extends FullTextSearch implements DecisionMakingInterface
     }
 
     /**
-     * @return ServiceNote|null
+     * @return Collection|null
      */
-    public function getReplacedParts(): ?ServiceNote
+    public function getReplacedParts(): ?Collection
     {
         return $this->replacedParts;
     }
 
     /**
-     * @param ServiceNote|null $replacedParts
+     * @param Collection|null $replacedParts
      */
-    public function setReplacedParts(?ServiceNote $replacedParts): void
+    public function setReplacedParts(?Collection $replacedParts): void
     {
         $this->replacedParts = $replacedParts;
     }
