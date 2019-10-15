@@ -132,7 +132,7 @@
               <td title>&nbsp;</td>
               <td content>
                 {{ case.warranty.customer.addressUnitNumber }}
-                </td>
+              </td>
             </tr>
             <tr>
               <td title>&nbsp;</td>
@@ -212,19 +212,19 @@
       <div class="row">
         <div class="col-12">
 
-{#          <table border="1px" class="fullwidth title-180">#}
-{#            <tr>#}
-{#              <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>#}
-{#              <td style="border-left: none;border-bottom:none;"> </td>#}
-{#            </tr>#}
-{#          </table>#}
+          {#          <table border="1px" class="fullwidth title-180">#}
+          {#            <tr>#}
+          {#              <td title style="border-right: none; border-bottom: none"><p><b>Fault Description: </b></p></td>#}
+          {#              <td style="border-left: none;border-bottom:none;"> </td>#}
+          {#            </tr>#}
+          {#          </table>#}
 
-            <div style="margin-bottom: 5px; border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
-                <b>Fault Analysis: </b>
+          <div style="margin-bottom: 5px; border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
+            <b>Fault Analysis: </b>
 
-                    <p style="margin-bottom: 0px">{{ case.description|raw }}</p>
+            <p style="margin-bottom: 0px">{{ case.description|raw }}</p>
 
-            </div>
+          </div>
 
 
           <div style="border: 1px solid black; min-height: 160px; padding: 5px 2px" class="fullwidth">
@@ -336,12 +336,14 @@
           <div class="row">
             <div>
               <b><u>Customer Acknowledgement</u></b><br>
-              I confirm that the above work/services has been completed to my satisfaction and acknowledge the following conditions :
+              I confirm that the above work/services has been completed to my satisfaction and acknowledge the following conditions:
+              <div style="margin-top: 5px;">
+                (i) Fujioh Int'l Tdg Pte Ltd provides one (1) month warranty on service and three(3) months on parts replaced.
+              </div>
+              <div style="margin-top: 5px;">
+                (ii) Fujioh Int'l Tdg Pte Ltd reserves all rights to change the above terms and conditions without prior notice.
+              </div>
             </div>
-            <div style="margin-top:10px;">
-              (i) Fujioh Int'l Tdg Pte Ltd provides one (1) month warranty on service and three(3) months on parts replaced.</div>
-            <div style="margin-top:5px;">
-              (ii) Fujioh Int'l Tdg Pte Ltd reserves all rights to change the above terms and conditions without prior notice.</div>
           </div>
           <div class="row">
             <div class="col-4">
