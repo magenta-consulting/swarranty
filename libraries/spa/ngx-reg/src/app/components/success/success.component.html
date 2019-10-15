@@ -1,22 +1,30 @@
 <div class="success-wrap">
     <div class="text-center">
         <h3>SUCCESSFULLY SUBMITTED</h3>
-        <p class="note">If you have specified an email address earlier. A copy of this product registration will be sent to your email for your reference.</p>
+        <p class="note">
+          Thank you for registering your product purchase with us.
+          <br><br>
+          We will be reviewing your submission shortly.
+          <br><br>
+          A confirmation email upon approving your submission will be sent to you after our team has reviewed.
+          <br><br>
+          All hoods have a default motor warranty period of 3 years.
+        </p>
         <div class="success-list"
         *ngIf="!isLoading">
             <div *ngIf="prodList.length > 0">
-                <div
-                *ngFor="let warranty of prodList; index as i;"
-                class="success-item">
-                    <p>Warranty Registration ID: {{warranty.number}}</p>
-                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>
-                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>
-                    <p>Product Category: {{warranty.product.category.name}}</p>
-                    <p>Model Number: {{warranty.product.modelNumber}}</p>
-                    <p>Serial Number: {{warranty.productSerialNumber}}</p>
-                </div>
+<!--                <div-->
+<!--                *ngFor="let warranty of prodList; index as i;"-->
+<!--                class="success-item">-->
+<!--                    <p>Warranty Registration ID: {{warranty.number}}</p>-->
+<!--                    <p>Date of Registration: {{warranty.purchaseDate | date:'dd MMM yyyy'}}</p>-->
+<!--                    <p>Warranty Expiry: {{warranty.expiryDate | date:'dd MMM yyyy'}}</p>-->
+<!--                    <p>Product Category: {{warranty.product.category.name}}</p>-->
+<!--                    <p>Model Number: {{warranty.product.modelNumber}}</p>-->
+<!--                    <p>Serial Number: {{warranty.productSerialNumber}}</p>-->
+<!--                </div>-->
                 <div>
-                    All hoods have a default motor warranty period of 3 years.
+
                 </div>
             </div>
             <div

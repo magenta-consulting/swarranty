@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-12 col-right">
                     <div class="upload-inner ">
-                        <h5> Use this form to upload/ capture pictures from your device </h5>
+                        <h5> Use this form to upload/ capture pictures of your receipt(s) from your device </h5>
                         <div class="upload-lst"
                              *ngIf="prodList.length != 0">
                             <div
@@ -48,7 +48,7 @@
                                         (removed)="onRemoved($event)"
                                         (uploadFinished)="onUploadFinished($event)"
                                         (uploadStateChanged)="onUploadStateChanged($event)"
-                                        buttonCaption="Upload a Picture Now"></image-upload>
+                                        buttonCaption="Upload Receipt Now"></image-upload>
                             </div>
                         </div>
 
