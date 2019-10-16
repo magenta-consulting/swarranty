@@ -46,7 +46,6 @@ export class UploadsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     // 1.
     this.getDataWarranties();
-
     this.qrCodeImg = apiEndPoint + apiEndPointBase + '/qr-code/' + location.protocol + '//' + window.location.hostname + baseUrl + '/upload-receipt-image/' + this.route.snapshot.params['id'] + '.png';
   }
 
@@ -114,6 +113,8 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     );
   }
 
+
+
   // 2. Event uploads
   onBeforeUpload = (metadata: UploadMetadata) => {
     // mutate the file or replace it entirely - metadata.file
@@ -150,7 +151,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     }
 
     // for case img just uploaded
-    if(file.serverResponse && file.serverResponse.response) {
+    if (file.serverResponse && file.serverResponse.response) {
       let imgId = JSON.parse(file.serverResponse.response._body).id;
       if (imgId == null) {
         return;
@@ -175,7 +176,7 @@ export class UploadsComponent implements OnInit, AfterViewInit {
       if (imgId == null) {
         return;
       }
-      
+
       // After Asking.
       if (v_confirm == true) {
         this.productService.deleteWarrantyImg(parseInt(imgId[0])).subscribe(
@@ -204,8 +205,13 @@ export class UploadsComponent implements OnInit, AfterViewInit {
     // localStorage.removeItem('regId');
     let orgId = localStorage.getItem('orgId');
     localStorage.clear();
-    localStorage.setItem('orgId',orgId);
+    localStorage.setItem('orgId', orgId);
     this.router.navigate(['/']);
+  }
+
+  test(event){
+
+    console.log(event)
   }
 
   openModal(template: TemplateRef<any>) {
